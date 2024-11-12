@@ -15,6 +15,8 @@
     "concurrently": "^9.1.0",
     "express": "^4.16.2",
     "joi": "^13.1.0",
-    "mongoose": "^5.13.22"
+    "mongoose": "^5.13.22",
+    "require": "^2.4.20",
+    "vite-plugin-require": "^1.2.14"
   }
 }

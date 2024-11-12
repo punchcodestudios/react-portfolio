@@ -1,0 +1,9 @@
+.content-card {
+  border: solid thin $color-border-md;
+  border-radius: 20px;
+
+  img {
+    max-width: 100%;
+    object-fit: fill;
+  }
+}

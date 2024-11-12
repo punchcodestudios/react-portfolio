@@ -1,0 +1,73 @@
+:root {
+  --color-secondary: #ffd3aa;
+
+  --bs-nav-link-color: $color-white;
+  --bs-nav-tabs-link-active-color: #ff0000;
+}
+body {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 1.5em;
+  overflow-y: scroll;
+  background-color: $color-gray-700;
+}
+p {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+}
+h1 {
+  font-size: 48px;
+}
+.main-nav {
+  background-color: $color-primary;
+}
+
+.nav-link {
+  color: $color-white;
+}
+
+.navbar-nav .show > .nav-link,
+.navbar-nav .nav-link.active {
+  color: $color-secondary;
+}
+
+.main-content {
+  // background-color: $color-white;
+  padding: 2rem;
+}
+
+.apply-hover {
+  :hover {
+    transform: scale(1.03);
+    transition: transform 0.15s ease-in;
+  }
+}
+
+.page-header {
+  background-color: $color-secondary;
+  color: $color-white;
+  height: 100px;
+}
+
+.pcs-font-xs {
+  font-size: 0.5em;
+}
+
+.pcs-font-sm {
+  font-size: 0.8em;
+}
+
+.pcs-font-lg {
+  font-size: 1.2em;
+}
+
+.pcs-bg-primary {
+  background-color: $color-primary;
+}
+.pcs-bg-secondary {
+  background-color: $color-secondary;
+}
+
+.pcs-btn-primary {
+  background-color: $color-primary;
+  border-color: $color-primary-light;
+}
