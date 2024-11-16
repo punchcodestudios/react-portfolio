@@ -1,5 +1,4 @@
-import React from "react";
-import { Card, Button, Col, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import BadgeBar, { BadgeItem } from "../common/badge-bar/badge-bar.component";
 

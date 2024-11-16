@@ -1,8 +1,14 @@
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { BsChevronDown } from "react-icons/bs";
+import { Button } from "@/components/ui/button";
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from "@/components/ui/menu";
 import useDiscipline from "../../hooks/useDiscipline";
 import useDisciplines from "../../hooks/useDisciplines";
-import useGalleryQueryStore from "../../state-management/gallery/gallery-store";
+import useGalleryQueryStore from "../../state-management/gallery/gallery-query-store";
+import { BsChevronDown } from "react-icons/bs";
 
 const DisciplineSelector = () => {
   const { data, error } = useDisciplines();
@@ -17,21 +23,24 @@ const DisciplineSelector = () => {
   if (error) return null;
 
   return (
-    <Menu>
-      <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-        {selectedDiscipline?.name || "Discipline"}
-      </MenuButton>
-      <MenuList>
+    <MenuRoot>
+      <MenuTrigger asChild>
+        <Button variant="outline" size="sm" fontSize="sm">
+          {selectedDiscipline?.name || "Discipline"} <BsChevronDown />
+        </Button>
+      </MenuTrigger>
+      <MenuContent>
         {data?.results.map((discipline) => (
           <MenuItem
             onClick={() => setSelectedDisciplineId(discipline.id)}
             key={discipline.id}
+            value={discipline.name}
           >
             {discipline.name}
           </MenuItem>
         ))}
-      </MenuList>
-    </Menu>
+      </MenuContent>
+    </MenuRoot>
   );
 };
 

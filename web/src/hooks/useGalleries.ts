@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import ms from "ms";
-import APIClient, { FetchResponse } from "../services/api-client";
-import useGalleryQueryStore from "../state-management/gallery/gallery-store";
+// import ms from "ms";
+import APIClient from "../services/api-client";
+import { FetchResponse } from "../entities/FetchResponse";
+import useGalleryQueryStore from "../state-management/gallery/gallery-query-store";
 import { Gallery } from "../entities/Gallery";
 
 const apiClient = new APIClient<Gallery>("games");
@@ -19,7 +20,7 @@ const useGalleries = () => {
           search: galleryQuery.searchText,
         },
       }),
-    staleTime: ms("24h"),
+    staleTime: 24 * 60 * 60 * 1000,
   });
 };
 

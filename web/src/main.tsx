@@ -1,9 +1,10 @@
 import "bootstrap-icons/font/bootstrap-icons.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import "./app.css";
+import "./app.scss";
 
-import { ChakraProvider, theme } from "@chakra-ui/react";
+// import { ChakraProvider } from "@chakra-ui/react";
+import { Provider } from "./components/ui/provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactDOM from "react-dom/client";
@@ -11,7 +12,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import routes from "./components/routing/app.routing";
 import AuthProvider from "./state-management/auth/auth-provider";
 import TaskProvider from "./state-management/task/task-provider";
-import "./index.css";
 
 //http://localhost:5173/
 
@@ -34,7 +34,7 @@ root.render(
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <TaskProvider>
-        <ChakraProvider theme={theme}>
+        <Provider>
           <RouterProvider
             router={router}
             future={{
@@ -42,7 +42,7 @@ root.render(
             }}
           />
           <ReactQueryDevtools></ReactQueryDevtools>
-        </ChakraProvider>
+        </Provider>
       </TaskProvider>
     </AuthProvider>
   </QueryClientProvider>

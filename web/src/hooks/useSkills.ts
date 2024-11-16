@@ -1,19 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
-import APIClient from "../services/api-client";
-import genres from "../data/genres";
-import ms from "ms";
+import NodeAPIClient from "../services/node-api-client";
+import { FetchResponse } from "../entities/FetchResponse";
+// import skills from "../data/skill_data";
+// import ms from "ms";
 import { Skill } from "../entities/Skill";
 
-const apiClient = new APIClient<Skill>("genre");
+const nodeApiClient = new NodeAPIClient<Skill>("skills");
 
-// TODO: '/genres' in the call below is only to conform with the games api.
-// this will need to be updated to use the punchcode studios api once the code base is working
-const useSkill = () =>
-  useQuery({
+const useSkills = () => {
+  return useQuery<FetchResponse<Skill>, Error>({
     queryKey: ["skills"],
-    queryFn: apiClient.getAll,
-    staleTime: ms("24h"),
-    initialData: { count: genres.length, results: genres },
+    queryFn: () => nodeApiClient.getAll(),
+    staleTime: 24 * 60 * 60 * 1000,
+    // initialData: { count: skills.length, results: skills },
   });
+};
 
-export default useSkill;
+export default useSkills;

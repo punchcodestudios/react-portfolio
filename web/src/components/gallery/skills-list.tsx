@@ -1,15 +1,17 @@
 import {
+  Box,
   Button,
   Heading,
   HStack,
   Image,
   List,
   ListItem,
+  ListRoot,
   Spinner,
 } from "@chakra-ui/react";
 import useSkills from "../../hooks/useSkills";
 import getCroppedImageUrl from "../../services/image-url";
-import useGalleryQueryStore from "../../state-management/gallery/gallery-store";
+import useGalleryQueryStore from "../../state-management/gallery/gallery-query-store";
 
 const SkillsList = () => {
   const { data, isLoading, error } = useSkills();
@@ -27,9 +29,9 @@ const SkillsList = () => {
       <Heading fontSize="2xl" marginTop={9} marginBottom={3}>
         Skills
       </Heading>
-      <List>
+      <List.Root listStyleType="none">
         {data?.results.map((skill) => (
-          <ListItem key={skill.id} paddingY="5px">
+          <List.Item key={skill.id} paddingY="5px">
             <HStack>
               <Image
                 boxSize="32px"
@@ -43,14 +45,14 @@ const SkillsList = () => {
                 fontWeight={skill.id === selectedSkillId ? "bold" : "normal"}
                 onClick={() => setSelectedSkillId(skill.id)}
                 fontSize="md"
-                variant="link"
+                variant="ghost"
               >
                 {skill.name}
               </Button>
             </HStack>
-          </ListItem>
+          </List.Item>
         ))}
-      </List>
+      </List.Root>
     </>
   );
 };

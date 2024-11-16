@@ -1,6 +1,12 @@
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { Button } from "@/components/ui/button";
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from "@/components/ui/menu";
+import useGalleryQueryStore from "../../../state-management/gallery/gallery-query-store";
 import { BsChevronDown } from "react-icons/bs";
-import useGalleryQueryStore from "../../../state-management/gallery/gallery-store";
 
 const SortSelector = () => {
   const sortOrders = [
@@ -19,11 +25,14 @@ const SortSelector = () => {
   );
 
   return (
-    <Menu>
-      <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-        Order by: {currentSortOrder?.label || "Relevance"}
-      </MenuButton>
-      <MenuList>
+    <MenuRoot>
+      <MenuTrigger asChild>
+        <Button variant="outline" size="sm">
+          Order by: {currentSortOrder?.label || "Relevance"} <BsChevronDown />
+        </Button>
+      </MenuTrigger>
+
+      <MenuContent>
         {sortOrders.map((order) => (
           <MenuItem
             onClick={() => setSortOrder(order.value)}
@@ -33,8 +42,8 @@ const SortSelector = () => {
             {order.label}
           </MenuItem>
         ))}
-      </MenuList>
-    </Menu>
+      </MenuContent>
+    </MenuRoot>
   );
 };
 

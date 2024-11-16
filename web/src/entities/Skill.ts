@@ -1,5 +1,9 @@
+import { SkillType } from "./SkillType";
+
 export interface Skill {
-  id: number;
   name: string;
-  image_background: string;
+  description: string;
+  refid: string;
+  slug: string;
+  skill_types: SkillType[];
 }

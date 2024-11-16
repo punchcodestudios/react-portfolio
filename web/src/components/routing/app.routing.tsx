@@ -1,8 +1,8 @@
 import { RouteObject } from "react-router-dom";
 import TaskList from "../../state-management/task/task-list.component";
 import ErrorPage from "../error/error-page";
-import GalleryDetails from "../pages/gallery/gallery-details";
-import GalleryGridLayout from "../pages/gallery/galllery-grid-layout";
+import GalleryDetails from "../pages/gallery/gallery-details.component";
+import GalleryGridLayout from "../pages/gallery/galllery-grid-layout.component";
 import HomePage from "../pages/home-page.component";
 import PostList from "../pages/post-list/index";
 import Resume from "../pages/resume/index";
