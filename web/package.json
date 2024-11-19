@@ -12,10 +12,15 @@
   "dependencies": {
     "@chakra-ui/react": "^3.1.1",
     "@emotion/react": "^11.13.3",
+    "joi-password-complexity": "^5.2.0",
     "next-themes": "^0.4.3",
     "react": "^18.3.1",
+    "react-bootstrap-sidebar-menu": "^2.0.3",
     "react-dom": "^18.3.1",
+    "react-responsive": "^10.0.0",
+    "react-tooltip": "^5.28.0",
     "require": "^2.4.20",
+    "sass": "^1.81.0",
     "vite-plugin-commonjs": "^0.10.3",
     "vite-plugin-require": "^1.2.14"
   },
@@ -45,7 +50,6 @@
     "react-icons": "^5.3.0",
     "react-router-bootstrap": "^0.26.2",
     "react-router-dom": "^6.10.0",
-    "sass-embedded": "^1.80.6",
     "save-dev": "^0.0.1-security",
     "typescript": "^5.6.2",
     "typescript-eslint": "^8.11.0",

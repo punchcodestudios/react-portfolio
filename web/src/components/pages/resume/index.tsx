@@ -9,13 +9,13 @@ const pageHeaderImage = require("../../../assets/img/about-me.png");
 function Resume() {
   return (
     <article className="resume">
-      <section className="header mb-3">
+      <section className="header">
         <img src={pageHeaderImage}></img>
       </section>
 
       <Tabs
         defaultActiveKey="summary"
-        id="justify-tab-example"
+        id="resume-page-nav-tabs"
         className="mb-3"
         justify
       >

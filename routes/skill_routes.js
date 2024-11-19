@@ -4,14 +4,35 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const skills = await Skill.find()
-    .populate({
-      path: "skill_types",
-      select: "refid name description",
-      model: "SkillType",
-      foreignField: "refid",
-    })
-    .sort("name");
+  const allSkills = await Skill.find().populate({
+    path: "skill_types",
+    select: "refid name description",
+    model: "SkillType",
+    foreignField: "refid",
+  });
+  const skills = [
+    {
+      all: allSkills,
+      frontend: allSkills.filter(
+        (skill) => skill.skill_types[0].name === "Front End Development"
+      ),
+      backend: allSkills.filter(
+        (skill) => skill.skill_types[0].name === "Back End Development"
+      ),
+      database: allSkills.filter(
+        (skill) => skill.skill_types[0].name === "Database"
+      ),
+      infrastructure: allSkills.filter(
+        (skill) => skill.skill_types[0].name === "Infrastructure"
+      ),
+      design: allSkills.filter(
+        (skill) => skill.skill_types[0].name === "Design"
+      ),
+      softskills: allSkills.filter(
+        (skill) => skill.skill_types[0].name === "Soft Skills"
+      ),
+    },
+  ];
   res.send({ count: skills.length, results: skills });
 });
 

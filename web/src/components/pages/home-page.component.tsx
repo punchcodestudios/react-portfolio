@@ -11,7 +11,8 @@ function HomePageComponent() {
           />
         </div>
         <div className="col-lg-5">
-          <h1 className="font-weight-light">react development</h1>
+          <h1 className="brand-font">punchcode studio</h1>
+          <h2 className="font-weight-light">react development</h2>
           <p>
             Explore this site to learn the many ways punchcodestudios leverages
             the power and flexibility of react.js and many associated libraries

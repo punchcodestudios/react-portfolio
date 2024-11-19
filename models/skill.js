@@ -37,11 +37,12 @@ function validateSkill(skill) {
     refid: Joi.string().required(),
     description: Joi.string().min(5).max(250).required(),
     slug: Joi.string().min(5).max(50).required(),
-    skill_types: Joi.array(),
+    skill_types: Joi.array().items(),
   };
 
   return Joi.validate(skill, schema);
 }
 
 exports.Skill = Skill;
+exports.SkillSchema = SkillSchema;
 exports.validate = validateSkill;

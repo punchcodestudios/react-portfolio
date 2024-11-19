@@ -3,7 +3,10 @@ import { GraphDown } from "react-bootstrap-icons";
 const gradImage = require("../../../assets/img/graduation-logo.png");
 function ResumeEducationComponent() {
   return (
-    <section className="row justify-content-start align-items-center">
+    <section
+      className="row justify-content-start align-items-center"
+      style={{ backgroundColor: "white" }}
+    >
       <div className="p-3 col-md-2">
         <img src={gradImage} className="graduation-icon" />
       </div>

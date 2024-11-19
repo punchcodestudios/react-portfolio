@@ -7,3 +7,13 @@ export interface Skill {
   slug: string;
   skill_types: SkillType[];
 }
+
+export interface Skills {
+  all: Skill[];
+  frontend: Skill[];
+  backend: Skill[];
+  database: Skill[];
+  infrastructure: Skill[];
+  design: Skill[];
+  softskills: Skill[];
+}

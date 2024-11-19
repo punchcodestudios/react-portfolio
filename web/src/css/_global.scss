@@ -1,9 +1,17 @@
 body {
-  font-family: "Rajdhani", sans-serif;
-  font-size: 1.5em;
+  font-family: "rajdhani", sans-serif;
+  font-weight: 400;
+  font-style: normal;
   overflow-y: scroll;
   background-color: $color-gray-700;
 }
+// .brand-font {
+//   font-family: "jetlab-variable", sans-serif;
+//   h1 {
+//     font-variation-settings: "HORZ" 20, "LIFT" 50, "THRU" 100, "VERT" 20;
+//   }
+// }
+
 p {
   font-family: "Montserrat", sans-serif;
   font-size: 16px;

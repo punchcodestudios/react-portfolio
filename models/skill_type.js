@@ -27,14 +27,14 @@ const SkillType = mongoose.model(
 );
 
 function validateSkillType(skillType) {
-  const schema = {
+  const SkillTypeSchema = {
     name: Joi.string().max(50).required(),
     refid: Joi.string().required(),
     description: Joi.string().min(5).required(),
     slug: Joi.string().min(5).required(),
   };
 
-  return Joi.validate(skillType, schema);
+  return Joi.validate(skillType, SkillTypeSchema);
 }
 
 exports.SkillType = SkillType;

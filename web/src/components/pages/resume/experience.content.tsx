@@ -1,75 +1,180 @@
-import { Accordion, Badge, Col, Row } from "react-bootstrap";
+import useExperience from "@/hooks/useExperiences";
+import { Accordion, ListGroup } from "react-bootstrap";
+import SidebarMenu from "react-bootstrap-sidebar-menu";
 import Scrollable from "../../common/scrollable/scrollable.component";
-import BadgeBar from "../../common/badge-bar/badge-bar.component";
+import AccordionHeader from "./accordion-header.component";
+import { useState } from "react";
+import { useMediaQuery } from "react-responsive";
 
 function ResumeExperienceComponent() {
-  const eImagineBadgeItems = [
-    { id: 1, name: "C#.NET", slug: "", icon: "" },
-    { id: 2, name: ".NET Core / 6+", slug: "", icon: "" },
-    { id: 3, name: "MVC", slug: "", icon: "" },
-    { id: 4, name: "ReactJS", slug: "", icon: "" },
-    { id: 5, name: "Javascript | jQuery", slug: "", icon: "" },
-    { id: 6, name: "Typescript", slug: "", icon: "" },
-    { id: 7, name: "SQL", slug: "", icon: "" },
-    { id: 8, name: "EntityFramework", slug: "", icon: "" },
-    { id: 9, name: "HTML5", slug: "", icon: "" },
-    { id: 10, name: "CSS | SCSS", slug: "", icon: "" },
-    { id: 11, name: "Azure DevOps", slug: "", icon: "" },
-  ];
-  const intouchBadgeItems = [
-    { id: 12, name: "C#.NET", slug: "", icon: "" },
-    { id: 13, name: "MVC", slug: "", icon: "" },
-    { id: 14, name: "ReactJS", slug: "", icon: "" },
-    { id: 15, name: "Javascript | jQuery", slug: "", icon: "" },
-    { id: 16, name: "Typescript", slug: "", icon: "" },
-    { id: 17, name: "SQL", slug: "", icon: "" },
-    { id: 18, name: "nHibernate", slug: "", icon: "" },
-    { id: 19, name: "EntityFramework", slug: "", icon: "" },
-    { id: 20, name: "HTML5", slug: "", icon: "" },
-    { id: 21, name: "CSS | SCSS", slug: "", icon: "" },
-    { id: 22, name: "Azure DevOps", slug: "", icon: "" },
-  ];
-  const questBadgeItems = [
-    { id: 23, name: "C#.NET", slug: "", icon: "" },
-    { id: 24, name: "HTML5", slug: "", icon: "" },
-    { id: 25, name: "CSS", slug: "", icon: "" },
-    { id: 26, name: "WebForms", slug: "", icon: "" },
-    { id: 27, name: "Javascript | jQuery", slug: "", icon: "" },
-    { id: 28, name: "SQL", slug: "", icon: "" },
-  ];
-  const unifiedBadgeItems = [
-    { id: 29, name: "VB.NET", slug: "", icon: "" },
-    { id: 30, name: "Windows Forms", slug: "", icon: "" },
-    { id: 31, name: "SQL", slug: "", icon: "" },
-  ];
-  const personalBadgeItems = [
-    { id: 32, name: ".NET Blazor", slug: "", icon: "" },
-    { id: 33, name: "SQL Express", slug: "", icon: "" },
-    { id: 34, name: "NodeJS / Express", slug: "", icon: "" },
-    { id: 35, name: "MongoDB", slug: "", icon: "" },
-    { id: 36, name: "Blender 3.0", slug: "", icon: "" },
-    { id: 37, name: "ThreeJS", slug: "", icon: "" },
-    { id: 38, name: "Adobe Creative Suite", slug: "", icon: "" },
-  ];
+  const { data, isLoading, error } = useExperience();
+  const [toggle, setToggle] = useState(false);
+  const isMobile = useMediaQuery({ query: `(max-width: 991px)` });
+  // console.log(
+  //   `data: ${data?.results}, isLoading: ${isLoading}, error: ${error}`
+  // );
+
+  // data?.results.map((item) => {
+  //   console.log(item.company_name);
+  //   item.skills.map((skill) => {
+  //     console.log(skill.name);
+  //   }),
+  //     item.experience_line_items.map((line_item) => {
+  //       console.log(line_item);
+  //     });
+  // });
+
+  // const eImagineBadgeItems = [
+  //   { id: 1, name: "C#.NET", slug: "", icon: "" },
+  //   { id: 2, name: ".NET Core / 6+", slug: "", icon: "" },
+  //   { id: 3, name: "MVC", slug: "", icon: "" },
+  //   { id: 4, name: "ReactJS", slug: "", icon: "" },
+  //   { id: 5, name: "Javascript | jQuery", slug: "", icon: "" },
+  //   { id: 6, name: "Typescript", slug: "", icon: "" },
+  //   { id: 7, name: "SQL", slug: "", icon: "" },
+  //   { id: 8, name: "EntityFramework", slug: "", icon: "" },
+  //   { id: 9, name: "HTML5", slug: "", icon: "" },
+  //   { id: 10, name: "CSS | SCSS", slug: "", icon: "" },
+  //   { id: 11, name: "Azure DevOps", slug: "", icon: "" },
+  // ];
+  // const intouchBadgeItems = [
+  //   { id: 12, name: "C#.NET", slug: "", icon: "" },
+  //   { id: 13, name: "MVC", slug: "", icon: "" },
+  //   { id: 14, name: "ReactJS", slug: "", icon: "" },
+  //   { id: 15, name: "Javascript | jQuery", slug: "", icon: "" },
+  //   { id: 16, name: "Typescript", slug: "", icon: "" },
+  //   { id: 17, name: "SQL", slug: "", icon: "" },
+  //   { id: 18, name: "nHibernate", slug: "", icon: "" },
+  //   { id: 19, name: "EntityFramework", slug: "", icon: "" },
+  //   { id: 20, name: "HTML5", slug: "", icon: "" },
+  //   { id: 21, name: "CSS | SCSS", slug: "", icon: "" },
+  //   { id: 22, name: "Azure DevOps", slug: "", icon: "" },
+  // ];
+  // const questBadgeItems = [
+  //   { id: 23, name: "C#.NET", slug: "", icon: "" },
+  //   { id: 24, name: "HTML5", slug: "", icon: "" },
+  //   { id: 25, name: "CSS", slug: "", icon: "" },
+  //   { id: 26, name: "WebForms", slug: "", icon: "" },
+  //   { id: 27, name: "Javascript | jQuery", slug: "", icon: "" },
+  //   { id: 28, name: "SQL", slug: "", icon: "" },
+  // ];
+  // const unifiedBadgeItems = [
+  //   { id: 29, name: "VB.NET", slug: "", icon: "" },
+  //   { id: 30, name: "Windows Forms", slug: "", icon: "" },
+  //   { id: 31, name: "SQL", slug: "", icon: "" },
+  // ];
+  // const personalBadgeItems = [
+  //   { id: 32, name: ".NET Blazor", slug: "", icon: "" },
+  //   { id: 33, name: "SQL Express", slug: "", icon: "" },
+  //   { id: 34, name: "NodeJS / Express", slug: "", icon: "" },
+  //   { id: 35, name: "MongoDB", slug: "", icon: "" },
+  //   { id: 36, name: "Blender 3.0", slug: "", icon: "" },
+  //   { id: 37, name: "ThreeJS", slug: "", icon: "" },
+  //   { id: 38, name: "Adobe Creative Suite", slug: "", icon: "" },
+  // ];
 
   return (
     <section className="">
       <Accordion defaultActiveKey="0">
-        {/* eImagine */}
-        <Accordion.Item eventKey="0">
-          <Scrollable id="0" timeout={1000}>
-            <Accordion.Header>
-              <div className="row">
-                <h4>
-                  <strong>eImagine Technology Group Inc</strong>
-                </h4>
-                <span className="employment-date">02/2023 - present</span>
-                <span className="tagline">
-                  Software Engineer | Indianapolis, IN
-                </span>
+        {data?.results.map((experience, index) => {
+          return (
+            <Accordion.Item key={experience.refid} eventKey={`${index}`}>
+              <Scrollable id={`${index}`} timeout={1000}>
+                <Accordion.Header>
+                  <AccordionHeader
+                    company_name={experience.company_name}
+                    start_date={experience.start_date}
+                    end_date={experience.end_date}
+                    position={experience.position}
+                    location={experience.location}
+                  ></AccordionHeader>
+                </Accordion.Header>
+              </Scrollable>
+              <div className="d-flex flex-column">
+                <Accordion.Body
+                  style={{ backgroundColor: "#FFF", padding: "10px" }}
+                >
+                  <nav className="main-header navbar navbar-expand-lg">
+                    {/* <SidebarMenu.Nav.Title style={{ color: "#FFF" }}> */}
+                    <button
+                      aria-controls="navbarScroll"
+                      type="button"
+                      aria-label="Toggle navigation"
+                      className="navbar-toggler collapsed col-12"
+                      // style={{ border: "0" }}
+                      onClick={() => {
+                        setToggle(!toggle);
+                      }}
+                    >
+                      {toggle ? "hide skill list" : "show skill list"}
+                    </button>
+                    {/* </SidebarMenu.Nav.Title> */}
+                  </nav>
+                  {toggle && isMobile && (
+                    <SidebarMenu className="row">
+                      <SidebarMenu.Body className="d-flex flex-wrap justify-content-between">
+                        {experience.skills?.map((skill) => {
+                          return (
+                            <div
+                              className="p-2"
+                              key={skill.refid}
+                              style={{
+                                fontSize: "small",
+                                border: "0",
+                              }}
+                            >
+                              {skill.name}
+                            </div>
+                          );
+                        })}
+                      </SidebarMenu.Body>
+                    </SidebarMenu>
+                  )}
+                  <div className="d-flex flex-container">
+                    <SidebarMenu expand="xl" hide="lg" className="row ms-2">
+                      <SidebarMenu.Body style={{ width: "300px" }}>
+                        <ListGroup variant="flush">
+                          {experience.skills?.map((skill) => {
+                            return (
+                              <ListGroup.Item
+                                key={skill.refid}
+                                style={{ fontSize: "medium", border: "0" }}
+                              >
+                                {skill.name}
+                              </ListGroup.Item>
+                            );
+                          })}
+                        </ListGroup>
+                      </SidebarMenu.Body>
+                    </SidebarMenu>
+                    <ListGroup variant="flush">
+                      {experience.experience_line_items?.map((lineitem) => {
+                        return (
+                          <ListGroup.Item
+                            key={lineitem.refid}
+                            style={{ fontSize: "large" }}
+                            className="mt-3 pb-3"
+                          >
+                            <p>{lineitem.text}</p>
+                          </ListGroup.Item>
+                        );
+                      })}
+                    </ListGroup>
+                  </div>
+                </Accordion.Body>
               </div>
-            </Accordion.Header>
+            </Accordion.Item>
+          );
+        })}
+        {/* eImagine */}
+        {/* <Accordion.Item eventKey="0">
+          <Scrollable id="0" timeout={1000}>
+            <Accordion.Header></Accordion.Header>
+            <AccordionHeader
+              company_name=
+            ></AccordionHeader>          
           </Scrollable>
+
           <Accordion.Body>
             <BadgeBar
               badgeItems={eImagineBadgeItems}
@@ -150,10 +255,10 @@ function ResumeExperienceComponent() {
               </div>
             </div>
           </Accordion.Body>
-        </Accordion.Item>
+        </Accordion.Item> */}
 
         {/* Intouch Solutions */}
-        <Accordion.Item eventKey="1">
+        {/* <Accordion.Item eventKey="1">
           <Scrollable id="1" timeout={1000}>
             <Accordion.Header>
               <div className="row">
@@ -256,10 +361,10 @@ function ResumeExperienceComponent() {
               </div>
             </div>
           </Accordion.Body>
-        </Accordion.Item>
+        </Accordion.Item> */}
 
         {/* Quest Diagnostics */}
-        <Accordion.Item eventKey="2">
+        {/* <Accordion.Item eventKey="2">
           <Scrollable id="2" timeout={1000}>
             <Accordion.Header>
               <Row className="row">
@@ -305,10 +410,10 @@ function ResumeExperienceComponent() {
               </div>
             </div>
           </Accordion.Body>
-        </Accordion.Item>
+        </Accordion.Item> */}
 
         {/* Unified Life Insurance */}
-        <Accordion.Item eventKey="3">
+        {/*<Accordion.Item eventKey="3">
           <Scrollable id="3" timeout={1000}>
             <Accordion.Header>
               <div className="row">
@@ -354,10 +459,10 @@ function ResumeExperienceComponent() {
               </div>
             </div>
           </Accordion.Body>
-        </Accordion.Item>
+        </Accordion.Item> */}
 
         {/* Personal */}
-        <Accordion.Item eventKey="4">
+        {/* <Accordion.Item eventKey="4">
           <Scrollable id="4" timeout={1000}>
             <Accordion.Header>
               <div className="row">
@@ -384,7 +489,7 @@ function ResumeExperienceComponent() {
               </div>
             </div>
           </Accordion.Body>
-        </Accordion.Item>
+        </Accordion.Item> */}
       </Accordion>
     </section>
   );

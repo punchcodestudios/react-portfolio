@@ -1,14 +1,15 @@
 import { Skill } from "@/entities/Skill";
 import { Grid, GridItem } from "@chakra-ui/react";
-import { Image } from "react-bootstrap";
+import { Badge, Image } from "react-bootstrap";
 import { Card, Col, ListGroup } from "react-bootstrap";
+import { Tooltip } from "react-tooltip";
 
 interface Props {
   data: Skill[] | [];
-  //   image?: HTMLImageElement;
 }
 const SkillGroup = ({ data }: Props) => {
   const image = require("../../../assets/img/about-me-hero.png");
+  console.log(data);
   return (
     <Grid
       templateAreas={{
@@ -20,7 +21,7 @@ const SkillGroup = ({ data }: Props) => {
     >
       <GridItem area="main">
         <div>
-          <Col className="apply-hover">
+          <Col className="">
             <Card className="mt-2">
               <div className="skills-card-header">
                 <Card.Img
@@ -30,7 +31,7 @@ const SkillGroup = ({ data }: Props) => {
                   className="header-img"
                 />
                 <Card.Title className="header-text">
-                  {data[0].skill_types[0].name}
+                  {data[0].skill_types[0].name.toUpperCase()}
                 </Card.Title>
               </div>
               <Card.Body>
@@ -41,7 +42,18 @@ const SkillGroup = ({ data }: Props) => {
                         key={item.refid}
                         style={{ fontSize: "medium" }}
                       >
-                        {item.name}
+                        <div className="d-flex flex-row justify-content-between">
+                          <a
+                            data-tooltip-id={`numprojex_${item.refid}`}
+                            data-tooltip-content={item.description}
+                          >
+                            <div>{item.name}</div>
+                          </a>
+                          <Tooltip
+                            id={`numprojex_${item.refid}`}
+                            style={{ zIndex: "1000" }}
+                          ></Tooltip>
+                        </div>
                       </ListGroup.Item>
                     );
                   })}
