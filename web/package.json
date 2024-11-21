@@ -17,6 +17,7 @@
     "react": "^18.3.1",
     "react-bootstrap-sidebar-menu": "^2.0.3",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.2",
     "react-responsive": "^10.0.0",
     "react-tooltip": "^5.28.0",
     "require": "^2.4.20",

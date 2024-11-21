@@ -30,7 +30,7 @@ const generateAuthTokens = async (req, res, next) => {
     const token = {
       refreshToken,
       userId: req.userId,
-      expirationTime: new Date(Date.now() + ms(REFRESH_TOKEN_LIFE)).getTime(),
+      expirationTime: new Date(Date.now() + ms(10)).getTime(),
     };
 
     tokens.push(token);
@@ -42,7 +42,7 @@ const generateAuthTokens = async (req, res, next) => {
       expires: new Date(Date.now() + ms(REFRESH_TOKEN_LIFE)),
     });
 
-    const expiresAt = new Date(Date.now() + ms.apply(ACCESS_TOKEN_LIFE));
+    const expiresAt = new Date(Date.now() + ms(ACCESS_TOKEN_LIFE));
 
     return res.status(200).json({
       user,

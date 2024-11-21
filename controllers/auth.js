@@ -27,7 +27,7 @@ const signUp = async (req, res, next) => {
       name: name,
       userName: username,
       email: email,
-      password: password,
+      // password: password,
     };
 
     users.push(newUser);
