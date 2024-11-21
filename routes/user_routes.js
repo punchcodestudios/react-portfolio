@@ -1,4 +1,5 @@
 const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
 const jwt = require("jsonwebtoken");
@@ -7,64 +8,69 @@ const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 
-router.get("/me", auth, async (req, res) => {
-  const user = await User.findById(req.user._id).select("-password");
-  res.send(user);
-});
+const { isAuthenticated } = require("../middleware/auth");
+const userController = require("../controllers/users");
 
-router.post("/register", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+router.get("/list", isAuthenticated, userController.getUserList);
+router.get("/me", isAuthenticated, userController.getAuthenticatedUser);
+router.get("/:id", isAuthenticated, userController.getUserById);
 
-  let user = await User.findOne({ email: req.body.email });
-  if (user)
-    return res
-      .status(400)
-      .send("A user with that email address was found in our system.");
+// router.get("/me", auth, async (req, res) => {
+//   const user = await User.findById(req.user._id).select("-password");
+//   res.send(user);
+// });
 
-  user = new User(_.pick(req.body, ["name", "email", "password"]));
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(user.password, salt);
-  await user.save();
+// router.post("/signin", async (req, res) => {
+//   const { error } = validate(req.body);
+//   if (error) return res.status(400).send(error.details[0].message);
 
-  const token = user.generateAuthToken();
-  res.header("x-auth-token", token).send(_.pick(user, ["_id", "name"]));
-});
+//   let user = await User.findOne({ email: req.body.email });
+//   if (!user) return res.status(400).send("Invalid email or password");
 
-router.put("/:id", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+//   const validPassword = await bcrypt.compare(req.body.password, user.password);
+//   if (!validPassword) return res.status(400).send("Invalid email or password");
 
-  const user = await User.findByIdAndUpdate(
-    req.params.id,
-    { name: req.body.name },
-    {
-      new: true,
-    }
-  );
+//   const token = jwt.sign(
+//     { _id: this._id, isAdmin: this.isAdmin },
+//     config.get("jwtPrivateKey")
+//   );
 
-  if (!user)
-    return res.status(404).send("The user with the given ID was not found.");
+//   res.cookie("token", token, {
+//     httpOnly: true,
+//     secure: process.env.NODE_ENV === "production",
+//     maxAge: 1 * 60 * 60 * 1000,
+//   });
 
-  res.send(user);
-});
+//   return res.status(200).json({ message: "logged in" });
+// });
 
-router.delete("/:id", async (req, res) => {
-  const user = await User.findByIdAndRemove(req.params.id);
+// router.get("/list", async (req, res) => {});
 
-  if (!user)
-    return res.status(404).send("The user with the given ID was not found.");
+// router.put("/:id", async (req, res) => {
+//   const { error } = validate(req.body);
+//   if (error) return res.status(400).send(error.details[0].message);
 
-  res.send(user);
-});
+//   const user = await User.findByIdAndUpdate(
+//     req.params.id,
+//     { name: req.body.name },
+//     {
+//       new: true,
+//     }
+//   );
 
-router.get("/:id", async (req, res) => {
-  const user = await User.findById(req.params.id);
+//   if (!user)
+//     return res.status(404).send("The user with the given ID was not found.");
 
-  if (!user)
-    return res.status(404).send("The user with the given ID was not found.");
+//   res.send(user);
+// });
 
-  res.send(user);
-});
+// router.delete("/:id", [auth, admin], async (req, res) => {
+//   const user = await User.findByIdAndRemove(req.params.id);
+
+//   if (!user)
+//     return res.status(404).send("The user with the given ID was not found.");
+
+//   res.send(user);
+// });
 
 module.exports = router;

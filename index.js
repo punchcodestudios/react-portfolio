@@ -1,5 +1,8 @@
-const config = require("config");
+const path = require("path");
+require("dotenv").config();
+
 const mongoose = require("mongoose");
+
 const skills = require("./routes/skill_routes");
 const skillTypes = require("./routes/skill_type_routes");
 const experience = require("./routes/experience_routes");
@@ -7,24 +10,33 @@ const genres = require("./routes/genres");
 const customers = require("./routes/customers");
 const users = require("./routes/user_routes");
 const auth = require("./routes/auth_routes");
+
 const express = require("express");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const app = express();
 
-console.log(config);
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(express.json({ type: "application/json" }));
+const { PORT, NODE_ENV } = process.env;
+const isDev = NODE_ENV === "development";
+
+if (isDev) {
+  console.log("using cors");
+  app.use(
+    cors({
+      origin: ["http://localhost:5173"],
+      methods: ["POST", "PUT", "GET", "DELETE"],
+      credentials: true,
+    })
+  );
+}
+
+const config = require("config");
 if (!config.get("jwtPrivateKey")) {
   console.error("FATAL ERROR: private key is not defined.");
   process.exit(1);
 }
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
-  next();
-});
 
 mongoose
   .connect("mongodb://localhost:27017/reactportfolio")
@@ -40,5 +52,5 @@ app.use("/api/experience", experience);
 app.use("/api/users", users);
 app.use("/api/auth", auth);
 
-const port = process.env.PORT || 3000;
+const port = PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

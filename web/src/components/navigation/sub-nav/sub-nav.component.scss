@@ -1,0 +1,12 @@
+.subnav-component {
+  background-color: $color-secondary;
+  padding: 0.5rem;
+  .user-info {
+    color: $color-primary;
+  }
+  .task-badge {
+    background-color: $color-primary;
+    color: $color-white;
+    padding: 8px;
+  }
+}

@@ -6,12 +6,13 @@ import SubNavComponent from "../navigation/sub-nav/sub-nav.component";
 import { Box } from "@chakra-ui/react";
 
 function LayoutComponent() {
-  const { user } = useContext(AuthContext);
+  const { username } = useContext(AuthContext);
+
   return (
     <div className="container site-container">
       <Box>
         <MainNavComponent />
-        {user && <SubNavComponent></SubNavComponent>}
+        {username && <SubNavComponent></SubNavComponent>}
       </Box>
       <Box>
         <main className="main-content d-flex flex-column">

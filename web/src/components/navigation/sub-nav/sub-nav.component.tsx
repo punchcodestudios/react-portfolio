@@ -4,14 +4,16 @@ import useTasks from "../../../state-management/task/use-tasks";
 
 const SubNavComponent = () => {
   const { tasks } = useTasks();
-  const { user } = useAuth();
-
+  const { username } = useAuth();
   return (
-    <div className="d-flex flex-row" style={{ justifyContent: "flex-end" }}>
-      <div className="">{`Welcome ${user}`}</div>
+    <div
+      className="d-flex flex-row subnav-component"
+      style={{ justifyContent: "flex-end" }}
+    >
+      <div className="user-info">{`Welcome ${username}`}</div>
       <div className="ms-5">
         <Link to="task-list">
-          <span className="badge text-bg-secondary">{`Open tasks: ${tasks.length}`}</span>
+          <span className="badge task-badge">{`Open tasks: ${tasks.length}`}</span>
         </Link>
       </div>
     </div>

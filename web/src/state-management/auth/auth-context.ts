@@ -3,7 +3,7 @@ import { Dispatch } from "react";
 import { AuthAction } from "./auth-provider";
 
 interface AuthContextType {
-  user: string;
+  username: string;
   dispatch: Dispatch<AuthAction>;
 }
 

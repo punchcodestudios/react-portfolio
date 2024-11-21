@@ -8,6 +8,8 @@ import PostList from "../pages/post-list/index";
 import Resume from "../pages/resume/index";
 import TodoList from "../pages/todo-list/index";
 import Layout from "../pages/_layout.component";
+import RegisterPage from "../pages/auth/register-page.component";
+import LoginPage from "../pages/auth/login-page.component";
 
 function routes() {
   return [
@@ -29,6 +31,14 @@ function routes() {
         {
           path: "galleries/:slug",
           element: <GalleryDetails></GalleryDetails>,
+        },
+        {
+          path: "login/",
+          element: <LoginPage></LoginPage>,
+        },
+        {
+          path: "register/",
+          element: <RegisterPage></RegisterPage>,
         },
         {
           path: "todo-list",

@@ -3,6 +3,7 @@ import { FetchResponse } from "../entities/FetchResponse";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/api/",
+  withCredentials: true,
 });
 
 class NodeAPIClient<T> {
@@ -22,6 +23,10 @@ class NodeAPIClient<T> {
     return axiosInstance
       .get<T>(this.endpoint + "/" + id)
       .then((res) => res.data);
+  };
+
+  post = (entity: T | {}) => {
+    return axiosInstance.post(this.endpoint, entity).then((res) => res.data);
   };
 }
 
