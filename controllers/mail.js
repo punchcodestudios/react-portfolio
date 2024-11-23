@@ -1,4 +1,4 @@
-const sendMail = require("../service/email.js");
+const mailClient = require("../service/email.js");
 
 // const send = async (req, res, next) => {
 //   await clearTokens(req, res, next);
@@ -8,8 +8,16 @@ const sendMail = require("../service/email.js");
 const send = async (req, res, next) => {
   const { name, from, subject, message } = req.body;
   try {
-    await sendMail(name, "punchcodestudios.com", from, subject, message);
-    return res.status(200).json({ message: "Email successfully sent" });
+    await mailClient.sendMail(
+      name,
+      "punchcodestudios.com",
+      from,
+      subject,
+      message
+    );
+    return res
+      .status(200)
+      .json({ status: 200, message: "Email was successfully sent" });
   } catch (error) {
     console.error("Error sending email: ", error);
     return next(error);

@@ -10,6 +10,7 @@ import TodoList from "../pages/todo-list/index";
 import Layout from "../pages/_layout.component";
 import RegisterPage from "../pages/auth/register-page.component";
 import LoginPage from "../pages/auth/login-page.component";
+import AboutPage from "../pages/about/about-page";
 
 function routes() {
   return [
@@ -24,6 +25,7 @@ function routes() {
         },
         { path: "home", element: <HomePage></HomePage> },
         { path: "resume", element: <Resume></Resume> },
+        { path: "about", element: <AboutPage></AboutPage> },
         {
           path: "galleries",
           element: <GalleryGridLayout></GalleryGridLayout>,
