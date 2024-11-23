@@ -10,6 +10,7 @@ router.get("/", async (req, res) => {
     model: "SkillType",
     foreignField: "refid",
   });
+
   const skills = [
     {
       all: allSkills,

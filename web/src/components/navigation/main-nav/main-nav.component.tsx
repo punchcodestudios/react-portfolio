@@ -1,3 +1,5 @@
+import LoginControl from "@/components/auth/login-control.component";
+import { useAuth } from "@/contexts/auth-context";
 import { NavItem } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -5,6 +7,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 
 function MainNavComponent() {
+  const { isAuthenticated } = useAuth();
   return (
     <Navbar expand="lg" className="nav main-nav" collapseOnSelect>
       <Container>
@@ -32,9 +35,7 @@ function MainNavComponent() {
               </Nav.Link>
             </NavItem>
             <NavItem>
-              <Nav.Link eventKey="4" as={Link} to="/login">
-                Login
-              </Nav.Link>
+              <LoginControl></LoginControl>
             </NavItem>
           </Nav>
         </Navbar.Collapse>

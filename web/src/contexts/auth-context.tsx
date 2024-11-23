@@ -2,39 +2,47 @@ import * as React from "react";
 import PropTypes from "prop-types";
 
 import { STATUS } from "../utils/utils";
+import { useContext } from "react";
+import { LoginUser, RegisterUser } from "../entities/User";
 
-export interface NewUser {
+export interface User {
   name: string;
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
 }
+// export interface NewUser {
+//   name: string;
+//   username: string;
+//   email: string;
+//   password: string;
+//   confirmPassword: string;
+// }
 
-interface User {
-  username: string;
-  password: string;
-}
+// export interface LoginUser {
+//   username: string;
+//   password: string;
+// }
 
 const initialState = {
-  user: {},
+  user: {} as User,
   token: null,
-  expiresAt: null,
+  expiresAt: Date.now(),
   isAuthenticated: false,
   status: STATUS.PENDING,
+  timetlive: 0,
 };
 
 const AuthContext = React.createContext({
   ...initialState,
-  login: (user: any, token: string, expiresAt: string) => {},
+  login: (user: LoginUser, token: string, expiresAt: string) => {},
   logout: () => {},
   updateUser: () => {},
   setAuthenticationStatus: (status: string) => {},
+  registerUser: (user: RegisterUser) => {},
 });
 
 const authReducer = (state: any, action: any) => {
   switch (action.type) {
     case "LOGIN": {
+      console.log("login action hit: ", action.payload);
       return {
         user: action.payload.user,
         token: action.payload.token,
@@ -45,8 +53,10 @@ const authReducer = (state: any, action: any) => {
       };
     }
     case "LOGOUT": {
+      console.log("logout action hit: ");
       return {
         ...state,
+        isAuthenticated: false,
         status: STATUS.IDLE,
       };
     }
@@ -62,6 +72,13 @@ const authReducer = (state: any, action: any) => {
         status: action.payload.status,
       };
     }
+    case "REGISTER": {
+      console.log("register action hit: ", action.payload);
+      return {
+        ...state,
+        user: action.payload.user,
+      };
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -75,7 +92,7 @@ const AuthProvider = ({ children }: Props) => {
   const [state, dispatch] = React.useReducer(authReducer, initialState);
 
   const login = React.useCallback(
-    (user: User, token: string, expiresAt: string) => {
+    (user: LoginUser, token: string, expiresAt: string) => {
       dispatch({
         type: "LOGIN",
         payload: {
@@ -112,16 +129,37 @@ const AuthProvider = ({ children }: Props) => {
     });
   }, []);
 
+  const registerUser = React.useCallback(
+    (user: RegisterUser, token: string, expiresAt: string) => {
+      dispatch({
+        type: "REGISTER",
+        payload: {
+          user,
+          token,
+          expiresAt,
+        },
+      });
+    },
+    []
+  );
+
   const value = React.useMemo(
-    () => ({ ...state, login, logout, updateUser, setAuthenticationStatus }),
-    [state, setAuthenticationStatus, login, logout, updateUser]
+    () => ({
+      ...state,
+      login,
+      logout,
+      updateUser,
+      setAuthenticationStatus,
+      registerUser,
+    }),
+    [state, setAuthenticationStatus, login, logout, updateUser, registerUser]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 const useAuth = () => {
-  const context = React.useContext(AuthContext);
+  const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error("useAuth must be used with an AuthProvider");
   }

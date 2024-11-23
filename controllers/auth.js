@@ -1,37 +1,42 @@
 const createError = require("http-errors");
-const { users } = require("../data/data");
+const jwt = require("jsonwebtoken");
+const { User, validate } = require("../models/user");
+
+const {
+  clearTokens,
+  generateJWT,
+  getAccessTokenTTL,
+} = require("../utils/auth");
+
+const { getTimeZoneDate } = require("../utils/date-utils");
+const { isAuthenticated } = require("../middleware/auth");
 
 const signUp = async (req, res, next) => {
-  const { name, username, email, password } = req.body;
-  if (!name || !username || !email || !password) {
-    return res.status(422).json({
-      error: "Please fill out all required fields.",
-    });
-  }
+  const { error } = validate(req.body);
+  if (error) return res.status(400).json({ error: error.details[0].message });
 
   try {
-    const userAlreadyExists = users.find((user) => {
-      if (user.userName === username || user.email === email) {
-        return true;
-      }
-      return false;
-    });
+    const userAlreadyExists = await User.findOne({ email: req.body.email });
+
     if (userAlreadyExists) {
       return res.status(422).json({
-        error: "Username or email already exists",
+        error: `Username: ${req.body.username} or email: ${req.body.email} already exists`,
       });
     }
 
-    const newUser = {
-      id: users[users.length - 1].id + 1,
-      name: name,
-      userName: username,
-      email: email,
-      // password: password,
-    };
+    let user = new User({
+      name: req.body.name,
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+      isAdmin: false,
+      confirmCode: 1234,
+      confirmed: false,
+    });
 
-    users.push(newUser);
-    req.userId = newUser.id;
+    user = await user.save();
+
+    req.userId = user.id;
     return next();
   } catch (error) {
     return next(error);
@@ -48,10 +53,17 @@ const login = async (req, res, next) => {
       });
     }
 
-    const userExists = users.find((user) => {
-      return user.username === username || user.email === username;
-    });
-    if (!userExists) {
+    // const user = users.find((user) => {
+    //   if (user.username === username || user.email === username) {
+    //     return true;
+    //   }
+    //   return false;
+    // });
+
+    const user = await User.findOne({ username: username });
+    console.log(user);
+    // console.log("user: ", user);
+    if (!user) {
       const error = createError.Unauthorized("Invalid username or password");
       throw error;
     }
@@ -60,7 +72,8 @@ const login = async (req, res, next) => {
       const error = createError.Unauthorized("Invalid username or password");
       throw error;
     }
-    // req.userId = user.id;
+
+    req.userId = user.id;
     return next();
   } catch (error) {
     return next(error);
@@ -77,29 +90,33 @@ const refreshAccessToken = async (req, res, next) => {
     process.env;
   const { signedCookies } = req;
   const { refreshToken } = signedCookies;
-  if (!refeshToken) {
-    return res.sendStatus(204);
+
+  if (!refreshToken) {
+    return res.sendStatus(401).json({ error: "No refresh token found." });
   }
 
   try {
-    const refreshTokenInDB = tokens.find(
-      (token) => token.refreshToken === refreshToken
-    );
-    if (!refreshTokenInDB) {
-      await clearTokens(req, res, next);
-      const error = createError.Unauthorized();
-      throw error;
-    }
+    // TODO look into putting these into database
+    // const refreshTokenInDB = tokens.find(
+    //   (token) => token.refreshToken === refreshToken
+    // );
+
+    // if (!refreshTokenInDB) {
+    //   await clearTokens(req, res, next);
+    //   const error = createError.Unauthorized();
+    //   throw error;
+    // }
+
     try {
       const decodedToken = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
       const { userId } = decodedToken;
-      const user = users.find((user) => user.id == userId);
-
-      if (!user) {
-        await clearTokens(req, res);
-        const error = createError("Invaid credentials", 401);
-        throw error;
-      }
+      const user = await User.findById(userId);
+      // if (!user) {
+      //   await clearTokens(req, res);
+      //   return res.status(422).json({
+      //     error: "Invalid Credentials",
+      //   });
+      // }
 
       const accessToken = generateJWT(
         user.id,
@@ -110,7 +127,7 @@ const refreshAccessToken = async (req, res, next) => {
       return res.status(200).json({
         user,
         accessToken,
-        expiresAt: new Date(Date.now() + ms(ACCESS_TOKEN_LIFE)),
+        expiresAt: getAccessTokenTTL(),
       });
     } catch (error) {
       return next(error);

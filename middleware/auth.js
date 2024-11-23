@@ -1,8 +1,11 @@
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
 const ms = require("ms");
+const { User } = require("../models/user");
 
-const { generateJWT } = require("../utils/auth");
+const { generateJWT, getAccessTokenTTL } = require("../utils/auth");
+const { getTimeZoneDate } = require("../utils/date-utils");
+
 const {
   ACCESS_TOKEN_LIFE,
   REFRESH_TOKEN_LIFE,
@@ -11,11 +14,14 @@ const {
   NODE_ENV,
 } = process.env;
 const dev = NODE_ENV === "development";
-const { users, tokens } = require("../data/data");
+// const { users, tokens } = require("../data/data");
 
 const generateAuthTokens = async (req, res, next) => {
   try {
-    const user = users.find((user) => user.id === req.userId);
+    const user = await User.findOne({ _id: req.userId }).select([
+      "username",
+      "isAdmin",
+    ]);
     const refreshToken = generateJWT(
       req.userId,
       REFRESH_TOKEN_SECRET,
@@ -27,27 +33,19 @@ const generateAuthTokens = async (req, res, next) => {
       ACCESS_TOKEN_LIFE
     );
 
-    const token = {
-      refreshToken,
-      userId: req.userId,
-      expirationTime: new Date(Date.now() + ms(10)).getTime(),
-    };
-
-    tokens.push(token);
-
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: !dev,
       signed: true,
-      expires: new Date(Date.now() + ms(REFRESH_TOKEN_LIFE)),
+      expires: getTimeZoneDate(new Date(Date.now() + ms(REFRESH_TOKEN_LIFE))),
     });
-
-    const expiresAt = new Date(Date.now() + ms(ACCESS_TOKEN_LIFE));
 
     return res.status(200).json({
       user,
       token: accessToken,
-      expiresAt,
+      expiresAt: getTimeZoneDate(new Date(Date.now() + ms(ACCESS_TOKEN_LIFE))),
+      timetolive: getAccessTokenTTL(),
+      isAuthenticated: true,
     });
   } catch (error) {
     return next(error);

@@ -26,7 +26,17 @@ const clearTokens = async (req, res) => {
   });
 };
 
+const getAccessTokenTTL = () => {
+  return process.env.ACCESS_TOKEN_LIFE * 60 * 1000 - 10 * 1000;
+};
+
+const getRefreshTokenTTL = () => {
+  return process.env.REFRESH_TOKEN_LIFE * 60 * 1000 - 10 * 1000;
+};
+
 module.exports = {
   generateJWT,
   clearTokens,
+  getAccessTokenTTL,
+  getRefreshTokenTTL,
 };
