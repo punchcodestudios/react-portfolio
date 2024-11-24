@@ -25,8 +25,10 @@ class NodeAPIClient<T> {
       .then((res) => res.data);
   };
 
-  post = (entity: T | {}) => {
-    return axiosInstance.post(this.endpoint, entity).then((res) => res.data);
+  post = async (entity: T | {}) => {
+    return await axiosInstance
+      .post(this.endpoint, entity)
+      .then((res) => res.data);
   };
 }
 

@@ -1,11 +1,10 @@
 //https://dev.to/scofieldidehen/master-nodemailer-the-ultimate-guide-to-sending-emails-from-nodejs-24a3
 //https://nodemailer.com/usage/
+//https://www.geeksforgeeks.org/server-side-rendering-using-express-js-and-ejs-template-engine/
 
 const nodemailer = require("nodemailer");
-const fs = require("fs");
 
-const sendMail = async (name, to, from, subject, message) => {
-  console.log("sendMail");
+const sendMail = async (to, from, subject, text, html) => {
   try {
     let transporter = nodemailer.createTransport({
       service: "gmail",
@@ -18,24 +17,19 @@ const sendMail = async (name, to, from, subject, message) => {
       },
     });
     const mailOptions = {
+      to: !to ? process.env.DEFAULT_EMAIL_RECIP : to,
       from: from,
-      to: "pschandler@gmail.com",
       subject: subject,
-      text: `${name} has sent a message: ${message}`,
-      html: `<h1>${name}</h1><p>has sent a message:</br>${message}</p>`,
+      text: text,
+      html: html,
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email Sent!!");
-      }
-    });
-    return true;
+    const response = await transporter.sendMail(mailOptions);
+    // console.log("service/email.js:28 - ", response);
+    return response;
   } catch (error) {
-    console.error("Error: ", error);
-    return false;
+    // console.error("service/email.js:36 -- ", error);
+    throw Error(error);
   }
 };
 

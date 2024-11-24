@@ -1,6 +1,6 @@
+import toast, { Toaster } from "react-hot-toast";
 import { Email } from "@/entities/Email";
 import NodeAPIClient from "@/services/node-api-client";
-import { ChangeEvent, FormEvent, useState } from "react";
 import { Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
@@ -8,49 +8,44 @@ const ContactForm = () => {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors, touchedFields },
   } = useForm({
     defaultValues: {
       name: "",
       from: "punchcodestudios.com",
       subject: "",
-      message: "",
+      text: "",
     },
   });
-  const apiClient = new NodeAPIClient<Email>("/mail/send");
 
-  //   const handleChange = (
-  //     event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
-  //   ) => {
-  //     setState((prevState) => ({
-  //       ...prevState,
-  //       [event.target.name]: event.target.value,
-  //     }));
-  //   };
+  const apiClient = new NodeAPIClient<Email>("/mail/send-contact");
 
   const onSubmit = async (values: Email) => {
     const contact: Email = {
       name: values.name,
-      message: values.message,
-      from: values.message,
-      subject: "Contact from website",
+      from: values.from,
+      subject: values.subject,
+      text: values.text,
     };
     try {
-      apiClient.post(contact).then((response) => {
-        console.log(response);
-        if (response.status === 200) {
-          console.log("Email sent!. \nResponse:", response);
-        } else {
-          console.log("Email not sent. \nResponse:", response);
-        }
-      });
+      const response = await apiClient.post(contact);
+      if (response.status === 200) {
+        toast.success(response.message);
+        reset();
+        // console.log("Email sent!. \nResponse:", response.status);
+      } else {
+        toast.error(response.message);
+        // console.log("Email not sent. \nResponse:", response);
+      }
     } catch (error) {
-      console.log("error sending email");
+      console.log("error sending email", error);
     }
   };
 
   return (
     <div className="contact-page">
+      <Toaster></Toaster>
       <Form className="contact-form" onSubmit={handleSubmit(onSubmit)}>
         <Form.Group className="mb-3" controlId="name"></Form.Group>
         <input
@@ -66,7 +61,7 @@ const ContactForm = () => {
             },
             maxLength: {
               value: 30,
-              message: "Name cannot be more than 30 characters",
+              message: "Name cannot be more than 20 characters",
             },
           })}
         />
@@ -77,42 +72,42 @@ const ContactForm = () => {
         <input
           type="text"
           placeholder="Subject"
-          id="from"
+          id="subject"
           className="form-control mb-3"
-          {...register("from", {
-            required: { value: true, message: "From is required." },
+          {...register("subject", {
+            required: { value: true, message: "Subject is required." },
             minLength: {
               value: 2,
-              message: "From cannot be less than 2 characters",
+              message: "Subject cannot be less than 2 characters",
             },
             maxLength: {
               value: 30,
-              message: "From cannot be more than 30 characters",
+              message: "Subject cannot be more than 30 characters",
             },
           })}
         />
         <div className="error">
-          <span>{touchedFields.from && errors.from?.message}</span>
+          <span>{touchedFields.subject && errors.subject?.message}</span>
         </div>
 
         <textarea
-          id="message"
+          id="text"
           className="form-control mb-3"
           placeholder="Message"
-          {...register("message", {
+          {...register("text", {
             required: { value: true, message: "Message is required." },
             minLength: {
               value: 2,
               message: "Message cannot be less than 2 characters",
             },
             maxLength: {
-              value: 50,
-              message: "Message cannot be more than 50 characters",
+              value: 300,
+              message: "Message cannot be more than 300 characters",
             },
           })}
         />
         <div className="error">
-          <span>{touchedFields.message && errors.message?.message}</span>
+          <span>{touchedFields.text && errors.text?.message}</span>
         </div>
 
         <button className="btn btn-primary" type="submit">
