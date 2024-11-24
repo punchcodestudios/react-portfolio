@@ -1,11 +1,6 @@
 import { useContext } from "react";
 import TasksContext from "./task-context";
 
-interface Task {
-  id: number;
-  title: string;
-}
-
 const TaskList = () => {
   const { tasks, dispatch } = useContext(TasksContext);
   return (
@@ -24,6 +19,7 @@ const TaskList = () => {
       >
         Add Task
       </button>
+
       <ul className="list-group">
         {tasks.map((task) => (
           <li
