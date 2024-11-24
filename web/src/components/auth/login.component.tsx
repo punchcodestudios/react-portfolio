@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios, { AxiosResponse } from "axios";
 
 import { useAuth } from "../../contexts/auth-context";
 import { STATUS } from "../../utils/utils";
@@ -8,6 +7,7 @@ import { STATUS } from "../../utils/utils";
 import styles from "./Login.module.scss";
 import { LoginUser } from "@/entities/User";
 import NodeAPIClient from "@/services/node-api-client";
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
   const { login, setAuthenticationStatus } = useAuth();
@@ -37,19 +37,18 @@ const Login = () => {
       .post(user)
       .then((response) => {
         setAuthenticationStatus(STATUS.SUCCEEDED);
-        console.log("response: ", response);
         const { user: userObj, token, expiresAt } = response;
         login(userObj, token, expiresAt);
         navigate("/");
       })
       .catch((error) => {
-        console.log("error with login: ", error);
-        alert(error.message);
+        toast(error.response.data.message);
       });
   };
 
   return (
     <div className={styles.container}>
+      <Toaster></Toaster>
       <div className={styles.formWrapper}>
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <h1 className={styles.formTitle}>Sign In</h1>
@@ -85,7 +84,7 @@ const Login = () => {
             </div>
           </div>
           <div className={styles.formGroup}>
-            <button className={styles.submitButton} type="submit">
+            <button className="btn btn-primary" type="submit">
               Sign In
             </button>
           </div>

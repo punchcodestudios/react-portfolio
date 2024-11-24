@@ -9,28 +9,15 @@ process.on("unhandledRejection", (ex) => {
 const express = require("express");
 const app = express();
 
-require("./startup/logging");
-const logger = winston.loggers.get("appLogger");
-require("./startup/routes")(app);
-require("./startup/db")(logger);
-
 app.use(express.json({ type: "application/json" }));
 const { PORT, NODE_ENV } = process.env;
 const isDev = NODE_ENV === "development";
 
 // Security
 const cookieParser = require("cookie-parser");
-const cors = require("cors");
-
 app.use(cookieParser(process.env.COOKIE_SECRET));
-
-const config = require("config");
-if (!config.get("jwtPrivateKey")) {
-  console.error("FATAL ERROR: private key is not defined.");
-  process.exit(1);
-}
-
-// CORS
+const cors = require("cors");
+console.log(isDev);
 if (isDev) {
   app.use(
     cors({
@@ -40,6 +27,19 @@ if (isDev) {
     })
   );
 }
+
+require("./startup/logging");
+const logger = winston.loggers.get("appLogger");
+require("./startup/routes")(app);
+require("./startup/db")(logger);
+
+const config = require("config");
+if (!config.get("jwtPrivateKey")) {
+  console.error("FATAL ERROR: private key is not defined.");
+  process.exit(1);
+}
+
+// CORS
 
 // email
 const path = require("path");

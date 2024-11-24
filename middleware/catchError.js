@@ -1,6 +1,9 @@
 const winston = require("winston");
 
-module.exports = function (err, req, res, next) {
-  winston.error(err.message);
-  res.status(500).json({ status: 500, message: "Error message" });
+module.exports = async function (err, req, res, next) {
+  const logger = winston.loggers.get("appLogger");
+  logger.error(err, err.status, err.statusCode);
+  return res
+    .status(err.status)
+    .json({ status: err.status, message: err.message });
 };

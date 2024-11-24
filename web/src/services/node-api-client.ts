@@ -1,10 +1,34 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 import { FetchResponse } from "../entities/FetchResponse";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/api/",
   withCredentials: true,
 });
+
+axios.interceptors.request.use(
+  async (config) => {
+    console.log("request", config);
+    return config;
+  },
+  (error) => {
+    console.log("intercepted error: ", error);
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  async (response) => {
+    console.log("response from interceptor: ", response);
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      console.log("call the refresh token here");
+    }
+    return Promise.reject(error);
+  }
+);
 
 class NodeAPIClient<T> {
   endpoint: string;
