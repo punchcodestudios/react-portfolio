@@ -1,10 +1,11 @@
-import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/auth-context";
-import { STATUS } from "../../utils/utils";
 import { RegisterUser } from "@/entities/User";
 import NodeAPIClient from "@/services/node-api-client";
-import styles from "./Signup.module.scss";
+import useAuth from "@/state-management/auth/use-auth";
+import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
+import { Form, Link, useNavigate } from "react-router-dom";
+import { STATUS } from "../../utils/utils";
+import ButtonControl from "../common/button/button.control";
 
 const Signup = () => {
   const {
@@ -37,27 +38,25 @@ const Signup = () => {
 
     try {
       setAuthenticationStatus(STATUS.PENDING);
-      apiClient.post(newUser).then((response) => {
-        console.log("response: ", response);
-        setAuthenticationStatus(STATUS.SUCCEEDED);
-        // const { user, token, expiresAt } = response;
-        // login(user, token, expiresAt);
-        navigate("/login");
-      });
+      await apiClient.post(newUser);
+      setAuthenticationStatus(STATUS.SUCCEEDED);
+      navigate("/login");
     } catch (error: any) {
-      alert(error.response.data.error);
+      console.log("here: ", error);
+      toast.error(error.response.data.message);
       setAuthenticationStatus(STATUS.FAILED);
     }
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.formWrapper}>
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-          <h1 className={styles.formTitle}>Create New Account</h1>
-          <div className={styles.formGroup}>
+    <div className="form-container">
+      <Toaster></Toaster>
+      <div className="formWrapper">
+        <Form className="form" onSubmit={handleSubmit(onSubmit)}>
+          <h1 className="formTitle">Create New Account</h1>
+          <div className="formGroup">
             <input
-              className={styles.input}
+              className="input"
               type="text"
               id="name"
               placeholder="Name"
@@ -73,13 +72,13 @@ const Signup = () => {
                 },
               })}
             />
-            <div className={styles.validationError}>
+            <div className="validationError">
               <span>{touchedFields.name && errors.name?.message}</span>
             </div>
           </div>
-          <div className={styles.formGroup}>
+          <div className="formGroup">
             <input
-              className={styles.input}
+              className="input"
               type="text"
               id="username"
               placeholder="Username"
@@ -91,13 +90,13 @@ const Signup = () => {
                 },
               })}
             />
-            <div className={styles.validationError}>
+            <div className="validationError">
               <span>{touchedFields.username && errors.username?.message}</span>
             </div>
           </div>
-          <div className={styles.formGroup}>
+          <div className="formGroup">
             <input
-              className={styles.input}
+              className="input"
               type="email"
               id="email"
               autoComplete="email"
@@ -110,13 +109,13 @@ const Signup = () => {
                 },
               })}
             />
-            <div className={styles.validationError}>
+            <div className="validationError">
               <span>{touchedFields.email && errors.email?.message}</span>
             </div>
           </div>
-          <div className={styles.formGroup}>
+          <div className="formGroup">
             <input
-              className={styles.input}
+              className="input"
               type="password"
               id="password"
               autoComplete="new-password"
@@ -133,13 +132,13 @@ const Signup = () => {
                 },
               })}
             />
-            <div className={styles.validationError}>
+            <div className="validationError">
               <span>{touchedFields.password && errors.password?.message}</span>
             </div>
           </div>
-          <div className={styles.formGroup}>
+          <div className="formGroup">
             <input
-              className={styles.input}
+              className="input"
               type="password"
               id="confirmPassword"
               autoComplete="new-password"
@@ -157,25 +156,30 @@ const Signup = () => {
                 },
               })}
             />
-            <div className={styles.validationError}>
+            <div className="validationError">
               <span>
                 {touchedFields.confirmPassword &&
                   errors.confirmPassword?.message}
               </span>
             </div>
           </div>
-          <div className={styles.formGroup}>
-            <button className={styles.submitButton} type="submit">
+          <div className="formGroup">
+            <ButtonControl
+              id="signin"
+              name="signin"
+              cssClass="btn btn-primary mb-4"
+              type="submit"
+            >
               Sign Up
-            </button>
+            </ButtonControl>
           </div>
-          <p className={styles.text}>
+          <p className="text">
             <span>Already have an account?</span>
-            <Link className={styles.link} to="/login">
+            <Link className="link" to="/login">
               Login
             </Link>
           </p>
-        </form>
+        </Form>
       </div>
     </div>
   );

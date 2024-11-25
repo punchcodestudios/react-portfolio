@@ -1,12 +1,24 @@
-import React from "react";
-import { Dispatch } from "react";
-import { AuthAction } from "./auth-provider";
+import * as React from "react";
 
-interface AuthContextType {
-  username: string;
-  dispatch: Dispatch<AuthAction>;
-}
+import { LoginUser, RegisterUser } from "../../entities/User";
+import { STATUS } from "../../utils/utils";
 
-const AuthContext = React.createContext<AuthContextType>({} as AuthContextType);
+const initialState = {
+  user: {} as LoginUser | RegisterUser,
+  token: null,
+  expiresAt: Date.now(),
+  isAuthenticated: false,
+  status: STATUS.PENDING,
+  timetlive: 0,
+};
+
+const AuthContext = React.createContext({
+  ...initialState,
+  login: (user: LoginUser, token: string, expiresAt: string) => {},
+  logout: () => {},
+  updateUser: () => {},
+  setAuthenticationStatus: (status: string) => {},
+  registerUser: (user: RegisterUser) => {},
+});
 
 export default AuthContext;

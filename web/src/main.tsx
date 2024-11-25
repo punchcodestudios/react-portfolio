@@ -9,9 +9,9 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import routes from "./components/routing/app.routing";
 import TaskProvider from "./state-management/task/task-provider";
-import { AuthProvider } from "./contexts/auth-context";
 import { Provider } from "./components/ui/provider";
 import { Theme } from "@chakra-ui/react";
+import { AuthProvider } from "./state-management/auth/auth-provider";
 
 //http://localhost:5173/
 

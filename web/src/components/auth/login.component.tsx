@@ -1,17 +1,20 @@
-import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 
-import { useAuth } from "../../contexts/auth-context";
 import { STATUS } from "../../utils/utils";
 
-import styles from "./Login.module.scss";
 import { LoginUser } from "@/entities/User";
 import NodeAPIClient from "@/services/node-api-client";
+import useAuth from "@/state-management/auth/use-auth";
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import ButtonControl from "../common/button/button.control";
+import { Form, Spinner } from "react-bootstrap";
 
 const Login = () => {
   const { login, setAuthenticationStatus } = useAuth();
   const apiClient = new NodeAPIClient<LoginUser>("/auth/login");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
     handleSubmit,
@@ -33,6 +36,7 @@ const Login = () => {
       password: values.password,
     };
     setAuthenticationStatus(STATUS.PENDING);
+    setIsLoading(true);
     apiClient
       .post(user)
       .then((response) => {
@@ -43,18 +47,21 @@ const Login = () => {
       })
       .catch((error) => {
         toast(error.response.data.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
   return (
-    <div className={styles.container}>
+    <div className="form-container">
       <Toaster></Toaster>
-      <div className={styles.formWrapper}>
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-          <h1 className={styles.formTitle}>Sign In</h1>
-          <div className={styles.formGroup}>
+      <div className="formWrapper">
+        <Form className="form" onSubmit={handleSubmit(onSubmit)}>
+          <h1 className="formTitle">Sign In</h1>
+          <Form.Group className="mb-3">
             <input
-              className={styles.input}
+              className="input"
               type="text"
               id="username"
               aria-label="Username or Email"
@@ -64,13 +71,13 @@ const Login = () => {
                 required: { value: true, message: "This field is required." },
               })}
             />
-            <div className={styles.validationError}>
+            <div className="validationError">
               <span>{touchedFields.username && errors.username?.message}</span>
             </div>
-          </div>
-          <div className={styles.formGroup}>
+          </Form.Group>
+          <Form.Group className="mb-3">
             <input
-              className={styles.input}
+              className="input"
               type="password"
               id="password"
               required
@@ -79,22 +86,27 @@ const Login = () => {
                 required: { value: true, message: "Password is required." },
               })}
             />
-            <div className={styles.validationError}>
+            <div className="validationError">
               <span>{touchedFields.password && errors.password?.message}</span>
             </div>
-          </div>
-          <div className={styles.formGroup}>
-            <button className="btn btn-primary" type="submit">
-              Sign In
-            </button>
-          </div>
-          <p className={styles.text}>
+          </Form.Group>
+          <Form.Group className="mb-4">
+            <ButtonControl
+              id="signin"
+              name="signin"
+              cssClass="btn btn-primary"
+              type="submit"
+            >
+              {isLoading && <Spinner className="button-spinner" />}Sign In
+            </ButtonControl>
+          </Form.Group>
+          <p className="text">
             <span>Don't have an account?</span>
-            <Link className={styles.link} to="/register">
+            <Link className="link" to="/register">
               Sign Up
             </Link>
           </p>
-        </form>
+        </Form>
       </div>
     </div>
   );

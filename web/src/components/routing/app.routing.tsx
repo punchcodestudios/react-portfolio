@@ -6,7 +6,7 @@ import GalleryGridLayout from "../pages/gallery/galllery-grid-layout.component";
 import HomePage from "../pages/home-page.component";
 import PostList from "../pages/post-list/index";
 import Resume from "../pages/resume/index";
-import TodoList from "../pages/todo-list/index";
+import TodoList from "../pages/todo-list/task-list.page";
 import Layout from "../pages/_layout.component";
 import RegisterPage from "../pages/auth/register-page.component";
 import LoginPage from "../pages/auth/login-page.component";

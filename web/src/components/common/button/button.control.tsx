@@ -3,11 +3,11 @@ import { ReactEventHandler, ReactNode } from "react";
 interface Props {
   id: string;
   name: string;
-  label: string;
-  onClick: ReactEventHandler<HTMLButtonElement>;
+  onClick?: ReactEventHandler<HTMLButtonElement>;
   children: ReactNode;
-  cssClass: string | "btn-primary";
+  cssClass?: string;
   type?: "button" | "submit" | "reset" | undefined;
+  disabled?: boolean;
 }
 
 const ButtonControl = ({ ...props }: Props) => {
@@ -16,8 +16,9 @@ const ButtonControl = ({ ...props }: Props) => {
       id={props.id}
       name={props.name}
       onClick={props.onClick}
-      className={`btn ${props.cssClass}`}
-      type={props.type}
+      className={props.cssClass || "btn btn-primary"}
+      type={props.type || "submit"}
+      disabled={props.disabled || false}
     >
       {props.children}
     </button>

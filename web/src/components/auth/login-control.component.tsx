@@ -1,7 +1,6 @@
-import { useAuth } from "@/contexts/auth-context";
 import NodeAPIClient from "@/services/node-api-client";
+import useAuth from "@/state-management/auth/use-auth";
 import { useEffect, useState } from "react";
-import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const LoginControl = () => {
