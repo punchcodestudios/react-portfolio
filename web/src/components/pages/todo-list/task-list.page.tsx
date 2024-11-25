@@ -1,8 +1,8 @@
+import { Todo } from "@/entities/Todo";
 import useTodos from "../../../hooks/useTodos";
-import { Todo } from "../../../services/todoService";
-import TodoForm from "./todoForm";
+import TaskForm from "./add-task.form";
 
-const TodoList = () => {
+const TaskList = () => {
   const { data: todos, error, isLoading } = useTodos();
 
   if (isLoading) return <p>...loading....</p>;
@@ -10,9 +10,9 @@ const TodoList = () => {
 
   return (
     <>
-      <TodoForm></TodoForm>
+      <TaskForm></TaskForm>
       <ul className="list-group">
-        {todos?.map((todo: Todo) => (
+        {todos?.results.map((todo: Todo) => (
           <li key={todo.id} className="list-group-item">
             {todo.title}
           </li>
@@ -22,4 +22,4 @@ const TodoList = () => {
   );
 };
 
-export default TodoList;
+export default TaskList;

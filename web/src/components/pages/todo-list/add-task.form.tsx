@@ -1,27 +1,27 @@
 import { FormEvent, useRef } from "react";
 import useAddTodo from "../../../hooks/useAddTodo";
 
-const TodoForm = () => {
+const TaskForm = () => {
   const ref = useRef<HTMLInputElement>(null);
-  const addTodo = useAddTodo(() => {
-    if (ref.current) ref.current.value = "";
-  });
+  // const addTodo = useAddTodo(() => {
+  //   if (ref.current) ref.current.value = "";
+  // });
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (ref.current && ref.current.value) {
-      addTodo.mutate({
-        id: 0,
-        title: ref.current?.value,
-        completed: false,
-        userId: 1,
-      });
-    }
-  };
+  // const submit = (event: FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  // if (ref.current && ref.current.value) {
+  //   addTodo.mutate({
+  //     id: 0,
+  //     title: ref.current?.value,
+  //     completed: false,
+  //     userId: 1,
+  //   });
+  //   }
+  // };
 
   return (
     <>
-      {addTodo.error && (
+      {/* {addTodo.error && (
         <div className="alert alert-danger">{addTodo.error.message}</div>
       )}
       <form className="row mb-3" onSubmit={(event) => submit(event)}>
@@ -31,9 +31,9 @@ const TodoForm = () => {
         <div className="col">
           <button className="btn btn-primary">Add</button>
         </div>
-      </form>
+      </form> */}
     </>
   );
 };
 
-export default TodoForm;
+export default TaskForm;

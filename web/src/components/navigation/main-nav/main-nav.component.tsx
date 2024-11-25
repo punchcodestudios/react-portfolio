@@ -1,5 +1,5 @@
 import LoginControl from "@/components/auth/login-control.component";
-import { useAuth } from "@/contexts/auth-context";
+import useAuth from "@/state-management/auth/use-auth";
 import { NavItem } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";

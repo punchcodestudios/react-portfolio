@@ -1,10 +1,10 @@
-import { useAuth } from "@/contexts/auth-context";
 import NodeAPIClient from "@/services/node-api-client";
 import { Box } from "@chakra-ui/react";
 import { useCallback, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import MainNavComponent from "../navigation/main-nav/main-nav.component";
 import SubNavComponent from "../navigation/sub-nav/sub-nav.component";
+import useAuth from "@/state-management/auth/use-auth";
 
 function LayoutComponent() {
   const { login, logout, isAuthenticated, expiresAt } = useAuth();

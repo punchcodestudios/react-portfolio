@@ -1,54 +1,134 @@
-import { ReactNode, useReducer } from "react";
+import * as React from "react";
+
+import { LoginUser, RegisterUser } from "../../entities/User";
+import { STATUS } from "../../utils/utils";
 import AuthContext from "./auth-context";
-import authService from "@/services/authService";
 
-interface LoginAction {
-  type: "LOGIN";
-  username: string;
-  password: string;
-}
-
-interface LogoutAction {
-  type: "LOGOUT";
-}
-
-export type AuthAction = LoginAction | LogoutAction;
-
-const authReducer = (state: string, action: AuthAction): string => {
+const authReducer = (state: any, action: any) => {
   switch (action.type) {
-    case "LOGIN":
-      console.log("login action");
-      authService
-        .post({ email: action.username, password: action.password })
-        .then((res) => {
-          console.log("Res: ", res);
-          // localStorage.setItem("token", res);
-          console.log(action.username);
-          return action.username;
-        })
-        .catch((err) => {
-          console.log(err.response.data);
-          return err.response.data;
-        });
-      return "";
-    case "LOGOUT":
-      return "";
-    default:
-      return state;
+    case "LOGIN": {
+      console.log("login action hit: ", action.payload);
+      return {
+        user: action.payload.user,
+        token: action.payload.token,
+        expiresAt: action.payload.expiresAt,
+        isAuthenticated: true,
+        verifyingToken: false,
+        status: STATUS.SUCCEEDED,
+      };
+    }
+    case "LOGOUT": {
+      console.log("logout action hit: ");
+      return {
+        ...state,
+        isAuthenticated: false,
+        status: STATUS.IDLE,
+      };
+    }
+    case "UPDATE_USER": {
+      return {
+        ...state,
+        user: action.payload.user,
+      };
+    }
+    case "STATUS": {
+      return {
+        ...state,
+        status: action.payload.status,
+      };
+    }
+    case "REGISTER": {
+      console.log("register action hit: ", action.payload);
+      return {
+        ...state,
+        user: action.payload.user,
+      };
+    }
+    default: {
+      throw new Error(`Unhandled action type: ${action.type}`);
+    }
   }
 };
 
+const initialState = {
+  user: {} as LoginUser | RegisterUser,
+  token: null,
+  expiresAt: Date.now(),
+  isAuthenticated: false,
+  status: STATUS.PENDING,
+  timetlive: 0,
+};
 interface Props {
-  children: ReactNode;
+  children: React.ReactNode;
 }
-
 const AuthProvider = ({ children }: Props) => {
-  const [username, dispatch] = useReducer(authReducer, "");
-  return (
-    <AuthContext.Provider value={{ username, dispatch }}>
-      {children}
-    </AuthContext.Provider>
+  const [state, dispatch] = React.useReducer(authReducer, initialState);
+
+  const login = React.useCallback(
+    (user: LoginUser, token: string, expiresAt: string) => {
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          user,
+          token,
+          expiresAt,
+        },
+      });
+    },
+    []
   );
+
+  const logout = React.useCallback(() => {
+    dispatch({
+      type: "LOGOUT",
+    });
+  }, []);
+
+  const updateUser = React.useCallback((user: any) => {
+    dispatch({
+      type: "UPDATE_USER",
+      payload: {
+        user,
+      },
+    });
+  }, []);
+
+  const setAuthenticationStatus = React.useCallback((status: string) => {
+    dispatch({
+      type: "STATUS",
+      payload: {
+        status,
+      },
+    });
+  }, []);
+
+  const registerUser = React.useCallback(
+    (user: RegisterUser, token: string, expiresAt: string) => {
+      dispatch({
+        type: "REGISTER",
+        payload: {
+          user,
+          token,
+          expiresAt,
+        },
+      });
+    },
+    []
+  );
+
+  const value = React.useMemo(
+    () => ({
+      ...state,
+      login,
+      logout,
+      updateUser,
+      setAuthenticationStatus,
+      registerUser,
+    }),
+    [state, setAuthenticationStatus, login, logout, updateUser, registerUser]
+  );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export default AuthProvider;
+export { AuthProvider };
