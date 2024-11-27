@@ -1,16 +1,13 @@
-import { Link } from "react-router-dom";
-// import useAuth from "../../../state-management/auth/use-auth";
-import useTasks from "../../../state-management/task/use-tasks";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import useTasks from "../../../state-management/task/use-tasks";
 import useAuth from "@/state-management/auth/use-auth";
 
 const SubNavComponent = () => {
   const { tasks } = useTasks();
   const { user, isAuthenticated } = useAuth();
 
-  useEffect(() => {
-    console.log("isAuthenticated: ", isAuthenticated);
-  }, []);
+  useEffect(() => {}, []);
 
   if (isAuthenticated) {
     return (

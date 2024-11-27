@@ -7,6 +7,7 @@ const customers = require("../routes/customers");
 const users = require("../routes/user_routes");
 const auth = require("../routes/auth_routes");
 const sendMail = require("../routes/mail_routes");
+const tasks = require("../routes/task_routes");
 const error = require("../middleware/catchError");
 
 module.exports = function (app) {
@@ -20,6 +21,7 @@ module.exports = function (app) {
   app.use("/api/users", users);
   app.use("/api/auth", auth);
   app.use("/api/mail", sendMail);
+  app.use("/api/tasks", tasks);
   // global error handling
   app.use(error);
 };

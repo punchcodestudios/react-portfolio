@@ -2,7 +2,7 @@ const createError = require("http-errors");
 const { users } = require("../data/data");
 
 const getUserList = async (req, res, next) => {
-  const usersListWithoutPassword = uses.map((user) => {
+  const usersListWithoutPassword = users.map((user) => {
     const { password, ...userWithoutPassword } = user;
     return { ...userWithoutPassword };
   });

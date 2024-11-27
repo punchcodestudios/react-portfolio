@@ -41,11 +41,13 @@ const Login = () => {
       .post(user)
       .then((response) => {
         setAuthenticationStatus(STATUS.SUCCEEDED);
+        // console.log("JHGJHGJ", response);
         const { user: userObj, token, expiresAt } = response;
         login(userObj, token, expiresAt);
         navigate("/");
       })
       .catch((error) => {
+        // console.log("errorasdas: ", error);
         toast(error.response.data.message);
       })
       .finally(() => {

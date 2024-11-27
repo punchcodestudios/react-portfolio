@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import NodeAPIClient from "@/services/node-api-client";
-import { Todo } from "@/entities/Todo";
+import { Todo } from "@/entities/TaskItem";
 import { FetchResponse } from "@/entities/FetchResponse";
 
 const nodeApiClient = new NodeAPIClient<Todo>("todos");
