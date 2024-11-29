@@ -36,5 +36,8 @@
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0",
     "winston-mongodb": "^6.0.0"
+  },
+  "devDependencies": {
+    "eslint-plugin-react-hooks": "^5.0.0"
   }
 }

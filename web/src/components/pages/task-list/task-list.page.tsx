@@ -1,3 +1,4 @@
+import TaskFilterProvider from "@/state-management/task/task-filter-provider";
 import AddTaskMenuBar from "./add-task-menu-bar.form";
 import TaskListGrid from "./task-list-grid.component";
 import TaskQueryBar from "./task-query-bar.form";
@@ -5,10 +6,11 @@ import TaskQueryBar from "./task-query-bar.form";
 const TaskListPage = () => {
   return (
     <>
-      {/* <TaskForm></TaskForm> */}
-      <AddTaskMenuBar></AddTaskMenuBar>
-      <TaskQueryBar></TaskQueryBar>
-      <TaskListGrid></TaskListGrid>
+      <TaskFilterProvider>
+        <AddTaskMenuBar></AddTaskMenuBar>
+        <TaskQueryBar></TaskQueryBar>
+        <TaskListGrid></TaskListGrid>
+      </TaskFilterProvider>
     </>
   );
 };

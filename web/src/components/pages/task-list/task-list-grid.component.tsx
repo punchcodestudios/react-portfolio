@@ -2,9 +2,27 @@ import ButtonControl from "@/components/common/button/button.control";
 import { TaskItem } from "@/entities/TaskItem";
 import useTasks from "@/state-management/task/use-tasks";
 import Date from "../../../extensions/Date";
+import { useEffect, useState } from "react";
+import useTaskFilters from "@/state-management/task/use-task-filters";
 
 const TaskListGrid = () => {
   const { tasks, loading, error, completeTask } = useTasks();
+  const { taskFilter } = useTaskFilters();
+  const [filteredTasks, setFilteredTasks] = useState<TaskItem[]>([]);
+
+  useEffect(() => {
+    let newlist = [] as TaskItem[];
+    if (taskFilter.showActive) {
+      newlist = [
+        ...tasks.filter((t) => !t.completedDate),
+        ...newlist,
+      ] as TaskItem[];
+    }
+    if (taskFilter.showCompleted) {
+      newlist = [...tasks.filter((t) => t.completedDate), ...newlist];
+    }
+    setFilteredTasks(newlist);
+  }, [tasks, taskFilter]);
 
   if (loading) {
     return <div>loading</div>;
@@ -29,56 +47,70 @@ const TaskListGrid = () => {
   };
 
   const handleClick = (id: string) => {
-    console.log("handle click: ", id);
     completeTask(id);
   };
 
   return (
     <>
-      <div className="grid-container">
-        {tasks?.map((task) => (
-          <div key={`task-${task._id}`} className="grid-items mb-3">
-            {" "}
+      {filteredTasks.length == 0 && (
+        <div className="grid-container">
+          <div className="grid-items mb-3">
             <ul className="data-items">
               <li className="">
-                <ButtonControl
-                  id={task._id}
-                  name="complete-task"
-                  cssClass="btn btn-primary"
-                  onClick={() => handleClick(task._id)}
-                >
-                  Complete
-                </ButtonControl>
-              </li>
-              <li>
-                <label>Title:</label>
-                {task.title}
-              </li>
-              <li>
-                <label>Due On:</label>
-                {new Date(task.dueDate).toDateOnlyString()}
-              </li>
-              <li>
-                <label>Group:</label>
-                {task.taskGroupRefid}
+                <p>
+                  No items were found. Please check your filters and try again.
+                </p>
               </li>
             </ul>
-            <div className="ms-3 data-item-details">
-              <div className="heading">Details:</div>
-              <ul className="">
+          </div>
+        </div>
+      )}
+      {filteredTasks.length > 0 && (
+        <div className="grid-container">
+          {filteredTasks.map((task) => (
+            <div key={`task-${task._id}`} className="grid-items mb-3">
+              {" "}
+              <ul className="data-items">
                 <li className="">
-                  <label>Description:</label>
-                  {task.description}
+                  <ButtonControl
+                    id={task._id}
+                    name="complete-task"
+                    cssClass="btn btn-primary"
+                    onClick={() => handleClick(task._id)}
+                  >
+                    Complete
+                  </ButtonControl>
                 </li>
-                <li className="">
-                  <label>Status:</label>
-                  {getTaskStatus(task)}
+                <li>
+                  <label>Title:</label>
+                  {task.title}
+                </li>
+                <li>
+                  <label>Due On:</label>
+                  {new Date(task.dueDate).toDateOnlyString()}
+                </li>
+                <li>
+                  <label>Group:</label>
+                  {task.taskGroupRefid}
                 </li>
               </ul>
+              <div className="ms-3 data-item-details">
+                <div className="heading">Details:</div>
+                <ul className="">
+                  <li className="">
+                    <label>Description:</label>
+                    {task.description}
+                  </li>
+                  <li className="">
+                    <label>Status:</label>
+                    {getTaskStatus(task)}
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </>
   );
 };

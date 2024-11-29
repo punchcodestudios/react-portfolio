@@ -30,6 +30,7 @@ export interface TaskQueryOptions {
   groupType: string;
 }
 
-// export interface CompleteTaskItem {
-//   refid: number;
-// }
+export interface TaskFilter {
+  showActive: boolean;
+  showCompleted: boolean;
+}
