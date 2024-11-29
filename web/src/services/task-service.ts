@@ -5,7 +5,6 @@ const TaskService = {
   getTasks: async () => {
     try {
       const response = await getTasks();
-      console.log("response from task service: ", response);
       return response;
     } catch (error) {
       console.error("Error fetching tasks: ", error);
@@ -13,8 +12,14 @@ const TaskService = {
     }
   },
   addTask: async (task: AddTaskItem) => {
-    const response = await addTask(task);
-    return response;
+    try {
+      // console.log("date from UI: ", task.dueDate);
+      const response = await addTask(task);
+      return response;
+    } catch (error) {
+      console.error("Error adding tasks: ", error);
+      throw new Error("Error adding task");
+    }
   },
   completeTask: async (refid: string) => {
     const response = await completeTask(refid);

@@ -1,14 +1,14 @@
 import { AddTaskItem, TaskItem } from "@/entities/TaskItem";
-import { Dispatch } from "react";
+import React, { Dispatch } from "react";
 import { TaskAction } from "./task-reducer";
-import React from "react";
 
 interface TaskContextType {
   tasks: TaskItem[];
   loading: boolean;
   error: string;
   dispatch: Dispatch<TaskAction>;
-  addTask: (item: AddTaskItem) => Promise<AddTaskItem>;
+  addTask: (item: AddTaskItem) => Promise<TaskItem>;
+  completeTask: (refid: string) => Promise<TaskItem>;
 }
 
 const TaskContext = React.createContext<TaskContextType>({} as TaskContextType);

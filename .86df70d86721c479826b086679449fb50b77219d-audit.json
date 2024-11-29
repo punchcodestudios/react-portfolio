@@ -19,6 +19,11 @@
             "date": 1732600803408,
             "name": "pcs_exception-2024-11-26.log",
             "hash": "7415a9192a3a1176f59b9ca3e2e0ce1ac996e6ba0b921790762d5c04c0543612"
+        },
+        {
+            "date": 1732820880759,
+            "name": "pcs_exception-2024-11-28.log",
+            "hash": "ea7f8a1f515df4a6c598e2e4c75ddee5a0011ae63d5e6acc0f473a9c7ad8ae77"
         }
     ],
     "hashType": "sha256"

@@ -5,9 +5,8 @@ import { FetchResponse } from "@/entities/FetchResponse";
 export const getTasks = async () => {
   const client = new ApiClient<TaskItem[]>("/tasks/get-tasks");
   try {
-    const response = (await client.getAll()).filter(
-      (d) => d.completedDate === null
-    );
+    const response = await client.getAll();
+    // response.filter((task) => !task.completedDate);
     return response;
   } catch (error) {
     console.error("Error fetching tasks: ", error);
@@ -16,10 +15,10 @@ export const getTasks = async () => {
 };
 
 export const addTask = async (item: AddTaskItem) => {
-  const client = new ApiClient<AddTaskItem>("/tasks/add-task");
+  const client = new ApiClient<TaskItem>("/tasks/add-task");
   try {
     const response = await client.post(item);
-    return response.data;
+    return response;
   } catch (error) {
     console.error("Error adding task: ", error);
     throw error;
@@ -27,10 +26,12 @@ export const addTask = async (item: AddTaskItem) => {
 };
 
 export const completeTask = async (refid: string) => {
-  const client = new ApiClient<FetchResponse<TaskItem>>("/task/complete-task");
+  const client = new ApiClient<TaskItem>("/tasks/complete-task");
   try {
-    const response = await client.post(refid);
-    return response.results;
+    console.log("REFID: ", refid);
+
+    const response = await client.post({ id: refid });
+    return response;
   } catch (error) {
     console.error("Error completing task: ", error);
     throw error;

@@ -1,8 +1,8 @@
+import { AddTaskItem, TaskItem } from "@/entities/TaskItem";
 import TaskService from "@/services/task-service";
 import React, { useEffect, useReducer, useState } from "react";
 import TaskContext from "./task-context";
 import taskReducer from "./task-reducer";
-import { AddTaskItem } from "@/entities/TaskItem";
 
 interface Props {
   children: React.ReactNode;
@@ -19,13 +19,20 @@ const TaskProvider = ({ children }: Props) => {
     return Promise.resolve(data);
   };
 
+  const completeTask = async (refid: string) => {
+    console.log(refid);
+    const data = await TaskService.completeTask(refid);
+    dispatch({ type: "COMPLETE_TASK", payload: data });
+    return Promise.resolve(data);
+  };
+
   useEffect(() => {
     const loadTasks = async () => {
       setLoading(true);
       setError("");
       try {
         const data = await TaskService.getTasks();
-        dispatch({ type: "GET_TASKS", payload: data });
+        dispatch({ type: "GET_TASKS", payload: data as TaskItem[] });
       } catch (error: any) {
         setError(error.message);
       } finally {
@@ -36,7 +43,16 @@ const TaskProvider = ({ children }: Props) => {
   }, []);
 
   return (
-    <TaskContext.Provider value={{ tasks, dispatch, loading, error, addTask }}>
+    <TaskContext.Provider
+      value={{
+        tasks,
+        loading,
+        error,
+        dispatch,
+        addTask,
+        completeTask,
+      }}
+    >
       {children}
     </TaskContext.Provider>
   );

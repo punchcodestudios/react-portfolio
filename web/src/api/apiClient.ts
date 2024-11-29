@@ -37,18 +37,18 @@ class NodeAPIClient<T> {
     this.endpoint = endpoint;
   }
 
-  getAll = () => {
+  getAll = (): Promise<T> => {
     return axiosInstance.get<T>(this.endpoint).then((res) => res.data);
   };
 
-  get = (id: number | string) => {
+  get = (id: number | string): Promise<T> => {
     return axiosInstance
       .get<T>(this.endpoint + "/" + id)
       .then((res) => res.data);
   };
 
-  post = async (entity: T | {}) => {
-    console.log("CLIENT ITEM: ", entity);
+  post = async (entity: T | {}): Promise<T> => {
+    // console.log("CLIENT ITEM: ", entity);
     return await axiosInstance
       .post(this.endpoint, entity)
       .then((res) => res.data);

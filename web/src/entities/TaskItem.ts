@@ -21,6 +21,15 @@ export interface AddTaskItem {
   taskGroupRefid: string;
 }
 
+export interface TaskQueryOptions {
+  showActive: boolean;
+  showCompleted: boolean;
+  searchText: string;
+  addDate: "asc" | "desc" | "none";
+  dueDate: "asc" | "desc" | "none";
+  groupType: string;
+}
+
 // export interface CompleteTaskItem {
 //   refid: number;
 // }

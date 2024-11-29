@@ -7,7 +7,7 @@ interface AddTaskAction {
 
 interface CompleteTaskAction {
   type: "COMPLETE_TASK";
-  payload: string;
+  payload: TaskItem;
 }
 
 interface GetTasksAction {
@@ -20,9 +20,13 @@ export type TaskAction = AddTaskAction | CompleteTaskAction | GetTasksAction;
 const taskReducer = (state: TaskItem[], action: TaskAction): TaskItem[] => {
   switch (action.type) {
     case "ADD_TASK":
+      console.log("add task: ", action.payload);
       return [action.payload, ...state];
     case "COMPLETE_TASK":
-      return state.filter((s) => s._id !== action.payload);
+      let arr = [...state];
+      const index = arr.findIndex((i) => i._id == action.payload._id);
+      arr[index] = action.payload;
+      return [...arr];
     case "GET_TASKS":
       return [...action.payload];
     default:
