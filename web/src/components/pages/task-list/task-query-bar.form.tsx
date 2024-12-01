@@ -1,9 +1,14 @@
-import ButtonControl from "@/components/common/button/button.control";
-import useTaskFilters from "@/state-management/task/use-task-filters";
+import useTaskQueryStore from "@/state-management/task/task-query-store";
 import DataPager from "./data-pager.control";
+import { useEffect } from "react";
 
 const TaskQueryBar = () => {
-  const { setShowActive, setShowCompleted, taskFilter } = useTaskFilters();
+  const { setShowActive, setShowCompleted } = useTaskQueryStore();
+  const showActiveValue = useTaskQueryStore((s) => s.taskQuery.showActive);
+  const showCompletedValue = useTaskQueryStore(
+    (s) => s.taskQuery.showCompleted
+  );
+
   return (
     <>
       <div className="query-bar-container">
@@ -47,7 +52,7 @@ const TaskQueryBar = () => {
               type="checkbox"
               name="show-active"
               className="me-1"
-              checked={taskFilter.showActive}
+              checked={showActiveValue}
               // style={{ color: "white" }}
               onChange={(e) => setShowActive(e.target.checked)}
             />
@@ -63,7 +68,7 @@ const TaskQueryBar = () => {
               type="checkbox"
               name="show-completed"
               className="me-1"
-              checked={taskFilter.showCompleted}
+              checked={showCompletedValue}
               onChange={(e) => setShowCompleted(e.target.checked)}
             />
             Show Completed

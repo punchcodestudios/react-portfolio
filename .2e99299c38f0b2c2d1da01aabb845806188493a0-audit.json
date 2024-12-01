@@ -34,6 +34,11 @@
             "date": 1733008100275,
             "name": "pcs_rejection-2024-11-30.log",
             "hash": "f2109e6cab6003155554c4acd0734f4370124cde822291426a6d810d339dd376"
+        },
+        {
+            "date": 1733032980098,
+            "name": "pcs_rejection-2024-12-01.log",
+            "hash": "3279d1c4f05f8a2e887fdaf39e68922bfa8fe6fba5537a9b823a5b78470af85b"
         }
     ],
     "hashType": "sha256"

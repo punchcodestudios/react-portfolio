@@ -20,13 +20,19 @@ export type TaskAction = AddTaskAction | CompleteTaskAction | GetTasksAction;
 const taskReducer = (state: TaskItem[], action: TaskAction): TaskItem[] => {
   switch (action.type) {
     case "ADD_TASK":
-      console.log("add task: ", action.payload);
-      return [action.payload, ...state];
+      return [
+        action.payload,
+        ...state.sort(
+          (a, b) =>
+            new Date(a.dueDate).valueOf() - new Date(b.dueDate).valueOf()
+        ),
+      ];
     case "COMPLETE_TASK":
-      let arr = [...state];
-      const index = arr.findIndex((i) => i._id == action.payload._id);
-      arr[index] = action.payload;
-      return [...arr];
+      return [{ ...action.payload }];
+    // let arr = [...state];
+    // const index = arr.findIndex((i) => i._id == action.payload._id);
+    // arr[index] = action.payload;
+    // return [...arr];
     case "GET_TASKS":
       return [...action.payload];
     default:

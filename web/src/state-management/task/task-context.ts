@@ -1,4 +1,4 @@
-import { AddTaskItem, TaskFilter, TaskItem } from "@/entities/TaskItem";
+import { AddTaskItem, TaskItem } from "@/entities/TaskItem";
 import React, { Dispatch } from "react";
 import { TaskAction } from "./task-reducer";
 

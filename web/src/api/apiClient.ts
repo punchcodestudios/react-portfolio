@@ -1,6 +1,4 @@
 import axios from "axios";
-import { FetchResponse } from "../entities/FetchResponse";
-import { TaskFilter } from "@/entities/TaskItem";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/api/",
@@ -33,13 +31,18 @@ axiosInstance.interceptors.response.use(
 
 class NodeAPIClient<T> {
   endpoint: string;
+  params: object;
 
-  constructor(endpoint: string) {
+  constructor(endpoint: string, params?: object) {
     this.endpoint = endpoint;
+    this.params = params || {};
   }
 
   getAll = (): Promise<T> => {
-    return axiosInstance.get<T>(this.endpoint).then((res) => res.data);
+    console.log("API: ", { ...this.params });
+    return axiosInstance
+      .get<T>(this.endpoint, { params: { ...this.params } })
+      .then((res) => res.data);
   };
 
   get = (id: number | string): Promise<T> => {

@@ -2,32 +2,16 @@ import ButtonControl from "@/components/common/button/button.control";
 import { TaskItem } from "@/entities/TaskItem";
 import useTasks from "@/state-management/task/use-tasks";
 import Date from "../../../extensions/Date";
-import { useEffect, useState } from "react";
-import useTaskFilters from "@/state-management/task/use-task-filters";
 
 const TaskListGrid = () => {
   const { tasks, loading, error, completeTask } = useTasks();
-  const { taskFilter } = useTaskFilters();
-  const [filteredTasks, setFilteredTasks] = useState<TaskItem[]>([]);
-
-  useEffect(() => {
-    let newlist = [] as TaskItem[];
-    if (taskFilter.showActive) {
-      newlist = [
-        ...tasks.filter((t) => !t.completedDate),
-        ...newlist,
-      ] as TaskItem[];
-    }
-    if (taskFilter.showCompleted) {
-      newlist = [...tasks.filter((t) => t.completedDate), ...newlist];
-    }
-    setFilteredTasks(newlist);
-  }, [tasks, taskFilter]);
 
   if (loading) {
-    return <div>loading</div>;
+    return <div>loading...</div>;
   }
-  if (error) return <div>Error: {error}</div>;
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   const getTaskStatus = (item: TaskItem): string => {
     const urgencyFactor = 3;
@@ -46,13 +30,9 @@ const TaskListGrid = () => {
     return "Open";
   };
 
-  const handleClick = (id: string) => {
-    completeTask(id);
-  };
-
   return (
     <>
-      {filteredTasks.length == 0 && (
+      {tasks.length == 0 && (
         <div className="grid-container">
           <div className="grid-items mb-3">
             <ul className="data-items">
@@ -65,16 +45,16 @@ const TaskListGrid = () => {
           </div>
         </div>
       )}
-      {filteredTasks.length > 0 && (
+      {tasks?.length > 0 && (
         <div className="grid-container">
-          {filteredTasks.map((task) => (
+          {tasks.map((task) => (
             <div key={`task-${task._id}`} className="d-flex grid-items mb-3">
               <div className="col-md-2">
                 <ButtonControl
                   id={task._id}
                   name="complete-task"
                   cssClass="btn btn-primary"
-                  onClick={() => handleClick(task._id)}
+                  onClick={() => completeTask(task._id)}
                 >
                   Complete
                 </ButtonControl>
@@ -99,7 +79,6 @@ const TaskListGrid = () => {
                   </li>
                 </ul>
                 <div className="data-items">
-                  {/* <div className="heading">Details:</div> */}
                   <ul className="">
                     <li className="">
                       <label>Description:</label>

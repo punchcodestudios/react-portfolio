@@ -16,9 +16,28 @@ const addTask = errorHandler(async (req, res, next) => {
 });
 
 const getTasks = errorHandler(async (req, res, next) => {
-  console.log("does this contain the filter?", req.body);
+  console.error("HELLLLP: ", req.query);
   let data = await Task.find({});
-  return res.status(200).send(data);
+  let filteredData = [];
+  if (req.query.showActive == "true") {
+    filteredData = [
+      ...data
+        .filter((x) => !x.completedDate)
+        .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)),
+      ...filteredData,
+    ];
+  }
+  if (req.query.showCompleted == "true") {
+    filteredData = [
+      ...filteredData,
+      ...data
+        .filter((x) => x.completedDate)
+        .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)),
+    ];
+  }
+
+  // console.log("filteredData: ", filteredData);
+  return res.status(200).send(filteredData);
 });
 
 const completeTask = errorHandler(async (req, res, next) => {

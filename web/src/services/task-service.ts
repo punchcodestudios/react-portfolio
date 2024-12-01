@@ -1,13 +1,11 @@
-import { AddTaskItem, TaskFilter, TaskItem } from "@/entities/TaskItem";
+import { AddTaskItem } from "@/entities/TaskItem";
 import { addTask, completeTask, getTasks } from "../api/taskApi";
-import { FetchResponse } from "@/entities/FetchResponse";
-import { useQuery } from "@tanstack/react-query";
-import apiClient from "./api-client";
+import { TaskQuery } from "@/state-management/task/task-query-store";
 
 const TaskService = {
-  getTasks: async () => {
+  getTasks: async (query: TaskQuery) => {
     try {
-      const response = await getTasks();
+      const response = await getTasks(query);
       return response;
     } catch (error) {
       console.error("Error fetching tasks: ", error);
@@ -16,7 +14,6 @@ const TaskService = {
   },
   addTask: async (task: AddTaskItem) => {
     try {
-      // console.log("date from UI: ", task.dueDate);
       const response = await addTask(task);
       return response;
     } catch (error) {
@@ -28,21 +25,6 @@ const TaskService = {
     const response = await completeTask(refid);
     return response;
   },
-  // getFilteredTasks: async (filter: TaskFilter) => {
-  // return useQuery<FetchResponse<TaskItem>, Error>({
-  //   queryKey: ["gallery", taskQuery],
-  //   queryFn: () =>
-  //     apiClient.getAll({
-  //       params: {
-  //         genres: galleryQuery.skillId,
-  //         platforms: galleryQuery.disciplineId,
-  //         ordering: galleryQuery.sortOrder,
-  //         search: galleryQuery.searchText,
-  //       },
-  //     }),
-  //   staleTime: 24 * 60 * 60 * 1000,
-  // });
-  // },
 };
 
 export default TaskService;

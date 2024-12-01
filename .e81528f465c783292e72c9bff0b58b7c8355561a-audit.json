@@ -34,6 +34,11 @@
             "date": 1733008100267,
             "name": "pcs_combined-2024-11-30.log",
             "hash": "64ba09cb29b67cc2fc1d0b274352400e5ccc1f852003afc1b2d399f53c9f5805"
+        },
+        {
+            "date": 1733032980091,
+            "name": "pcs_combined-2024-12-01.log",
+            "hash": "91a539d25259e339b1dc1fd6293012475d903569c3676070d44bc4797a0ffe04"
         }
     ],
     "hashType": "sha256"

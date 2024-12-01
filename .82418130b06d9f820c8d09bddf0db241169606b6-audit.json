@@ -34,6 +34,11 @@
             "date": 1733008100271,
             "name": "pcs_error-2024-11-30.log",
             "hash": "5d8975925659c91b8cae41f00630c95d8926c784623fd5a554f6d0cee41d2f21"
+        },
+        {
+            "date": 1733032980095,
+            "name": "pcs_error-2024-12-01.log",
+            "hash": "32c2ac9e180afe6fab39f92799c68d8745109b05d48b585f12134d5e7b1a9071"
         }
     ],
     "hashType": "sha256"

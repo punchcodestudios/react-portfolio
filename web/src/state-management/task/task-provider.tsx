@@ -1,7 +1,8 @@
-import { AddTaskItem, TaskFilter, TaskItem } from "@/entities/TaskItem";
+import { AddTaskItem, TaskItem } from "@/entities/TaskItem";
 import TaskService from "@/services/task-service";
 import React, { useEffect, useReducer, useState } from "react";
 import TaskContext from "./task-context";
+import useTaskQueryStore from "./task-query-store";
 import taskReducer from "./task-reducer";
 
 interface Props {
@@ -12,16 +13,17 @@ const TaskProvider = ({ children }: Props) => {
   const [tasks, dispatch] = useReducer(taskReducer, []);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+  const taskQuery = useTaskQueryStore((s) => s.taskQuery);
 
   const addTask = async (addTask: AddTaskItem) => {
     const data = await TaskService.addTask(addTask);
-    dispatch({ type: "ADD_TASK", payload: data });
+    await loadTasks();
     return Promise.resolve(data);
   };
 
   const completeTask = async (refid: string) => {
     const data = await TaskService.completeTask(refid);
-    dispatch({ type: "COMPLETE_TASK", payload: data });
+    await loadTasks();
     return Promise.resolve(data);
   };
 
@@ -29,8 +31,14 @@ const TaskProvider = ({ children }: Props) => {
     setLoading(true);
     setError("");
     try {
-      const data = await TaskService.getTasks();
-      dispatch({ type: "GET_TASKS", payload: data as TaskItem[] });
+      const response = await TaskService.getTasks({
+        showActive: taskQuery.showActive || false,
+        showCompleted: taskQuery.showCompleted || false,
+        currentPage: taskQuery.currentPage || 1,
+        pageSize: taskQuery.pageSize || 5,
+        searchText: taskQuery.searchText || "",
+      });
+      dispatch({ type: "GET_TASKS", payload: response as TaskItem[] });
     } catch (error: any) {
       setError(error.message);
     } finally {
@@ -39,14 +47,8 @@ const TaskProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    const initialValues: TaskFilter = {
-      showActive: true,
-      showCompleted: false,
-      pageSize: 5,
-      currentPage: 1,
-    };
     loadTasks();
-  }, []);
+  }, [taskQuery]);
 
   return (
     <TaskContext.Provider

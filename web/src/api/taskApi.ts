@@ -1,11 +1,11 @@
-import { AddTaskItem, TaskFilter, TaskItem } from "@/entities/TaskItem";
+import { AddTaskItem, TaskItem } from "@/entities/TaskItem";
 import ApiClient from "./apiClient";
+import { TaskQuery } from "@/state-management/task/task-query-store";
 
-export const getTasks = async () => {
-  const client = new ApiClient<TaskItem[]>("/tasks/get-tasks");
+export const getTasks = async (query: TaskQuery) => {
+  const client = new ApiClient<TaskItem[]>("/tasks/get-tasks", query);
   try {
     const response = await client.getAll();
-    // response.filter((task) => !task.completedDate);
     return response;
   } catch (error) {
     console.error("Error fetching tasks: ", error);
@@ -13,7 +13,6 @@ export const getTasks = async () => {
   }
 };
 
-export const getFilteredTasks = async (filter: TaskFilter) => {};
 export const addTask = async (item: AddTaskItem) => {
   const client = new ApiClient<TaskItem>("/tasks/add-task");
   try {
