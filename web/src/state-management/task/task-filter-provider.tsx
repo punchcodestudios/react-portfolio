@@ -1,5 +1,5 @@
 import { TaskFilter } from "@/entities/TaskItem";
-import React, { useReducer, useState } from "react";
+import React, { useReducer } from "react";
 import TaskFilterContext from "./task-filter-context";
 import taskFilterReducer from "./task-filter-reducer";
 
@@ -10,11 +10,12 @@ interface Props {
 const initialValues: TaskFilter = {
   showActive: true,
   showCompleted: false,
+  pageSize: 5,
+  currentPage: 1,
 };
+
 const TaskFilterProvider = ({ children }: Props) => {
   const [taskFilter, dispatch] = useReducer(taskFilterReducer, initialValues);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
 
   const setShowActive = async (value: boolean): Promise<void> => {
     dispatch({ type: "SET_SHOW_ACTIVE", payload: value });
@@ -24,6 +25,10 @@ const TaskFilterProvider = ({ children }: Props) => {
     dispatch({ type: "SET_SHOW_COMPLETED", payload: value });
   };
 
+  const setCurrentPage = async (value: number): Promise<void> => {
+    dispatch({ type: "SET_CURRENT_PAGE", payload: value });
+  };
+
   return (
     <TaskFilterContext.Provider
       value={{
@@ -31,6 +36,7 @@ const TaskFilterProvider = ({ children }: Props) => {
         dispatch,
         setShowActive,
         setShowCompleted,
+        setCurrentPage,
       }}
     >
       {children}

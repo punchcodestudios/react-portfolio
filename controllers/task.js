@@ -16,6 +16,7 @@ const addTask = errorHandler(async (req, res, next) => {
 });
 
 const getTasks = errorHandler(async (req, res, next) => {
+  console.log("does this contain the filter?", req.body);
   let data = await Task.find({});
   return res.status(200).send(data);
 });

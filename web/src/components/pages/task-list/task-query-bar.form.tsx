@@ -1,48 +1,76 @@
 import ButtonControl from "@/components/common/button/button.control";
 import useTaskFilters from "@/state-management/task/use-task-filters";
+import DataPager from "./data-pager.control";
 
 const TaskQueryBar = () => {
   const { setShowActive, setShowCompleted, taskFilter } = useTaskFilters();
   return (
-    <div className="query-bar-container">
-      <div className="col-md-3">
-        <input className="input form-control" type="text"></input>
-      </div>
-      <div className="col-md-3">
-        <label htmlFor="showActive">
-          <input
-            id="showActive"
-            className="input"
-            type="checkbox"
-            checked={taskFilter.showActive}
-            onChange={(e) => setShowActive(e.target.checked)}
-          ></input>
-          Show Active
-        </label>
-      </div>
-      <div className="col-md-3">
-        <label htmlFor="showCompleted">
-          <input
-            id="showCompleted"
-            className="input"
-            type="checkbox"
-            checked={taskFilter.showCompleted}
-            onChange={(e) => setShowCompleted(e.target.checked)}
-          ></input>
-          Show Completed
-        </label>
-      </div>
-      <div className="col-md-3">
-        <ButtonControl
-          id="taskQuery"
-          type="submit"
-          name="task-query"
-          cssClass="btn btn-primary"
+    <>
+      <div className="query-bar-container">
+        <div className="col-md-6 d-flex" style={{ color: "white" }}>
+          <input className="input form-control" type="text"></input>
+        </div>
+        <div
+          className="col-md-6 d-flex"
+          style={{ color: "white", justifyContent: "flex-end" }}
         >
-          Apply
-        </ButtonControl>
+          <DataPager></DataPager>
+        </div>
       </div>
-    </div>
+      <div className="query-bar-container">
+        <div className="col-md-6 d-flex" style={{ color: "white" }}>
+          <label
+            className="ms-2 me-2"
+            htmlFor="radio"
+            style={{ color: "white" }}
+          >
+            <input type="radio" name="radio" className="me-1" />
+            Choice Two
+          </label>
+          <label
+            className="ms-2 me-2"
+            htmlFor="radio"
+            style={{ color: "white" }}
+          >
+            <input type="radio" name="radio" className="me-1" />
+            Choice One
+          </label>
+        </div>
+        <div className="col-md-6 d-flex" style={{ color: "white" }}>
+          <label
+            className="ms-2 me-2"
+            htmlFor="showActive"
+            style={{ color: "white" }}
+          >
+            <input
+              id="showActive"
+              type="checkbox"
+              name="show-active"
+              className="me-1"
+              checked={taskFilter.showActive}
+              // style={{ color: "white" }}
+              onChange={(e) => setShowActive(e.target.checked)}
+            />
+            Show Active
+          </label>
+          <label
+            className="ms-2 me-2"
+            htmlFor="showCompleted"
+            style={{ color: "white" }}
+          >
+            <input
+              id="showCompleted"
+              type="checkbox"
+              name="show-completed"
+              className="me-1"
+              checked={taskFilter.showCompleted}
+              onChange={(e) => setShowCompleted(e.target.checked)}
+            />
+            Show Completed
+          </label>
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -68,44 +68,45 @@ const TaskListGrid = () => {
       {filteredTasks.length > 0 && (
         <div className="grid-container">
           {filteredTasks.map((task) => (
-            <div key={`task-${task._id}`} className="grid-items mb-3">
-              {" "}
-              <ul className="data-items">
-                <li className="">
-                  <ButtonControl
-                    id={task._id}
-                    name="complete-task"
-                    cssClass="btn btn-primary"
-                    onClick={() => handleClick(task._id)}
-                  >
-                    Complete
-                  </ButtonControl>
-                </li>
-                <li>
-                  <label>Title:</label>
-                  {task.title}
-                </li>
-                <li>
-                  <label>Due On:</label>
-                  {new Date(task.dueDate).toDateOnlyString()}
-                </li>
-                <li>
-                  <label>Group:</label>
-                  {task.taskGroupRefid}
-                </li>
-              </ul>
-              <div className="ms-3 data-item-details">
-                <div className="heading">Details:</div>
-                <ul className="">
-                  <li className="">
-                    <label>Description:</label>
-                    {task.description}
+            <div key={`task-${task._id}`} className="d-flex grid-items mb-3">
+              <div className="col-md-2">
+                <ButtonControl
+                  id={task._id}
+                  name="complete-task"
+                  cssClass="btn btn-primary"
+                  onClick={() => handleClick(task._id)}
+                >
+                  Complete
+                </ButtonControl>
+              </div>
+              <div className="col-md-10">
+                <ul className="data-items">
+                  <li>
+                    <label>Title:</label>
+                    {task.title}
+                  </li>
+                  <li>
+                    <label>Due On:</label>
+                    {new Date(task.dueDate).toDateOnlyString()}
+                  </li>
+                  <li>
+                    <label>Group:</label>
+                    {task.taskGroupRefid}
                   </li>
                   <li className="">
                     <label>Status:</label>
                     {getTaskStatus(task)}
                   </li>
                 </ul>
+                <div className="data-items">
+                  {/* <div className="heading">Details:</div> */}
+                  <ul className="">
+                    <li className="">
+                      <label>Description:</label>
+                      {task.description}
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           ))}

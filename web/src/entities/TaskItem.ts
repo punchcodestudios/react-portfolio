@@ -33,4 +33,6 @@ export interface TaskQueryOptions {
 export interface TaskFilter {
   showActive: boolean;
   showCompleted: boolean;
+  pageSize: number;
+  currentPage: number;
 }

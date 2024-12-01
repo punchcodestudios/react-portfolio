@@ -10,7 +10,15 @@ interface SetShowCompletedAction {
   payload: boolean;
 }
 
-export type TaskFilterAction = SetShowActiveAction | SetShowCompletedAction;
+interface SetCurrentPageAction {
+  type: "SET_CURRENT_PAGE";
+  payload: number;
+}
+
+export type TaskFilterAction =
+  | SetShowActiveAction
+  | SetShowCompletedAction
+  | SetCurrentPageAction;
 
 const taskFilterReducer = (
   state: TaskFilter,
@@ -18,15 +26,17 @@ const taskFilterReducer = (
 ): TaskFilter => {
   switch (action.type) {
     case "SET_SHOW_ACTIVE":
-      console.log("set show active: ", action.payload);
       let activeFilter = { ...state };
-      console.log(activeFilter);
       activeFilter.showActive = action.payload;
       return { ...activeFilter };
     case "SET_SHOW_COMPLETED":
       let completedFilter = { ...state };
       completedFilter.showCompleted = action.payload;
       return { ...completedFilter };
+    case "SET_CURRENT_PAGE":
+      let currentPageFilter = { ...state };
+      currentPageFilter.currentPage = action.payload;
+      return { ...currentPageFilter };
     default:
       return state;
   }

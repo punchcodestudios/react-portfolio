@@ -1,5 +1,6 @@
 import axios from "axios";
 import { FetchResponse } from "../entities/FetchResponse";
+import { TaskFilter } from "@/entities/TaskItem";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/api/",

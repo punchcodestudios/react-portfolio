@@ -1,5 +1,8 @@
-import { AddTaskItem } from "@/entities/TaskItem";
+import { AddTaskItem, TaskFilter, TaskItem } from "@/entities/TaskItem";
 import { addTask, completeTask, getTasks } from "../api/taskApi";
+import { FetchResponse } from "@/entities/FetchResponse";
+import { useQuery } from "@tanstack/react-query";
+import apiClient from "./api-client";
 
 const TaskService = {
   getTasks: async () => {
@@ -25,6 +28,21 @@ const TaskService = {
     const response = await completeTask(refid);
     return response;
   },
+  // getFilteredTasks: async (filter: TaskFilter) => {
+  // return useQuery<FetchResponse<TaskItem>, Error>({
+  //   queryKey: ["gallery", taskQuery],
+  //   queryFn: () =>
+  //     apiClient.getAll({
+  //       params: {
+  //         genres: galleryQuery.skillId,
+  //         platforms: galleryQuery.disciplineId,
+  //         ordering: galleryQuery.sortOrder,
+  //         search: galleryQuery.searchText,
+  //       },
+  //     }),
+  //   staleTime: 24 * 60 * 60 * 1000,
+  // });
+  // },
 };
 
 export default TaskService;

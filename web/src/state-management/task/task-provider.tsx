@@ -1,4 +1,4 @@
-import { AddTaskItem, TaskItem } from "@/entities/TaskItem";
+import { AddTaskItem, TaskFilter, TaskItem } from "@/entities/TaskItem";
 import TaskService from "@/services/task-service";
 import React, { useEffect, useReducer, useState } from "react";
 import TaskContext from "./task-context";
@@ -20,24 +20,30 @@ const TaskProvider = ({ children }: Props) => {
   };
 
   const completeTask = async (refid: string) => {
-    console.log(refid);
     const data = await TaskService.completeTask(refid);
     dispatch({ type: "COMPLETE_TASK", payload: data });
     return Promise.resolve(data);
   };
 
+  const loadTasks = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const data = await TaskService.getTasks();
+      dispatch({ type: "GET_TASKS", payload: data as TaskItem[] });
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadTasks = async () => {
-      setLoading(true);
-      setError("");
-      try {
-        const data = await TaskService.getTasks();
-        dispatch({ type: "GET_TASKS", payload: data as TaskItem[] });
-      } catch (error: any) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
+    const initialValues: TaskFilter = {
+      showActive: true,
+      showCompleted: false,
+      pageSize: 5,
+      currentPage: 1,
     };
     loadTasks();
   }, []);

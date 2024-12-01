@@ -7,6 +7,7 @@ interface TaskFilterContextType {
   dispatch: Dispatch<TaskFilterAction>;
   setShowActive: (value: boolean) => void;
   setShowCompleted: (value: boolean) => void;
+  setCurrentPage: (value: number) => void;
 }
 
 const TaskFilterContext = React.createContext<TaskFilterContextType>(

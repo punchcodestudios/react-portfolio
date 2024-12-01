@@ -1,6 +1,5 @@
-import { AddTaskItem, TaskItem } from "@/entities/TaskItem";
+import { AddTaskItem, TaskFilter, TaskItem } from "@/entities/TaskItem";
 import ApiClient from "./apiClient";
-import { FetchResponse } from "@/entities/FetchResponse";
 
 export const getTasks = async () => {
   const client = new ApiClient<TaskItem[]>("/tasks/get-tasks");
@@ -14,6 +13,7 @@ export const getTasks = async () => {
   }
 };
 
+export const getFilteredTasks = async (filter: TaskFilter) => {};
 export const addTask = async (item: AddTaskItem) => {
   const client = new ApiClient<TaskItem>("/tasks/add-task");
   try {

@@ -24,6 +24,16 @@
             "date": 1732820880753,
             "name": "pcs_combined-2024-11-28.log",
             "hash": "af41bc1fb710aaa68fb4f49d8d710a7d9de9888eb0fe5226dcdc8ce93efc7e53"
+        },
+        {
+            "date": 1732926111707,
+            "name": "pcs_combined-2024-11-29.log",
+            "hash": "90480397dd8f6800bf8dcc1ed74e7c526b8f723e9eadd16aab3d9c65b4de0b24"
+        },
+        {
+            "date": 1733008100267,
+            "name": "pcs_combined-2024-11-30.log",
+            "hash": "64ba09cb29b67cc2fc1d0b274352400e5ccc1f852003afc1b2d399f53c9f5805"
         }
     ],
     "hashType": "sha256"
