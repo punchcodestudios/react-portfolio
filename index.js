@@ -28,6 +28,7 @@ if (isDev) {
   );
 }
 
+logger.info("before startup: ");
 require("./startup/logging");
 const logger = winston.loggers.get("appLogger");
 require("./startup/routes")(app);
@@ -41,6 +42,7 @@ require("./startup/db")(logger);
 
 require("./startup/prod")(app);
 
+logger.info("after startup: ");
 // email
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -49,9 +51,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+logger.info("before static :");
 if (!isDev) {
   this.app.use(express.static(path.join(__dirname, "build")));
 }
+
+logger.info("after static");
 // General
 const port = PORT || 3000;
 app.listen(port, () => logger.info(`Listening on port ${port}...`));
