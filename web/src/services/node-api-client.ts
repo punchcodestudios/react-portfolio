@@ -2,7 +2,8 @@ import axios from "axios";
 import { FetchResponse } from "../entities/FetchResponse";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/api/",
+  baseURL:
+    "mongodb://pcs_user:512b81c9-f342-4465-894a-857d8c89c180@iad2-c17-1.mongo.objectrocket.com:52770/pcs_react_db?ssl=true",
   withCredentials: true,
 });
 
