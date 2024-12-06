@@ -6,7 +6,7 @@ require("winston-daily-rotate-file");
 const { combine, timestamp, json, errors, uncolorize } = winston.format;
 
 const dbLogger = new winston.transports.MongoDB({
-  db: "mongodb://localhost/reactportfolio",
+  db: process.env.MONGO_DB_CONNECTION,
   level: "error",
 });
 

@@ -1,12 +1,16 @@
 {
   "name": "punchcodestudios.com",
   "version": "1.0.0",
-  "description": "",
+  "description": "punchcodestudios.com portfolio site focusing primarily on react development",
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
     "client": "npm run dev --prefix web",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "22.12.0"
   },
   "keywords": [],
   "author": "(c) punchcodestudios",
