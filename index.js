@@ -28,9 +28,9 @@ if (isDev) {
   );
 }
 
-const logger = winston.loggers.get("appLogger");
 // logger.info("before startup: ");
 require("./startup/logging");
+const logger = winston.loggers.get("appLogger");
 require("./startup/routes")(app);
 require("./startup/db")(logger);
 
@@ -53,7 +53,7 @@ app.set("views", path.join(__dirname, "views"));
 
 // logger.info("before static :");
 // if (!isDev) {
-//   app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "build")));
 // }
 
 // logger.info("after static");
