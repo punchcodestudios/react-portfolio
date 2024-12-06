@@ -1,6 +1,30 @@
 const errorHandler = require("../middleware/handleError.js");
 const { Task } = require("../models/task.js");
 
+const getTasks = errorHandler(async (req, res, next) => {
+  let data = await Task.find({});
+  let filteredData = [
+    ...data.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)),
+  ];
+  // if (req.query.showActive == "true") {
+  //   filteredData = [
+  //     ...data
+  //       .filter((x) => !x.completedDate)
+  //       .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)),
+  //     ...filteredData,
+  //   ];
+  // }
+  // if (req.query.showCompleted == "true") {
+  //   filteredData = [
+  //     ...filteredData,
+  //     ...data
+  //       .filter((x) => x.completedDate)
+  //       .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)),
+  //   ];
+  // }
+  return res.status(200).send(filteredData);
+});
+
 const addTask = errorHandler(async (req, res, next) => {
   let task = new Task({
     title: req.body.title,
@@ -13,31 +37,6 @@ const addTask = errorHandler(async (req, res, next) => {
 
   data = await task.save();
   return res.status(200).json(data);
-});
-
-const getTasks = errorHandler(async (req, res, next) => {
-  console.error("HELLLLP: ", req.query);
-  let data = await Task.find({});
-  let filteredData = [];
-  if (req.query.showActive == "true") {
-    filteredData = [
-      ...data
-        .filter((x) => !x.completedDate)
-        .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)),
-      ...filteredData,
-    ];
-  }
-  if (req.query.showCompleted == "true") {
-    filteredData = [
-      ...filteredData,
-      ...data
-        .filter((x) => x.completedDate)
-        .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)),
-    ];
-  }
-
-  // console.log("filteredData: ", filteredData);
-  return res.status(200).send(filteredData);
 });
 
 const completeTask = errorHandler(async (req, res, next) => {

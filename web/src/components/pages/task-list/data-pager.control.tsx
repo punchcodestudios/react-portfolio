@@ -5,14 +5,13 @@ import { useEffect, useState } from "react";
 const DataPager = () => {
   const { tasks } = useTasks();
   const { taskQuery, setCurrentPage } = useTaskQueryStore();
-
   const [numPages, setNumPages] = useState<number>(1);
 
   useEffect(() => {
     const pages =
       tasks.length > 0 ? Math.ceil(tasks.length / taskQuery.pageSize) : 1;
     setNumPages(pages);
-  }, [tasks]);
+  }, [tasks, taskQuery.currentPage, taskQuery.pageSize]);
 
   return (
     <div>

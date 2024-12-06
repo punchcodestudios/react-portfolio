@@ -9,8 +9,8 @@ const GalleryAttributes = ({ gallery }: Props) => {
   return (
     <SimpleGrid columns={2} as="dl">
       <DefinitionItem term="Skills">
-        {gallery.genres?.map((skill) => (
-          <Text key={skill.id}>{skill.name}</Text>
+        {gallery.genres?.map((skill, index) => (
+          <Text key={index}>{skill.name}</Text>
         ))}
       </DefinitionItem>
       <DefinitionItem term="Disciplines">

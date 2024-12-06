@@ -13,16 +13,18 @@ const TaskProvider = ({ children }: Props) => {
   const [tasks, dispatch] = useReducer(taskReducer, []);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-  const taskQuery = useTaskQueryStore((s) => s.taskQuery);
+  const { taskQuery, setCurrentPage } = useTaskQueryStore();
 
   const addTask = async (addTask: AddTaskItem) => {
     const data = await TaskService.addTask(addTask);
+    setCurrentPage(1);
     await loadTasks();
     return Promise.resolve(data);
   };
 
   const completeTask = async (refid: string) => {
     const data = await TaskService.completeTask(refid);
+    setCurrentPage(1);
     await loadTasks();
     return Promise.resolve(data);
   };

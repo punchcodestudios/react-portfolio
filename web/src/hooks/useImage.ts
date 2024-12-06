@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 interface Props {
   imgSrc: string;
 }
+
 const useImage = ({ imgSrc }: Props) => {
   const [loaded, setLoaded] = useState(false);
 

@@ -1,6 +1,5 @@
 import useTaskQueryStore from "@/state-management/task/task-query-store";
 import DataPager from "./data-pager.control";
-import { useEffect } from "react";
 
 const TaskQueryBar = () => {
   const { setShowActive, setShowCompleted } = useTaskQueryStore();
@@ -8,6 +7,7 @@ const TaskQueryBar = () => {
   const showCompletedValue = useTaskQueryStore(
     (s) => s.taskQuery.showCompleted
   );
+  const { setCurrentPage } = useTaskQueryStore();
 
   return (
     <>
@@ -54,10 +54,14 @@ const TaskQueryBar = () => {
               className="me-1"
               checked={showActiveValue}
               // style={{ color: "white" }}
-              onChange={(e) => setShowActive(e.target.checked)}
+              onChange={(e) => {
+                setShowActive(e.target.checked);
+                setCurrentPage(1);
+              }}
             />
             Show Active
           </label>
+
           <label
             className="ms-2 me-2"
             htmlFor="showCompleted"
@@ -69,7 +73,10 @@ const TaskQueryBar = () => {
               name="show-completed"
               className="me-1"
               checked={showCompletedValue}
-              onChange={(e) => setShowCompleted(e.target.checked)}
+              onChange={(e) => {
+                setShowCompleted(e.target.checked);
+                setCurrentPage(1);
+              }}
             />
             Show Completed
           </label>

@@ -6,39 +6,29 @@
     "auditLog": ".e81528f465c783292e72c9bff0b58b7c8355561a-audit.json",
     "files": [
         {
-            "date": 1732431757085,
-            "name": "pcs_combined-2024-11-24.log",
-            "hash": "0c37bdd019a8a7f3d54b1da9b4f0a7cedc6df4f2eff12170b7eea0a294f8f114"
-        },
-        {
-            "date": 1732545117559,
-            "name": "pcs_combined-2024-11-25.log",
-            "hash": "561037a809bcd989dc6c5bdde00b95cbddb44275383896a6210d56cede229036"
-        },
-        {
-            "date": 1732600803403,
-            "name": "pcs_combined-2024-11-26.log",
-            "hash": "74462eea595a1f074c794af76440ea5c31fa83453280e1d49ac99ff269fc288d"
-        },
-        {
-            "date": 1732820880753,
-            "name": "pcs_combined-2024-11-28.log",
-            "hash": "af41bc1fb710aaa68fb4f49d8d710a7d9de9888eb0fe5226dcdc8ce93efc7e53"
-        },
-        {
-            "date": 1732926111707,
-            "name": "pcs_combined-2024-11-29.log",
-            "hash": "90480397dd8f6800bf8dcc1ed74e7c526b8f723e9eadd16aab3d9c65b4de0b24"
-        },
-        {
-            "date": 1733008100267,
-            "name": "pcs_combined-2024-11-30.log",
-            "hash": "64ba09cb29b67cc2fc1d0b274352400e5ccc1f852003afc1b2d399f53c9f5805"
-        },
-        {
-            "date": 1733032980091,
+            "date": 1733108691446,
             "name": "pcs_combined-2024-12-01.log",
-            "hash": "91a539d25259e339b1dc1fd6293012475d903569c3676070d44bc4797a0ffe04"
+            "hash": "ebf2809600de90a4cef6e897dad4f645388a211aef7512d28cb35c599c185dba"
+        },
+        {
+            "date": 1733174327987,
+            "name": "pcs_combined-2024-12-02.log",
+            "hash": "1a6b5c07cd8d40cb94f2e5deba7adce14d25d709f455b37ddc02dbb316d1a29d"
+        },
+        {
+            "date": 1733339153284,
+            "name": "pcs_combined-2024-12-04.log",
+            "hash": "9484f65a1bba589095ae495eb5bd72884a806b2df866ef8a2fc8b9e018fdc5f2"
+        },
+        {
+            "date": 1733453874647,
+            "name": "pcs_combined-2024-12-05.log",
+            "hash": "def1581653abe19e75128626aad9ffed1a67587c23d99f830ae083197a46a022"
+        },
+        {
+            "date": 1733465461956,
+            "name": "pcs_combined-2024-12-06.log",
+            "hash": "296188661c51ea6b329c97d20341f29b8f1ee8d6f40bb394c58f470564479140"
         }
     ],
     "hashType": "sha256"

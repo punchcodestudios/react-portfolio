@@ -1,6 +1,6 @@
 import { Skill } from "@/entities/Skill";
 import { Grid, GridItem } from "@chakra-ui/react";
-import { Badge, Image } from "react-bootstrap";
+import { Image } from "react-bootstrap";
 import { Card, Col, ListGroup } from "react-bootstrap";
 import { Tooltip } from "react-tooltip";
 

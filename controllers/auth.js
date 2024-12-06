@@ -8,7 +8,6 @@ const {
   generateJWT,
   getAccessTokenTTL,
 } = require("../utils/auth");
-// const { cannotHaveAUsernamePasswordPort } = require("whatwg-url");
 
 const signUp = errorHandler(async (req, res, next) => {
   const { error } = validate(req.body);
