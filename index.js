@@ -28,9 +28,9 @@ if (isDev) {
   );
 }
 
+const logger = winston.loggers.get("appLogger");
 logger.info("before startup: ");
 require("./startup/logging");
-const logger = winston.loggers.get("appLogger");
 require("./startup/routes")(app);
 require("./startup/db")(logger);
 
