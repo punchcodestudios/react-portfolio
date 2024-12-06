@@ -49,6 +49,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+if (!isDev) {
+  this.app.use(express.static(path.join(__dirname, "../web/dist")));
+}
 // General
 const port = PORT || 3000;
 app.listen(port, () => logger.info(`Listening on port ${port}...`));
