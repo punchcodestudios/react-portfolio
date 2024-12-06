@@ -1,5 +1,3 @@
-import { GraphDown } from "react-bootstrap-icons";
-
 const gradImage = require("../../../assets/img/graduation-logo.png");
 function ResumeEducationComponent() {
   return (

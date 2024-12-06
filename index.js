@@ -17,7 +17,7 @@ const isDev = NODE_ENV === "development";
 const cookieParser = require("cookie-parser");
 app.use(cookieParser(process.env.COOKIE_SECRET));
 const cors = require("cors");
-console.log(isDev);
+
 if (isDev) {
   app.use(
     cors({
@@ -39,7 +39,7 @@ if (!config.get("jwtPrivateKey")) {
   process.exit(1);
 }
 
-// CORS
+require("./startup/prod")(app);
 
 // email
 const path = require("path");

@@ -8,7 +8,6 @@ const {
   generateJWT,
   getAccessTokenTTL,
 } = require("../utils/auth");
-const { cannotHaveAUsernamePasswordPort } = require("whatwg-url");
 
 const signUp = errorHandler(async (req, res, next) => {
   const { error } = validate(req.body);
@@ -63,6 +62,7 @@ const logout = errorHandler(async (req, res, next) => {
 });
 
 const refreshAccessToken = errorHandler(async (req, res, next) => {
+  console.log("auth refresh");
   const { REFRESH_TOKEN_SECRET, ACCESS_TOKEN_SECRET, ACCESS_TOKEN_LIFE } =
     process.env;
   const { signedCookies } = req;

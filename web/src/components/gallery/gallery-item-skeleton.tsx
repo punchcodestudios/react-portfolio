@@ -1,5 +1,4 @@
-import React from "react";
-import { Button, Card, Col, Placeholder } from "react-bootstrap";
+import { Card, Col, Placeholder } from "react-bootstrap";
 
 const GalleryItemSkeleton = () => {
   return (

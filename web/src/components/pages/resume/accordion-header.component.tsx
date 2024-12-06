@@ -1,5 +1,3 @@
-import React from "react";
-
 interface Props {
   company_name: String;
   start_date: String;

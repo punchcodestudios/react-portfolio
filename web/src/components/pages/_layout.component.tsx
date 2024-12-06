@@ -16,8 +16,8 @@ function LayoutComponent() {
     // }
     try {
       const response = await apiClient.post({});
-      const { user, accessToken, expiresAt, status } = response;
-      console.log("response.status: ", status);
+      const { user, accessToken, expiresAt } = response;
+      console.log("response.status: ", response);
       if (response.status === 204) {
         console.log("resposne status === 204: ", response);
         logout();

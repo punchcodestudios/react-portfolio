@@ -1,0 +1,9 @@
+.query-bar-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $color-primary-light;
+  padding: 0.5rem;
+}

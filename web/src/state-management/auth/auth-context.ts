@@ -14,11 +14,11 @@ const initialState = {
 
 const AuthContext = React.createContext({
   ...initialState,
-  login: (user: LoginUser, token: string, expiresAt: string) => {},
+  login: (_user: LoginUser, _token: string, _expiresAt: string) => {},
   logout: () => {},
   updateUser: () => {},
-  setAuthenticationStatus: (status: string) => {},
-  registerUser: (user: RegisterUser) => {},
+  setAuthenticationStatus: (_status: string) => {},
+  registerUser: (_user: RegisterUser) => {},
 });
 
 export default AuthContext;

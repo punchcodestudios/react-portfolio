@@ -1,21 +1,17 @@
 import {
-  Box,
   Button,
   Heading,
   HStack,
   Image,
   List,
-  ListItem,
-  ListRoot,
   Spinner,
 } from "@chakra-ui/react";
 import useSkills from "../../hooks/useSkills";
-import getCroppedImageUrl from "../../services/image-url";
 import useGalleryQueryStore from "../../state-management/gallery/gallery-query-store";
 
 const SkillsList = () => {
   const { data, isLoading, error } = useSkills();
-  const selectedSkillId = useGalleryQueryStore((s) => s.galleryQuery.skillId);
+  // const selectedSkillId = useGalleryQueryStore((s) => s.galleryQuery.skillId);
   const setSelectedSkillId = useGalleryQueryStore((s) => s.setSkillId);
 
   if (error) return null;
@@ -30,24 +26,24 @@ const SkillsList = () => {
         Skills
       </Heading>
       <List.Root listStyleType="none">
-        {data?.results.map((skill) => (
-          <List.Item key={skill.id} paddingY="5px">
+        {data?.results.map((skill, index) => (
+          <List.Item key={index} paddingY="5px">
             <HStack>
               <Image
                 boxSize="32px"
                 borderRadius={8}
                 objectFit="cover"
-                src={getCroppedImageUrl(skill.image_background)}
+                src={""}
               />
               <Button
                 whiteSpace="normal"
                 textAlign="left"
-                fontWeight={skill.id === selectedSkillId ? "bold" : "normal"}
-                onClick={() => setSelectedSkillId(skill.id)}
+                fontWeight="bold"
+                onClick={() => setSelectedSkillId(1)}
                 fontSize="md"
                 variant="ghost"
               >
-                {skill.name}
+                skillname {skill.all[0].name}
               </Button>
             </HStack>
           </List.Item>

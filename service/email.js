@@ -3,17 +3,18 @@
 //https://www.geeksforgeeks.org/server-side-rendering-using-express-js-and-ejs-template-engine/
 
 const nodemailer = require("nodemailer");
-
 const sendMail = async (to, from, subject, text, html) => {
   try {
     let transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "punchcodestudios.com",
+      port: 425,
+      secure: true,
       auth: {
-        type: "OAuth2",
-        user: process.env.EMAIL_USER,
-        clientId: process.env.OAUTH_CLIENT_ID,
-        clientSecret: process.env.OAUTH_CLIENT_SECRET,
-        refreshToken: process.env.OAUTH_CLIENT_REFRESH_TOKEN,
+        user: "admin@punchcodestudios.com",
+        password: "Dr@g0n8473",
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     });
     const mailOptions = {
@@ -24,11 +25,17 @@ const sendMail = async (to, from, subject, text, html) => {
       html: html,
     };
 
-    const response = await transporter.sendMail(mailOptions);
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("error: ", error);
+        throw new Error("email failed to send");
+      }
+    });
+    // const response = await transporter.sendMail(mailOptions);
     // console.log("service/email.js:28 - ", response);
-    return response;
+    // return response;
   } catch (error) {
-    // console.error("service/email.js:36 -- ", error);
+    console.error("service/email.js:36 -- ", error);
     throw Error(error);
   }
 };
