@@ -53,7 +53,7 @@ app.set("views", path.join(__dirname, "views"));
 
 // logger.info("before static :");
 // if (!isDev) {
-app.use(express.static(path.join(__dirname, "build")));
+// app.use(express.static(path.join(__dirname, "build")));
 // }
 
 // logger.info("after static");
