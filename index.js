@@ -50,7 +50,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 if (!isDev) {
-  this.app.use(express.static(path.join(__dirname, "../web/dist")));
+  this.app.use(express.static(path.join(__dirname, "./build")));
 }
 // General
 const port = PORT || 3000;
