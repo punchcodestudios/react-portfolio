@@ -42,7 +42,7 @@ require("./startup/db")(logger);
 
 require("./startup/prod")(app);
 
-// logger.info("after startup: ");
+logger.info("after startup: ");
 // email
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -51,12 +51,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+logger.info(path.join(__dirname, "/build"));
 // logger.info("before static :");
 // if (!isDev) {
-// app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "/build")));
 // }
-
-logger.info("Path: ", path.join(__dirname, "build"));
 // logger.info("after static");
 // General
 const port = PORT || 3000;
