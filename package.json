@@ -8,7 +8,7 @@
     "client": "npm run dev --prefix web",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "production": "node index.js",
-    "build": "npm run build --prefix web",
+    "build": "node index.js",
     "start": "node index.js"
   },
   "engines": {
