@@ -1,9 +1,7 @@
 import axios from "axios";
-import {} from "dotenv/config";
 
 const axiosInstance = axios.create({
-  baseURL:
-    "mongodb://pcs_user:512b81c9-f342-4465-894a-857d8c89c180@iad2-c17-1.mongo.objectrocket.com:52770/pcs_react_db?ssl=true",
+  baseURL: "https://punchcodestudios-980650c93199.herokuapp.com/api/",
   withCredentials: true,
 });
 
