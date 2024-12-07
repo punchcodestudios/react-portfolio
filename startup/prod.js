@@ -7,7 +7,8 @@ module.exports = function (app) {
   app.use(
     contentSecurityPolicy({
       directives: {
-        connectSrc: ["self", "https://api.rawg.io/api/*"],
+        defaultSrc: ["'self'"],
+        connectSrc: ["'self'", "api.rawg.io"],
       },
     })
   );
