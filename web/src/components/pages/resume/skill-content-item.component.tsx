@@ -5,7 +5,7 @@ export interface Props {
 }
 
 const SkillContentItem = ({ item }: Props) => {
-  return <div>{item.name}</div>;
+  return <div>{item?.name || "no content"}</div>;
 };
 
 export default SkillContentItem;

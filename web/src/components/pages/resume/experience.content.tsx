@@ -1,19 +1,25 @@
 import useExperience from "@/hooks/useExperiences";
-import { Accordion, ListGroup } from "react-bootstrap";
-import SidebarMenu from "react-bootstrap-sidebar-menu";
+import { useState } from "react";
+import { Accordion } from "react-bootstrap";
+import { useMediaQuery } from "react-responsive";
 import Scrollable from "../../common/scrollable/scrollable.component";
 import AccordionHeader from "./accordion-header.component";
-import { useState } from "react";
-import { useMediaQuery } from "react-responsive";
+import ExperienceLineItems from "./experience-line-items.component";
+import ExperienceSkills from "./experience-skills-sidebar.component";
+import ExperienceSkillsMobile from "./experience-skills-sidebar.component.mobile";
 
 function ResumeExperienceComponent() {
   const { data, isLoading, error } = useExperience();
+
   const [toggle, setToggle] = useState(false);
   const isMobile = useMediaQuery({ query: `(max-width: 991px)` });
+
   if (error) return <div>an error has occurred</div>;
   if (isLoading) return <div>Loading....</div>;
+
   return (
     <section className="">
+      {}
       <Accordion defaultActiveKey="0">
         {data?.results.map((experience, index) => {
           return (
@@ -39,7 +45,6 @@ function ResumeExperienceComponent() {
                       type="button"
                       aria-label="Toggle navigation"
                       className="navbar-toggler collapsed col-12"
-                      // style={{ border: "0" }}
                       onClick={() => {
                         setToggle(!toggle);
                       }}
@@ -47,56 +52,18 @@ function ResumeExperienceComponent() {
                       {toggle ? "hide skill list" : "show skill list"}
                     </button>
                   </nav>
-                  {toggle && isMobile && (
-                    <SidebarMenu className="row">
-                      <SidebarMenu.Body className="d-flex flex-wrap justify-content-between">
-                        {experience.skills?.map((skill) => {
-                          return (
-                            <div
-                              className="p-2"
-                              key={skill.refid}
-                              style={{
-                                fontSize: "small",
-                                border: "0",
-                              }}
-                            >
-                              {skill.name}
-                            </div>
-                          );
-                        })}
-                      </SidebarMenu.Body>
-                    </SidebarMenu>
+                  {toggle && isMobile && experience?.skills?.length > 0 && (
+                    <ExperienceSkillsMobile
+                      skills={experience.skills}
+                    ></ExperienceSkillsMobile>
                   )}
                   <div className="d-flex flex-container">
-                    <SidebarMenu expand="xl" hide="lg" className="row ms-2">
-                      <SidebarMenu.Body style={{ width: "300px" }}>
-                        <ListGroup variant="flush">
-                          {experience.skills?.map((skill) => {
-                            return (
-                              <ListGroup.Item
-                                key={skill.refid}
-                                style={{ fontSize: "medium", border: "0" }}
-                              >
-                                {skill.name}
-                              </ListGroup.Item>
-                            );
-                          })}
-                        </ListGroup>
-                      </SidebarMenu.Body>
-                    </SidebarMenu>
-                    <ListGroup variant="flush">
-                      {experience.experience_line_items?.map((lineitem) => {
-                        return (
-                          <ListGroup.Item
-                            key={lineitem.refid}
-                            style={{ fontSize: "large" }}
-                            className="mt-3 pb-3"
-                          >
-                            <p>{lineitem.text}</p>
-                          </ListGroup.Item>
-                        );
-                      })}
-                    </ListGroup>
+                    <ExperienceSkills
+                      skills={experience?.skills}
+                    ></ExperienceSkills>
+                    <ExperienceLineItems
+                      items={experience?.experience_line_items}
+                    ></ExperienceLineItems>
                   </div>
                 </Accordion.Body>
               </div>

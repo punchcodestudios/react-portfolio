@@ -7,9 +7,12 @@ import { Tooltip } from "react-tooltip";
 interface Props {
   data: Skill[] | [];
 }
+
 const SkillGroup = ({ data }: Props) => {
   const image = require("../../../assets/img/about-me-hero.png");
-  console.log(data);
+  if (data.length == 0) {
+    return <div>no content available</div>;
+  }
   return (
     <Grid
       templateAreas={{
