@@ -50,9 +50,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-if (!isDev) {
-  app.use(express.static(path.join(__dirname, "/build")));
-}
+app.use(express.static(path.join(__dirname, "/web/dist")));
+
+app.get("*", (req, res) => {
+  console.log("are we here");
+  res.sendFile(path.join(__dirname, "/web/dist/index.html"));
+});
 
 // General
 const port = PORT || 3000;

@@ -5,6 +5,9 @@ require("winston-mongodb");
 require("winston-daily-rotate-file");
 const { combine, timestamp, json, errors, uncolorize } = winston.format;
 
+const path = require("path");
+const logDir = path.join(path.resolve(__dirname, ".."), "/logs");
+
 const dbLogger = new winston.transports.MongoDB({
   db: process.env.MONGO_DB_CONNECTION,
   level: "error",
@@ -22,6 +25,7 @@ const dailyFile = new winston.transports.DailyRotateFile({
   datePattern: "YYYY-MM-DD",
   maxFiles: "14d",
   level: "info",
+  dirname: logDir,
   format: combine(timestamp(), json(), uncolorize()),
 });
 
@@ -30,6 +34,7 @@ const dailyErrorFile = new winston.transports.DailyRotateFile({
   datePattern: "YYYY-MM-DD",
   maxFiles: "30d",
   level: "error",
+  dirname: logDir,
   format: combine(
     errorFilter(),
     errors({ stack: true }),
@@ -44,6 +49,7 @@ const dailyExceptionFile = new winston.transports.DailyRotateFile({
   datePattern: "YYYY-MM-DD",
   maxFiles: "30d",
   level: "error",
+  dirname: logDir,
   format: combine(errors({ stack: true }), timestamp(), json()),
 });
 
@@ -52,6 +58,7 @@ const dailyRejectionFile = new winston.transports.DailyRotateFile({
   datePattern: "YYYY-MM-DD",
   maxFiles: "30d",
   level: "error",
+  dirname: logDir,
   format: combine(errors({ stack: true }), timestamp(), json()),
 });
 

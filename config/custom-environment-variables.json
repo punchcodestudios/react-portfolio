@@ -1,4 +1,4 @@
 {
-  "jwtPrivateKey": "punchcodestudio_jwtPrivateKey",
+  "jwtPrivateKey": "PUNCH_CODE_STUDIOS_PRIVATE_KEY",
   "db": "pcs_react_db"
 }
