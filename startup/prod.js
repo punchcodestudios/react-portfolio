@@ -9,6 +9,7 @@ module.exports = function (app) {
       directives: {
         defaultSrc: ["'self'"],
         connectSrc: ["'self'", "api.rawg.io"],
+        imgSrc: ["'self'", "api.rawg.io"],
       },
     })
   );
