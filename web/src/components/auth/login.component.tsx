@@ -1,20 +1,22 @@
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-
-import { STATUS } from "../../utils/utils";
-
+import { Link } from "react-router-dom";
 import { LoginUser } from "@/entities/User";
-import NodeAPIClient from "@/services/node-api-client";
 import useAuth from "@/state-management/auth/use-auth";
-import { useState } from "react";
+import { Form, Spinner } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 import ButtonControl from "../common/button/button.control";
-import { Form, Spinner } from "react-bootstrap";
+import { useEffect } from "react";
 
 const Login = () => {
-  const { login, setAuthenticationStatus } = useAuth();
-  const apiClient = new NodeAPIClient<LoginUser>("/auth/login");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { loginUser, isLoading, error } = useAuth();
+
+  if (error) {
+    toast(error);
+  }
+
+  useEffect(() => {
+    console.log(isLoading);
+  }, [isLoading]);
 
   const {
     handleSubmit,
@@ -28,31 +30,12 @@ const Login = () => {
     mode: "onChange",
   });
 
-  const navigate = useNavigate();
-
   const onSubmit = async (values: LoginUser) => {
     const user = {
       username: values.username,
       password: values.password,
     };
-    setAuthenticationStatus(STATUS.PENDING);
-    setIsLoading(true);
-    apiClient
-      .post(user)
-      .then((response) => {
-        setAuthenticationStatus(STATUS.SUCCEEDED);
-        // console.log("JHGJHGJ", response);
-        const { user: userObj, token, expiresAt } = response;
-        login(userObj, token, expiresAt);
-        navigate("/");
-      })
-      .catch((error) => {
-        // console.log("errorasdas: ", error);
-        toast(error.response.data.message);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    loginUser(user);
   };
 
   return (

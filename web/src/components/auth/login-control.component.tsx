@@ -1,24 +1,17 @@
-import NodeAPIClient from "@/services/node-api-client";
 import useAuth from "@/state-management/auth/use-auth";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const LoginControl = () => {
-  const { isAuthenticated, logout } = useAuth();
-  const [status, setStatus] = useState<Boolean>(false);
-  const apiClient = new NodeAPIClient("./auth/logout");
+  const { user, logoutUser } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setStatus(isAuthenticated);
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   setStatus(isAuthenticated);
+  // }, [isAuthenticated]);
 
   const handleClick = () => {
-    if (status) {
-      apiClient.post({}).then((response) => {
-        console.log("response: ", response);
-        return logout();
-      });
+    if (user?.isAuthenticated) {
+      return logoutUser(user.id);
     }
     navigate("/login");
   };
@@ -30,7 +23,7 @@ const LoginControl = () => {
       className="btn btn-primary"
       onClick={handleClick}
     >
-      {status ? "Logout" : "Login"}
+      {user?.isAuthenticated ? "Logout" : "Login"}
     </button>
   );
 };

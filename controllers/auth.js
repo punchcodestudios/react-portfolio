@@ -1,6 +1,7 @@
 const createError = require("http-errors");
 const jwt = require("jsonwebtoken");
 const { User, validate } = require("../models/user");
+const { WebToken } = require("../models/webtoken");
 const errorHandler = require("../middleware/handleError.js");
 
 const {
@@ -35,7 +36,6 @@ const signUp = errorHandler(async (req, res, next) => {
 });
 
 const login = errorHandler(async (req, res, next) => {
-  console.log("login from server.");
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -62,7 +62,7 @@ const logout = errorHandler(async (req, res, next) => {
 });
 
 const refreshAccessToken = errorHandler(async (req, res, next) => {
-  console.log("auth refresh");
+  // console.log("auth refresh");
   const { REFRESH_TOKEN_SECRET, ACCESS_TOKEN_SECRET, ACCESS_TOKEN_LIFE } =
     process.env;
   const { signedCookies } = req;
@@ -72,18 +72,15 @@ const refreshAccessToken = errorHandler(async (req, res, next) => {
     return next(createError(401, "No refresh token found."));
   }
 
-  // TODO look into putting these into database
-  // const refreshTokenInDB = tokens.find(
-  //   (token) => token.refreshToken === refreshToken
-  // );
+  const decodedToken = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+  const { userId } = decodedToken;
 
   // if (!refreshTokenInDB) {
   //   await clearTokens(req, res, next);
   //   const error = createError.Unauthorized();
   //   throw error;
   // }
-  const decodedToken = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
-  const { userId } = decodedToken;
+
   const user = await User.findById(userId);
   // if (!user) {
   //   await clearTokens(req, res);

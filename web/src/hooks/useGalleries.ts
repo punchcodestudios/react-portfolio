@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 // import ms from "ms";
-import APIClient from "../services/api-client";
+import APIClient from "../services/api-client_DELETE";
 import { FetchResponse } from "../entities/FetchResponse";
 import useGalleryQueryStore from "../state-management/gallery/gallery-query-store";
 import { Gallery } from "../entities/Gallery";

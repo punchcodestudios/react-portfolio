@@ -1,5 +1,5 @@
 const createError = require("http-errors");
-const { users } = require("../data/data");
+// const { users } = require("../data/data");
 
 const getUserList = async (req, res, next) => {
   const usersListWithoutPassword = users.map((user) => {

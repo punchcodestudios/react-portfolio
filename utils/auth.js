@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
-const { tokens } = require("../data/data");
+const { WebToken } = require("../models/webtoken");
 const dev = process.env.NODE_ENV === "development";
+const { REFRESH_TOKEN_SECRET } = process.env;
 
 const generateJWT = (userId, secret, expirationTime) => {
   return jwt.sign({ userId }, secret, { expiresIn: expirationTime });
@@ -11,12 +12,7 @@ const clearTokens = async (req, res) => {
   const { refreshToken } = signedCookies;
 
   if (refreshToken) {
-    const index = tokens.findIndex(
-      (token) => token.refreshToken === refreshToken
-    );
-    if (index) {
-      tokens.splice(index, 1);
-    }
+    await WebToken.findOneAndDelete({ value: refreshToken });
   }
 
   res.clearCookie("refreshToken", {
@@ -26,7 +22,7 @@ const clearTokens = async (req, res) => {
   });
 };
 
-const getAccessTokenTTL = () => {
+const getAccessTokenTTL = (req, res) => {
   return process.env.ACCESS_TOKEN_LIFE * 60 * 1000 - 10 * 1000;
 };
 
@@ -34,9 +30,22 @@ const getRefreshTokenTTL = () => {
   return process.env.REFRESH_TOKEN_LIFE * 60 * 1000 - 10 * 1000;
 };
 
+const persistRefreshToken = async (token) => {
+  const { userId, expiresAt } = jwt.verify(token, REFRESH_TOKEN_SECRET);
+  const persist = new WebToken({
+    name: "refresh",
+    userId: userId,
+    token: token,
+    expiresAt: expiresAt,
+  });
+  console.log("persist: ", persist);
+  return await persist.save();
+};
+
 module.exports = {
   generateJWT,
   clearTokens,
   getAccessTokenTTL,
   getRefreshTokenTTL,
+  persistRefreshToken,
 };

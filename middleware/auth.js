@@ -3,7 +3,11 @@ const createError = require("http-errors");
 const ms = require("ms");
 const { User } = require("../models/user");
 
-const { generateJWT, getAccessTokenTTL } = require("../utils/auth");
+const {
+  generateJWT,
+  getAccessTokenTTL,
+  persistRefreshToken,
+} = require("../utils/auth");
 const { getTimeZoneDate } = require("../utils/date-utils");
 
 const {
@@ -39,6 +43,8 @@ const generateAuthTokens = async (req, res, next) => {
       signed: true,
       expires: getTimeZoneDate(new Date(Date.now() + ms(REFRESH_TOKEN_LIFE))),
     });
+
+    await persistRefreshToken(refreshToken);
 
     return res.status(200).json({
       user,
@@ -87,7 +93,7 @@ const isAuthenticated = async (req, res, next) => {
     }
 
     const { userId } = decodedToken;
-    const user = users.find((user) => user.id == userid);
+    const user = users.find((user) => user.id == userId);
     if (!user) {
       const error = createError.Unauthorized();
       throw error;

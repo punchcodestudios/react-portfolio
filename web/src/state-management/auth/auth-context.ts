@@ -1,24 +1,22 @@
-import * as React from "react";
-
-import { LoginUser, RegisterUser } from "../../entities/User";
+import React, { Dispatch } from "react";
+import { AuthAction } from "./auth-reducer";
+import { LoginUser, RegisterUser, User } from "../../entities/User";
 import { STATUS } from "../../utils/utils";
 
 const initialState = {
-  user: {} as LoginUser | RegisterUser,
-  token: null,
-  expiresAt: Date.now(),
-  isAuthenticated: false,
-  status: STATUS.PENDING,
-  timetlive: 0,
+  user: {} as User,
 };
 
-const AuthContext = React.createContext({
-  ...initialState,
-  login: (_user: LoginUser, _token: string, _expiresAt: string) => {},
-  logout: () => {},
-  updateUser: () => {},
-  setAuthenticationStatus: (_status: string) => {},
-  registerUser: (_user: RegisterUser) => {},
-});
+interface AuthContextType {
+  user: User;
+  isLoading: boolean;
+  error: string;
+  dispatch: Dispatch<AuthAction>;
+  registerUser: (user: RegisterUser) => Promise<User>;
+  loginUser: (user: LoginUser) => Promise<User>;
+  logoutUser: (_id: string) => Promise<Boolean>;
+  refreshAccessToken: () => void;
+}
 
+const AuthContext = React.createContext<AuthContextType>({} as AuthContextType);
 export default AuthContext;

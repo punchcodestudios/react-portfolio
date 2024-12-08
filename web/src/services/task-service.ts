@@ -9,7 +9,7 @@ const TaskService = {
       return response;
     } catch (error) {
       console.error("Error fetching tasks: ", error);
-      throw new Error("Could not fetch tasks");
+      throw error;
     }
   },
   addTask: async (task: AddTaskItem) => {
@@ -18,12 +18,17 @@ const TaskService = {
       return response;
     } catch (error) {
       console.error("Error adding tasks: ", error);
-      throw new Error("Error adding task");
+      throw error;
     }
   },
   completeTask: async (refid: string) => {
-    const response = await completeTask(refid);
-    return response;
+    try {
+      const response = await completeTask(refid);
+      return response;
+    } catch (error) {
+      console.error("Error completing tasks", error);
+      throw error;
+    }
   },
 };
 

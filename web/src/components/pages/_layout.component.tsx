@@ -1,44 +1,21 @@
-import NodeAPIClient from "@/services/node-api-client";
+import useAuth from "@/state-management/auth/use-auth";
 import { Box } from "@chakra-ui/react";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import MainNavComponent from "../navigation/main-nav/main-nav.component";
 import SubNavComponent from "../navigation/sub-nav/sub-nav.component";
-import useAuth from "@/state-management/auth/use-auth";
 
 function LayoutComponent() {
-  const { login, logout, isAuthenticated, expiresAt } = useAuth();
-  const apiClient = new NodeAPIClient("/auth/refresh");
-
-  const refreshAccessToken = useCallback(async () => {
-    // if (!isAuthenticated) {
-    //   return;
-    // }
-    try {
-      const response = await apiClient.post({});
-      const { user, accessToken, expiresAt } = response;
-      console.log("response.status: ", response);
-      if (response.status === 204) {
-        console.log("resposne status === 204: ", response);
-        logout();
-      } else {
-        console.log("all is well, carry on: ", response);
-        login(user, accessToken, expiresAt);
-      }
-    } catch (error) {
-      console.log("error caught: ", error);
-      logout();
-    }
-  }, [login, logout]);
+  const { user, refreshAccessToken } = useAuth();
 
   useEffect(() => {
-    console.log("in layout use effect");
+    // console.log("in layout use effect");
     refreshAccessToken();
   }, [refreshAccessToken]);
 
   useEffect(() => {
     let refreshAccessTokenTimerId: NodeJS.Timeout;
-    if (isAuthenticated) {
+    if (user?.isAuthenticated) {
       console.log("heartbeat");
       refreshAccessTokenTimerId = setTimeout(() => {
         refreshAccessToken();
@@ -46,11 +23,11 @@ function LayoutComponent() {
     }
 
     return () => {
-      if (isAuthenticated && refreshAccessTokenTimerId) {
+      if (user?.isAuthenticated && refreshAccessTokenTimerId) {
         clearTimeout(refreshAccessTokenTimerId);
       }
     };
-  }, [expiresAt, isAuthenticated, refreshAccessToken]);
+  }, [user, refreshAccessToken]);
 
   return (
     <div className="container site-container">

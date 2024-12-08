@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://punchcodestudios-980650c93199.herokuapp.com/api/",
+  baseURL: "http://localhost:3000/api",
   withCredentials: true,
 });
 
@@ -39,7 +39,7 @@ class NodeAPIClient<T> {
   }
 
   getAll = (): Promise<T> => {
-    console.log("API: ", { ...this.params });
+    // console.log("API: ", { ...this.params });
     return axiosInstance
       .get<T>(this.endpoint, { params: { ...this.params } })
       .then((res) => res.data);
@@ -52,6 +52,7 @@ class NodeAPIClient<T> {
   };
 
   post = async (entity: T | {}): Promise<T> => {
+    console.log("env url: ", process.env.NODE_ENV);
     // console.log("CLIENT ITEM: ", entity);
     return await axiosInstance
       .post(this.endpoint, entity)

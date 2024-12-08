@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 // import platforms from "../data/platforms";
-import APIClient from "../services/api-client";
+import APIClient from "../services/api-client_DELETE";
 // import ms from "ms";
 import { Discipline } from "../entities/Discipline";
 

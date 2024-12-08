@@ -1,10 +1,8 @@
 import { RegisterUser } from "@/entities/User";
-import NodeAPIClient from "@/services/node-api-client";
 import useAuth from "@/state-management/auth/use-auth";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { Form, Link, useNavigate } from "react-router-dom";
-import { STATUS } from "../../utils/utils";
 import ButtonControl from "../common/button/button.control";
 
 const Signup = () => {
@@ -24,8 +22,7 @@ const Signup = () => {
   });
 
   const navigate = useNavigate();
-  const { setAuthenticationStatus } = useAuth();
-  const apiClient = new NodeAPIClient<RegisterUser>("/auth/sign-up");
+  const { registerUser } = useAuth();
 
   const onSubmit = async (values: RegisterUser) => {
     const newUser = {
@@ -37,14 +34,11 @@ const Signup = () => {
     };
 
     try {
-      setAuthenticationStatus(STATUS.PENDING);
-      await apiClient.post(newUser);
-      setAuthenticationStatus(STATUS.SUCCEEDED);
+      await registerUser(newUser);
       navigate("/login");
     } catch (error: any) {
       console.log("here: ", error);
       toast.error(error.response.data.message);
-      setAuthenticationStatus(STATUS.FAILED);
     }
   };
 

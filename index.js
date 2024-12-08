@@ -3,6 +3,7 @@ const winston = require("winston");
 require("dotenv").config();
 
 process.on("unhandledRejection", (ex) => {
+  console.log("unhandled Rejection: ", ex);
   throw `${ex.message} | exception: ${ex}`;
 });
 
@@ -34,11 +35,11 @@ const logger = winston.loggers.get("appLogger");
 require("./startup/routes")(app);
 require("./startup/db")(logger);
 
-const config = require("config");
-if (!config.get("jwtPrivateKey")) {
-  console.error("FATAL ERROR: private key is not defined.");
-  process.exit(1);
-}
+// const config = require("config");
+// if (!config.get("jwtPrivateKey")) {
+//   console.error("FATAL ERROR: private key is not defined.");
+//   process.exit(1);
+// }
 
 require("./startup/prod")(app);
 

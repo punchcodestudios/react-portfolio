@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import APIClient from "../services/api-client";
+import APIClient from "../services/api-client_DELETE";
 import { Gallery } from "../entities/Gallery";
 
 const apiClient = new APIClient<Gallery>("/games");

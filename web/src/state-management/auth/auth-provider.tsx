@@ -1,131 +1,103 @@
-import * as React from "react";
-
-import { LoginUser, RegisterUser } from "../../entities/User";
-import { STATUS } from "../../utils/utils";
+import React, { useReducer, useState } from "react";
+import { LoginUser, RegisterUser, User } from "../../entities/User";
 import AuthContext from "./auth-context";
+import authService from "@/services/auth-service";
+import authReducer from "./auth-reducer";
 
-const authReducer = (state: any, action: any) => {
-  switch (action.type) {
-    case "LOGIN": {
-      console.log("login action hit: ", action.payload);
-      return {
-        user: action.payload.user,
-        token: action.payload.token,
-        expiresAt: action.payload.expiresAt,
-        isAuthenticated: true,
-        verifyingToken: false,
-        status: STATUS.SUCCEEDED,
-      };
-    }
-    case "LOGOUT": {
-      console.log("logout action hit: ");
-      return {
-        ...state,
-        isAuthenticated: false,
-        status: STATUS.IDLE,
-      };
-    }
-    case "UPDATE_USER": {
-      return {
-        ...state,
-        user: action.payload.user,
-      };
-    }
-    case "STATUS": {
-      return {
-        ...state,
-        status: action.payload.status,
-      };
-    }
-    case "REGISTER": {
-      console.log("register action hit: ", action.payload);
-      return {
-        ...state,
-        user: action.payload.user,
-      };
-    }
-    default: {
-      throw new Error(`Unhandled action type: ${action.type}`);
-    }
-  }
-};
-
-const initialState = {
-  user: {} as LoginUser | RegisterUser,
-  token: null,
-  expiresAt: Date.now(),
-  isAuthenticated: false,
-  status: STATUS.PENDING,
-  timetlive: 0,
-};
 interface Props {
   children: React.ReactNode;
 }
+
 const AuthProvider = ({ children }: Props) => {
-  const [state, dispatch] = React.useReducer(authReducer, initialState);
+  const [state, dispatch] = useReducer(authReducer, {} as User);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
-  const login = React.useCallback(
-    (user: LoginUser, token: string, expiresAt: string) => {
-      dispatch({
-        type: "LOGIN",
-        payload: {
-          user,
-          token,
-          expiresAt,
-        },
+  const logoutUser = React.useCallback((id: string) => {
+    setIsLoading(true);
+    try {
+      return authService.logout(id).then((response) => {
+        dispatch({ type: "LOGOUT_USER" });
+        return Promise.resolve(response);
       });
-    },
-    []
-  );
-
-  const logout = React.useCallback(() => {
-    dispatch({
-      type: "LOGOUT",
-    });
+    } catch (error) {
+      setError("Error logging out user");
+      return Promise.reject(false);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
-  const updateUser = React.useCallback((user: any) => {
-    dispatch({
-      type: "UPDATE_USER",
-      payload: {
-        user,
-      },
-    });
-  }, []);
-
-  const setAuthenticationStatus = React.useCallback((status: string) => {
-    dispatch({
-      type: "STATUS",
-      payload: {
-        status,
-      },
-    });
-  }, []);
-
-  const registerUser = React.useCallback(
-    (user: RegisterUser, token: string, expiresAt: string) => {
-      dispatch({
-        type: "REGISTER",
-        payload: {
-          user,
-          token,
-          expiresAt,
-        },
+  const registerUser = React.useCallback((register: RegisterUser) => {
+    let user = {} as User;
+    try {
+      return authService.register(register).then((response) => {
+        user = { ...user, ...response };
+        dispatch({ type: "REGISTER_USER", payload: user });
+        return Promise.resolve(user);
       });
-    },
-    []
-  );
+    } catch (error) {
+      setError("Error registering user");
+      return Promise.reject(false);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const loginUser = React.useCallback((login: LoginUser) => {
+    let user = {} as User;
+    setIsLoading(true);
+    try {
+      return authService.login(login).then((response) => {
+        user = { ...user, ...response };
+        dispatch({ type: "LOGIN_USER", payload: user });
+        return Promise.resolve(user);
+      });
+    } catch (error) {
+      setError("Error logging-in user");
+      return Promise.reject({} as User);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const refreshAccessToken = React.useCallback(async () => {
+    try {
+      const response = await authService.refreshAccessToken();
+      console.log("refreshAcessToken.response: ", response);
+      // if (response.status === 204) {
+      //   console.log("response status === 204: ", response);
+      //   logoutUser(user.id);
+      // } else {
+      //   console.log("all is well, carry on: ", response);
+      //   loginUser(user);
+      // }
+    } catch (error) {
+      console.log("error caught: ", error);
+      //logoutUser(user.id);
+    }
+  }, []);
 
   const value = React.useMemo(
     () => ({
-      ...state,
-      login,
-      logout,
-      updateUser,
-      setAuthenticationStatus,
+      user: { ...state },
+      isLoading,
+      error,
+      dispatch,
+      loginUser,
+      logoutUser,
       registerUser,
+      refreshAccessToken,
     }),
-    [state, setAuthenticationStatus, login, logout, updateUser, registerUser]
+    [
+      state,
+      isLoading,
+      error,
+      loginUser,
+      logoutUser,
+      registerUser,
+      refreshAccessToken,
+    ]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
