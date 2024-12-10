@@ -12,7 +12,7 @@ const clearTokens = async (req, res) => {
   const { refreshToken } = signedCookies;
 
   if (refreshToken) {
-    await WebToken.findOneAndDelete({ value: refreshToken });
+    await WebToken.findOneAndDelete({ token: refreshToken });
   }
 
   res.clearCookie("refreshToken", {
@@ -39,6 +39,7 @@ const persistRefreshToken = async (token) => {
     expiresAt: expiresAt,
   });
   console.log("persist: ", persist);
+  await WebToken.findOneAndDelete({ userId: userId });
   return await persist.save();
 };
 

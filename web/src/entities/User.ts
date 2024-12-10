@@ -12,10 +12,21 @@ export interface RegisterUser {
 }
 
 export interface User {
-  id: string;
-  hame: string;
+  _id: string;
+  name: string;
   username: string;
   email: string;
+  roles: string[];
+}
+
+export interface UserAuth {
+  expiresAt: string;
+  timeToLive: number;
+  token: string;
+}
+
+export interface UserContent {
   isAuthenticated: boolean;
-  isAdmin: boolean;
+  user: User;
+  userAuth: UserAuth;
 }

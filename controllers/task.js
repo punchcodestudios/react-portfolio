@@ -22,7 +22,7 @@ const getTasks = errorHandler(async (req, res, next) => {
   //       .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)),
   //   ];
   // }
-  return res.status(200).send(filteredData);
+  return res.status(200).send({ content: filteredData });
 });
 
 const addTask = errorHandler(async (req, res, next) => {

@@ -17,15 +17,19 @@ const {
   REFRESH_TOKEN_SECRET,
   NODE_ENV,
 } = process.env;
+
 const dev = NODE_ENV === "development";
-// const { users, tokens } = require("../data/data");
 
 const generateAuthTokens = async (req, res, next) => {
   try {
     const user = await User.findOne({ _id: req.userId }).select([
+      "_id",
+      "name",
       "username",
-      "isAdmin",
+      "email",
+      "roles",
     ]);
+
     const refreshToken = generateJWT(
       req.userId,
       REFRESH_TOKEN_SECRET,
@@ -46,12 +50,16 @@ const generateAuthTokens = async (req, res, next) => {
 
     await persistRefreshToken(refreshToken);
 
-    return res.status(200).json({
-      user,
+    const userAuth = {
       token: accessToken,
       expiresAt: getTimeZoneDate(new Date(Date.now() + ms(ACCESS_TOKEN_LIFE))),
       timetolive: getAccessTokenTTL(),
+    };
+
+    return res.status(200).json({
+      user,
       isAuthenticated: true,
+      userAuth,
     });
   } catch (error) {
     return next(error);
@@ -110,18 +118,3 @@ module.exports = {
   generateAuthTokens,
   isAuthenticated,
 };
-
-// const config = require("config");
-
-// module.exports = function auth(req, res, next) {
-//   const token = req.cookies["token"];
-//   if (!token) return res.status(401).send("Access Denied. No token provided.");
-
-//   try {
-//     const decoded = jwt.verify(token, config.get("jwtPrivateKey"));
-//     req.user = decoded;
-//     next();
-//   } catch (ext) {
-//     res.status(400).send("Invalid token");
-//   }
-// };

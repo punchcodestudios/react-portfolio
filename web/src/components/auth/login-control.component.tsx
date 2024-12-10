@@ -1,17 +1,20 @@
 import useAuth from "@/state-management/auth/use-auth";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const LoginControl = () => {
-  const { user, logoutUser } = useAuth();
+  const { userContent, logoutUser } = useAuth();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   setStatus(isAuthenticated);
-  // }, [isAuthenticated]);
+  useEffect(() => {
+    console.log("userContent: ", userContent);
+    setIsAuthenticated(userContent.isAuthenticated);
+  }, [userContent]);
 
   const handleClick = () => {
-    if (user?.isAuthenticated) {
-      return logoutUser(user.id);
+    if (userContent?.isAuthenticated) {
+      return logoutUser(userContent.user._id);
     }
     navigate("/login");
   };
@@ -23,7 +26,7 @@ const LoginControl = () => {
       className="btn btn-primary"
       onClick={handleClick}
     >
-      {user?.isAuthenticated ? "Logout" : "Login"}
+      {isAuthenticated ? "Logout" : "Login"}
     </button>
   );
 };

@@ -1,22 +1,28 @@
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import { LoginUser } from "@/entities/User";
 import useAuth from "@/state-management/auth/use-auth";
 import { Form, Spinner } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import ButtonControl from "../common/button/button.control";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Login = () => {
-  const { loginUser, isLoading, error } = useAuth();
-
-  if (error) {
-    toast(error);
-  }
+  const navigate = useNavigate();
+  const { loginUser, userContent, error } = useAuth();
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    console.log(isLoading);
-  }, [isLoading]);
+    if (error) {
+      toast(error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (userContent.isAuthenticated) {
+      navigate("/");
+    }
+  }, [userContent]);
 
   const {
     handleSubmit,
@@ -31,11 +37,11 @@ const Login = () => {
   });
 
   const onSubmit = async (values: LoginUser) => {
-    const user = {
+    const loginForm = {
       username: values.username,
       password: values.password,
     };
-    loginUser(user);
+    loginUser(loginForm);
   };
 
   return (
@@ -44,6 +50,7 @@ const Login = () => {
       <div className="formWrapper">
         <Form className="form" onSubmit={handleSubmit(onSubmit)}>
           <h1 className="formTitle">Sign In</h1>
+          {/* {isLoading && <div>loading...</div>} */}
           <Form.Group className="mb-3">
             <input
               className="input"
@@ -82,7 +89,8 @@ const Login = () => {
               cssClass="btn btn-primary"
               type="submit"
             >
-              {isLoading && <Spinner className="button-spinner" />}Sign In
+              {/* {isLoading && <Spinner className="button-spinner" />} */}
+              Sign In
             </ButtonControl>
           </Form.Group>
           <p className="text">

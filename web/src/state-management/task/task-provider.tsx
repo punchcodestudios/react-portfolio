@@ -40,7 +40,10 @@ const TaskProvider = ({ children }: Props) => {
         pageSize: taskQuery.pageSize || 5,
         searchText: taskQuery.searchText || "",
       });
-      dispatch({ type: "GET_TASKS", payload: response as TaskItem[] });
+      dispatch({
+        type: "GET_TASKS",
+        payload: [...response.data.content],
+      });
     } catch (error: any) {
       setError(error.message);
     } finally {

@@ -1,13 +1,28 @@
-import { User } from "@/entities/User";
+import { UserContent } from "@/entities/User";
+const initialState: UserContent = {
+  isAuthenticated: false,
+  user: {
+    email: "",
+    name: "",
+    username: "",
+    _id: "",
+    roles: [],
+  },
+  userAuth: {
+    expiresAt: "",
+    timeToLive: 0,
+    token: "",
+  },
+};
 
 interface LoginAction {
   type: "LOGIN_USER";
-  payload: User;
+  payload: UserContent;
 }
 
 interface LogoutAction {
   type: "REGISTER_USER";
-  payload: User;
+  payload: UserContent;
 }
 
 interface RegisterAction {
@@ -16,15 +31,14 @@ interface RegisterAction {
 
 export type AuthAction = LoginAction | LogoutAction | RegisterAction;
 
-const authReducer = (state: User, action: AuthAction): User => {
+const authReducer = (state: UserContent, action: AuthAction): UserContent => {
   switch (action.type) {
     case "LOGIN_USER":
-      const user = { ...action.payload, isAuthenticated: true };
-      return { ...state, ...user };
+      return { ...state, ...action.payload };
     case "REGISTER_USER":
-      return action.payload;
+      return { ...state, ...action.payload };
     case "LOGOUT_USER":
-      return {} as User;
+      return { ...state, ...initialState };
     default:
       return state;
   }

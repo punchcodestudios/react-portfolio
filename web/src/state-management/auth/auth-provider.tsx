@@ -1,7 +1,12 @@
-import React, { useReducer, useState } from "react";
-import { LoginUser, RegisterUser, User } from "../../entities/User";
-import AuthContext from "./auth-context";
 import authService from "@/services/auth-service";
+import React, { useReducer, useState } from "react";
+import {
+  LoginUser,
+  RegisterUser,
+  User,
+  UserContent,
+} from "../../entities/User";
+import AuthContext from "./auth-context";
 import authReducer from "./auth-reducer";
 
 interface Props {
@@ -9,19 +14,20 @@ interface Props {
 }
 
 const AuthProvider = ({ children }: Props) => {
-  const [state, dispatch] = useReducer(authReducer, {} as User);
+  const [state, dispatch] = useReducer(authReducer, {} as UserContent);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
   const logoutUser = React.useCallback((id: string) => {
     setIsLoading(true);
     try {
-      return authService.logout(id).then((response) => {
+      authService.logout(id).then((response) => {
+        console.log("Response from Logout: ", response);
         dispatch({ type: "LOGOUT_USER" });
-        return Promise.resolve(response);
+        return response.data.content;
       });
-    } catch (error) {
-      setError("Error logging out user");
+    } catch (error: any) {
+      setError(`Error logging in: ${error.data.error.message}`);
       return Promise.reject(false);
     } finally {
       setIsLoading(false);
@@ -29,37 +35,40 @@ const AuthProvider = ({ children }: Props) => {
   }, []);
 
   const registerUser = React.useCallback((register: RegisterUser) => {
-    let user = {} as User;
+    let userContent = {} as UserContent;
     try {
       return authService.register(register).then((response) => {
-        user = { ...user, ...response };
-        dispatch({ type: "REGISTER_USER", payload: user });
-        return Promise.resolve(user);
+        userContent = { ...userContent, ...response.data.content };
+        dispatch({ type: "REGISTER_USER", payload: userContent });
+        return response;
       });
-    } catch (error) {
-      setError("Error registering user");
-      return Promise.reject(false);
+    } catch (error: any) {
+      setError(`Rgistration error: ${error.data.error.message}`);
+      return error;
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  const loginUser = React.useCallback((login: LoginUser) => {
-    let user = {} as User;
+  const loginUser = (login: LoginUser): void => {
     setIsLoading(true);
-    try {
-      return authService.login(login).then((response) => {
-        user = { ...user, ...response };
-        dispatch({ type: "LOGIN_USER", payload: user });
-        return Promise.resolve(user);
+    setError("");
+    authService
+      .login(login)
+      .then((response) => {
+        console.log("response: loginUser: ", response.data.content);
+        if (response.data.content) {
+          dispatch({ type: "LOGIN_USER", payload: response.data.content });
+        }
+      })
+      .catch((error) => {
+        console.log("error in provider", error);
+        setError(`Error logging in: ${error.data.error.message}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-    } catch (error) {
-      setError("Error logging-in user");
-      return Promise.reject({} as User);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  };
 
   const refreshAccessToken = React.useCallback(async () => {
     try {
@@ -74,13 +83,13 @@ const AuthProvider = ({ children }: Props) => {
       // }
     } catch (error) {
       console.log("error caught: ", error);
-      //logoutUser(user.id);
+      // logoutUser(user.id);
     }
   }, []);
 
   const value = React.useMemo(
     () => ({
-      user: { ...state },
+      userContent: { ...state },
       isLoading,
       error,
       dispatch,

@@ -11,9 +11,9 @@ const authService = {
       throw error;
     }
   },
-  register: async (user: RegisterUser) => {
+  register: (user: RegisterUser) => {
     try {
-      const response = await register(user);
+      const response = register(user);
       return response;
     } catch (error) {
       console.error("Error registering: ", error);
@@ -21,11 +21,13 @@ const authService = {
     }
   },
   login: async (user: LoginUser) => {
+    console.log("login: ", user);
     try {
       const response = await login(user);
+      console.log("authservice.login.response: ", response);
       return response;
     } catch (error) {
-      console.error("Error logging in");
+      console.log("error: ", error);
       throw error;
     }
   },
@@ -34,7 +36,7 @@ const authService = {
       const response = await refreshAccessToken();
       return response;
     } catch (error) {
-      console.error("Error while refreshing access token");
+      console.log("Error while refreshing access token", error);
       throw error;
     }
   },

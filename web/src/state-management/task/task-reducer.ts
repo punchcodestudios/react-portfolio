@@ -34,7 +34,7 @@ const taskReducer = (state: TaskItem[], action: TaskAction): TaskItem[] => {
     // arr[index] = action.payload;
     // return [...arr];
     case "GET_TASKS":
-      return [...action.payload];
+      return action.payload;
     default:
       return state;
   }

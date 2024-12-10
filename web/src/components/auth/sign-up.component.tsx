@@ -38,7 +38,7 @@ const Signup = () => {
       navigate("/login");
     } catch (error: any) {
       console.log("here: ", error);
-      toast.error(error.response.data.message);
+      toast.error(error.data.error.message);
     }
   };
 

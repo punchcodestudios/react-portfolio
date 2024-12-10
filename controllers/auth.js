@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { User, validate } = require("../models/user");
 const { WebToken } = require("../models/webtoken");
 const errorHandler = require("../middleware/handleError.js");
+const ms = require("ms");
 
 const {
   clearTokens,
@@ -10,13 +11,15 @@ const {
   getAccessTokenTTL,
 } = require("../utils/auth");
 
+const { getTimeZoneDate } = require("../utils/date-utils");
+
 const signUp = errorHandler(async (req, res, next) => {
   const { error } = validate(req.body);
   if (error) return next(createError(401, "Invalid Data"));
 
   const userAlreadyExists = await User.findOne({ email: req.body.email });
   if (userAlreadyExists) {
-    return next(createError(422, "username or password already exist."));
+    return next(createError(422, "an account with that email already exists"));
   }
 
   let user = new User({
@@ -62,7 +65,7 @@ const logout = errorHandler(async (req, res, next) => {
 });
 
 const refreshAccessToken = errorHandler(async (req, res, next) => {
-  // console.log("auth refresh");
+  console.log("auth refresh", req.signedCookies);
   const { REFRESH_TOKEN_SECRET, ACCESS_TOKEN_SECRET, ACCESS_TOKEN_LIFE } =
     process.env;
   const { signedCookies } = req;
@@ -95,10 +98,23 @@ const refreshAccessToken = errorHandler(async (req, res, next) => {
     ACCESS_TOKEN_LIFE
   );
 
+  // return res.status(200).json({
+  //   user,
+  //   accessToken,
+  //   expiresAt: getAccessTokenTTL(),
+  //   isAuthenticated: true,
+  // });
+
+  const userAuth = {
+    token: accessToken,
+    expiresAt: getTimeZoneDate(new Date(Date.now() + ms(ACCESS_TOKEN_LIFE))),
+    timetolive: getAccessTokenTTL(),
+  };
+
   return res.status(200).json({
     user,
-    accessToken,
-    expiresAt: getAccessTokenTTL(),
+    isAuthenticated: true,
+    userAuth,
   });
 });
 
