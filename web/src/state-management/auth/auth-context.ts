@@ -1,9 +1,10 @@
+import { ApiResponse } from "@/api/apiResponses";
 import React, { Dispatch } from "react";
-import { LoginUser, RegisterUser, UserContent } from "../../entities/User";
+import { LoginUser, RegisterUser, User } from "../../entities/User";
 import { AuthAction } from "./auth-reducer";
 
 interface AuthContextType {
-  userContent: UserContent;
+  content: ApiResponse<User>;
   isLoading: boolean;
   error: string;
   dispatch: Dispatch<AuthAction>;

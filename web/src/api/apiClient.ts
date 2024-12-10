@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ApiMultipleResponse, ApiSingleResponse } from "./apiResponses";
+import { ApiErrorResponse, ApiResponse } from "./apiResponses";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/api",
@@ -11,6 +11,7 @@ axios.interceptors.request.use(
     return config;
   },
   (error) => {
+    // set up logging for this level
     console.log("intercepted error: ", error);
     return Promise.reject(error);
   }
@@ -18,11 +19,11 @@ axios.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   async (response) => {
-    console.log("successful response: ", response);
     return response;
   },
   (error) => {
     if (error.response) {
+      // set up logging for this level
       console.log("error response: ", error.response);
       throw error.response;
     }
@@ -39,62 +40,60 @@ class ApiClient<T> {
     this.params = params || {};
   }
 
-  getAll = async (): Promise<ApiMultipleResponse<T>> => {
+  getAll = async (): Promise<ApiResponse<T>> => {
     try {
       const response = await axiosInstance.get(this.endpoint, {
         params: { ...this.params },
       });
-      console.log("data: ", [...response.data.content]);
       return Promise.resolve({
-        data: {
-          content: [...response.data.content],
-          error: { status: 0, message: "" },
-        },
+        ...response.data,
+        error: {} as ApiErrorResponse,
       });
     } catch (error: any) {
+      // console.log("apiClient.getAll: error", error);
       return Promise.reject({
-        data: {
-          content: {} as T,
-          error: { status: error.data.status, message: error.data.message },
+        content: {} as ApiResponse<T>,
+        error: {
+          status: error.data?.status | 500,
+          message: error.data.message,
         },
       });
     }
   };
 
-  get = async (id: number | string): Promise<ApiSingleResponse<T>> => {
+  get = async (id: number | string): Promise<ApiResponse<T>> => {
     try {
       const response = await axiosInstance.get(this.endpoint + "/" + id);
       return Promise.resolve({
-        data: {
-          content: { ...response.data },
-          error: { status: 0, message: "" },
-        },
+        ...response.data.content,
+        error: {} as ApiErrorResponse,
       });
     } catch (error: any) {
+      // console.log("apiClient.get: error", error);
       return Promise.reject({
-        data: {
-          content: {} as T,
-          error: { status: error.data.status, message: error.data.message },
+        content: {} as ApiResponse<T>,
+        error: {
+          status: error.data?.status | 500,
+          message: error.data.message,
         },
       });
     }
   };
 
-  post = async (entity: T | {}): Promise<ApiSingleResponse<T>> => {
+  post = async (entity: T | {}): Promise<ApiResponse<T>> => {
     try {
       const response = await axiosInstance.post(this.endpoint, entity);
       return Promise.resolve({
-        data: {
-          content: { ...response.data },
-          error: { status: 0, message: "" },
-        },
+        ...response.data,
+        error: {} as ApiErrorResponse,
       });
     } catch (error: any) {
-      console.log("apiClient: error", error);
+      // console.log("apiClient.post: error", error);
       return Promise.reject({
-        data: {
-          content: {} as T,
-          error: { status: error.data.status, message: error.data.message },
+        content: {} as ApiResponse<T>,
+        error: {
+          status: error.data?.status | 500,
+          message: error.data.message,
         },
       });
     }

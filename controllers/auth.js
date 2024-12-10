@@ -65,7 +65,7 @@ const logout = errorHandler(async (req, res, next) => {
 });
 
 const refreshAccessToken = errorHandler(async (req, res, next) => {
-  console.log("auth refresh", req.signedCookies);
+  // console.log("auth refresh", req.signedCookies);
   const { REFRESH_TOKEN_SECRET, ACCESS_TOKEN_SECRET, ACCESS_TOKEN_LIFE } =
     process.env;
   const { signedCookies } = req;

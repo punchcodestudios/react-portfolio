@@ -4,14 +4,18 @@ import React, { useEffect, useReducer, useState } from "react";
 import TaskContext from "./task-context";
 import useTaskQueryStore from "./task-query-store";
 import taskReducer from "./task-reducer";
+import { ApiResponse } from "@/api/apiResponses";
 
 interface Props {
   children: React.ReactNode;
 }
 
 const TaskProvider = ({ children }: Props) => {
-  const [tasks, dispatch] = useReducer(taskReducer, []);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [content, dispatch] = useReducer(
+    taskReducer,
+    {} as ApiResponse<TaskItem>
+  );
+  const [isLoading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const { taskQuery, setCurrentPage } = useTaskQueryStore();
 
@@ -42,7 +46,7 @@ const TaskProvider = ({ children }: Props) => {
       });
       dispatch({
         type: "GET_TASKS",
-        payload: [...response.data.content],
+        payload: response,
       });
     } catch (error: any) {
       setError(error.message);
@@ -58,8 +62,8 @@ const TaskProvider = ({ children }: Props) => {
   return (
     <TaskContext.Provider
       value={{
-        tasks,
-        loading,
+        content,
+        isLoading,
         error,
         dispatch,
         addTask,

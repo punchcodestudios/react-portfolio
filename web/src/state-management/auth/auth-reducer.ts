@@ -1,4 +1,5 @@
-import { UserContent } from "@/entities/User";
+import { ApiResponse } from "@/api/apiResponses";
+import { User, UserContent } from "@/entities/User";
 const initialState: UserContent = {
   isAuthenticated: false,
   user: {
@@ -17,12 +18,12 @@ const initialState: UserContent = {
 
 interface LoginAction {
   type: "LOGIN_USER";
-  payload: UserContent;
+  payload: ApiResponse<User>;
 }
 
 interface LogoutAction {
   type: "REGISTER_USER";
-  payload: UserContent;
+  payload: ApiResponse<User>;
 }
 
 interface RegisterAction {
@@ -31,7 +32,10 @@ interface RegisterAction {
 
 export type AuthAction = LoginAction | LogoutAction | RegisterAction;
 
-const authReducer = (state: UserContent, action: AuthAction): UserContent => {
+const authReducer = (
+  state: ApiResponse<User>,
+  action: AuthAction
+): ApiResponse<User> => {
   switch (action.type) {
     case "LOGIN_USER":
       return { ...state, ...action.payload };

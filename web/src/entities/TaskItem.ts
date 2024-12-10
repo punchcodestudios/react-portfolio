@@ -36,3 +36,9 @@ export interface TaskFilter {
   pageSize: number;
   currentPage: number;
 }
+
+export interface TaskContent {
+  totalCount: number;
+  activeCount: number;
+  tasks: TaskItem[];
+}

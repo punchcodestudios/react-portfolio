@@ -1,38 +1,32 @@
+import { ApiResponse } from "@/api/apiResponses";
 import { TaskItem } from "@/entities/TaskItem";
 
 interface AddTaskAction {
   type: "ADD_TASK";
-  payload: TaskItem;
+  payload: ApiResponse<TaskItem>;
 }
 
 interface CompleteTaskAction {
   type: "COMPLETE_TASK";
-  payload: TaskItem;
+  payload: ApiResponse<TaskItem>;
 }
 
 interface GetTasksAction {
   type: "GET_TASKS";
-  payload: TaskItem[];
+  payload: ApiResponse<TaskItem>;
 }
 
 export type TaskAction = AddTaskAction | CompleteTaskAction | GetTasksAction;
 
-const taskReducer = (state: TaskItem[], action: TaskAction): TaskItem[] => {
+const taskReducer = (
+  state: ApiResponse<TaskItem>,
+  action: TaskAction
+): ApiResponse<TaskItem> => {
   switch (action.type) {
     case "ADD_TASK":
-      return [
-        action.payload,
-        ...state.sort(
-          (a, b) =>
-            new Date(a.dueDate).valueOf() - new Date(b.dueDate).valueOf()
-        ),
-      ];
+      return action.payload;
     case "COMPLETE_TASK":
-      return [{ ...action.payload }];
-    // let arr = [...state];
-    // const index = arr.findIndex((i) => i._id == action.payload._id);
-    // arr[index] = action.payload;
-    // return [...arr];
+      return action.payload;
     case "GET_TASKS":
       return action.payload;
     default:

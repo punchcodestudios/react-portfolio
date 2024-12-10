@@ -3,16 +3,12 @@ export interface ApiErrorResponse {
   message: string;
 }
 
-export interface ApiSingleResponse<T> {
-  data: {
-    content: T;
-    error: ApiErrorResponse;
-  };
+export interface ApiContentResponse<T> {
+  target: T[];
+  meta: string[];
 }
 
-export interface ApiMultipleResponse<T> {
-  data: {
-    content: T[];
-    error: ApiErrorResponse;
-  };
+export interface ApiResponse<T> {
+  content: ApiContentResponse<T>;
+  error: ApiErrorResponse;
 }

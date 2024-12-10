@@ -1,11 +1,7 @@
+import { ApiResponse } from "@/api/apiResponses";
 import authService from "@/services/auth-service";
 import React, { useReducer, useState } from "react";
-import {
-  LoginUser,
-  RegisterUser,
-  User,
-  UserContent,
-} from "../../entities/User";
+import { LoginUser, RegisterUser, User } from "../../entities/User";
 import AuthContext from "./auth-context";
 import authReducer from "./auth-reducer";
 
@@ -14,7 +10,7 @@ interface Props {
 }
 
 const AuthProvider = ({ children }: Props) => {
-  const [state, dispatch] = useReducer(authReducer, {} as UserContent);
+  const [state, dispatch] = useReducer(authReducer, {} as ApiResponse<User>);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
@@ -22,9 +18,9 @@ const AuthProvider = ({ children }: Props) => {
     setIsLoading(true);
     try {
       authService.logout(id).then((response) => {
-        console.log("Response from Logout: ", response);
+        // console.log("Response from Logout: ", response);
         dispatch({ type: "LOGOUT_USER" });
-        return response.data.content;
+        return response.content;
       });
     } catch (error: any) {
       setError(`Error logging in: ${error.data.error.message}`);
@@ -35,12 +31,10 @@ const AuthProvider = ({ children }: Props) => {
   }, []);
 
   const registerUser = React.useCallback((register: RegisterUser) => {
-    let userContent = {} as UserContent;
     try {
       return authService.register(register).then((response) => {
-        userContent = { ...userContent, ...response.data.content };
-        dispatch({ type: "REGISTER_USER", payload: userContent });
-        return response;
+        dispatch({ type: "REGISTER_USER", payload: response });
+        return response.content;
       });
     } catch (error: any) {
       setError(`Rgistration error: ${error.data.error.message}`);
@@ -56,13 +50,13 @@ const AuthProvider = ({ children }: Props) => {
     authService
       .login(login)
       .then((response) => {
-        console.log("response: loginUser: ", response.data.content);
-        if (response.data.content) {
-          dispatch({ type: "LOGIN_USER", payload: response.data.content });
+        // console.log("response: loginUser: ", response);
+        if (response) {
+          dispatch({ type: "LOGIN_USER", payload: response });
         }
       })
       .catch((error) => {
-        console.log("error in provider", error);
+        // console.log("error in provider", error);
         setError(`Error logging in: ${error.data.error.message}`);
       })
       .finally(() => {
@@ -89,7 +83,7 @@ const AuthProvider = ({ children }: Props) => {
 
   const value = React.useMemo(
     () => ({
-      userContent: { ...state },
+      content: { ...state },
       isLoading,
       error,
       dispatch,

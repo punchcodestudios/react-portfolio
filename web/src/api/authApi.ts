@@ -1,10 +1,8 @@
 import { LoginUser, RegisterUser, User, UserContent } from "@/entities/User";
 import ApiClient from "./apiClient";
-import { ApiSingleResponse } from "./apiResponses";
+import { ApiResponse } from "./apiResponses";
 
-export const logout = async (
-  id: string
-): Promise<ApiSingleResponse<Boolean>> => {
+export const logout = async (id: string): Promise<ApiResponse<Boolean>> => {
   console.log("authApi.logout()");
   const client = new ApiClient<boolean>("/auth/logout");
   try {
@@ -18,20 +16,19 @@ export const logout = async (
 
 export const register = async (
   user: RegisterUser
-): Promise<ApiSingleResponse<UserContent>> => {
+): Promise<ApiResponse<User>> => {
   console.log("authService.register");
-  const client = new ApiClient<UserContent>("auth/sign-up");
+  const client = new ApiClient<User>("auth/sign-up");
   return client.post(user).then((response) => {
-    return Promise.resolve(response as ApiSingleResponse<UserContent>);
+    return Promise.resolve(response as ApiResponse<User>);
   });
 };
 
-export const login = async (
-  user: LoginUser
-): Promise<ApiSingleResponse<UserContent>> => {
-  const client = new ApiClient<UserContent>("auth/login");
+export const login = async (user: LoginUser): Promise<ApiResponse<User>> => {
+  const client = new ApiClient<User>("auth/login");
   return client.post(user).then((response) => {
-    return Promise.resolve(response as ApiSingleResponse<UserContent>);
+    console.log("Response from apiClient: ", response);
+    return Promise.resolve(response as ApiResponse<User>);
   });
 };
 

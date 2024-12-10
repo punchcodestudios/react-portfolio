@@ -8,6 +8,7 @@ const {
   getAccessTokenTTL,
   persistRefreshToken,
 } = require("../utils/auth");
+
 const { getTimeZoneDate } = require("../utils/date-utils");
 
 const {
@@ -54,12 +55,14 @@ const generateAuthTokens = async (req, res, next) => {
       token: accessToken,
       expiresAt: getTimeZoneDate(new Date(Date.now() + ms(ACCESS_TOKEN_LIFE))),
       timetolive: getAccessTokenTTL(),
+      isAuthenticated: true,
     };
 
     return res.status(200).json({
-      user,
-      isAuthenticated: true,
-      userAuth,
+      content: {
+        target: user,
+        meta: userAuth,
+      },
     });
   } catch (error) {
     return next(error);
