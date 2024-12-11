@@ -1,16 +1,20 @@
-import { ApiResponse } from "@/api/apiResponses";
 import React, { Dispatch } from "react";
-import { LoginUser, RegisterUser, User } from "../../entities/User";
+import {
+  LoginRequest,
+  RegisterRequest,
+  LogoutRequest,
+  UserResponse,
+} from "../../entities/User";
 import { AuthAction } from "./auth-reducer";
 
 interface AuthContextType {
-  content: ApiResponse<User>;
+  userResponse: UserResponse;
   isLoading: boolean;
   error: string;
   dispatch: Dispatch<AuthAction>;
-  registerUser: (user: RegisterUser) => void;
-  loginUser: (user: LoginUser) => void;
-  logoutUser: (_id: string) => void;
+  registerUser: (request: RegisterRequest) => void;
+  loginUser: (request: LoginRequest) => void;
+  logoutUser: (request: LogoutRequest) => void;
   refreshAccessToken: () => void;
 }
 

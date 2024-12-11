@@ -4,7 +4,7 @@ import { TaskAction } from "./task-reducer";
 import { ApiResponse } from "@/api/apiResponses";
 
 interface TaskContextType {
-  content: ApiResponse<TaskItem>;
+  taskContent: ApiResponse<TaskItem>;
   isLoading: boolean;
   error: string;
   dispatch: Dispatch<TaskAction>;

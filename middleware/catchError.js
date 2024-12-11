@@ -6,5 +6,5 @@ module.exports = async function (err, req, res, next) {
   logger.error(err, err.status, err.statusCode);
   return res
     .status(err.status)
-    .json({ content: [], status: err.status, message: err.message });
+    .json({ content: [], error: { status: err.status, message: err.message } });
 };

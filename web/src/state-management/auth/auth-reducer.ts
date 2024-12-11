@@ -1,29 +1,27 @@
-import { ApiResponse } from "@/api/apiResponses";
-import { User, UserContent } from "@/entities/User";
-const initialState: UserContent = {
-  isAuthenticated: false,
-  user: {
-    email: "",
-    name: "",
-    username: "",
-    _id: "",
-    roles: [],
-  },
-  userAuth: {
+import { UserResponse } from "@/entities/User";
+
+const initialState: UserResponse = {
+  target: [],
+  meta: {
     expiresAt: "",
     timeToLive: 0,
     token: "",
+    isAuthenticated: false,
+  },
+  error: {
+    status: 0,
+    message: "",
   },
 };
 
 interface LoginAction {
   type: "LOGIN_USER";
-  payload: ApiResponse<User>;
+  payload: UserResponse;
 }
 
 interface LogoutAction {
   type: "REGISTER_USER";
-  payload: ApiResponse<User>;
+  payload: UserResponse;
 }
 
 interface RegisterAction {
@@ -32,10 +30,7 @@ interface RegisterAction {
 
 export type AuthAction = LoginAction | LogoutAction | RegisterAction;
 
-const authReducer = (
-  state: ApiResponse<User>,
-  action: AuthAction
-): ApiResponse<User> => {
+const authReducer = (state: UserResponse, action: AuthAction): UserResponse => {
   switch (action.type) {
     case "LOGIN_USER":
       return { ...state, ...action.payload };

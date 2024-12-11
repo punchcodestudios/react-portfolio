@@ -1,6 +1,6 @@
-import { AddTaskItem, TaskContent, TaskItem } from "@/entities/TaskItem";
-import ApiClient from "./apiClient";
+import { AddTaskItem, TaskItem } from "@/entities/TaskItem";
 import { TaskQuery } from "@/state-management/task/task-query-store";
+import ApiClient from "./apiClient";
 import { ApiResponse } from "./apiResponses";
 
 export const getTasks = async (

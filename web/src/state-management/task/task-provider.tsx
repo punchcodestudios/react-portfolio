@@ -11,7 +11,7 @@ interface Props {
 }
 
 const TaskProvider = ({ children }: Props) => {
-  const [content, dispatch] = useReducer(
+  const [taskContent, dispatch] = useReducer(
     taskReducer,
     {} as ApiResponse<TaskItem>
   );
@@ -62,7 +62,7 @@ const TaskProvider = ({ children }: Props) => {
   return (
     <TaskContext.Provider
       value={{
-        content,
+        taskContent,
         isLoading,
         error,
         dispatch,

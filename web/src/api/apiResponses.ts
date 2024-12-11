@@ -3,9 +3,9 @@ export interface ApiErrorResponse {
   message: string;
 }
 
-export interface ApiContentResponse<T> {
+interface ApiContentResponse<T> {
   target: T[];
-  meta: string[];
+  meta: {};
 }
 
 export interface ApiResponse<T> {

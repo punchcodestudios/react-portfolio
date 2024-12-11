@@ -1,44 +1,61 @@
-import { LoginUser, RegisterUser, User } from "@/entities/User";
+import {
+  LoginRequest,
+  LogoutRequest,
+  RegisterRequest,
+  User,
+  UserResponse,
+} from "@/entities/User";
 import { login, logout, register, refreshAccessToken } from "../api/authApi";
+import { ApiResponse } from "@/api/apiResponses";
 
 const authService = {
-  logout: async (id: string) => {
+  logout: async (request: LogoutRequest) => {
     try {
-      const response = await logout(id);
-      return response;
+      const response = await logout(request);
+      return Promise.resolve(map(response));
     } catch (error) {
-      console.error("Error logging out: ", error);
+      // console.error("Error logging out: ", error);
       throw error;
     }
   },
-  register: (user: RegisterUser) => {
+  register: async (request: RegisterRequest) => {
     try {
-      const response = register(user);
-      return response;
+      const response = await register(request);
+      return Promise.resolve(map(response));
     } catch (error) {
-      console.error("Error registering: ", error);
+      // console.error("Error registering: ", error);
       throw error;
     }
   },
-  login: async (user: LoginUser) => {
-    console.log("login: ", user);
+  login: async (request: LoginRequest): Promise<UserResponse> => {
+    // console.log("login: ", request);
     try {
-      const response = await login(user);
-      console.log("authservice.login.response: ", response);
-      return response;
-    } catch (error) {
-      console.log("error: ", error);
-      throw error;
+      const response = await login(request);
+      return Promise.resolve(map(response));
+    } catch (error: any) {
+      // console.log("error in service: ", error);
+      return Promise.resolve(map(error));
     }
   },
   refreshAccessToken: async () => {
     try {
       const response = await refreshAccessToken();
-      return response;
+      return Promise.resolve(map(response));
     } catch (error) {
-      console.log("Error while refreshing access token", error);
+      // console.log("Error while refreshing access token", error);
       throw error;
     }
   },
 };
 export default authService;
+
+const map = (item: ApiResponse<User>): UserResponse => {
+  // console.log("map: ", item);
+  const res = {
+    target: item.content.target,
+    meta: item.content.meta,
+    error: item.error,
+  } as UserResponse;
+
+  return res;
+};

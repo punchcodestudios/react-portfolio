@@ -58,9 +58,10 @@ const generateAuthTokens = async (req, res, next) => {
       isAuthenticated: true,
     };
 
+    const userArray = [user];
     return res.status(200).json({
       content: {
-        target: user,
+        target: userArray,
         meta: userAuth,
       },
     });

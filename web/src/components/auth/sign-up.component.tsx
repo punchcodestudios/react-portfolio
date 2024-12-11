@@ -1,4 +1,4 @@
-import { RegisterUser } from "@/entities/User";
+import { RegisterRequest } from "@/entities/User";
 import useAuth from "@/state-management/auth/use-auth";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
@@ -24,7 +24,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const { registerUser } = useAuth();
 
-  const onSubmit = async (values: RegisterUser) => {
+  const onSubmit = async (values: RegisterRequest) => {
     const newUser = {
       name: values.name,
       username: values.username,

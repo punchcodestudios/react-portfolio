@@ -1,4 +1,4 @@
-import { LoginUser } from "@/entities/User";
+import { LoginRequest } from "@/entities/User";
 import useAuth from "@/state-management/auth/use-auth";
 import { Form, Spinner } from "react-bootstrap";
 import { useForm } from "react-hook-form";
@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { loginUser, userContent, error } = useAuth();
+  const { loginUser, userResponse, error } = useAuth();
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
@@ -19,10 +19,10 @@ const Login = () => {
   }, [error]);
 
   useEffect(() => {
-    if (userContent.isAuthenticated) {
-      navigate("/");
-    }
-  }, [userContent]);
+    // if (userResponse.isAuthenticated) {
+    //   navigate("/");
+    // }
+  }, [userResponse]);
 
   const {
     handleSubmit,
@@ -36,7 +36,7 @@ const Login = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async (values: LoginUser) => {
+  const onSubmit = async (values: LoginRequest) => {
     const loginForm = {
       username: values.username,
       password: values.password,
