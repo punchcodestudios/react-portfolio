@@ -51,7 +51,8 @@ const generateAuthTokens = async (req, res, next) => {
 
     await persistRefreshToken(refreshToken);
 
-    const userAuth = {
+    const userMeta = {
+      success: true,
       token: accessToken,
       expiresAt: getTimeZoneDate(new Date(Date.now() + ms(ACCESS_TOKEN_LIFE))),
       timetolive: getAccessTokenTTL(),
@@ -62,7 +63,7 @@ const generateAuthTokens = async (req, res, next) => {
     return res.status(200).json({
       content: {
         target: userArray,
-        meta: userAuth,
+        meta: userMeta,
       },
     });
   } catch (error) {

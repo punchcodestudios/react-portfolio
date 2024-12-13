@@ -3,123 +3,98 @@ const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  const allSkills = await Skill.find().populate({
-    path: "skill_types",
-    select: "refid name description",
-    model: "SkillType",
-    foreignField: "refid",
-  });
+// const skillController = require("../controllers/skill");
+// const skillMiddleware = require("../middleware/skill");
 
-  const skills = [
-    {
-      all: allSkills,
-      frontend: allSkills.filter(
-        (skill) => skill.skill_types[0].name === "Front End Development"
-      ),
-      backend: allSkills.filter(
-        (skill) => skill.skill_types[0].name === "Back End Development"
-      ),
-      database: allSkills.filter(
-        (skill) => skill.skill_types[0].name === "Database"
-      ),
-      infrastructure: allSkills.filter(
-        (skill) => skill.skill_types[0].name === "Infrastructure"
-      ),
-      design: allSkills.filter(
-        (skill) => skill.skill_types[0].name === "Design"
-      ),
-      softskills: allSkills.filter(
-        (skill) => skill.skill_types[0].name === "Soft Skills"
-      ),
-    },
-  ];
-  res.send({ count: skills.length, results: skills });
-});
+// router.get("/", skillController.getAll, skillMiddleware.getAll);
+// router.post(
+//   "/add-skills",
+//   skillController.addSkills,
+//   skillMiddleware.addSkills
+// );
+// router.post("/", async (req, res) => {
+//   req.body.forEach(async (item) => {
+//     let { error } = validate(item);
+//     if (error) return res.status(400).send(error.details[0].message);
 
-router.post("/", async (req, res) => {
-  req.body.forEach(async (item) => {
-    let { error } = validate(item);
-    if (error) return res.status(400).send(error.details[0].message);
+//     try {
+//       let skill = new Skill({
+//         name: item.name,
+//         description: item.description,
+//         slug: item.slug,
+//         image_url: item.image_url,
+//         skill_types: item.skill_types,
+//       });
 
-    try {
-      let skill = new Skill({
-        name: item.name,
-        description: item.description,
-        slug: item.slug,
-        image_url: item.image_url,
-        skill_types: item.skill_types,
-      });
+//       skill = await skill.save();
+//     } catch (ex) {
+//       return res.send("An error has occurred");
+//     }
+//   });
 
-      skill = await skill.save();
-    } catch (ex) {
-      return res.send("An error has occurred");
-    }
-  });
+//   res.send("OK");
+// });
 
-  res.send("OK");
-});
+// router.put("/:id", async (req, res) => {
+//   const { error } = validate(req.body);
+//   if (error) return res.status(400).send(error.details[0].message);
 
-router.put("/:id", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+//   const skill = await Skill.findByIdAndUpdate(
+//     req.params.id,
+//     {
+//       name: req.body.name,
+//       description: req.body.description,
+//       slug: req.body.slug,
+//       image_url: req.body.image_url,
+//       skill_types: req.body.skill_types,
+//     },
+//     { new: true }
+//   );
 
-  const skill = await Skill.findByIdAndUpdate(
-    req.params.id,
-    {
-      name: req.body.name,
-      description: req.body.description,
-      slug: req.body.slug,
-      image_url: req.body.image_url,
-      skill_types: req.body.skill_types,
-    },
-    { new: true }
-  );
+//   if (!skill)
+//     return res.status(404).send("The skill with the given ID was not found.");
 
-  if (!skill)
-    return res.status(404).send("The skill with the given ID was not found.");
+//   res.send(skill);
+// });
 
-  res.send(skill);
-});
+// router.delete("/:id", async (req, res) => {
+//   const skill = await Skill.findByIdAndRemove(req.params.id);
 
-router.delete("/:id", async (req, res) => {
-  const skill = await Skill.findByIdAndRemove(req.params.id);
+//   if (!skill)
+//     return res.status(404).send("The skill with the given ID was not found.");
 
-  if (!skill)
-    return res.status(404).send("The skill with the given ID was not found.");
+//   res.send(skill);
+// });
 
-  res.send(skill);
-});
+// router.get("/:id", async (req, res) => {
+//   const skill = await Skill.findById(req.params.id);
 
-router.get("/:id", async (req, res) => {
-  const skill = await Skill.findById(req.params.id);
+//   if (!skill)
+//     return res.status(404).send("The skill with the given ID was not found.");
 
-  if (!skill)
-    return res.status(404).send("The skill with the given ID was not found.");
+//   res.send(skill);
+// });
 
-  res.send(skill);
-});
+// router.post("/seed", async (req, res) => {
+//   req.body.forEach(async (item) => {
+//     let { error } = validate(item);
+//     if (error) return res.status(400).send(error.details[0].message);
+//   });
 
-router.post("/seed", async (req, res) => {
-  req.body.forEach(async (item) => {
-    let { error } = validate(item);
-    if (error) return res.status(400).send(error.details[0].message);
-  });
+//   try {
+//     await mongoose.connection.db.dropCollection("skills");
+//     await Skill.insertMany(req.body);
 
-  try {
-    await mongoose.connection.db.dropCollection("skills");
-    await Skill.insertMany(req.body);
+//     const currentSkills = await Skill.find().sort("name");
+//     return res.status(200).send(currentSkills);
+//   } catch {
+//     (ex) => {
+//       // todo log error messages
+//       return res.status(500).send("an error has occurred");
+//     };
+//   }
 
-    const currentSkills = await Skill.find().sort("name");
-    return res.status(200).send(currentSkills);
-  } catch {
-    (ex) => {
-      // todo log error messages
-      return res.status(500).send("an error has occurred");
-    };
-  }
-
-  return res.status(200).send("unexpected end of method");
-});
+//   return res.status(200).send("unexpected end of method");
+// });
 
 module.exports = router;

@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-class NodeAPIClient<T> {
+class NodeAPIClientXXX<T> {
   endpoint: string;
 
   constructor(endpoint: string) {
@@ -56,4 +56,4 @@ class NodeAPIClient<T> {
   };
 }
 
-export default NodeAPIClient;
+export default NodeAPIClientXXX;
