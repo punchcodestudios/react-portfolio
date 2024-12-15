@@ -85,7 +85,7 @@ const AuthProvider = ({ children }: Props) => {
       //   loginUser(user);
       // }
     } catch (error) {
-      console.log("error caught: ", error);
+      // console.log("error caught: ", error);
       // logoutUser(user.id);
     }
   }, []);

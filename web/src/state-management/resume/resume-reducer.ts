@@ -36,7 +36,6 @@ interface GetSkillsAction {
 
 interface GetExperienceAction {
   type: "GET_ALL_EXPERIENCE";
-  payload: ExperienceResponse;
 }
 
 export type ResumeAction = GetSkillsAction | GetExperienceAction;
@@ -47,17 +46,17 @@ const resumeReducer = (
 ): ResumeResponse => {
   switch (action.type) {
     case "GET_ALL_SKILLS":
-      console.log("skills - action.payload: ", action.payload);
-      const currSkills = state.target ? { ...state } : { ...initialState };
-      currSkills.target[0].skillResponse = action.payload;
-      return { ...state, ...currSkills };
+      // console.log("skills - action.payload: ", action.payload);
+      // const currSkills = state.target ? { ...state } : { ...initialState };
+      // currSkills.target[0].skillResponse = action.payload;
+      return { ...state };
     case "GET_ALL_EXPERIENCE":
-      console.log("experience - action.payload: ", action.payload);
-      const currExperience = state.target ? { ...state } : { ...initialState };
-      currExperience.target[0].experienceResponse = action.payload;
-      return { ...state, ...currExperience };
+      // console.log("experience - action.payload: ", action.payload);
+      // const currExperience = state.target ? { ...state } : { ...initialState };
+      // currExperience.target[0].experienceResponse = action.payload;
+      return { ...state };
     default:
-      console.log("INITIAL STATE");
+      // console.log("INITIAL STATE");
       return initialState;
   }
 };

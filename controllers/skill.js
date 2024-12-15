@@ -6,6 +6,7 @@ const assert = require("assert");
 const ms = require("ms");
 
 const getAllSkills = errorHandler(async (req, res, next) => {
+  // return next(createError(418, "Skills error fabricated for testing"));
   try {
     const allSkills = await Skill.find().populate({
       path: "skill_types",

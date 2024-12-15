@@ -1,4 +1,4 @@
-import { Skill } from "@/entities/Skill";
+import { Skill } from "@/entities/Resume";
 import { Grid, GridItem } from "@chakra-ui/react";
 import { Image } from "react-bootstrap";
 import { Card, Col, ListGroup } from "react-bootstrap";
@@ -10,9 +10,6 @@ interface Props {
 
 const SkillGroup = ({ data }: Props) => {
   const image = require("../../../assets/img/about-me-hero.png");
-  if (data.length == 0) {
-    return <div>no content available</div>;
-  }
   return (
     <Grid
       templateAreas={{

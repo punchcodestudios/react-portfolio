@@ -12,7 +12,7 @@ import { BsChevronDown } from "react-icons/bs";
 
 const SkillTagSelector = () => {
   const { data, error } = useDisciplines();
-  console.log(data?.results);
+  // console.log(data?.results);
   const setSelectedDisciplineId = useGalleryQueryStore(
     (s) => s.setDisciplineId
   );

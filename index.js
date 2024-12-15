@@ -3,7 +3,7 @@ const winston = require("winston");
 require("dotenv").config();
 
 process.on("unhandledRejection", (ex) => {
-  console.log("unhandled Rejection: ", ex);
+  // console.log("unhandled Rejection: ", ex);
   throw `${ex.message} | exception: ${ex}`;
 });
 

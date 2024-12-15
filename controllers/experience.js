@@ -4,7 +4,7 @@ const errorHandler = require("../middleware/handleError.js");
 
 const getAllExperience = errorHandler(async (req, res, next) => {
   try {
-    // return next(createError(418, "fabricated for testing"));
+    // return next(createError(418, "Experience error fabricated for testing"));
     const experiences = await Experience.find();
     req.data = experiences;
     return next();

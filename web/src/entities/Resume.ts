@@ -63,9 +63,18 @@ export interface ExperienceRequest {
   params: {};
 }
 
-export interface ResumeMeta {}
-export interface ExperienceMeta {}
-export interface SkillMeta {}
+export interface ResumeMeta {
+  total: number;
+  success: boolean;
+}
+export interface ExperienceMeta {
+  total: number;
+  success: boolean;
+}
+export interface SkillMeta {
+  total: number;
+  success: boolean;
+}
 
 export interface ResumeResponse {
   target: Resume[];

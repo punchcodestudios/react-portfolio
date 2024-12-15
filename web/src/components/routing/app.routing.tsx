@@ -22,7 +22,14 @@ function routes() {
           element: <HomePage></HomePage>,
         },
         { path: "home", element: <HomePage></HomePage> },
-        { path: "resume", element: <Resume></Resume> },
+        {
+          path: "resume",
+          element: (
+            // <ResumeProvider>
+            <Resume />
+            // </ResumeProvider>
+          ),
+        },
         { path: "about", element: <AboutPage></AboutPage> },
         {
           path: "galleries",

@@ -1,39 +1,40 @@
-import useResume from "@/state-management/resume/use-resume";
-import { useEffect } from "react";
+import NoContent from "@/components/common/no-content/no-content.component";
+import { SkillResponse } from "@/entities/Resume";
+import { getGroupedSkills, getSkillTypesFromData } from "@/utils/resumeUtils";
+import { useMemo } from "react";
 import { Row } from "react-bootstrap";
+import SkillGroup from "./skill-group.component";
 
-const ResumeSkillsComponent = () => {
-  // const { data, isLoading, error } = useSkills();
-  const { resumeResponse, isLoading, error } = useResume();
+interface Props {
+  data: SkillResponse | undefined;
+}
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+const ResumeSkillsComponent = ({ data }: Props) => {
+  // const [target, setTarget] = useState<Skill[] | undefined>(undefined);
+  const typeArray = useMemo(
+    () => getSkillTypesFromData(data?.target),
+    [data?.target]
+  );
+  const groupedSkills = useMemo(
+    () => getGroupedSkills(data?.target, typeArray),
+    [data?.target, typeArray]
+  );
 
-  if (error) {
+  // console.log("Skill Data: ", data?.target);
+  // console.log("Type Array: ", typeArray);
+  // console.log("Grouped Array: ", groupedSkills);
+
+  if (!data?.meta.success) {
+    return <NoContent />;
+  } else {
     return (
-      <>
-        <div>an error has occurred:</div>
-      </>
+      <Row xs={1} md={2} lg={2} xl={3} className="">
+        {groupedSkills.map((skill, index) => {
+          return <SkillGroup key={index} data={skill} />;
+        })}
+      </Row>
     );
   }
-
-  useEffect(() => {
-    console.log("Resume Response: XXX", resumeResponse);
-  }, []);
-
-  return (
-    <>
-      <Row xs={1} md={2} lg={2} xl={3} className="">
-        {/* <SkillGroup data={data.results[0].frontend || []} />
-        <SkillGroup data={data.results[0].backend || []} />
-        <SkillGroup data={data.results[0].database || []} />
-        <SkillGroup data={data.results[0].infrastructure || []} />
-        <SkillGroup data={data.results[0].softskills || []} />
-        <SkillGroup data={data.results[0].design || []} /> */}
-      </Row>
-    </>
-  );
 };
 
 export default ResumeSkillsComponent;

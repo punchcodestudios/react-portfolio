@@ -9,7 +9,7 @@ export const getTasks = async (
   const client = new ApiClient<TaskItem>("/tasks/get-tasks", query);
   try {
     const response = await client.getAll();
-    console.log("task response: ", response);
+    // console.log("task response: ", response);
     return response;
   } catch (error) {
     console.error("Error fetching tasks: ", error);

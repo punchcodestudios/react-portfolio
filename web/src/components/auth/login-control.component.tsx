@@ -8,7 +8,7 @@ const LoginControl = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("userResponse: ", userResponse);
+    // console.log("userResponse: ", userResponse);
     // setIsAuthenticated(userResponse.isAuthenticated);
   }, [userResponse]);
 

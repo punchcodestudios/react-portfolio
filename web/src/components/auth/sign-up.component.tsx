@@ -37,7 +37,7 @@ const Signup = () => {
       await registerUser(newUser);
       navigate("/login");
     } catch (error: any) {
-      console.log("here: ", error);
+      // console.log("here: ", error);
       toast.error(error.data.error.message);
     }
   };

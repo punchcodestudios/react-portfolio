@@ -1,12 +1,11 @@
-import { ResumeResponse } from "@/entities/Resume";
-import React, { Dispatch } from "react";
-import { ResumeAction } from "./resume-reducer";
+import { ExperienceResponse, SkillResponse } from "@/entities/Resume";
+import React from "react";
 
 interface ResumeContextType {
-  resumeResponse: ResumeResponse;
   isLoading: boolean;
   error: string;
-  dispatch: Dispatch<ResumeAction>;
+  skills: SkillResponse | undefined;
+  experience: ExperienceResponse | undefined;
 }
 
 const ResumeContext = React.createContext<ResumeContextType>(

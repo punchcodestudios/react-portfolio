@@ -33,22 +33,22 @@ const resumeService = {
 export default resumeService;
 
 const mapSkills = (item: ApiResponse<Skill>): SkillResponse => {
-  console.log("mapSkills: ", item);
+  // console.log("mapSkills: ", item);
   const res = {
     target: item.content.target,
     meta: item.content.meta,
-    error: item.error,
+    error: item.content.error,
   } as SkillResponse;
 
   return res;
 };
 
 const mapExperience = (item: ApiResponse<Experience>): ExperienceResponse => {
-  console.log("mapExperience: ", item);
+  // console.log("mapExperience: ", item);
   const res = {
     target: item.content.target,
     meta: item.content.meta,
-    error: item.error,
+    error: item.content.error,
   } as ExperienceResponse;
 
   return res;

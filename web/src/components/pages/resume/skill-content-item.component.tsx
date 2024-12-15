@@ -1,4 +1,4 @@
-import { Skill } from "@/entities/Skill";
+import { Skill } from "@/entities/Resume";
 
 export interface Props {
   item: Skill;

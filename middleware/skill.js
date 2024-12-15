@@ -5,31 +5,6 @@ const getAllSkills = async (req, res, next) => {
       total: data.length,
       success: true,
     };
-
-    // const filteredSkills = [
-    //   {
-    //     all: allSkills,
-    //     frontend: allSkills.filter(
-    //       (skill) => skill.skill_types[0].name === "Front End Development"
-    //     ),
-    //     backend: allSkills.filter(
-    //       (skill) => skill.skill_types[0].name === "Back End Development"
-    //     ),
-    //     database: allSkills.filter(
-    //       (skill) => skill.skill_types[0].name === "Database"
-    //     ),
-    //     infrastructure: allSkills.filter(
-    //       (skill) => skill.skill_types[0].name === "Infrastructure"
-    //     ),
-    //     design: allSkills.filter(
-    //       (skill) => skill.skill_types[0].name === "Design"
-    //     ),
-    //     softskills: allSkills.filter(
-    //       (skill) => skill.skill_types[0].name === "Soft Skills"
-    //     ),
-    //   },
-    // ];
-
     return res.status(200).json({
       content: {
         target: data,

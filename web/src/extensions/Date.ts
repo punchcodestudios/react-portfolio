@@ -14,7 +14,7 @@ Date.prototype.midnight = function () {
     date.getUTCDay(),
     date.getUTCDate()
   );
-  console.log(newDate);
+  // console.log(newDate);
   return new Date(date);
 };
 

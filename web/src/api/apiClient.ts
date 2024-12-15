@@ -68,7 +68,7 @@ class ApiClient<T> {
       const response = await axiosInstance.post(this.endpoint, entity);
       return Promise.resolve({ ...response.data });
     } catch (error: any) {
-      console.log("apiClient.post: error", error);
+      // console.log("apiClient.post: error", error);
       return Promise.reject({ ...error } as ApiErrorResponse);
     }
   };

@@ -41,7 +41,7 @@ export const login = async (
   const client = new ApiClient<User>("auth/login");
   try {
     return client.post(request).then((response) => {
-      console.log("authApi.login response: ", response);
+      // console.log("authApi.login response: ", response);
       return Promise.resolve(response);
     });
   } catch (error: any) {

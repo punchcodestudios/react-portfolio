@@ -6,9 +6,9 @@ export interface ApiErrorResponse {
 interface ApiContentResponse<T> {
   target: T[];
   meta: {};
+  error: ApiErrorResponse;
 }
 
 export interface ApiResponse<T> {
   content: ApiContentResponse<T>;
-  error: ApiErrorResponse;
 }

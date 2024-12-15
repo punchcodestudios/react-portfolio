@@ -5,7 +5,7 @@ import GalleryItemSkeleton from "./gallery-item-skeleton";
 
 const GalleryGrid = () => {
   const { data, error, isLoading } = useGalleries();
-  console.log(data?.results);
+  // console.log(data?.results);
   const skeletons = ["1", "2", "3"];
 
   return (
