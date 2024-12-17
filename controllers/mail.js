@@ -1,8 +1,9 @@
 const ejs = require("ejs");
 const path = require("path");
 const errorHandler = require("../middleware/handleError.js");
-const sgMail = require("@sendgrid/mail");
 const createError = require("http-errors");
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.PUNCHCODESTUDIOS_SENDGRID_API_KEY);
 
 const sendText = errorHandler(async (req, res, next) => {
   await send(req, res, next, { ...req.body });
