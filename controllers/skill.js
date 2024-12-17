@@ -53,7 +53,7 @@ const addSkills = errorHandler(async (req, res, next) => {
 
         skill = await skill.save();
       } catch (error) {
-        return next(error);
+        return next(createError(418, error));
       }
     });
     req.data = [];
@@ -135,7 +135,6 @@ const seedSkills = errorHandler(async (req, res, next) => {
 
     const currentSkills = await Skill.find();
     req.data = currentSkills;
-
     return next();
   } catch {
     (error) => {

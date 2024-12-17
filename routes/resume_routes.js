@@ -2,66 +2,69 @@ const express = require("express");
 const router = express.Router();
 
 const skillController = require("../controllers/skill");
-const skillMiddleware = require("../middleware/skill");
 const experienceController = require("../controllers/experience");
-const experienceMiddleware = require("../middleware/experience");
+const responseController = require("../controllers/response");
 
 router.get(
   "/get-all-skills",
   skillController.getAllSkills,
-  skillMiddleware.getAllSkills
+  responseController.sendSuccessResponse
 );
 router.get(
   "/get-skill/{id}",
   skillController.getSkillById,
-  skillMiddleware.getSkillById
+  responseController.sendSuccessResponse
 );
-router.post("/add-skill", skillController.addSkills, skillMiddleware.addSkills);
+router.post(
+  "/add-skill",
+  skillController.addSkills,
+  responseController.sendSuccessResponse
+);
 router.post(
   "/update-skill",
   skillController.updateSkill,
-  skillMiddleware.updateSkill
+  responseController.sendSuccessResponse
 );
 router.post(
   "/seed-skills",
   skillController.seedSkills,
-  skillMiddleware.seedSkills
+  responseController.sendSuccessResponse
 );
 router.delete(
   "/delete-skill/{id}",
   skillController.deleteSkill,
-  skillMiddleware.deleteSkill
+  responseController.sendSuccessResponse
 );
 
 router.get(
   "/get-all-experience",
   experienceController.getAllExperience,
-  experienceMiddleware.getAllExperience
+  responseController.sendSuccessResponse
 );
 router.get(
   "/get-experience/{id}",
   experienceController.getExperienceById,
-  experienceMiddleware.getExperienceById
+  responseController.sendSuccessResponse
 );
 router.post(
   "/add-experience",
   experienceController.addExperience,
-  experienceMiddleware.addExperience
+  responseController.sendSuccessResponse
 );
 router.post(
   "/update-experience",
   experienceController.updateExperience,
-  experienceMiddleware.updateExperience
+  responseController.sendSuccessResponse
 );
 router.delete(
   "/delete-experience/{id}",
   experienceController.deleteExperience,
-  experienceMiddleware.deleteExperience
+  responseController.sendSuccessResponse
 );
 router.post(
   "/seed-experience",
   experienceController.seedExperience,
-  experienceMiddleware.seedExperience
+  responseController.sendSuccessResponse
 );
 
 module.exports = router;
