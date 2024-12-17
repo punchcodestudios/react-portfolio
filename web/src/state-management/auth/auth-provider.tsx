@@ -75,6 +75,7 @@ const AuthProvider = ({ children }: Props) => {
 
   const refreshAccessToken = React.useCallback(async () => {
     try {
+      console.log("refreshAccessToken");
       const response = await authService.refreshAccessToken();
       console.log("refreshAcessToken.response: ", response);
       // if (response.status === 204) {
@@ -85,7 +86,7 @@ const AuthProvider = ({ children }: Props) => {
       //   loginUser(user);
       // }
     } catch (error) {
-      // console.log("error caught: ", error);
+      console.log("error caught: ", error);
       // logoutUser(user.id);
     }
   }, []);

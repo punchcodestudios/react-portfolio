@@ -10,20 +10,19 @@ const router = express.Router();
 
 const authController = require("../controllers/auth");
 const authMiddleware = require("../middleware/auth");
+const responseController = require("../controllers/response");
+const mailController = require("../controllers/mail");
 
 router.post(
   "/sign-up",
   authController.signUp,
-  authMiddleware.generateAuthTokens
+  mailController.sendRegistrationConfirmation,
+  responseController.sendSuccessResponse
 );
 
 router.post("/login", authController.login, authMiddleware.generateAuthTokens);
 
-router.post(
-  "/logout",
-  authController.logout,
-  authMiddleware.generateAuthTokens
-);
+router.post("/logout", authController.logout, authMiddleware.logout);
 
 router.post(
   "/refresh",

@@ -1,3 +1,4 @@
+import { LoginRequest, LogoutRequest } from "@/entities/User";
 import useAuth from "@/state-management/auth/use-auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,14 +9,17 @@ const LoginControl = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // console.log("userResponse: ", userResponse);
-    // setIsAuthenticated(userResponse.isAuthenticated);
+    if (userResponse.meta) {
+      setIsAuthenticated(userResponse?.meta.isAuthenticated);
+    }
   }, [userResponse]);
 
   const handleClick = () => {
-    // if (userResponse?.content.meta.isAuthenticated) {
-    //   return logoutUser(userResponse.content.target[0].);
-    // }
+    if (isAuthenticated) {
+      logoutUser({ _id: userResponse.target[0]._id } as LogoutRequest);
+      setIsAuthenticated(false);
+      navigate("/");
+    }
     navigate("/login");
   };
 

@@ -6,28 +6,30 @@ import MainNavComponent from "../navigation/main-nav/main-nav.component";
 import SubNavComponent from "../navigation/sub-nav/sub-nav.component";
 
 function LayoutComponent() {
-  const { user, refreshAccessToken } = useAuth();
+  const { refreshAccessToken } = useAuth();
 
   useEffect(() => {
-    // console.log("in layout use effect");
+    //console.log("in layout use effect");
     refreshAccessToken();
-  }, [refreshAccessToken]);
+  }, []);
 
   useEffect(() => {
     let refreshAccessTokenTimerId: NodeJS.Timeout;
-    if (user?.isAuthenticated) {
+    // if (user?.isAuthenticated) {
+    // console.log("heartbeat");
+    refreshAccessTokenTimerId = setTimeout(() => {
       console.log("heartbeat");
-      refreshAccessTokenTimerId = setTimeout(() => {
-        refreshAccessToken();
-      }, 10000);
-    }
+      refreshAccessToken();
+    }, 10000);
+    // }
 
-    return () => {
-      if (user?.isAuthenticated && refreshAccessTokenTimerId) {
-        clearTimeout(refreshAccessTokenTimerId);
-      }
-    };
-  }, [user, refreshAccessToken]);
+    // return () => {
+    //   if (user?.isAuthenticated && refreshAccessTokenTimerId) {
+    //     clearTimeout(refreshAccessTokenTimerId);
+    //   }
+    // };
+  }, []);
+  // reminder : [user, refreshAccessToken]
 
   return (
     <div className="container site-container">

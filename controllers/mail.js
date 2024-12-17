@@ -1,7 +1,11 @@
-const mailClient = require("../service/email.js");
 const ejs = require("ejs");
 const path = require("path");
 const errorHandler = require("../middleware/handleError.js");
+const sgMail = require("@sendgrid/mail");
+const createError = require("http-errors");
+sgMail.setApiKey(
+  "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"
+);
 
 const sendText = errorHandler(async (req, res, next) => {
   await send(req, res, next, { ...req.body });
@@ -30,21 +34,58 @@ const previewContact = async (req, res, next) => {
   });
 };
 
-const send = async (req, res, next, data) => {
-  await mailClient.sendMail(
-    data.to,
-    data.from,
-    data.subject,
-    data.text,
-    data.html
-  );
-
-  res.status(200).json({ status: 200, message: "Email was successfully sent" });
-  // console.log("controllers/mail.js", response);
+const sendgrid = async (req, res, next) => {
+  sgMail
+    .send(msg)
+    .then(() => console.log("email sent"))
+    .catch((error) => {
+      console.error(error);
+    });
 };
+
+const sendRegistrationConfirmation = errorHandler(async (req, res, next) => {
+  // console.log("sendRegistrationConfirmation", req.data);
+  // console.log("sendRegistrationConfirmation", req.meta);
+
+  try {
+    const msg = {
+      to: "pschandler@gmail.com", // ${req.data.email}
+      from: "admin@punchcodestudios.com",
+      subject: "EMAIL VERIFICATION CODE - punchcodestudios.com",
+      text: `Your verification code is ${req.data.confirmCode}. Please return to the application to complete your registration. Thank you.`,
+      html: `<h1>Hello ${req.data.username} </h1>
+      Your verification is <strong>${req.data.confirmCode}</strong>
+      <p>Please enter this code into the application to confirm your registration.</p>
+      <p>Thank you for your interest in punchcodestudios.com.</p>`,
+    };
+    sgMail
+      .send(msg)
+      .then(() => {
+        return next();
+      })
+      .catch((error) => {
+        return next(createError(500, `Error sending email: ${error}`));
+      });
+  } catch (error) {
+    return next(createError(418, `Error generating email template: ${error}`));
+  }
+});
 
 module.exports = {
   sendText,
   sendContact,
   previewContact,
+  sendgrid,
+  sendRegistrationConfirmation,
+};
+
+const send = async (req, res, next, data) => {
+  sgMail
+    .send(msg)
+    .then(() => {
+      return next();
+    })
+    .catch((error) => {
+      return next(createError(500, `Error sending email: ${error}`));
+    });
 };

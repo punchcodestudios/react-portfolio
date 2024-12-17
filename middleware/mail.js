@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const sendText = async (req, res, next) => {
+const sendgrid = async (req, res, next) => {
   // console.log("middleware.send:5");
   return next();
 };
@@ -17,7 +17,7 @@ const previewContact = async (req, res, next) => {
 };
 
 module.exports = {
-  sendText,
   sendContact,
   previewContact,
+  sendgrid,
 };

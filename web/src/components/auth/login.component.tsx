@@ -9,19 +9,16 @@ import { useEffect, useState } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { loginUser, userResponse, error } = useAuth();
-  const [hasError, setHasError] = useState(false);
+  const { loginUser, userResponse } = useAuth();
 
   useEffect(() => {
-    if (error) {
-      toast(error);
+    console.log("useEffect in login component: ", userResponse);
+    if (userResponse.error) {
+      toast(userResponse.error.message);
     }
-  }, [error]);
-
-  useEffect(() => {
-    // if (userResponse.isAuthenticated) {
-    //   navigate("/");
-    // }
+    if (userResponse.meta?.isAuthenticated) {
+      navigate(-1);
+    }
   }, [userResponse]);
 
   const {
@@ -56,9 +53,10 @@ const Login = () => {
               className="input"
               type="text"
               id="username"
-              aria-label="Username or Email"
+              aria-label="username"
+              autoComplete="username"
               required
-              placeholder="Username or Email"
+              placeholder="username"
               {...register("username", {
                 required: { value: true, message: "This field is required." },
               })}
@@ -73,6 +71,7 @@ const Login = () => {
               type="password"
               id="password"
               required
+              autoComplete="current-password"
               placeholder="Password"
               {...register("password", {
                 required: { value: true, message: "Password is required." },

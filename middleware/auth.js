@@ -7,7 +7,7 @@ const {
   generateJWT,
   getAccessTokenTTL,
   persistRefreshToken,
-} = require("../utils/auth");
+} = require("../utils/auth-utils");
 
 const { getTimeZoneDate } = require("../utils/date-utils");
 
@@ -22,8 +22,10 @@ const {
 const dev = NODE_ENV === "development";
 
 const generateAuthTokens = async (req, res, next) => {
+  console.log("User: ", req.data);
+  // console.log("Meta: ", req.meta);
   try {
-    const user = await User.findOne({ _id: req.userId }).select([
+    const user = await User.findOne({ _id: req.data._id }).select([
       "_id",
       "name",
       "username",
@@ -32,12 +34,12 @@ const generateAuthTokens = async (req, res, next) => {
     ]);
 
     const refreshToken = generateJWT(
-      req.userId,
+      req.data._id,
       REFRESH_TOKEN_SECRET,
       REFRESH_TOKEN_LIFE
     );
     const accessToken = generateJWT(
-      req.userId,
+      req.data._id,
       ACCESS_TOKEN_SECRET,
       ACCESS_TOKEN_LIFE
     );
@@ -59,10 +61,9 @@ const generateAuthTokens = async (req, res, next) => {
       isAuthenticated: true,
     };
 
-    const userArray = [user];
     return res.status(200).json({
       content: {
-        target: userArray,
+        target: [user],
         meta: userMeta,
       },
     });
@@ -119,7 +120,34 @@ const isAuthenticated = async (req, res, next) => {
   }
 };
 
+const logout = async (req, res, next) => {
+  try {
+    const data = req.data;
+    const meta = {
+      total: 0,
+      success: true,
+    };
+    const userMeta = {
+      success: true,
+      token: "",
+      expiresAt: "",
+      timetolive: "",
+      isAuthenticated: false,
+    };
+    return res.status(200).json({
+      content: {
+        target: [],
+        meta: meta,
+        error: {},
+      },
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   generateAuthTokens,
   isAuthenticated,
+  logout,
 };

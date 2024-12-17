@@ -3,7 +3,12 @@ const router = express.Router();
 const mailController = require("../controllers/mail");
 const mailMiddleware = require("../middleware/mail");
 
-router.post("/send", mailController.sendText, mailMiddleware.sendText);
+router.post("/send", mailController.sendgrid, mailMiddleware.sendgrid);
+router.post(
+  "/register-confirm",
+  mailController.sendgrid,
+  mailMiddleware.sendgrid
+);
 router.post(
   "/send-contact",
   mailController.sendContact,

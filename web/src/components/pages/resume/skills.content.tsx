@@ -3,7 +3,7 @@ import { SkillResponse } from "@/entities/Resume";
 import { getGroupedSkills, getSkillTypesFromData } from "@/utils/resumeUtils";
 import { useMemo } from "react";
 import { Row } from "react-bootstrap";
-import SkillGroup from "./skill-group.component";
+import SkillGroup from "./skill-group-component";
 
 interface Props {
   data: SkillResponse | undefined;

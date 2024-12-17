@@ -40,6 +40,7 @@ const authService = {
   refreshAccessToken: async () => {
     try {
       const response = await refreshAccessToken();
+      console.log("response in service: ", response);
       return Promise.resolve(map(response));
     } catch (error) {
       // console.log("Error while refreshing access token", error);
@@ -54,7 +55,7 @@ const map = (item: ApiResponse<User>): UserResponse => {
   const res = {
     target: item.content.target,
     meta: item.content.meta,
-    error: item.error,
+    error: item.content.error,
   } as UserResponse;
 
   return res;

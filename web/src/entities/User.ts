@@ -1,7 +1,7 @@
 import { ApiErrorResponse } from "@/api/apiResponses";
 
 export interface LogoutRequest {
-  id: string;
+  _id: string;
 }
 
 export interface LoginRequest {
@@ -18,7 +18,7 @@ export interface RegisterRequest {
 }
 
 export interface User {
-  id: string;
+  _id: string;
   name: string;
   username: string;
   email: string;

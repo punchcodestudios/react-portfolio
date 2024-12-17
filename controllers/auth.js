@@ -9,7 +9,10 @@ const {
   clearTokens,
   generateJWT,
   getAccessTokenTTL,
-} = require("../utils/auth");
+  encodePassword,
+  validatePassword,
+  generateConfirmCode,
+} = require("../utils/auth-utils.js");
 
 const { getTimeZoneDate } = require("../utils/date-utils");
 
@@ -22,19 +25,20 @@ const signUp = errorHandler(async (req, res, next) => {
     return next(createError(422, "an account with that email already exists"));
   }
 
+  const encoded = await encodePassword(req.body.password);
+  const confirmCode = await generateConfirmCode(6);
   let user = new User({
     name: req.body.name,
     username: req.body.username,
     email: req.body.email,
-    password: req.body.password,
+    password: encoded,
     isAdmin: false,
-    confirmCode: 1234,
+    confirmCode: confirmCode,
     confirmed: false,
   });
 
-  user = await user.save();
-
-  req.userId = user.id;
+  req.data = await user.save();
+  req.meta = {};
   return next();
 });
 
@@ -50,22 +54,28 @@ const login = errorHandler(async (req, res, next) => {
     return next(createError(401, "Invalid username or password"));
   }
 
-  const passwordsMatch = user.password === password;
+  const passwordsMatch = await validatePassword(password, user.password);
   if (!passwordsMatch) {
     return next(createError(401, "Invalid username or password"));
   }
 
-  req.userId = user.id;
+  req.data = [user];
   return next();
 });
 
 const logout = errorHandler(async (req, res, next) => {
   await clearTokens(req, res, next);
-  return res.sendStatus(204);
+  req.data = [];
+  req.meta = {};
+  return next();
 });
 
+const confirm = errorHandler(async (req, res, next) => {});
+
+const resetPassword = errorHandler(async (req, res, next) => {});
+
 const refreshAccessToken = errorHandler(async (req, res, next) => {
-  // console.log("auth refresh", req.signedCookies);
+  console.log("auth refresh", req.signedCookies);
   const { REFRESH_TOKEN_SECRET, ACCESS_TOKEN_SECRET, ACCESS_TOKEN_LIFE } =
     process.env;
   const { signedCookies } = req;
@@ -75,47 +85,51 @@ const refreshAccessToken = errorHandler(async (req, res, next) => {
     return next(createError(401, "No refresh token found."));
   }
 
-  const decodedToken = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
-  const { userId } = decodedToken;
+  try {
+    const decodedToken = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+    const { userId } = decodedToken;
+    console.log("decoded Token ", decodedToken);
+    // if (!refreshTokenInDB) {
+    //   await clearTokens(req, res, next);
+    //   const error = createError.Unauthorized();
+    //   throw error;
+    // }
 
-  // if (!refreshTokenInDB) {
-  //   await clearTokens(req, res, next);
-  //   const error = createError.Unauthorized();
-  //   throw error;
-  // }
+    const user = await User.findById(userId);
+    // if (!user) {
+    //   await clearTokens(req, res);
+    //   return res.status(422).json({
+    //     error: "Invalid Credentials",
+    //   });
+    // }
 
-  const user = await User.findById(userId);
-  // if (!user) {
-  //   await clearTokens(req, res);
-  //   return res.status(422).json({
-  //     error: "Invalid Credentials",
-  //   });
-  // }
+    const accessToken = generateJWT(
+      user._id,
+      ACCESS_TOKEN_SECRET,
+      ACCESS_TOKEN_LIFE
+    );
 
-  const accessToken = generateJWT(
-    user.id,
-    ACCESS_TOKEN_SECRET,
-    ACCESS_TOKEN_LIFE
-  );
+    // return res.status(200).json({
+    //   user,
+    //   accessToken,
+    //   expiresAt: getAccessTokenTTL(),
+    //   isAuthenticated: true,
+    // });
 
-  // return res.status(200).json({
-  //   user,
-  //   accessToken,
-  //   expiresAt: getAccessTokenTTL(),
-  //   isAuthenticated: true,
-  // });
+    const userAuth = {
+      token: accessToken,
+      expiresAt: getTimeZoneDate(new Date(Date.now() + ms(ACCESS_TOKEN_LIFE))),
+      timetolive: getAccessTokenTTL(),
+      total: 1,
+      success: true,
+    };
 
-  const userAuth = {
-    token: accessToken,
-    expiresAt: getTimeZoneDate(new Date(Date.now() + ms(ACCESS_TOKEN_LIFE))),
-    timetolive: getAccessTokenTTL(),
-  };
-
-  return res.status(200).json({
-    user,
-    isAuthenticated: true,
-    userAuth,
-  });
+    req.data = user;
+    req.meta = userAuth;
+    return next();
+  } catch (error) {
+    return next(createError(418, error));
+  }
 });
 
 module.exports = {
