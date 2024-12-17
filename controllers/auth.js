@@ -22,7 +22,7 @@ const generateAuthTokens = errorHandler(async (req, res, next) => {
   // console.log("Meta: ", req.meta);
   try {
     const user = req.data[0];
-    console.log("generateAuthTokens: User :: ", user);
+    // console.log("generateAuthTokens: User :: ", user);
     if (!user) {
       return next(
         createError(404, "Can not generate auth token: User not found")
@@ -136,7 +136,7 @@ const clearUserTokens = errorHandler(async (req, res, next) => {
 });
 
 const refreshAccessToken = errorHandler(async (req, res, next) => {
-  console.log("auth refresh", req.signedCookies);
+  // console.log("auth refresh", req.signedCookies);
   const { REFRESH_TOKEN_SECRET, ACCESS_TOKEN_SECRET, ACCESS_TOKEN_LIFE } =
     process.env;
   const { signedCookies } = req;
@@ -147,10 +147,10 @@ const refreshAccessToken = errorHandler(async (req, res, next) => {
   }
 
   try {
-    console.log("refreshAccessToken: refresh token :: ", refreshToken);
+    // console.log("refreshAccessToken: refresh token :: ", refreshToken);
     const decodedToken = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
     const { userId } = decodedToken;
-    console.log("refreshAccessToken: decoded token ::", decodedToken);
+    // console.log("refreshAccessToken: decoded token ::", decodedToken);
     // if (!refreshTokenInDB) {
     //   await clearTokens(req, res, next);
     //   const error = createError.Unauthorized();
@@ -158,7 +158,7 @@ const refreshAccessToken = errorHandler(async (req, res, next) => {
     // }
 
     const user = await User.findById(userId);
-    console.log("user from db: ", user);
+    // console.log("user from db: ", user);
 
     const accessToken = generateJWT(
       userId,
@@ -192,14 +192,14 @@ module.exports = {
 
 const persistRefreshToken = async (token) => {
   const { userId, expiresAt } = jwt.verify(token, REFRESH_TOKEN_SECRET);
-  console.log("UserID in persist: ", userId);
+  // console.log("UserID in persist: ", userId);
   const persist = new WebToken({
     name: "refresh",
     userId: userId,
     token: token,
     expiresAt: expiresAt,
   });
-  console.log("persist: ", persist);
+  // console.log("persist: ", persist);
   await WebToken.findOneAndDelete({ userId: userId });
   return await persist.save();
 };

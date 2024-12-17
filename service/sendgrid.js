@@ -9,7 +9,7 @@ const sendRegisterEmail = (req, res) => {
   sgMail
     .send(msg)
     .then(() => {
-      console.log("email sent");
+      // console.log("email sent");
       return true;
     })
     .catch((error) => {

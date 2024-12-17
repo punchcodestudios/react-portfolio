@@ -38,10 +38,10 @@ const ContactForm = () => {
       // if (response.status === 200) {
       //   toast.success(response.message);
       //   reset();
-      //   // console.log("Email sent!. \nResponse:", response.status);
+      // console.log("Email sent!. \nResponse:", response.status);
       // } else {
       //   toast.error(response.message);
-      //   // console.log("Email not sent. \nResponse:", response);
+      // console.log("Email not sent. \nResponse:", response);
       // }
     } catch (error) {
       // console.log("error sending email", error);

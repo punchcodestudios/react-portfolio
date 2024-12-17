@@ -18,7 +18,7 @@ const SubNavComponent = () => {
   // }, [taskContent]);
 
   useEffect(() => {
-    console.log("useEffect in subnav", userResponse);
+    // console.log("useEffect in subnav", userResponse);
     if (userResponse?.target) {
       setIsAuthenticated(userResponse.meta?.isAuthenticated || false);
       setUsername(

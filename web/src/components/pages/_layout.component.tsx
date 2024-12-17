@@ -9,7 +9,7 @@ function LayoutComponent() {
   const { refreshAccessToken } = useAuth();
 
   useEffect(() => {
-    console.log("in layout use effect");
+    // console.log("in layout use effect");
     refreshAccessToken();
   }, []);
 
@@ -18,7 +18,7 @@ function LayoutComponent() {
     // if (user?.isAuthenticated) {
     // console.log("heartbeat");
     refreshAccessTokenTimerId = setTimeout(() => {
-      console.log("heartbeat");
+      // console.log("heartbeat");
       refreshAccessToken();
     }, 10000);
     // }

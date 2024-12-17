@@ -84,7 +84,7 @@ const AuthProvider = ({ children }: Props) => {
       .refreshAccessToken()
       .then((response) => {
         if (response.target.length > 0) {
-          console.log("response.target: ", response.target);
+          // console.log("response.target: ", response.target);
           dispatch({ type: "REFRESH_TOKEN", payload: response });
         }
         if (response.error) {

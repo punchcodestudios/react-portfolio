@@ -54,7 +54,7 @@ export const refreshAccessToken = async (): Promise<ApiResponse<User>> => {
   const client = new ApiClient<User>("auth/refresh");
   try {
     return client.post({}).then((response) => {
-      console.log("response in authAPI: ", response);
+      // console.log("response in authAPI: ", response);
       return Promise.resolve(response);
     });
   } catch (error: any) {
