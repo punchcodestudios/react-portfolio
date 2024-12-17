@@ -18,9 +18,13 @@ const SubNavComponent = () => {
   // }, [taskContent]);
 
   useEffect(() => {
-    setIsAuthenticated(userResponse.meta?.isAuthenticated || false);
-    console.log("useEffect in subnav", isAuthenticated);
-    setUsername(userResponse?.target ? userResponse.target[0]?.username : "");
+    console.log("useEffect in subnav", userResponse);
+    if (userResponse?.target) {
+      setIsAuthenticated(userResponse.meta?.isAuthenticated || false);
+      setUsername(
+        userResponse.target.length > 0 ? userResponse.target[0].username : ""
+      );
+    }
   }, [userResponse]);
 
   if (isAuthenticated) {

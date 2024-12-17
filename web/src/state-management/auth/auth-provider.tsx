@@ -1,5 +1,5 @@
 import authService from "@/services/auth-service";
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import {
   LoginRequest,
   RegisterRequest,
@@ -54,18 +54,41 @@ const AuthProvider = ({ children }: Props) => {
       });
   }, []);
 
-  const loginUser = React.useCallback((request: LoginRequest): void => {
+  const loginUser = React.useCallback((request: LoginRequest): boolean => {
     setIsLoading(true);
     setError("");
     authService
       .login(request)
       .then((response) => {
         // console.log("response: loginUser: ", response);
-        if (response.target) {
+        if (response.target && response.target.length > 0) {
           dispatch({ type: "LOGIN_USER", payload: response });
+          return true;
         }
         if (response.error) {
           setError(response.error.message);
+          return false;
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+    return false;
+  }, []);
+
+  const refreshAccessToken = React.useCallback(async () => {
+    // console.log("refreshAccessToken");
+    setIsLoading(true);
+    setError("");
+    authService
+      .refreshAccessToken()
+      .then((response) => {
+        if (response.target.length > 0) {
+          console.log("response.target: ", response.target);
+          dispatch({ type: "REFRESH_TOKEN", payload: response });
+        }
+        if (response.error) {
+          // setError(response.error.message);
         }
       })
       .finally(() => {
@@ -73,22 +96,14 @@ const AuthProvider = ({ children }: Props) => {
       });
   }, []);
 
-  const refreshAccessToken = React.useCallback(async () => {
-    try {
-      console.log("refreshAccessToken");
-      const response = await authService.refreshAccessToken();
-      console.log("refreshAcessToken.response: ", response);
-      // if (response.status === 204) {
-      //   console.log("response status === 204: ", response);
-      //   logoutUser(user.id);
-      // } else {
-      //   console.log("all is well, carry on: ", response);
-      //   loginUser(user);
-      // }
-    } catch (error) {
-      console.log("error caught: ", error);
-      // logoutUser(user.id);
-    }
+  const resetUser = React.useCallback(() => {
+    dispatch({ type: "RESET_USER" });
+  }, []);
+
+  useEffect(() => {
+    setError("");
+    setIsLoading(false);
+    dispatch({ type: "RESET_USER" });
   }, []);
 
   const value = React.useMemo(
@@ -101,6 +116,7 @@ const AuthProvider = ({ children }: Props) => {
       logoutUser,
       registerUser,
       refreshAccessToken,
+      resetUser,
     }),
     [
       userResponse,

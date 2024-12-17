@@ -1,25 +1,21 @@
 import { LoginRequest } from "@/entities/User";
 import useAuth from "@/state-management/auth/use-auth";
-import { Form, Spinner } from "react-bootstrap";
+import { useEffect } from "react";
+import { Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import ButtonControl from "../common/button/button.control";
-import { useEffect, useState } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { loginUser, userResponse } = useAuth();
+  const { loginUser, error } = useAuth();
 
   useEffect(() => {
-    console.log("useEffect in login component: ", userResponse);
-    if (userResponse.error) {
-      toast(userResponse.error.message);
+    if (error) {
+      toast.error(error);
     }
-    if (userResponse.meta?.isAuthenticated) {
-      navigate(-1);
-    }
-  }, [userResponse]);
+  }, [error]);
 
   const {
     handleSubmit,
@@ -54,7 +50,7 @@ const Login = () => {
               type="text"
               id="username"
               aria-label="username"
-              autoComplete="username"
+              autoComplete="false"
               required
               placeholder="username"
               {...register("username", {
@@ -71,7 +67,7 @@ const Login = () => {
               type="password"
               id="password"
               required
-              autoComplete="current-password"
+              autoComplete="false"
               placeholder="Password"
               {...register("password", {
                 required: { value: true, message: "Password is required." },

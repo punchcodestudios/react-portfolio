@@ -13,9 +13,10 @@ interface AuthContextType {
   error: string;
   dispatch: Dispatch<AuthAction>;
   registerUser: (request: RegisterRequest) => void;
-  loginUser: (request: LoginRequest) => void;
+  loginUser: (request: LoginRequest) => boolean;
   logoutUser: (request: LogoutRequest) => void;
   refreshAccessToken: () => void;
+  resetUser: () => void;
 }
 
 const AuthContext = React.createContext<AuthContextType>({} as AuthContextType);

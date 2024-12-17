@@ -24,11 +24,25 @@ interface LogoutAction {
   payload: UserResponse;
 }
 
+interface RefreshTokenAction {
+  type: "REFRESH_TOKEN";
+  payload: UserResponse;
+}
+
 interface RegisterAction {
   type: "LOGOUT_USER";
 }
 
-export type AuthAction = LoginAction | LogoutAction | RegisterAction;
+interface ResetUserAction {
+  type: "RESET_USER";
+}
+
+export type AuthAction =
+  | ResetUserAction
+  | LoginAction
+  | LogoutAction
+  | RegisterAction
+  | RefreshTokenAction;
 
 const authReducer = (state: UserResponse, action: AuthAction): UserResponse => {
   switch (action.type) {
@@ -37,6 +51,10 @@ const authReducer = (state: UserResponse, action: AuthAction): UserResponse => {
     case "REGISTER_USER":
       return { ...state, ...action.payload };
     case "LOGOUT_USER":
+      return { ...state, ...initialState };
+    case "REFRESH_TOKEN":
+      return { ...state, ...action.payload };
+    case "RESET_USER":
       return { ...state, ...initialState };
     default:
       return state;

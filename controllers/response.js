@@ -1,4 +1,5 @@
 const sendSuccessResponse = (req, res, next) => {
+  console.log("response: ", req.data);
   try {
     const data = req.data || [];
     const meta = req.meta || {};

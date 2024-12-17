@@ -9,6 +9,7 @@ const LoginControl = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("useEffect login control");
     if (userResponse.meta) {
       setIsAuthenticated(userResponse?.meta.isAuthenticated);
     }

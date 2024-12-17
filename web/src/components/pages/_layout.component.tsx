@@ -9,7 +9,7 @@ function LayoutComponent() {
   const { refreshAccessToken } = useAuth();
 
   useEffect(() => {
-    //console.log("in layout use effect");
+    console.log("in layout use effect");
     refreshAccessToken();
   }, []);
 

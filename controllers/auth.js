@@ -1,78 +1,139 @@
-const createError = require("http-errors");
 const jwt = require("jsonwebtoken");
-const { User, validate } = require("../models/user");
-const { WebToken } = require("../models/webtoken");
-const errorHandler = require("../middleware/handleError.js");
+const createError = require("http-errors");
 const ms = require("ms");
+const { User } = require("../models/user");
+const errorHandler = require("../middleware/handleError.js");
+const { WebToken } = require("../models/webtoken");
 
-const {
-  clearTokens,
-  generateJWT,
-  getAccessTokenTTL,
-  encodePassword,
-  validatePassword,
-  generateConfirmCode,
-} = require("../utils/auth-utils.js");
-
+const { generateJWT, getAccessTokenTTL } = require("../utils/auth-utils");
 const { getTimeZoneDate } = require("../utils/date-utils");
 
-const signUp = errorHandler(async (req, res, next) => {
-  const { error } = validate(req.body);
-  if (error) return next(createError(401, "Invalid Data"));
+const {
+  ACCESS_TOKEN_LIFE,
+  REFRESH_TOKEN_LIFE,
+  ACCESS_TOKEN_SECRET,
+  REFRESH_TOKEN_SECRET,
+  NODE_ENV,
+} = process.env;
 
-  const userAlreadyExists = await User.findOne({ email: req.body.email });
-  if (userAlreadyExists) {
-    return next(createError(422, "an account with that email already exists"));
+const dev = NODE_ENV === "development";
+
+const generateAuthTokens = errorHandler(async (req, res, next) => {
+  // console.log("Meta: ", req.meta);
+  try {
+    const user = req.data[0];
+    console.log("generateAuthTokens: User :: ", user);
+    if (!user) {
+      return next(
+        createError(404, "Can not generate auth token: User not found")
+      );
+    }
+
+    const refreshToken = generateJWT(
+      user._id,
+      REFRESH_TOKEN_SECRET,
+      REFRESH_TOKEN_LIFE
+    );
+
+    const accessToken = generateJWT(
+      user._id,
+      ACCESS_TOKEN_SECRET,
+      ACCESS_TOKEN_LIFE
+    );
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: !dev,
+      signed: true,
+      expires: getTimeZoneDate(new Date(Date.now() + ms(REFRESH_TOKEN_LIFE))),
+    });
+
+    await persistRefreshToken(refreshToken);
+
+    const meta = {
+      success: true,
+      token: accessToken,
+      expiresAt: getTimeZoneDate(new Date(Date.now() + ms(ACCESS_TOKEN_LIFE))),
+      timetolive: getAccessTokenTTL(),
+      isAuthenticated: true,
+    };
+
+    req.data = [user];
+    req.meta = meta;
+    return next();
+  } catch (error) {
+    return next(createError(418, error));
   }
-
-  const encoded = await encodePassword(req.body.password);
-  const confirmCode = await generateConfirmCode(6);
-  let user = new User({
-    name: req.body.name,
-    username: req.body.username,
-    email: req.body.email,
-    password: encoded,
-    isAdmin: false,
-    confirmCode: confirmCode,
-    confirmed: false,
-  });
-
-  req.data = await user.save();
-  req.meta = {};
-  return next();
 });
 
-const login = errorHandler(async (req, res, next) => {
-  const { username, password } = req.body;
+const isAuthenticated = errorHandler(async (req, res, next) => {
+  try {
+    const authToken = req.get("Authorization");
+    const accessToken = authToken?.split("Bearer ")[1];
+    if (!accessToken) {
+      const error = createError.Unauthorized();
+      throw error;
+    }
 
-  if (!username || !password) {
-    return next(createError(422, "Missing information."));
+    const { signedCookies = {} } = req;
+    const { refreshToken } = signedCookies;
+    if (!refreshToken) {
+      const error = createError.Unauthorized();
+      throw error;
+    }
+
+    let refreshTokenInDB = tokens.find(
+      (token) => token.refreshToken === refreshToken
+    );
+    if (!refreshTokenInDB) {
+      const error = createError.Unauthorized();
+      throw error;
+    }
+
+    refreshTokenInDB = refreshTokenInDB.refreshToken;
+
+    let decodedToken;
+    try {
+      decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
+    } catch (err) {
+      const error = createError.Unauthorized();
+      return next(error);
+    }
+
+    const { userId } = decodedToken;
+    const user = users.find((user) => user.id == userId);
+    if (!user) {
+      const error = createError.Unauthorized();
+      throw error;
+    }
+
+    req.userId == user.id;
+    return next();
+  } catch (error) {
+    return next(error);
   }
-
-  const user = await User.findOne({ username: username });
-  if (!user) {
-    return next(createError(401, "Invalid username or password"));
-  }
-
-  const passwordsMatch = await validatePassword(password, user.password);
-  if (!passwordsMatch) {
-    return next(createError(401, "Invalid username or password"));
-  }
-
-  req.data = [user];
-  return next();
 });
 
-const logout = errorHandler(async (req, res, next) => {
-  await clearTokens(req, res, next);
-  req.data = [];
-  req.meta = {};
-  return next();
+const clearUserTokens = errorHandler(async (req, res, next) => {
+  try {
+    const { signedCookies = {} } = req;
+    const { refreshToken } = signedCookies;
+
+    if (refreshToken) {
+      await WebToken.findOneAndDelete({ token: refreshToken });
+    }
+
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: !dev,
+      signed: true,
+    });
+
+    return next();
+  } catch (error) {
+    return next(createError(418, error));
+  }
 });
-
-const confirm = errorHandler(async (req, res, next) => {});
-
-const resetPassword = errorHandler(async (req, res, next) => {});
 
 const refreshAccessToken = errorHandler(async (req, res, next) => {
   console.log("auth refresh", req.signedCookies);
@@ -86,9 +147,10 @@ const refreshAccessToken = errorHandler(async (req, res, next) => {
   }
 
   try {
+    console.log("refreshAccessToken: refresh token :: ", refreshToken);
     const decodedToken = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
     const { userId } = decodedToken;
-    console.log("decoded Token ", decodedToken);
+    console.log("refreshAccessToken: decoded token ::", decodedToken);
     // if (!refreshTokenInDB) {
     //   await clearTokens(req, res, next);
     //   const error = createError.Unauthorized();
@@ -96,27 +158,16 @@ const refreshAccessToken = errorHandler(async (req, res, next) => {
     // }
 
     const user = await User.findById(userId);
-    // if (!user) {
-    //   await clearTokens(req, res);
-    //   return res.status(422).json({
-    //     error: "Invalid Credentials",
-    //   });
-    // }
+    console.log("user from db: ", user);
 
     const accessToken = generateJWT(
-      user._id,
+      userId,
       ACCESS_TOKEN_SECRET,
       ACCESS_TOKEN_LIFE
     );
 
-    // return res.status(200).json({
-    //   user,
-    //   accessToken,
-    //   expiresAt: getAccessTokenTTL(),
-    //   isAuthenticated: true,
-    // });
-
     const userAuth = {
+      isAuthenticated: true,
       token: accessToken,
       expiresAt: getTimeZoneDate(new Date(Date.now() + ms(ACCESS_TOKEN_LIFE))),
       timetolive: getAccessTokenTTL(),
@@ -124,7 +175,7 @@ const refreshAccessToken = errorHandler(async (req, res, next) => {
       success: true,
     };
 
-    req.data = user;
+    req.data = [user];
     req.meta = userAuth;
     return next();
   } catch (error) {
@@ -133,8 +184,22 @@ const refreshAccessToken = errorHandler(async (req, res, next) => {
 });
 
 module.exports = {
-  signUp,
-  login,
-  logout,
+  generateAuthTokens,
+  isAuthenticated,
   refreshAccessToken,
+  clearUserTokens,
+};
+
+const persistRefreshToken = async (token) => {
+  const { userId, expiresAt } = jwt.verify(token, REFRESH_TOKEN_SECRET);
+  console.log("UserID in persist: ", userId);
+  const persist = new WebToken({
+    name: "refresh",
+    userId: userId,
+    token: token,
+    expiresAt: expiresAt,
+  });
+  console.log("persist: ", persist);
+  await WebToken.findOneAndDelete({ userId: userId });
+  return await persist.save();
 };
