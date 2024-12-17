@@ -3,9 +3,6 @@ const path = require("path");
 const errorHandler = require("../middleware/handleError.js");
 const sgMail = require("@sendgrid/mail");
 const createError = require("http-errors");
-sgMail.setApiKey(
-  "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"
-);
 
 const sendText = errorHandler(async (req, res, next) => {
   await send(req, res, next, { ...req.body });
