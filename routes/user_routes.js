@@ -30,6 +30,7 @@ router.post(
 router.post(
   "/confirm",
   userController.confirm,
+  authController.generateAuthTokens,
   responseController.sendSuccessResponse
 );
 

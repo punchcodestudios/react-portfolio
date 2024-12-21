@@ -32,6 +32,7 @@ if (isDev) {
 // logger.info("before startup: ");
 require("./startup/logging");
 const logger = winston.loggers.get("appLogger");
+require("./startup/prod")(app);
 require("./startup/routes")(app);
 require("./startup/db")(logger);
 
@@ -40,8 +41,6 @@ require("./startup/db")(logger);
 //   console.error("FATAL ERROR: private key is not defined.");
 //   process.exit(1);
 // }
-
-require("./startup/prod")(app);
 
 // email
 const path = require("path");

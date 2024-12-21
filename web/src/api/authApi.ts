@@ -1,4 +1,5 @@
 import {
+  ConfirmationRequest,
   LoginRequest,
   LogoutRequest,
   RegisterRequest,
@@ -13,7 +14,7 @@ export const logout = async (
   // console.log("authApi.logout()");
   const client = new ApiClient<User>("/user/logout");
   try {
-    return client.post(request._id).then((response) => {
+    return client.post(request.id).then((response) => {
       return Promise.resolve(response);
     });
   } catch (error: any) {
@@ -55,6 +56,20 @@ export const refreshAccessToken = async (): Promise<ApiResponse<User>> => {
   try {
     return client.post({}).then((response) => {
       // console.log("response in authAPI: ", response);
+      return Promise.resolve(response);
+    });
+  } catch (error: any) {
+    return Promise.resolve(error);
+  }
+};
+
+export const confirmEmail = async (
+  request: ConfirmationRequest
+): Promise<ApiResponse<User>> => {
+  const client = new ApiClient<User>("user/confirm");
+  console.log("confirm request: ", request);
+  try {
+    return client.post(request).then((response) => {
       return Promise.resolve(response);
     });
   } catch (error: any) {

@@ -1,15 +1,17 @@
 import { LoginRequest } from "@/entities/User";
 import useAuth from "@/state-management/auth/use-auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import authService from "../../services/auth-service";
 import ButtonControl from "../common/button/button.control";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { loginUser, error } = useAuth();
+  const { dispatch } = useAuth();
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     if (error) {
@@ -30,11 +32,29 @@ const Login = () => {
   });
 
   const onSubmit = async (values: LoginRequest) => {
+    setError("");
     const loginForm = {
       username: values.username,
       password: values.password,
     };
-    loginUser(loginForm);
+    // console.log("login info: ", loginForm);
+    authService
+      .login(loginForm)
+      .then((response) => {
+        // console.log(response);
+        if (!response.meta.success) {
+          setError(response.error.message);
+        } else {
+          dispatch({
+            type: "SET_USER",
+            payload: { ...response.target[0] },
+          });
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   return (

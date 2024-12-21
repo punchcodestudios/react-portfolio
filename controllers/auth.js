@@ -150,6 +150,7 @@ const refreshAccessToken = errorHandler(async (req, res, next) => {
     // console.log("refreshAccessToken: refresh token :: ", refreshToken);
     const decodedToken = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
     const { userId } = decodedToken;
+    // console.log("decoded token: ", decodedToken);
     // console.log("refreshAccessToken: decoded token ::", decodedToken);
     // if (!refreshTokenInDB) {
     //   await clearTokens(req, res, next);
@@ -157,7 +158,11 @@ const refreshAccessToken = errorHandler(async (req, res, next) => {
     //   throw error;
     // }
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select([
+      "-password",
+      "-confirmCode",
+      "-name",
+    ]);
     // console.log("user from db: ", user);
 
     const accessToken = generateJWT(

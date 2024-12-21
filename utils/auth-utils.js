@@ -29,7 +29,7 @@ const generateConfirmCode = async (digits) => {
   for (i = 0; i < digits; i++) {
     array.push(Math.floor(Math.random() * 10));
   }
-  const code = +array.join("");
+  const code = array.join("");
   return code;
 };
 

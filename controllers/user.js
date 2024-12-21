@@ -11,11 +11,16 @@ const {
   generateConfirmCode,
 } = require("../utils/auth-utils.js");
 
+const { UserStatus, UserRoles } = require("../utils/constants.js");
+
 const { getTimeZoneDate } = require("../utils/date-utils");
 
 const signUp = errorHandler(async (req, res, next) => {
   const { error } = validate(req.body);
-  if (error) return next(createError(401, "Invalid Data"));
+  if (error) {
+    console.log("ERROR: ", error);
+    next(createError(401, "Invalid Data"));
+  }
 
   const userAlreadyExists = await User.findOne({ email: req.body.email });
   if (userAlreadyExists) {
@@ -29,17 +34,19 @@ const signUp = errorHandler(async (req, res, next) => {
     username: req.body.username,
     email: req.body.email,
     password: encoded,
-    isAdmin: false,
+    roles: [UserRoles.USER],
     confirmCode: confirmCode,
-    confirmed: false,
+    status: UserStatus.INITIAL,
   });
 
-  req.data = await user.save();
+  const response = await user.save();
+  req.data = [response];
   req.meta = {};
   return next();
 });
 
 const login = errorHandler(async (req, res, next) => {
+  console.log("login data: ", req.body);
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -56,7 +63,15 @@ const login = errorHandler(async (req, res, next) => {
     return next(createError(401, "Invalid username or password"));
   }
 
-  req.data = [user];
+  req.data = [
+    {
+      _id: user._id,
+      email: user.email,
+      roles: user.roles,
+      status: user.status,
+      username: user.username,
+    },
+  ];
   return next();
 });
 
@@ -78,7 +93,23 @@ const logout = errorHandler(async (req, res, next) => {
   }
 });
 
-const confirm = errorHandler(async (req, res, next) => {});
+const confirm = errorHandler(async (req, res, next) => {
+  console.log(
+    `confirm.request: ${req.body.username} | ${req.body.confirmationCode}`
+  );
+  const { username, confirmationCode } = req.body;
+
+  const user = await User.findOneAndUpdate(
+    { username: username, confirmCode: confirmationCode },
+    { status: UserStatus.CONFIRMED, confirmCode: "" }
+  ).select(["-password", "-name", "-confirmCode"]);
+
+  if (!user) {
+    return next(createError(401, "Invalid credentials."));
+  }
+  req.data = [user];
+  return next();
+});
 
 const resetPassword = errorHandler(async (req, res, next) => {});
 

@@ -1,7 +1,8 @@
 import { ApiErrorResponse } from "@/api/apiResponses";
+import { UserRole, UserStatus } from "@/utils/enums";
 
 export interface LogoutRequest {
-  _id: string;
+  id: string;
 }
 
 export interface LoginRequest {
@@ -22,18 +23,25 @@ export interface User {
   name: string;
   username: string;
   email: string;
-  roles: string[];
+  status: UserStatus;
+  roles: UserRole[];
 }
 
 export interface UserAuth {
+  success: boolean;
+  total: number;
   expiresAt: string;
   timeToLive: number;
   token: string;
-  isAuthenticated: boolean;
 }
 
 export interface UserResponse {
   target: User[];
   meta: UserAuth;
   error: ApiErrorResponse;
+}
+
+export interface ConfirmationRequest {
+  confirmationCode: string;
+  username: string;
 }

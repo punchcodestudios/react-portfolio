@@ -1,10 +1,3 @@
-const STATUS = Object.freeze({
-  IDLE: "idle",
-  PENDING: "pending",
-  SUCCEEDED: "succeeded",
-  FAILED: "failed",
-});
-
 const utcDateToLocalString = (date: Date) => {
   const offset = date.getTimezoneOffset();
   return new Date(
@@ -12,4 +5,4 @@ const utcDateToLocalString = (date: Date) => {
   ).toLocaleDateString("en-us");
 };
 
-export { STATUS, utcDateToLocalString };
+export { utcDateToLocalString };

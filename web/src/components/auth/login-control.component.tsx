@@ -1,27 +1,22 @@
-import { LoginRequest, LogoutRequest } from "@/entities/User";
+import { LogoutRequest } from "@/entities/User";
 import useAuth from "@/state-management/auth/use-auth";
-import { useEffect, useState } from "react";
+import { UserStatus } from "@/utils/enums";
 import { useNavigate } from "react-router-dom";
+import authService from "../../services/auth-service";
 
 const LoginControl = () => {
-  const { userResponse, logoutUser } = useAuth();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { user, dispatch } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // console.log("useEffect login control");
-    if (userResponse.meta) {
-      setIsAuthenticated(userResponse?.meta.isAuthenticated);
-    }
-  }, [userResponse]);
-
   const handleClick = () => {
-    if (isAuthenticated) {
-      logoutUser({ _id: userResponse.target[0]._id } as LogoutRequest);
-      setIsAuthenticated(false);
+    if (user && user.status == UserStatus.CONFIRMED) {
+      authService.logout({ id: user._id } as LogoutRequest).then(() => {
+        dispatch({ type: "INIT" });
+      });
       navigate("/");
+    } else {
+      navigate("/login");
     }
-    navigate("/login");
   };
 
   return (
@@ -31,7 +26,7 @@ const LoginControl = () => {
       className="btn btn-primary"
       onClick={handleClick}
     >
-      {isAuthenticated ? "Logout" : "Login"}
+      {user && user.status == UserStatus.CONFIRMED ? "Logout" : "Login"}
     </button>
   );
 };

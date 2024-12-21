@@ -1,61 +1,91 @@
-import { UserResponse } from "@/entities/User";
+import { UserStatus, UserRole } from "@/utils/enums";
 
-const initialState: UserResponse = {
-  target: [],
-  meta: {
-    expiresAt: "",
-    timeToLive: 0,
-    token: "",
-    isAuthenticated: false,
-  },
-  error: {
-    status: 0,
-    message: "",
-  },
+export interface UserState {
+  _id: string | null;
+  status:
+    | UserStatus.INITIAL
+    | UserStatus.PENDING
+    | UserStatus.CONFIRMED
+    | UserStatus.REJECTED;
+  username: string;
+  email: string;
+  roles: string[];
+}
+
+const defaultState: UserState = {
+  _id: null,
+  status: UserStatus.INITIAL,
+  username: "",
+  email: "",
+  roles: [UserRole.USER],
 };
 
-interface LoginAction {
-  type: "LOGIN_USER";
-  payload: UserResponse;
+interface InitAction {
+  type: "INIT";
 }
 
-interface LogoutAction {
-  type: "REGISTER_USER";
-  payload: UserResponse;
+interface SetUerAction {
+  type: "SET_USER";
+  payload: UserState;
+}
+interface SetAuthenticatedAction {
+  type: "SET_IS_AUTHENTICATED";
+  payload: boolean;
 }
 
-interface RefreshTokenAction {
-  type: "REFRESH_TOKEN";
-  payload: UserResponse;
+interface SetRolesAction {
+  type: "SET_ROLES";
+  payload: string[];
+}
+interface SetStatusAction {
+  type: "SET_STATUS";
+  payload:
+    | UserStatus.INITIAL
+    | UserStatus.PENDING
+    | UserStatus.CONFIRMED
+    | UserStatus.REJECTED;
 }
 
-interface RegisterAction {
-  type: "LOGOUT_USER";
+interface SetUsernameAction {
+  type: "SET_USERNAME";
+  payload: string;
 }
 
-interface ResetUserAction {
-  type: "RESET_USER";
+interface SetEmailAcion {
+  type: "SET_EMAIL";
+  payload: string;
 }
 
 export type AuthAction =
-  | ResetUserAction
-  | LoginAction
-  | LogoutAction
-  | RegisterAction
-  | RefreshTokenAction;
+  | InitAction
+  | SetUerAction
+  | SetAuthenticatedAction
+  | SetRolesAction
+  | SetStatusAction
+  | SetUsernameAction
+  | SetEmailAcion;
 
-const authReducer = (state: UserResponse, action: AuthAction): UserResponse => {
+const authReducer = (state: UserState | any, action: AuthAction): UserState => {
   switch (action.type) {
-    case "LOGIN_USER":
+    case "INIT":
+      console.log("auth provider init");
+      return defaultState;
+    case "SET_USER":
+      console.log("set_user reducer", action.payload);
+      console.log("state: ", state);
+      const newState = { ...state, ...action.payload };
+      console.log("NEW STATE: ", newState);
       return { ...state, ...action.payload };
-    case "REGISTER_USER":
-      return { ...state, ...action.payload };
-    case "LOGOUT_USER":
-      return { ...state, ...initialState };
-    case "REFRESH_TOKEN":
-      return { ...state, ...action.payload };
-    case "RESET_USER":
-      return { ...state, ...initialState };
+    // case "SET_IS_AUTHENTICATED":
+    //   return { ...state, isAuthenticated: action.payload };
+    case "SET_ROLES":
+      return { ...state, roles: [...state.roles, ...action.payload] };
+    case "SET_STATUS":
+      return { ...state, status: action.payload };
+    case "SET_USERNAME":
+      return { ...state, username: action.payload };
+    case "SET_EMAIL":
+      return { ...state, email: action.payload };
     default:
       return state;
   }

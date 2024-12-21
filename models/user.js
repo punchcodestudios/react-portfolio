@@ -5,9 +5,6 @@ const mongoose = require("mongoose");
 const _ = require("lodash");
 
 const userSchema = new mongoose.Schema({
-  refid: {
-    type: String,
-  },
   name: {
     type: String,
     required: true,
@@ -30,14 +27,17 @@ const userSchema = new mongoose.Schema({
     minlength: 5,
     maxlength: 1024,
   },
-  isAdmin: {
-    type: Boolean,
+  status: {
+    type: String,
+    required: true,
+  },
+  roles: {
+    type: Array,
+    required: true,
   },
   confirmCode: {
-    type: Number,
-  },
-  confirmed: {
-    type: Boolean,
+    type: String,
+    required: false,
   },
 });
 

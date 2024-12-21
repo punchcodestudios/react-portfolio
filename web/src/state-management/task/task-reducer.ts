@@ -1,34 +1,22 @@
-import { ApiResponse } from "@/api/apiResponses";
 import { TaskItem } from "@/entities/TaskItem";
 
-interface AddTaskAction {
-  type: "ADD_TASK";
-  payload: ApiResponse<TaskItem>;
+interface SetTasksAction {
+  type: "SET_TASKS";
+  payload: TaskItem[];
 }
 
-interface CompleteTaskAction {
-  type: "COMPLETE_TASK";
-  payload: ApiResponse<TaskItem>;
+interface InitTasksAction {
+  type: "INIT";
 }
 
-interface GetTasksAction {
-  type: "GET_TASKS";
-  payload: ApiResponse<TaskItem>;
-}
+export type TaskAction = SetTasksAction | InitTasksAction;
 
-export type TaskAction = AddTaskAction | CompleteTaskAction | GetTasksAction;
-
-const taskReducer = (
-  state: ApiResponse<TaskItem>,
-  action: TaskAction
-): ApiResponse<TaskItem> => {
+const taskReducer = (state: TaskItem[], action: TaskAction): TaskItem[] => {
   switch (action.type) {
-    case "ADD_TASK":
-      return action.payload;
-    case "COMPLETE_TASK":
-      return action.payload;
-    case "GET_TASKS":
-      return action.payload;
+    case "SET_TASKS":
+      return [...state, ...action.payload];
+    case "INIT":
+      return [];
     default:
       return state;
   }

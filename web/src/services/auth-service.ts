@@ -1,11 +1,18 @@
 import {
+  ConfirmationRequest,
   LoginRequest,
   LogoutRequest,
   RegisterRequest,
   User,
   UserResponse,
 } from "@/entities/User";
-import { login, logout, register, refreshAccessToken } from "../api/authApi";
+import {
+  login,
+  logout,
+  register,
+  refreshAccessToken,
+  confirmEmail,
+} from "../api/authApi";
 import { ApiResponse } from "@/api/apiResponses";
 
 const authService = {
@@ -40,11 +47,19 @@ const authService = {
   refreshAccessToken: async () => {
     try {
       const response = await refreshAccessToken();
-      // console.log("response in service: ", response);
+      console.log("refresh access token: ", response);
       return Promise.resolve(map(response));
     } catch (error) {
       // console.log("Error while refreshing access token", error);
       throw error;
+    }
+  },
+  confirmEmail: async (request: ConfirmationRequest): Promise<UserResponse> => {
+    try {
+      const response = await confirmEmail(request);
+      return Promise.resolve(map(response));
+    } catch (error: any) {
+      return Promise.resolve(map(error));
     }
   },
 };
