@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
-    "build": "npm run build --prefix web",
     "client": "npm run dev --prefix web",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "start": "npm run build --prefix web && node index.js"
