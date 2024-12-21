@@ -3,7 +3,6 @@ const router = express.Router();
 const mailController = require("../controllers/mail");
 const mailMiddleware = require("../middleware/mail");
 
-router.post("/send", mailController.sendText, mailMiddleware.sendText);
 router.post(
   "/send-contact",
   mailController.sendContact,

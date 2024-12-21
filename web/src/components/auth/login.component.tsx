@@ -1,22 +1,23 @@
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { LoginUser } from "@/entities/User";
+import { LoginRequest } from "@/entities/User";
 import useAuth from "@/state-management/auth/use-auth";
-import { Form, Spinner } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Form } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import authService from "../../services/auth-service";
 import ButtonControl from "../common/button/button.control";
-import { useEffect } from "react";
 
 const Login = () => {
-  const { loginUser, isLoading, error } = useAuth();
-
-  if (error) {
-    toast(error);
-  }
+  const navigate = useNavigate();
+  const { dispatch } = useAuth();
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    console.log(isLoading);
-  }, [isLoading]);
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const {
     handleSubmit,
@@ -30,12 +31,30 @@ const Login = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async (values: LoginUser) => {
-    const user = {
+  const onSubmit = async (values: LoginRequest) => {
+    setError("");
+    const loginForm = {
       username: values.username,
       password: values.password,
     };
-    loginUser(user);
+    // console.log("login info: ", loginForm);
+    authService
+      .login(loginForm)
+      .then((response) => {
+        // console.log(response);
+        if (!response.meta.success) {
+          setError(response.error.message);
+        } else {
+          dispatch({
+            type: "SET_USER",
+            payload: { ...response.target[0] },
+          });
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   return (
@@ -44,14 +63,16 @@ const Login = () => {
       <div className="formWrapper">
         <Form className="form" onSubmit={handleSubmit(onSubmit)}>
           <h1 className="formTitle">Sign In</h1>
+          {/* {isLoading && <div>loading...</div>} */}
           <Form.Group className="mb-3">
             <input
               className="input"
               type="text"
               id="username"
-              aria-label="Username or Email"
+              aria-label="username"
+              autoComplete="false"
               required
-              placeholder="Username or Email"
+              placeholder="username"
               {...register("username", {
                 required: { value: true, message: "This field is required." },
               })}
@@ -66,6 +87,7 @@ const Login = () => {
               type="password"
               id="password"
               required
+              autoComplete="false"
               placeholder="Password"
               {...register("password", {
                 required: { value: true, message: "Password is required." },
@@ -82,7 +104,8 @@ const Login = () => {
               cssClass="btn btn-primary"
               type="submit"
             >
-              {isLoading && <Spinner className="button-spinner" />}Sign In
+              {/* {isLoading && <Spinner className="button-spinner" />} */}
+              Sign In
             </ButtonControl>
           </Form.Group>
           <p className="text">

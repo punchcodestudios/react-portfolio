@@ -45,10 +45,10 @@ const AddTaskForm = () => {
   const onSubmit = (values: AddTaskItem) => {
     addTask(values)
       .then((response) => {
-        console.log("Response: ", response);
+        // console.log("Response: ", response);
       })
       .catch((error) => {
-        console.log("ERROR: ", error);
+        // console.log("ERROR: ", error);
       });
   };
 

@@ -1,35 +1,38 @@
 import axios from "axios";
+import { ApiErrorResponse, ApiResponse } from "./apiResponses";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL:
+    process.env.NODE_ENV === "development" ? "http://localhost:3000/api" : "",
   withCredentials: true,
 });
 
 axios.interceptors.request.use(
   async (config) => {
-    // console.log("request", config);
     return config;
   },
   (error) => {
-    console.log("intercepted error: ", error);
+    // set up logging for this level
+    // console.log("intercepted error: ", error);
     return Promise.reject(error);
   }
 );
 
 axiosInstance.interceptors.response.use(
   async (response) => {
-    // console.log("response from interceptor: ", response);
     return response;
   },
   (error) => {
-    if (error.response && error.response.status === 401) {
-      console.log("error response: status==401");
+    if (error.response) {
+      // set up logging for this level
+      // console.log("error response: ", error.response.data);
+      throw error.response.data;
     }
-    return Promise.reject(error);
+    throw error;
   }
 );
 
-class NodeAPIClient<T> {
+class ApiClient<T> {
   endpoint: string;
   params: object;
 
@@ -38,26 +41,37 @@ class NodeAPIClient<T> {
     this.params = params || {};
   }
 
-  getAll = (): Promise<T> => {
-    // console.log("API: ", { ...this.params });
-    return axiosInstance
-      .get<T>(this.endpoint, { params: { ...this.params } })
-      .then((res) => res.data);
+  getAll = async (): Promise<ApiResponse<T>> => {
+    try {
+      const response = await axiosInstance.get(this.endpoint, {
+        params: { ...this.params },
+      });
+      return Promise.resolve({ ...response.data });
+    } catch (error: any) {
+      // console.log("apiClient.getAll: error", error);
+      return Promise.reject({ ...error } as ApiErrorResponse);
+    }
   };
 
-  get = (id: number | string): Promise<T> => {
-    return axiosInstance
-      .get<T>(this.endpoint + "/" + id)
-      .then((res) => res.data);
+  get = async (id: number | string): Promise<ApiResponse<T>> => {
+    try {
+      const response = await axiosInstance.get(this.endpoint + "/" + id);
+      return Promise.resolve({ ...response.data });
+    } catch (error: any) {
+      // console.log("apiClient.get: error", error);
+      return Promise.reject({ ...error } as ApiErrorResponse);
+    }
   };
 
-  post = async (entity: T | {}): Promise<T> => {
-    console.log("env url: ", process.env.NODE_ENV);
-    // console.log("CLIENT ITEM: ", entity);
-    return await axiosInstance
-      .post(this.endpoint, entity)
-      .then((res) => res.data);
+  post = async (entity: T | {}): Promise<ApiResponse<T>> => {
+    try {
+      const response = await axiosInstance.post(this.endpoint, entity);
+      return Promise.resolve({ ...response.data });
+    } catch (error: any) {
+      // console.log("apiClient.post: error", error);
+      return Promise.reject({ ...error } as ApiErrorResponse);
+    }
   };
 }
 
-export default NodeAPIClient;
+export default ApiClient;

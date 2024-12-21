@@ -9,6 +9,10 @@ import GalleryGridLayout from "../pages/gallery/galllery-grid-layout.component";
 import HomePage from "../pages/home-page.component";
 import Resume from "../pages/resume/index";
 import TaskListPage from "../pages/task-list/task-list.page";
+import SignUpConfirmationPage from "../pages/auth/sign-up-confirmation-page.component";
+import WelcomePage from "../pages/auth/welcome-page.component";
+import RestrictAuthenticated from "./restrictAuthenticated";
+import RequireAuthenticated from "./requireAuthenticated";
 
 function routes() {
   return [
@@ -22,7 +26,10 @@ function routes() {
           element: <HomePage></HomePage>,
         },
         { path: "home", element: <HomePage></HomePage> },
-        { path: "resume", element: <Resume></Resume> },
+        {
+          path: "resume",
+          element: <Resume />,
+        },
         { path: "about", element: <AboutPage></AboutPage> },
         {
           path: "galleries",
@@ -33,16 +40,36 @@ function routes() {
           element: <GalleryDetails></GalleryDetails>,
         },
         {
-          path: "login/",
-          element: <LoginPage></LoginPage>,
+          element: <RestrictAuthenticated />,
+          errorElement: <ErrorPage></ErrorPage>,
+          children: [
+            {
+              path: "login",
+              element: <LoginPage></LoginPage>,
+            },
+            {
+              path: "register",
+              element: <RegisterPage></RegisterPage>,
+            },
+            {
+              path: "confirm-email",
+              element: <SignUpConfirmationPage />,
+            },
+            {
+              path: "welcome",
+              element: <WelcomePage />,
+            },
+          ],
         },
         {
-          path: "register/",
-          element: <RegisterPage></RegisterPage>,
-        },
-        {
-          path: "task-list",
-          element: <TaskListPage></TaskListPage>,
+          element: <RequireAuthenticated></RequireAuthenticated>,
+          errorElement: <ErrorPage></ErrorPage>,
+          children: [
+            {
+              path: "task-list",
+              element: <TaskListPage></TaskListPage>,
+            },
+          ],
         },
       ],
     },

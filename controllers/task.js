@@ -3,9 +3,7 @@ const { Task } = require("../models/task.js");
 
 const getTasks = errorHandler(async (req, res, next) => {
   let data = await Task.find({});
-  let filteredData = [
-    ...data.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)),
-  ];
+  data = [...data.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))];
   // if (req.query.showActive == "true") {
   //   filteredData = [
   //     ...data
@@ -22,7 +20,10 @@ const getTasks = errorHandler(async (req, res, next) => {
   //       .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)),
   //   ];
   // }
-  return res.status(200).send(filteredData);
+  req.data = data;
+  req.totalCount = data.length;
+  req.activeCount = data.filter((x) => !x.completedDate).length;
+  return next();
 });
 
 const addTask = errorHandler(async (req, res, next) => {

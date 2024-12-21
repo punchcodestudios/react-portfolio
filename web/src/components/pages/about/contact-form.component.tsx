@@ -1,6 +1,6 @@
 import toast, { Toaster } from "react-hot-toast";
 import { Email } from "@/entities/Email";
-import NodeAPIClient from "@/services/node-api-client";
+// import NodeAPIClient from "@/services/node-api-client";
 import { Form, Spinner } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import ButtonControl from "@/components/common/button/button.control";
@@ -23,7 +23,7 @@ const ContactForm = () => {
     },
   });
 
-  const apiClient = new NodeAPIClient<Email>("/mail/send-contact");
+  // const apiClient = new NodeAPIClient<Email>("/mail/send-contact");
 
   const onSubmit = async (values: Email) => {
     const contact: Email = {
@@ -34,17 +34,17 @@ const ContactForm = () => {
     };
     try {
       setIsLoading(true);
-      const response = await apiClient.post(contact);
-      if (response.status === 200) {
-        toast.success(response.message);
-        reset();
-        // console.log("Email sent!. \nResponse:", response.status);
-      } else {
-        toast.error(response.message);
-        // console.log("Email not sent. \nResponse:", response);
-      }
+      // const response = await apiClient.post(contact);
+      // if (response.status === 200) {
+      //   toast.success(response.message);
+      //   reset();
+      // console.log("Email sent!. \nResponse:", response.status);
+      // } else {
+      //   toast.error(response.message);
+      // console.log("Email not sent. \nResponse:", response);
+      // }
     } catch (error) {
-      console.log("error sending email", error);
+      // console.log("error sending email", error);
     } finally {
       setIsLoading(false);
     }

@@ -1,9 +1,12 @@
-import { RegisterUser } from "@/entities/User";
+import { RegisterRequest } from "@/entities/User";
 import useAuth from "@/state-management/auth/use-auth";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { Form, Link, useNavigate } from "react-router-dom";
 import ButtonControl from "../common/button/button.control";
+import { useEffect, useState } from "react";
+import authService from "../../services/auth-service";
+import { UserStatus } from "@/utils/enums";
 
 const Signup = () => {
   const {
@@ -21,10 +24,21 @@ const Signup = () => {
     mode: "onChange",
   });
 
-  const navigate = useNavigate();
-  const { registerUser } = useAuth();
+  const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const onSubmit = async (values: RegisterUser) => {
+  const navigate = useNavigate();
+  const { user, dispatch } = useAuth();
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
+
+  const onSubmit = async (values: RegisterRequest) => {
+    setError("");
+    setIsLoading(true);
     const newUser = {
       name: values.name,
       username: values.username,
@@ -33,19 +47,42 @@ const Signup = () => {
       confirmPassword: values.confirmPassword,
     };
 
-    try {
-      await registerUser(newUser);
-      navigate("/login");
-    } catch (error: any) {
-      console.log("here: ", error);
-      toast.error(error.response.data.message);
-    }
+    authService
+      .register(newUser)
+      .then((response) => {
+        console.log(response);
+        if (!response.meta.success) {
+          setError(response.error.message);
+        } else if (response.target && response.target.length > 0) {
+          console.log("response.target: ", response.target);
+          dispatch({
+            type: "SET_USER",
+            payload: {
+              ...user,
+              id: response.target[0].id,
+              username: response.target[0].username,
+              email: response.target[0].email,
+              status: UserStatus.PENDING,
+            },
+          });
+          console.log("before navigate");
+          navigate("/confirm-email");
+        }
+      })
+      .catch((error) => {
+        console.log("error: ", error);
+        setError(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
     <div className="form-container">
       <Toaster></Toaster>
       <div className="formWrapper">
+        {isLoading && <div>loading...</div>}
         <Form className="form" onSubmit={handleSubmit(onSubmit)}>
           <h1 className="formTitle">Create New Account</h1>
           <div className="formGroup">

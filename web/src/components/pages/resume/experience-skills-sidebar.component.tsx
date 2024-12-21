@@ -1,4 +1,4 @@
-import { Skill } from "@/entities/Skill";
+import { Skill } from "@/entities/Resume";
 import { ListGroup } from "react-bootstrap";
 import SidebarMenu from "react-bootstrap-sidebar-menu";
 

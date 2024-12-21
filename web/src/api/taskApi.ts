@@ -1,11 +1,15 @@
 import { AddTaskItem, TaskItem } from "@/entities/TaskItem";
-import ApiClient from "./apiClient";
 import { TaskQuery } from "@/state-management/task/task-query-store";
+import ApiClient from "./apiClient";
+import { ApiResponse } from "./apiResponses";
 
-export const getTasks = async (query: TaskQuery) => {
-  const client = new ApiClient<TaskItem[]>("/tasks/get-tasks", query);
+export const getTasks = async (
+  query: TaskQuery
+): Promise<ApiResponse<TaskItem>> => {
+  const client = new ApiClient<TaskItem>("/tasks/get-tasks", query);
   try {
     const response = await client.getAll();
+    // console.log("task response: ", response);
     return response;
   } catch (error) {
     console.error("Error fetching tasks: ", error);
@@ -13,7 +17,9 @@ export const getTasks = async (query: TaskQuery) => {
   }
 };
 
-export const addTask = async (item: AddTaskItem) => {
+export const addTask = async (
+  item: AddTaskItem
+): Promise<ApiResponse<TaskItem>> => {
   const client = new ApiClient<TaskItem>("/tasks/add-task");
   try {
     const response = await client.post(item);
@@ -24,10 +30,12 @@ export const addTask = async (item: AddTaskItem) => {
   }
 };
 
-export const completeTask = async (refid: string) => {
+export const completeTask = async (
+  refid: string
+): Promise<ApiResponse<TaskItem>> => {
   const client = new ApiClient<TaskItem>("/tasks/complete-task");
   try {
-    console.log("REFID: ", refid);
+    // console.log("REFID: ", refid);
 
     const response = await client.post({ id: refid });
     return response;

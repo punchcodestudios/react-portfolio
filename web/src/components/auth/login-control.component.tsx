@@ -1,19 +1,22 @@
+import { LogoutRequest } from "@/entities/User";
 import useAuth from "@/state-management/auth/use-auth";
+import { UserStatus } from "@/utils/enums";
 import { useNavigate } from "react-router-dom";
+import authService from "../../services/auth-service";
 
 const LoginControl = () => {
-  const { user, logoutUser } = useAuth();
+  const { user, dispatch } = useAuth();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   setStatus(isAuthenticated);
-  // }, [isAuthenticated]);
-
   const handleClick = () => {
-    if (user?.isAuthenticated) {
-      return logoutUser(user.id);
+    if (user && user.status == UserStatus.CONFIRMED) {
+      authService.logout({ id: user._id } as LogoutRequest).then(() => {
+        dispatch({ type: "INIT" });
+      });
+      navigate("/");
+    } else {
+      navigate("/login");
     }
-    navigate("/login");
   };
 
   return (
@@ -23,7 +26,7 @@ const LoginControl = () => {
       className="btn btn-primary"
       onClick={handleClick}
     >
-      {user?.isAuthenticated ? "Logout" : "Login"}
+      {user && user.status == UserStatus.CONFIRMED ? "Logout" : "Login"}
     </button>
   );
 };

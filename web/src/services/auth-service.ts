@@ -1,42 +1,77 @@
-import { LoginUser, RegisterUser, User } from "@/entities/User";
-import { login, logout, register, refreshAccessToken } from "../api/authApi";
+import {
+  ConfirmationRequest,
+  LoginRequest,
+  LogoutRequest,
+  RegisterRequest,
+  User,
+  UserResponse,
+} from "@/entities/User";
+import {
+  login,
+  logout,
+  register,
+  refreshAccessToken,
+  confirmEmail,
+} from "../api/authApi";
+import { ApiResponse } from "@/api/apiResponses";
 
 const authService = {
-  logout: async (id: string) => {
+  logout: async (request: LogoutRequest) => {
     try {
-      const response = await logout(id);
-      return response;
+      const response = await logout(request);
+      return Promise.resolve(map(response));
     } catch (error) {
-      console.error("Error logging out: ", error);
+      // console.error("Error logging out: ", error);
       throw error;
     }
   },
-  register: async (user: RegisterUser) => {
+  register: async (request: RegisterRequest) => {
     try {
-      const response = await register(user);
-      return response;
+      const response = await register(request);
+      return Promise.resolve(map(response));
     } catch (error) {
-      console.error("Error registering: ", error);
+      // console.error("Error registering: ", error);
       throw error;
     }
   },
-  login: async (user: LoginUser) => {
+  login: async (request: LoginRequest): Promise<UserResponse> => {
+    // console.log("login: ", request);
     try {
-      const response = await login(user);
-      return response;
-    } catch (error) {
-      console.error("Error logging in");
-      throw error;
+      const response = await login(request);
+      return Promise.resolve(map(response));
+    } catch (error: any) {
+      // console.log("error in service: ", error);
+      return Promise.resolve(map(error));
     }
   },
   refreshAccessToken: async () => {
     try {
       const response = await refreshAccessToken();
-      return response;
+      console.log("refresh access token: ", response);
+      return Promise.resolve(map(response));
     } catch (error) {
-      console.error("Error while refreshing access token");
+      // console.log("Error while refreshing access token", error);
       throw error;
+    }
+  },
+  confirmEmail: async (request: ConfirmationRequest): Promise<UserResponse> => {
+    try {
+      const response = await confirmEmail(request);
+      return Promise.resolve(map(response));
+    } catch (error: any) {
+      return Promise.resolve(map(error));
     }
   },
 };
 export default authService;
+
+const map = (item: ApiResponse<User>): UserResponse => {
+  // console.log("map: ", item);
+  const res = {
+    target: item.content.target,
+    meta: item.content.meta,
+    error: item.content.error,
+  } as UserResponse;
+
+  return res;
+};

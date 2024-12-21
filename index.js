@@ -3,7 +3,7 @@ const winston = require("winston");
 require("dotenv").config();
 
 process.on("unhandledRejection", (ex) => {
-  console.log("unhandled Rejection: ", ex);
+  // console.log("unhandled Rejection: ", ex);
   throw `${ex.message} | exception: ${ex}`;
 });
 
@@ -32,6 +32,7 @@ if (isDev) {
 // logger.info("before startup: ");
 require("./startup/logging");
 const logger = winston.loggers.get("appLogger");
+require("./startup/prod")(app);
 require("./startup/routes")(app);
 require("./startup/db")(logger);
 
@@ -41,8 +42,6 @@ require("./startup/db")(logger);
 //   process.exit(1);
 // }
 
-require("./startup/prod")(app);
-
 // email
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -51,12 +50,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use(express.static(path.join(__dirname, "/web/dist")));
-
-app.get("*", (req, res) => {
-  console.log("are we here");
-  res.sendFile(path.join(__dirname, "/web/dist/index.html"));
-});
+if (!isDev) {
+  app.use(express.static(path.join(__dirname, "/web/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "/web/dist/index.html"));
+  });
+}
 
 // General
 const port = PORT || 3000;

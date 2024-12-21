@@ -1,3 +1,5 @@
+import { TaskStatus } from "@/utils/enums";
+
 export interface TaskItem {
   _id: string;
   title: string;
@@ -5,20 +7,21 @@ export interface TaskItem {
   addDate: Date;
   dueDate: Date;
   completedDate?: Date;
-  taskGroupRefid: string;
+  taskGroup: string[];
+  status: TaskStatus;
 }
 
-export interface TaskGroup {
-  refid: string;
-  title: string;
-  description: string;
-}
+// export interface TaskGroup {
+//   refid: string;
+//   title: string;
+//   description: string;
+// }
 
 export interface AddTaskItem {
   title: string;
   description: string;
   dueDate: string;
-  taskGroupRefid: string;
+  taskGroup: string;
 }
 
 export interface TaskQueryOptions {
@@ -35,4 +38,10 @@ export interface TaskFilter {
   showCompleted: boolean;
   pageSize: number;
   currentPage: number;
+}
+
+export interface TaskContent {
+  totalCount: number;
+  activeCount: number;
+  tasks: TaskItem[];
 }

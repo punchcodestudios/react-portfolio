@@ -1,4 +1,4 @@
-import { Skill } from "@/entities/Skill";
+import { Skill } from "@/entities/Resume";
 import SidebarMenu from "react-bootstrap-sidebar-menu";
 
 interface Props {
