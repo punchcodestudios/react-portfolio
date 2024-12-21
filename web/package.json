@@ -7,7 +7,6 @@
     "dev": "vite",
     "build": "npm install && vite build",
     "lint": "eslint .",
-    "build": "npm install && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
