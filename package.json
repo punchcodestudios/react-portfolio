@@ -8,7 +8,6 @@
     "test": "npm run test",
     "client": "npm run dev --prefix web",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "npm run build --prefix web",
     "start": "node index.js"
   },
   "engines": {
