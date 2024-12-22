@@ -1,5 +1,5 @@
-import toast, { Toaster } from "react-hot-toast";
-import { Email } from "@/entities/Email";
+import { Toaster } from "react-hot-toast";
+// import { Email } from "@/entities/Email";
 // import NodeAPIClient from "@/services/node-api-client";
 import { Form, Spinner } from "react-bootstrap";
 import { useForm } from "react-hook-form";
@@ -12,7 +12,7 @@ const ContactForm = () => {
   const {
     handleSubmit,
     register,
-    reset,
+    // reset,
     formState: { errors, touchedFields },
   } = useForm({
     defaultValues: {
@@ -25,13 +25,14 @@ const ContactForm = () => {
 
   // const apiClient = new NodeAPIClient<Email>("/mail/send-contact");
 
-  const onSubmit = async (values: Email) => {
-    const contact: Email = {
-      name: values.name,
-      from: values.from,
-      subject: values.subject,
-      message: values.message,
-    };
+  const onSubmit = async (values: any) => {
+    console.log(values);
+    // const contact: Email = {
+    //   name: values.name,
+    //   from: values.from,
+    //   subject: values.subject,
+    //   message: values.message,
+    // };
     try {
       setIsLoading(true);
       // const response = await apiClient.post(contact);

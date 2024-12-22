@@ -1,13 +1,10 @@
-import { AddTaskItem, TaskGroup } from "@/entities/TaskItem";
-import useTasks from "@/state-management/task/use-tasks";
-
 import ButtonControl from "@/components/common/button/button.control";
 import { Container, Form, Nav, Navbar, NavItem } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { utcDateToLocalString } from "../../../utils/utils";
 
 const AddTaskMenuBar = () => {
-  const { addTask } = useTasks();
+  // const { addTask } = useTasks();
 
   // this is bullshit lol
   const onDateFocus = (e: any) => (e.target.type = "date");
@@ -16,16 +13,16 @@ const AddTaskMenuBar = () => {
     e.target.value = utcDateToLocalString(new Date(e.target.value));
   };
 
-  const groupOptions: TaskGroup[] = [
-    { refid: "1", title: "Group 1", description: "description for group one" },
-    { refid: "2", title: "Group 2", description: "description for group two" },
-    {
-      refid: "3",
-      title: "Group 3",
-      description: "description for group three",
-    },
-    { refid: "4", title: "Group 4", description: "description for group four" },
-  ];
+  // const groupOptions: TaskGroup[] = [
+  //   { refid: "1", title: "Group 1", description: "description for group one" },
+  //   { refid: "2", title: "Group 2", description: "description for group two" },
+  //   {
+  //     refid: "3",
+  //     title: "Group 3",
+  //     description: "description for group three",
+  //   },
+  //   { refid: "4", title: "Group 4", description: "description for group four" },
+  // ];
 
   const {
     register,
@@ -41,14 +38,9 @@ const AddTaskMenuBar = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (values: AddTaskItem) => {
-    addTask(values)
-      .then((response) => {
-        // console.log("Response: ", response);
-      })
-      .catch((error) => {
-        // console.log("ERROR: ", error);
-      });
+  const onSubmit = (values: any) => {
+    console.log(values);
+    return;
   };
 
   return (
@@ -145,11 +137,11 @@ const AddTaskMenuBar = () => {
                     })}
                   >
                     <option value={"0"}>select a group option</option>
-                    {groupOptions.map((opt) => (
+                    {/* {groupOptions.map((opt) => (
                       <option key={opt.refid} value={opt.refid}>
                         {opt.title}
                       </option>
-                    ))}
+                    ))} */}
                   </select>
                   <div className="validationError">
                     <span>

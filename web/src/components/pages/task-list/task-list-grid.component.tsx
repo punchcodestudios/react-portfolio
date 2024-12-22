@@ -4,14 +4,18 @@ import useTasks from "@/state-management/task/use-tasks";
 import Date from "../../../extensions/Date";
 
 const TaskListGrid = () => {
-  const { tasks, loading, error, completeTask } = useTasks();
+  const { tasks } = useTasks();
 
-  if (loading) {
-    return <div>loading...</div>;
-  }
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  // if (loading) {
+  //   return <div>loading...</div>;
+  // }
+  // if (error) {
+  //   return <div>Error: {error}</div>;
+  // }
+
+  const handleClick = () => {
+    return;
+  };
 
   const getTaskStatus = (item: TaskItem): string => {
     const urgencyFactor = 3;
@@ -54,7 +58,7 @@ const TaskListGrid = () => {
                   id={task._id}
                   name="complete-task"
                   cssClass="btn btn-primary"
-                  onClick={() => completeTask(task._id)}
+                  onClick={() => handleClick()}
                 >
                   Complete
                 </ButtonControl>
@@ -71,7 +75,7 @@ const TaskListGrid = () => {
                   </li>
                   <li>
                     <label>Group:</label>
-                    {task.taskGroupRefid}
+                    {task.taskGroup}
                   </li>
                   <li className="">
                     <label>Status:</label>

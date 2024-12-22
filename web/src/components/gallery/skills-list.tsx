@@ -1,18 +1,19 @@
 import {
-  Button,
+  // Button,
   Heading,
-  HStack,
-  Image,
+  // HStack,
+  // Image,
   List,
   Spinner,
 } from "@chakra-ui/react";
 import useSkills from "../../hooks/useSkills";
-import useGalleryQueryStore from "../../state-management/gallery/gallery-query-store";
+// import useGalleryQueryStore from "../../state-management/gallery/gallery-query-store";
+import { SkillRequest } from "@/entities/Resume";
 
 const SkillsList = () => {
-  const { data, isLoading, error } = useSkills();
+  const { isLoading, error } = useSkills({} as SkillRequest);
   // const selectedSkillId = useGalleryQueryStore((s) => s.galleryQuery.skillId);
-  const setSelectedSkillId = useGalleryQueryStore((s) => s.setSkillId);
+  // const setSelectedSkillId = useGalleryQueryStore((s) => s.setSkillId);
 
   if (error) return null;
 
@@ -26,7 +27,7 @@ const SkillsList = () => {
         Skills
       </Heading>
       <List.Root listStyleType="none">
-        {data?.results.map((skill, index) => (
+        {/* {data?.results.map((skill, index) => (
           <List.Item key={index} paddingY="5px">
             <HStack>
               <Image
@@ -47,7 +48,7 @@ const SkillsList = () => {
               </Button>
             </HStack>
           </List.Item>
-        ))}
+        ))} */}
       </List.Root>
     </>
   );

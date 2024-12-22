@@ -29,7 +29,7 @@ function LayoutComponent() {
   }, []);
 
   useEffect(() => {
-    let refreshAccessTokenTimerId: NodeJS.Timeout;
+    // let refreshAccessTokenTimerId: NodeJS.Timeout;
     // if (user?.isAuthenticated) {
     // console.log("heartbeat");
     // refreshAccessTokenTimerId = setTimeout(() => {
@@ -37,7 +37,6 @@ function LayoutComponent() {
     //   refreshAccessToken();
     // }, 10000);
     // // }
-
     // return () => {
     //   if (user?.isAuthenticated && refreshAccessTokenTimerId) {
     //     clearTimeout(refreshAccessTokenTimerId);
