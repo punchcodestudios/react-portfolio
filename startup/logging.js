@@ -8,10 +8,10 @@ const { combine, timestamp, json, errors, uncolorize } = winston.format;
 const path = require("path");
 const logDir = path.join(path.resolve(__dirname, ".."), "/logs");
 
-// const dbLogger = new winston.transports.MongoDB({
-//   db: process.env.MONGO_DB_CONNECTION,
-//   level: "error",
-// });
+const dbLogger = new winston.transports.MongoDB({
+  db: process.env.MONGO_DB_CONNECTION,
+  level: "error",
+});
 
 const consoleLogger = new winston.transports.Console({
   format: winston.format.cli(),
@@ -64,7 +64,7 @@ const dailyRejectionFile = new winston.transports.DailyRotateFile({
 
 winston.loggers.add("appLogger", {
   level: process.env.LOG_LEVEL || "info",
-  transports: [consoleLogger, dailyFile, dailyErrorFile],
+  transports: [consoleLogger, dailyFile, dailyErrorFile, dbLogger],
   exceptionHandlers: [dailyExceptionFile],
   rejectionHandlers: [dailyRejectionFile],
 });
