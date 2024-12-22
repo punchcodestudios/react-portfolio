@@ -1,6 +1,6 @@
-import "../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
+import "bootstrap-icons/font/bootstrap-icons.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./App.scss";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
