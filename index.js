@@ -58,12 +58,12 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 console.log("index.js: 59");
-// if (!isDev) {
-//   app.use(express.static(path.join(__dirname, "/web/dist")));
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname, "/web/dist/index.html"));
-//   });
-// }
+if (!isDev) {
+  app.use(express.static(path.join(__dirname, "/web/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "/web/dist/index.html"));
+  });
+}
 
 console.log("index.js: 67");
 // General
