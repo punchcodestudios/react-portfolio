@@ -1,4 +1,4 @@
-import { ExperienceLineItem } from "@/entities/Experience";
+import { ExperienceLineItem } from "@/entities/Resume";
 import { ListGroup } from "react-bootstrap";
 
 interface Props {

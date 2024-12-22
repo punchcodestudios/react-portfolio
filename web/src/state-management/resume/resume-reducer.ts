@@ -1,9 +1,11 @@
 import { ApiErrorResponse } from "@/api/apiResponses";
 import {
   Experience,
-  ExperienceResponse,
+  ExperienceMeta,
+  ResumeMeta,
   ResumeResponse,
   Skill,
+  SkillMeta,
   SkillResponse,
 } from "@/entities/Resume";
 
@@ -12,17 +14,17 @@ const initialState: ResumeResponse = {
     {
       skillResponse: {
         target: [] as Skill[],
-        meta: {},
+        meta: {} as SkillMeta,
         error: {} as ApiErrorResponse,
       },
       experienceResponse: {
         target: [] as Experience[],
-        meta: {},
+        meta: {} as ExperienceMeta,
         error: {} as ApiErrorResponse,
       },
     },
   ],
-  meta: {},
+  meta: {} as ResumeMeta,
   error: {
     status: 0,
     message: "",

@@ -9,11 +9,11 @@ declare global {
 
 Date.prototype.midnight = function () {
   let date = new Date(this.valueOf());
-  const newDate = new Date(
-    date.getUTCFullYear(),
-    date.getUTCDay(),
-    date.getUTCDate()
-  );
+  // const newDate = new Date(
+  //   date.getUTCFullYear(),
+  //   date.getUTCDay(),
+  //   date.getUTCDate()
+  // );
   // console.log(newDate);
   return new Date(date);
 };

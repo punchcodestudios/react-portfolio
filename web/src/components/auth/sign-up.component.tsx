@@ -59,7 +59,7 @@ const Signup = () => {
             type: "SET_USER",
             payload: {
               ...user,
-              id: response.target[0].id,
+              _id: response.target[0]._id,
               username: response.target[0].username,
               email: response.target[0].email,
               status: UserStatus.PENDING,

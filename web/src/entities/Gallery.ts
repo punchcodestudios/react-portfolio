@@ -1,5 +1,5 @@
 import { Discipline } from "./Discipline";
-import { Skill } from "./Skill";
+import { Skill } from "./Resume";
 
 export interface Gallery {
   id: string;
