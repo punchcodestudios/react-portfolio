@@ -4,25 +4,7 @@ const { Task } = require("../models/task.js");
 const getTasks = errorHandler(async (req, res, next) => {
   let data = await Task.find({});
   data = [...data.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))];
-  // if (req.query.showActive == "true") {
-  //   filteredData = [
-  //     ...data
-  //       .filter((x) => !x.completedDate)
-  //       .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)),
-  //     ...filteredData,
-  //   ];
-  // }
-  // if (req.query.showCompleted == "true") {
-  //   filteredData = [
-  //     ...filteredData,
-  //     ...data
-  //       .filter((x) => x.completedDate)
-  //       .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)),
-  //   ];
-  // }
   req.data = data;
-  req.totalCount = data.length;
-  req.activeCount = data.filter((x) => !x.completedDate).length;
   return next();
 });
 

@@ -1,3 +1,4 @@
+import { ApiErrorResponse } from "@/api/apiResponses";
 import { TaskStatus } from "@/utils/enums";
 
 export interface TaskItem {
@@ -10,12 +11,6 @@ export interface TaskItem {
   taskGroup: string[];
   status: TaskStatus;
 }
-
-// export interface TaskGroup {
-//   refid: string;
-//   title: string;
-//   description: string;
-// }
 
 export interface AddTaskItem {
   title: string;
@@ -44,4 +39,14 @@ export interface TaskContent {
   totalCount: number;
   activeCount: number;
   tasks: TaskItem[];
+}
+
+export interface TaskMeta {
+  success: boolean;
+  total: number;
+}
+export interface TaskResponse {
+  target: TaskItem[];
+  meta: TaskMeta;
+  error: ApiErrorResponse;
 }

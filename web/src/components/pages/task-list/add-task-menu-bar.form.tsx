@@ -1,40 +1,41 @@
 import ButtonControl from "@/components/common/button/button.control";
 import { Container, Form, Nav, Navbar, NavItem } from "react-bootstrap";
-import { useForm } from "react-hook-form";
-import { utcDateToLocalString } from "../../../utils/utils";
+import { Controller, useForm } from "react-hook-form";
+import DatePicker from "react-datepicker";
+import BaseJoi from "Joi";
+import JoiDate from "@joi/date";
+import { joiResolver } from "@hookform/resolvers/joi";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AddTaskMenuBar = () => {
-  // const { addTask } = useTasks();
-
-  // this is bullshit lol
-  const onDateFocus = (e: any) => (e.target.type = "date");
-  const onDateBlur = (e: any) => {
-    e.target.type = "text";
-    e.target.value = utcDateToLocalString(new Date(e.target.value));
-  };
-
-  // const groupOptions: TaskGroup[] = [
-  //   { refid: "1", title: "Group 1", description: "description for group one" },
-  //   { refid: "2", title: "Group 2", description: "description for group two" },
-  //   {
-  //     refid: "3",
-  //     title: "Group 3",
-  //     description: "description for group three",
-  //   },
-  //   { refid: "4", title: "Group 4", description: "description for group four" },
-  // ];
+  const Joi = BaseJoi.extend(JoiDate);
+  const schema = Joi.object({
+    title: Joi.string()
+      .required()
+      .messages({ "string.empty": "Title is a required field." }),
+    description: Joi.string().required().messages({
+      "string.empty": "Description is a required field.",
+    }),
+    dueDate: Joi.date()
+      .required()
+      .format("MM-DD-YYYY")
+      .messages({ "date.base": "Due Date is required" }),
+    // .messages({ "string.empty": "Due Date is a required field." }),
+  });
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, touchedFields },
   } = useForm({
     defaultValues: {
       title: "",
+      dueDate: new Date(),
       description: "",
-      dueDate: "",
-      taskGroupRefid: "0",
+      // taskGroup: "",
     },
+    resolver: joiResolver(schema),
     mode: "onChange",
   });
 
@@ -71,14 +72,8 @@ const AddTaskMenuBar = () => {
                     type="text"
                     id="title"
                     aria-label="Task Item title"
-                    required
                     placeholder="task item title"
-                    {...register("title", {
-                      required: {
-                        value: true,
-                        message: "This field is required.",
-                      },
-                    })}
+                    {...register("title")}
                   />
                   <div className="validationError">
                     <span>{touchedFields.title && errors.title?.message}</span>
@@ -90,14 +85,8 @@ const AddTaskMenuBar = () => {
                     type="text"
                     id="description"
                     aria-label="Task Item description"
-                    required
                     placeholder="task item description"
-                    {...register("description", {
-                      required: {
-                        value: true,
-                        message: "This field is required.",
-                      },
-                    })}
+                    {...register("description")}
                   />
                   <div className="validationError">
                     <span>
@@ -106,21 +95,20 @@ const AddTaskMenuBar = () => {
                   </div>
                 </NavItem>
                 <NavItem className="form-menu-bar-item mb-1">
-                  <input
-                    className="input"
-                    type="text"
-                    id="dueDate"
-                    aria-label="Task Item dueDate"
-                    required
-                    placeholder="task item dueDate"
-                    onFocus={(e) => onDateFocus(e)}
-                    {...register("dueDate", {
-                      required: {
-                        value: true,
-                        message: "This field is required.",
-                      },
-                      onBlur: onDateBlur,
-                    })}
+                  <Controller
+                    control={control}
+                    name="dueDate"
+                    render={({ field }) => (
+                      <DatePicker
+                        id="dueDate"
+                        name="dueDate"
+                        placeholderText="Select date"
+                        selected={field.value}
+                        onChange={field.onChange}
+                        onBlur={field.onBlur}
+                        className="input"
+                      />
+                    )}
                   />
                   <div className="validationError">
                     <span>
@@ -128,32 +116,32 @@ const AddTaskMenuBar = () => {
                     </span>
                   </div>
                 </NavItem>
-                <NavItem className="form-menu-bar-item mb-1">
-                  <select
-                    id="selectId"
+                {/*<NavItem className="form-menu-bar-item mb-1"> 
+                   <select
+                    id="taskGroup"
                     className="input"
-                    {...register("taskGroupRefid", {
-                      required: "this is required",
-                    })}
+                    {...register("taskGroup")}
                   >
                     <option value={"0"}>select a group option</option>
-                    {/* {groupOptions.map((opt) => (
+                    {groupOptions.map((opt) => (
                       <option key={opt.refid} value={opt.refid}>
                         {opt.title}
                       </option>
-                    ))} */}
+                    ))}
                   </select>
                   <div className="validationError">
                     <span>
-                      {touchedFields.taskGroupRefid &&
-                        errors.taskGroupRefid?.message}
+                      {touchedFields.taskGroup && errors.taskGroup?.message}
                     </span>
                   </div>
-                </NavItem>
+                </NavItem> */}
               </Nav>
             </Navbar.Collapse>
           </Container>
         </Navbar>
+        {Object.keys(touchedFields).length > 0 && (
+          <pre>{JSON.stringify(touchedFields, null, 2)}</pre>
+        )}
       </Form>
     </>
   );

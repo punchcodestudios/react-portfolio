@@ -70,6 +70,7 @@ const isAuthenticated = errorHandler(async (req, res, next) => {
   try {
     const authToken = req.get("Authorization");
     const accessToken = authToken?.split("Bearer ")[1];
+    console.log("auth: ", accessToken);
     if (!accessToken) {
       const error = createError.Unauthorized();
       throw error;
@@ -82,15 +83,15 @@ const isAuthenticated = errorHandler(async (req, res, next) => {
       throw error;
     }
 
-    let refreshTokenInDB = tokens.find(
-      (token) => token.refreshToken === refreshToken
-    );
-    if (!refreshTokenInDB) {
-      const error = createError.Unauthorized();
-      throw error;
-    }
+    // let refreshTokenInDB = tokens.find(
+    //   (token) => token.refreshToken === refreshToken
+    // );
+    // if (!refreshTokenInDB) {
+    //   const error = createError.Unauthorized();
+    //   throw error;
+    // }
 
-    refreshTokenInDB = refreshTokenInDB.refreshToken;
+    // refreshTokenInDB = refreshTokenInDB.refreshToken;
 
     let decodedToken;
     try {
@@ -101,13 +102,13 @@ const isAuthenticated = errorHandler(async (req, res, next) => {
     }
 
     const { userId } = decodedToken;
-    const user = users.find((user) => user.id == userId);
+    const user = User.find({ _id: userId });
     if (!user) {
       const error = createError.Unauthorized();
       throw error;
     }
 
-    req.userId == user.id;
+    // req.userId == user.id;
     return next();
   } catch (error) {
     return next(error);

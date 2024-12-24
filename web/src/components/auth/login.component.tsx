@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import authService from "../../services/auth-service";
 import ButtonControl from "../common/button/button.control";
 
 const Login = () => {
   const navigate = useNavigate();
+  const locationState = useLocation().state;
   const { dispatch } = useAuth();
   const [error, setError] = useState<string>("");
 
@@ -41,15 +42,20 @@ const Login = () => {
     authService
       .login(loginForm)
       .then((response) => {
-        // console.log(response);
+        console.log("login response: ", response);
         if (!response.meta.success) {
           setError(response.error.message);
         } else {
+          localStorage.setItem("token", response.meta.token);
           dispatch({
             type: "SET_USER",
             payload: { ...response.target[0] },
           });
-          navigate("/");
+          if (locationState?.from) {
+            navigate(locationState.from);
+          } else {
+            navigate("/");
+          }
         }
       })
       .catch((error) => {
@@ -110,7 +116,7 @@ const Login = () => {
           </Form.Group>
           <p className="text">
             <span>Don't have an account?</span>
-            <Link className="link" to="/register">
+            <Link className="link" to="/user/register">
               Sign Up
             </Link>
           </p>

@@ -11,8 +11,8 @@ import Resume from "../pages/resume/index";
 import TaskListPage from "../pages/task-list/task-list.page";
 import SignUpConfirmationPage from "../pages/auth/sign-up-confirmation-page.component";
 import WelcomePage from "../pages/auth/welcome-page.component";
-import RestrictAuthenticated from "./restrictAuthenticated";
-import RequireAuthenticated from "./requireAuthenticated";
+import PublicRoute from "./publicRoute";
+import PrivateRoute from "./privateRoute";
 
 function routes() {
   return [
@@ -40,8 +40,18 @@ function routes() {
           element: <GalleryDetails></GalleryDetails>,
         },
         {
-          element: <RestrictAuthenticated />,
-          errorElement: <ErrorPage></ErrorPage>,
+          path: "tasks",
+          element: <PrivateRoute />,
+          children: [
+            {
+              path: "task-list",
+              element: <TaskListPage></TaskListPage>,
+            },
+          ],
+        },
+        {
+          path: "user",
+          element: <PublicRoute />,
           children: [
             {
               path: "login",
@@ -58,16 +68,6 @@ function routes() {
             {
               path: "welcome",
               element: <WelcomePage />,
-            },
-          ],
-        },
-        {
-          element: <RequireAuthenticated></RequireAuthenticated>,
-          errorElement: <ErrorPage></ErrorPage>,
-          children: [
-            {
-              path: "task-list",
-              element: <TaskListPage></TaskListPage>,
             },
           ],
         },

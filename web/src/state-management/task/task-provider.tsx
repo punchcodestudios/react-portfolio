@@ -1,7 +1,8 @@
 import { TaskItem } from "@/entities/TaskItem";
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import TaskContext from "./task-context";
 import taskReducer from "./task-reducer";
+import { TaskStatus } from "@/utils/enums";
 
 interface Props {
   children: React.ReactNode;
@@ -9,54 +10,37 @@ interface Props {
 
 const TaskProvider = ({ children }: Props) => {
   const [tasks, dispatch] = useReducer(taskReducer, [] as TaskItem[]);
-  // const [isLoading, setLoading] = useState<boolean>(true);
-  // const [error, setError] = useState<string>("");
-  // const { taskQuery, setCurrentPage } = useTaskQueryStore();
-
-  // const addTask = async (addTask: AddTaskItem) => {
-  //   const data = await TaskService.addTask(addTask);
-  //   setCurrentPage(1);
-  //   await loadTasks();
-  //   return Promise.resolve(data);
-  // };
-
-  // const completeTask = async (refid: string) => {
-  //   const data = await TaskService.completeTask(refid);
-  //   setCurrentPage(1);
-  //   await loadTasks();
-  //   return Promise.resolve(data);
-  // };
-
-  // const loadTasks = async () => {
-  //   setLoading(true);
-  //   setError("");
-  //   try {
-  //     const response = await TaskService.getTasks({
-  //       showActive: taskQuery.showActive || false,
-  //       showCompleted: taskQuery.showCompleted || false,
-  //       currentPage: taskQuery.currentPage || 1,
-  //       pageSize: taskQuery.pageSize || 5,
-  //       searchText: taskQuery.searchText || "",
-  //     });
-  //     dispatch({
-  //       type: "SET_TASKS",
-  //       payload: response.content.target,
-  //     });
-  //   } catch (error: any) {
-  //     setError(error.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const [total, setTotal] = useState<number>(0);
+  const [active, setActive] = useState<number>(0);
 
   useEffect(() => {
-    dispatch({ type: "INIT" });
+    if (tasks && tasks.length > 0) {
+      const activeTasks = tasks?.filter(
+        (t) => t.status !== TaskStatus.COMPLETE
+      );
+      setTotal(tasks.length);
+      setActive(activeTasks && activeTasks.length > 0 ? activeTasks.length : 0);
+    } else {
+      dispatch({ type: "INIT" });
+    }
   }, []);
+
+  useEffect(() => {
+    if (tasks && tasks.length > 0) {
+      const activeTasks = tasks?.filter(
+        (t) => t.status !== TaskStatus.COMPLETE
+      );
+      setTotal(tasks.length);
+      setActive(activeTasks && activeTasks.length > 0 ? activeTasks.length : 0);
+    }
+  }, [tasks]);
 
   return (
     <TaskContext.Provider
       value={{
         tasks,
+        total,
+        active,
         dispatch,
       }}
     >

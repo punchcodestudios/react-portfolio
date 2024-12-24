@@ -37,15 +37,19 @@ axiosInstance.interceptors.response.use(
 class ApiClient<T> {
   endpoint: string;
   params: object;
+  headers: object;
 
-  constructor(endpoint: string, params?: object) {
+  constructor(endpoint: string, params?: object, headers?: object) {
     this.endpoint = endpoint;
     this.params = params || {};
+    this.headers = headers || {};
   }
 
   getAll = async (): Promise<ApiResponse<T>> => {
     try {
+      console.log("headers: ", this.headers);
       const response = await axiosInstance.get(this.endpoint, {
+        headers: { ...this.headers },
         params: { ...this.params },
       });
       return Promise.resolve({ ...response.data });

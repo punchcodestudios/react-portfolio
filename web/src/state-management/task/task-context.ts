@@ -4,6 +4,8 @@ import { TaskAction } from "./task-reducer";
 
 interface TaskContextType {
   tasks: TaskItem[];
+  total: number;
+  active: number;
   dispatch: Dispatch<TaskAction>;
 }
 

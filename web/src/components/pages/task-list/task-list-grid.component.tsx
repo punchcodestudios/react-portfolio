@@ -1,54 +1,60 @@
 import ButtonControl from "@/components/common/button/button.control";
-import { TaskItem } from "@/entities/TaskItem";
+import { TaskQuery } from "@/state-management/task/task-query-store";
 import useTasks from "@/state-management/task/use-tasks";
+import { useEffect, useState } from "react";
 import Date from "../../../extensions/Date";
+import taskService from "../../../services/task-service";
+import toast, { Toaster } from "react-hot-toast";
+import NoContent from "@/components/common/no-content/no-content.component";
 
 const TaskListGrid = () => {
-  const { tasks } = useTasks();
+  const { tasks, dispatch } = useTasks();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
-  // if (loading) {
-  //   return <div>loading...</div>;
-  // }
-  // if (error) {
-  //   return <div>Error: {error}</div>;
-  // }
+  useEffect(() => {
+    setError("");
+    setIsLoading(true);
+    taskService
+      .getTasks({} as TaskQuery)
+      .then((response) => {
+        if (!response || !response.meta.success) {
+          setError(response.error.message);
+        } else {
+          console.log("component response: ", response.target);
+          dispatch({ type: "SET_TASKS", payload: response.target });
+        }
+      })
+      .catch((error: any) => {
+        setError(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
-  const handleClick = () => {
-    return;
-  };
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
 
-  const getTaskStatus = (item: TaskItem): string => {
-    const urgencyFactor = 3;
-    const now = new Date(Date.now());
-    const dateDiff = new Date(now).dateDiff(item.dueDate);
+  if (error) {
+    toast.error(error);
+  }
 
-    if (item.completedDate) {
-      return "Complete";
-    }
-    if (dateDiff < 0) {
-      return "Late";
-    }
-    if (dateDiff <= urgencyFactor) {
-      return "Urgent";
-    }
-    return "Open";
+  const setComplete = (id: string) => {
+    taskService.completeTask(id).then((response) => {
+      if (response && response.meta.success) {
+        dispatch({ type: "SET_TASK", payload: response.target[0] });
+      } else {
+        setError(response.error.message);
+      }
+    });
   };
 
   return (
     <>
-      {tasks.length == 0 && (
-        <div className="grid-container">
-          <div className="grid-items mb-3">
-            <ul className="data-items">
-              <li className="">
-                <p>
-                  No items were found. Please check your filters and try again.
-                </p>
-              </li>
-            </ul>
-          </div>
-        </div>
-      )}
+      <Toaster></Toaster>
+      {tasks.length == 0 && <NoContent></NoContent>}
       {tasks?.length > 0 && (
         <div className="grid-container">
           {tasks.map((task) => (
@@ -58,7 +64,7 @@ const TaskListGrid = () => {
                   id={task._id}
                   name="complete-task"
                   cssClass="btn btn-primary"
-                  onClick={() => handleClick()}
+                  onClick={() => setComplete(task._id)}
                 >
                   Complete
                 </ButtonControl>
@@ -79,7 +85,7 @@ const TaskListGrid = () => {
                   </li>
                   <li className="">
                     <label>Status:</label>
-                    {getTaskStatus(task)}
+                    {task.status}
                   </li>
                 </ul>
                 <div className="data-items">

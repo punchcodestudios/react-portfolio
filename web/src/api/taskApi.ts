@@ -8,12 +8,12 @@ export const getTasks = async (
 ): Promise<ApiResponse<TaskItem>> => {
   const client = new ApiClient<TaskItem>("/tasks/get-tasks", query);
   try {
-    const response = await client.getAll();
-    // console.log("task response: ", response);
-    return response;
-  } catch (error) {
-    console.error("Error fetching tasks: ", error);
-    throw error;
+    return client.getAll().then((response) => {
+      return Promise.resolve(response);
+    });
+  } catch (error: any) {
+    // console.error("Error fetching tasks: ", error);
+    return Promise.resolve(error);
   }
 };
 
@@ -23,21 +23,19 @@ export const addTask = async (
   const client = new ApiClient<TaskItem>("/tasks/add-task");
   try {
     const response = await client.post(item);
-    return response;
+    return Promise.resolve(response);
   } catch (error) {
-    console.error("Error adding task: ", error);
+    // console.error("Error adding task: ", error);
     throw error;
   }
 };
 
 export const completeTask = async (
-  refid: string
+  _id: string
 ): Promise<ApiResponse<TaskItem>> => {
   const client = new ApiClient<TaskItem>("/tasks/complete-task");
   try {
-    // console.log("REFID: ", refid);
-
-    const response = await client.post({ id: refid });
+    const response = await client.post({ _id: _id });
     return response;
   } catch (error) {
     console.error("Error completing task: ", error);

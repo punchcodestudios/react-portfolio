@@ -66,7 +66,7 @@ const Signup = () => {
             },
           });
           console.log("before navigate");
-          navigate("/confirm-email");
+          navigate("/user/confirm-email");
         }
       })
       .catch((error) => {

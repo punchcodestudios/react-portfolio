@@ -10,19 +10,19 @@ process.on("unhandledRejection", (ex) => {
 const express = require("express");
 const app = express();
 
-console.log("express app");
+// console.log("express app");
 
 app.use(express.json({ type: "application/json" }));
 const { PORT, NODE_ENV } = process.env;
-const isDev = NODE_ENV === "development";
+const isDev = NODE_ENV === "local";
 
-console.log("after express.json");
+// console.log("after express.json");
 // Security
 const cookieParser = require("cookie-parser");
 app.use(cookieParser(process.env.COOKIE_SECRET));
 const cors = require("cors");
 
-console.log("index.js: 25");
+// console.log("index.js: 25");
 
 if (isDev) {
   app.use(
@@ -34,7 +34,7 @@ if (isDev) {
   );
 }
 
-console.log("index.js: 37");
+// console.log("index.js: 37");
 // logger.info("before startup: ");
 require("./startup/logging");
 const logger = winston.loggers.get("appLogger");
@@ -48,7 +48,7 @@ require("./startup/db")(logger);
 //   process.exit(1);
 // }
 
-console.log("index.js: 51");
+// console.log("index.js: 51");
 // email
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -57,15 +57,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-console.log("index.js: 59");
-// if (!isDev) {
-app.use(express.static(path.join(__dirname, "/web/dist")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/web/dist/index.html"));
-});
-// }
+// console.log("index.js: 59");
+if (!isDev) {
+  app.use(express.static(path.join(__dirname, "/web/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "/web/dist/index.html"));
+  });
+}
 
-console.log("index.js: 67");
+// console.log("index.js: 67");
 // General
 const port = PORT || 3000;
 app.listen(port, () => logger.info(`Listening on port ${port}...`));
