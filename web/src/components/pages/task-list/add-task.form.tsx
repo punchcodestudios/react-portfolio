@@ -1,56 +1,86 @@
 import ButtonControl from "@/components/common/button/button.control";
-// import { TaskGroup } from "@/entities/TaskItem";
-
-import { Form } from "react-bootstrap";
-import { useForm } from "react-hook-form";
-import { Toaster } from "react-hot-toast";
-import { utcDateToLocalString } from "../../../utils/utils";
+import { Textbox } from "@/components/common/textbox/textbox.component";
+import { AddTaskItem } from "@/entities/TaskItem";
+import useTasks from "@/state-management/task/use-tasks";
+import { joiResolver } from "@hookform/resolvers/joi";
+import JoiDate from "@joi/date";
+import BaseJoi from "Joi";
+import { useState } from "react";
+import { Form, Spinner } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Controller, useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import taskService from "../../../services/task-service";
+import { TaskStatus } from "@/utils/enums";
 
 const AddTaskForm = () => {
-  // const { tasks } = useTasks();
+  const { dispatch } = useTasks();
+  const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
-  // this is bullshit lol
-  const onDateFocus = (e: any) => (e.target.type = "date");
-  const onDateBlur = (e: any) => {
-    e.target.type = "text";
-    e.target.value = utcDateToLocalString(new Date(e.target.value));
-  };
-
-  // const groupOptions: TaskGroup[] = [
-  //   { refid: "1", title: "Group 1", description: "description for group one" },
-  //   { refid: "2", title: "Group 2", description: "description for group two" },
-  //   {
-  //     refid: "3",
-  //     title: "Group 3",
-  //     description: "description for group three",
-  //   },
-  //   { refid: "4", title: "Group 4", description: "description for group four" },
-  // ];
+  const Joi = BaseJoi.extend(JoiDate);
+  const schema = Joi.object({
+    title: Joi.string()
+      .required()
+      .messages({ "string.empty": "Title is a required field." }),
+    description: Joi.string().required().messages({
+      "string.empty": "Description is a required field.",
+    }),
+    dueDate: Joi.date()
+      .required()
+      .format("MM-DD-YYYY")
+      .messages({ "date.base": "Due Date is required" }),
+    // .messages({ "string.empty": "Due Date is a required field." }),
+    taskGroup: Joi.string()
+      .required()
+      .messages({ "string.empty": "Task Group is required" }),
+  });
 
   const {
-    register,
     handleSubmit,
-    formState: { errors, touchedFields },
+    control,
+    formState: { errors },
   } = useForm({
     defaultValues: {
       title: "",
+      dueDate: new Date(),
       description: "",
-      dueDate: "",
-      taskGroupRefid: "0",
+      taskGroup: "",
     },
-    mode: "onChange",
+    resolver: joiResolver(schema),
+    mode: "onSubmit",
   });
 
-  const onSubmit = (values: any) => {
-    return values;
-    // addTask(values)
-    //   .then((response) => {
-    //     // console.log("Response: ", response);
-    //   })
-    //   .catch((error) => {
-    //     // console.log("ERROR: ", error);
-    //   });
+  const onSubmit = (values: AddTaskItem) => {
+    // console.log(values);
+    setError("");
+    setIsLoading(true);
+    taskService
+      .addTask(values)
+      .then((response) => {
+        if (!response || !response.meta.success) {
+          setError(response.error.message);
+        } else {
+          dispatch({ type: "SET_TASKS", payload: response.target });
+          navigate("/tasks/task-list");
+        }
+      })
+      .catch((error: any) => {
+        setError(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+    return;
   };
+
+  if (error) {
+    // console.log("ERROR: ", error);
+    toast.error(error);
+  }
 
   return (
     <>
@@ -59,100 +89,108 @@ const AddTaskForm = () => {
         <div className="formWrapper">
           <Form className="form" onSubmit={handleSubmit(onSubmit)}>
             <h1 className="formTitle">Add Task Item</h1>
+
             <Form.Group className="mb-3">
-              <input
-                className="input"
-                type="text"
-                id="title"
-                aria-label="Task Item title"
-                required
-                placeholder="task item title"
-                {...register("title", {
-                  required: {
-                    value: true,
-                    message: "This field is required.",
-                  },
-                })}
+              <Controller
+                control={control}
+                name="title"
+                render={({ field }) => (
+                  <Textbox
+                    id="title"
+                    name={field.name}
+                    onBlur={field.onBlur}
+                    onChange={field.onChange}
+                    placeholderText="task title"
+                  />
+                )}
               />
               <div className="validationError">
-                <span>{touchedFields.title && errors.title?.message}</span>
+                <span>{errors.title?.message}</span>
               </div>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <input
-                className="input"
-                type="text"
-                id="description"
-                aria-label="Task Item description"
-                required
-                placeholder="task item description"
-                {...register("description", {
-                  required: {
-                    value: true,
-                    message: "This field is required.",
-                  },
-                })}
+              <Controller
+                control={control}
+                name="description"
+                render={({ field }) => (
+                  <Textbox
+                    id="description"
+                    name="description"
+                    onBlur={field.onBlur}
+                    onChange={field.onChange}
+                    placeholderText="task description"
+                  />
+                )}
               />
               <div className="validationError">
-                <span>
-                  {touchedFields.description && errors.description?.message}
-                </span>
+                <span>{errors.description?.message}</span>
               </div>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <input
-                className="input"
-                type="text"
-                id="dueDate"
-                aria-label="Task Item dueDate"
-                required
-                placeholder="task item dueDate"
-                onFocus={(e) => onDateFocus(e)}
-                {...register("dueDate", {
-                  required: {
-                    value: true,
-                    message: "This field is required.",
-                  },
-                  onBlur: onDateBlur,
-                })}
+              <Controller
+                control={control}
+                name="dueDate"
+                render={({ field }) => (
+                  <DatePicker
+                    id="dueDate"
+                    name="dueDate"
+                    placeholderText="Select date"
+                    selected={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    className="input"
+                    minDate={new Date()}
+                  />
+                )}
               />
               <div className="validationError">
-                <span>{touchedFields.dueDate && errors.dueDate?.message}</span>
+                <span>{errors.dueDate?.message}</span>
               </div>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <select
-                id="selectId"
-                className="input"
-                {...register("taskGroupRefid", {
-                  required: "this is required",
-                })}
-              >
-                <option value={"0"}>select a group option</option>
-                {/* {groupOptions.map((opt) => (
-                  <option key={opt.refid} value={opt.refid}>
-                    {opt.title}
-                  </option>
-                ))} */}
-              </select>
+              <Controller
+                control={control}
+                name="taskGroup"
+                render={({ field }) => (
+                  <Textbox
+                    id="taskGroup"
+                    name={field.name}
+                    onBlur={field.onBlur}
+                    onChange={field.onChange}
+                    placeholderText="task group"
+                  />
+                )}
+              />
               <div className="validationError">
-                <span>
-                  {touchedFields.taskGroupRefid &&
-                    errors.taskGroupRefid?.message}
-                </span>
+                <span>{errors.taskGroup?.message}</span>
               </div>
             </Form.Group>
 
             <Form.Group>
               <ButtonControl
-                id="submitTaskItem"
-                name="submittaskitem"
-                cssClass="btn btn-primary"
+                id="submit"
+                name="submit"
+                type="submit"
+                cssClass="btn btn-primary full-height"
+                disabled={isLoading}
               >
-                Add Task
+                {isLoading ? <Spinner></Spinner> : "Add new item"}
+              </ButtonControl>
+            </Form.Group>
+
+            <Form.Group>
+              <ButtonControl
+                id="cancel"
+                name="cancel"
+                type="button"
+                cssClass="btn btn-primary full-height mt-3"
+                disabled={isLoading}
+                onClick={() => navigate("/tasks/task-list")}
+              >
+                {isLoading ? <Spinner></Spinner> : "Cancel"}
               </ButtonControl>
             </Form.Group>
           </Form>

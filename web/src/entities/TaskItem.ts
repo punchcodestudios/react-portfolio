@@ -5,17 +5,18 @@ export interface TaskItem {
   _id: string;
   title: string;
   description: string;
-  addDate: Date;
   dueDate: Date;
-  completedDate?: Date;
-  taskGroup: string[];
+  taskGroup: string;
   status: TaskStatus;
+  addedOn: Date;
+  updatedOn: Date;
+  deletedOn: Date;
 }
 
 export interface AddTaskItem {
   title: string;
   description: string;
-  dueDate: string;
+  dueDate: Date;
   taskGroup: string;
 }
 
@@ -25,7 +26,7 @@ export interface TaskQueryOptions {
   searchText: string;
   addDate: "asc" | "desc" | "none";
   dueDate: "asc" | "desc" | "none";
-  groupType: string;
+  group: string;
 }
 
 export interface TaskFilter {
@@ -35,11 +36,11 @@ export interface TaskFilter {
   currentPage: number;
 }
 
-export interface TaskContent {
-  totalCount: number;
-  activeCount: number;
-  tasks: TaskItem[];
-}
+// export interface TaskContent {
+//   totalCount: number;
+//   activeCount: number;
+//   tasks: TaskItem[];
+// }
 
 export interface TaskMeta {
   success: boolean;

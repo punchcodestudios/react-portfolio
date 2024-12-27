@@ -6,8 +6,27 @@ import BaseJoi from "Joi";
 import JoiDate from "@joi/date";
 import { joiResolver } from "@hookform/resolvers/joi";
 import "react-datepicker/dist/react-datepicker.css";
+import {
+  CheckboxItem,
+  CheckboxList,
+} from "@/components/common/checkbox/checkbox.component";
 
 const AddTaskMenuBar = () => {
+  const checkboxItems: CheckboxItem[] = [
+    {
+      name: "checkbox1",
+      id: "checkbox-one",
+      label: "label one",
+      checked: false,
+    },
+    {
+      name: "checkbox2",
+      id: "checkbox-two",
+      label: "label two",
+      checked: false,
+    },
+  ];
+
   const Joi = BaseJoi.extend(JoiDate);
   const schema = Joi.object({
     title: Joi.string()
@@ -34,13 +53,14 @@ const AddTaskMenuBar = () => {
       dueDate: new Date(),
       description: "",
       // taskGroup: "",
+      checkboxes: [],
     },
     resolver: joiResolver(schema),
     mode: "onChange",
   });
 
   const onSubmit = (values: any) => {
-    console.log(values);
+    // console.log(values);
     return;
   };
 
@@ -108,6 +128,20 @@ const AddTaskMenuBar = () => {
                         onBlur={field.onBlur}
                         className="input"
                       />
+                    )}
+                  />
+                  <div className="validationError">
+                    <span>
+                      {touchedFields.dueDate && errors.dueDate?.message}
+                    </span>
+                  </div>
+                </NavItem>
+                <NavItem className="form-menu-bar-item mb-1">
+                  <Controller
+                    control={control}
+                    name="checkboxes"
+                    render={() => (
+                      <CheckboxList options={checkboxItems}></CheckboxList>
                     )}
                   />
                   <div className="validationError">

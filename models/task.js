@@ -13,20 +13,29 @@ const taskSchema = new mongoose.Schema({
     minlength: 5,
     maxlength: 250,
   },
-  addDate: {
-    type: Date,
-  },
   dueDate: {
     type: Date,
     required: true,
   },
-  completedDate: {
+  taskGroup: {
+    type: String,
+    required: true,
+  },
+  status: {
+    type: String,
+    required: true,
+  },
+  createdOn: {
+    type: Date,
+    required: true,
+  },
+  updatedOn: {
     type: Date,
     required: false,
   },
-  taskGroupRefid: {
-    type: String,
-    required: true,
+  deletedOn: {
+    type: Date,
+    required: false,
   },
 });
 
@@ -37,7 +46,8 @@ function validateTask(task) {
     name: Joi.string().max(50).required(),
     description: Joi.string().min(5).max(250).required(),
     dueDate: Joi.date().required(),
-    taskGroupRefid: Joi.string().required(),
+    taskGroup: Joi.string().required(),
+    status: Joi.string().required(),
   };
 
   return Joi.validate(task, schema);

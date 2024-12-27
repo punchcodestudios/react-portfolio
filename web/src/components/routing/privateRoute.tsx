@@ -19,13 +19,13 @@ const PrivateRoute: React.FC = () => {
   }, [isAuthenticated]);
 
   if (isAuthenticated == null) return <Spinner></Spinner>;
-  console.log("isAuthenticated is null");
+  // console.log("isAuthenticated is null");
   if (!isAuthenticated) {
-    console.log("not authenticated");
+    // console.log("not authenticated");
     navigate("/");
     return null;
   }
-  console.log("return outlet");
+  // console.log("return outlet");
   return <Outlet></Outlet>;
 };
 

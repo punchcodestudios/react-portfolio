@@ -1,7 +1,6 @@
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Control } from "react-hook-form";
 
 interface Props {
   name: string;
@@ -20,6 +19,7 @@ const CustomDatePicker = ({ name, control }: Props) => {
     <DatePicker
       selected={selectedDate}
       onChange={handleDateChange}
+      wrapperClassName="input"
       // Add any other props for customization
     />
   );

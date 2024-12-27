@@ -70,7 +70,7 @@ const isAuthenticated = errorHandler(async (req, res, next) => {
   try {
     const authToken = req.get("Authorization");
     const accessToken = authToken?.split("Bearer ")[1];
-    console.log("auth: ", accessToken);
+    // console.log("auth: ", accessToken);
     if (!accessToken) {
       const error = createError.Unauthorized();
       throw error;

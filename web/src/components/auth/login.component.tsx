@@ -42,7 +42,7 @@ const Login = () => {
     authService
       .login(loginForm)
       .then((response) => {
-        console.log("login response: ", response);
+        // console.log("login response: ", response);
         if (!response.meta.success) {
           setError(response.error.message);
         } else {

@@ -9,6 +9,7 @@ import GalleryGridLayout from "../pages/gallery/galllery-grid-layout.component";
 import HomePage from "../pages/home-page.component";
 import Resume from "../pages/resume/index";
 import TaskListPage from "../pages/task-list/task-list.page";
+import AddTaskForm from "../pages/task-list/add-task.form";
 import SignUpConfirmationPage from "../pages/auth/sign-up-confirmation-page.component";
 import WelcomePage from "../pages/auth/welcome-page.component";
 import PublicRoute from "./publicRoute";
@@ -46,6 +47,10 @@ function routes() {
             {
               path: "task-list",
               element: <TaskListPage></TaskListPage>,
+            },
+            {
+              path: "add-task",
+              element: <AddTaskForm></AddTaskForm>,
             },
           ],
         },

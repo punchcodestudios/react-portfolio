@@ -3,7 +3,7 @@ import ApiClient from "./apiClient";
 import { ApiResponse } from "./apiResponses";
 
 export const me = async (): Promise<ApiResponse<User>> => {
-  console.log("authApi.me(): ", localStorage.getItem("token"));
+  // console.log("authApi.me(): ", localStorage.getItem("token"));
   const client = new ApiClient<User>(
     "/user/me",
     {},

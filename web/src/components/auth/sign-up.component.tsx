@@ -50,11 +50,11 @@ const Signup = () => {
     authService
       .register(newUser)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (!response.meta.success) {
           setError(response.error.message);
         } else if (response.target && response.target.length > 0) {
-          console.log("response.target: ", response.target);
+          // console.log("response.target: ", response.target);
           dispatch({
             type: "SET_USER",
             payload: {
@@ -65,12 +65,12 @@ const Signup = () => {
               status: UserStatus.PENDING,
             },
           });
-          console.log("before navigate");
+          // console.log("before navigate");
           navigate("/user/confirm-email");
         }
       })
       .catch((error) => {
-        console.log("error: ", error);
+        // console.log("error: ", error);
         setError(error);
       })
       .finally(() => {

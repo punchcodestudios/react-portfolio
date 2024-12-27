@@ -9,6 +9,7 @@ interface SetTaskAction {
   type: "SET_TASK";
   payload: TaskItem;
 }
+
 interface InitTasksAction {
   type: "INIT";
 }
@@ -21,7 +22,7 @@ const taskReducer = (state: TaskItem[], action: TaskAction): TaskItem[] => {
       const currentState = [...state];
       const index = currentState.findIndex((i) => i._id == action.payload._id);
       currentState[index] = action.payload;
-      return [...state, ...currentState];
+      return [...currentState];
     case "SET_TASKS":
       return action.payload;
     case "INIT":

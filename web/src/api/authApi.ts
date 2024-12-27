@@ -67,7 +67,7 @@ export const confirmEmail = async (
   request: ConfirmationRequest
 ): Promise<ApiResponse<User>> => {
   const client = new ApiClient<User>("user/confirm");
-  console.log("confirm request: ", request);
+  // console.log("confirm request: ", request);
   try {
     return client.post(request).then((response) => {
       return Promise.resolve(response);

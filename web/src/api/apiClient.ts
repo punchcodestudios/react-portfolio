@@ -47,7 +47,7 @@ class ApiClient<T> {
 
   getAll = async (): Promise<ApiResponse<T>> => {
     try {
-      console.log("headers: ", this.headers);
+      // console.log("headers: ", this.headers);
       const response = await axiosInstance.get(this.endpoint, {
         headers: { ...this.headers },
         params: { ...this.params },

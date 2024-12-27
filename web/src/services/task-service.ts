@@ -7,7 +7,7 @@ const TaskService = {
   getTasks: async (query: TaskQuery) => {
     try {
       const response = await getTasks(query);
-      console.log("response: ", response);
+      // console.log("response: ", response);
       return Promise.resolve(map(response));
     } catch (error: any) {
       // console.error("Error fetching tasks: ", error);
@@ -17,15 +17,16 @@ const TaskService = {
   addTask: async (task: AddTaskItem) => {
     try {
       const response = await addTask(task);
+      // console.log("response from addTask: ", response);
       return Promise.resolve(map(response));
     } catch (error: any) {
-      // console.error("Error adding tasks: ", error);
+      console.error("Error adding tasks: ", error);
       return Promise.resolve(map(error));
     }
   },
-  completeTask: async (refid: string) => {
+  completeTask: async (id: string) => {
     try {
-      const response = await completeTask(refid);
+      const response = await completeTask(id);
       return Promise.resolve(map(response));
     } catch (error: any) {
       // console.error("Error completing tasks", error);

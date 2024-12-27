@@ -1,0 +1,16 @@
+.data-query-bar-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  color: white;
+  background-color: $color-primary;
+  padding: 0.5rem;
+
+  .show-filter-wrapper {
+    height: 50px;
+  }
+  @media screen and (max-width: 1199) {
+    font-size: 0.8em;
+  }
+}

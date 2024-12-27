@@ -47,7 +47,7 @@ const authService = {
   refreshAccessToken: async () => {
     try {
       const response = await refreshAccessToken();
-      console.log("refresh access token: ", response);
+      // console.log("refresh access token: ", response);
       return Promise.resolve(map(response));
     } catch (error) {
       // console.log("Error while refreshing access token", error);

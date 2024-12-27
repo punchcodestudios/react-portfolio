@@ -10,7 +10,16 @@ const UserRoles = {
   ADMIN: "ADMIN",
 };
 
+const TaskStatus = {
+  ACTIVE: "ACTIVE",
+  URGENT: "URGENT",
+  PAST_DUE: "PAST DUE",
+  COMPLETE: "COMPLETE",
+  DISCARDED: "DISCARDED",
+};
+
 module.exports = {
   UserStatus,
   UserRoles,
+  TaskStatus,
 };

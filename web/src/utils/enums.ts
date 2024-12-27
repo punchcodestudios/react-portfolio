@@ -17,3 +17,13 @@ export enum TaskStatus {
   COMPLETE = "COMPLETE",
   DISCARDED = "DISCARDED",
 }
+
+export enum SolidIcon {
+  FORWARD = "FORWARD",
+  BACKWARD = "BACKWARD",
+  SUCCESS = "SUCCESS",
+  WARNING = "WARNING",
+  DANGER = "DANGER",
+  ADD = "ADD",
+  SUBTRACT = "SUBTRACT",
+}

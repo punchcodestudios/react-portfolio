@@ -68,13 +68,13 @@ export type AuthAction =
 const authReducer = (state: UserState | any, action: AuthAction): UserState => {
   switch (action.type) {
     case "INIT":
-      console.log("auth provider init");
+      // console.log("auth provider init");
       return defaultState;
     case "SET_USER":
-      console.log("set_user reducer", action.payload);
-      console.log("state: ", state);
+      // console.log("set_user reducer", action.payload);
+      // console.log("state: ", state);
       const newState = { ...state, ...action.payload };
-      console.log("NEW STATE: ", newState);
+      // console.log("NEW STATE: ", newState);
       return { ...state, ...action.payload };
     // case "SET_IS_AUTHENTICATED":
     //   return { ...state, isAuthenticated: action.payload };
