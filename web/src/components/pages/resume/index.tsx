@@ -49,7 +49,7 @@ function Resume() {
       <Tabs
         defaultActiveKey="summary"
         id="resume-page-nav-tabs"
-        className="mb-3"
+        className=""
         justify
       >
         <Tab eventKey="summary" title="Summary">
