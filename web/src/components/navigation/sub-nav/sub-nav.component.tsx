@@ -1,19 +1,12 @@
 import { UserStatus } from "@/utils/enums";
 import useAuth from "@/state-management/auth/use-auth";
-// import { Link } from "react-router-dom";
-// import useTasks from "../../../state-management/task/use-tasks";
-// import { TaskItem } from "@/entities/TaskItem";
+import useTasks from "@/state-management/task/use-tasks";
+import { Link } from "react-router-dom";
 
 const SubNavComponent = () => {
-  // const { taskContent } = useTasks();
-  // const [filteredTasks, setFilteredTasks] = useState<TaskItem[]>([]);
   const { user } = useAuth();
+  const { active } = useTasks();
 
-  // useEffect(() => {
-  //   setFilteredTasks(
-  //     taskContent.content.target.filter((t) => !t.completedDate)
-  //   );
-  // }, [taskContent]);
   if (user && user.status == UserStatus.CONFIRMED) {
     return (
       <div
@@ -22,9 +15,9 @@ const SubNavComponent = () => {
       >
         <div className="user-info">{`Welcome ${user.username}`}</div>
         <div className="ms-5">
-          {/* <Link to="task-list">
-            <span className="badge task-badge">{`Open tasks: ${filteredTasks.length}`}</span>
-          </Link> */}
+          <Link to="tasks/task-list">
+            <span className="badge task-badge">{`Open tasks: ${active}`}</span>
+          </Link>
         </div>
       </div>
     );

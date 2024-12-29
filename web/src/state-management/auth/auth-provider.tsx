@@ -12,17 +12,7 @@ const AuthProvider = ({ children }: Props) => {
 
   useEffect(() => {
     setIsLoading(false);
-    dispatch({ type: "INIT" });
   }, []);
-
-  // const value = React.useMemo(
-  //   () => ({
-  //     user,
-  //     isLoading,
-  //     dispatch,
-  //   }),
-  //   []
-  // );
   const value = {
     user,
     isLoading,

@@ -28,14 +28,14 @@ const SignUpConfirmation = () => {
   });
 
   useEffect(() => {
-    console.log("confirm UseEffect: ", user);
+    // console.log("confirm UseEffect: ", user);
     if (error) {
       toast.error(error);
     }
   }, [error]);
 
   const onSubmit = async (values: ConfirmationRequest) => {
-    console.log("value: ", values);
+    // console.log("value: ", values);
     setIsLoading(true);
     setError("");
     const confirmation = {
@@ -46,7 +46,7 @@ const SignUpConfirmation = () => {
     authService
       .confirmEmail(confirmation)
       .then((response) => {
-        console.log("response from confirmEmail.submit: ", response);
+        // console.log("response from confirmEmail.submit: ", response);
         if (response.error && response.error.status > 0) {
           toast.error(response.error.message);
           dispatch({

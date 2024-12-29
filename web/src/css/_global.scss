@@ -73,3 +73,22 @@ h1 {
 .pcs-bg-secondary {
   background-color: $color-secondary;
 }
+
+.center {
+  justify-content: center;
+}
+.middle {
+  align-items: center;
+}
+.left {
+  justify-content: flex-start;
+}
+.right {
+  justify-content: flex-end;
+}
+.top {
+  align-items: flex-start;
+}
+.bottom {
+  align-items: flex-end;
+}

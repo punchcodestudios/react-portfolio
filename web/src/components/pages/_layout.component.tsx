@@ -12,7 +12,7 @@ function LayoutComponent() {
 
   useEffect(() => {
     authService.refreshAccessToken().then((response) => {
-      console.log("in layout use effect: ", response);
+      // console.log("in layout use effect: ", response);
       if (!response.meta.success) {
         dispatch({ type: "INIT" });
         return;
@@ -33,7 +33,7 @@ function LayoutComponent() {
     // if (user?.isAuthenticated) {
     // console.log("heartbeat");
     // refreshAccessTokenTimerId = setTimeout(() => {
-    //   // console.log("heartbeat");
+    // console.log("heartbeat");
     //   refreshAccessToken();
     // }, 10000);
     // // }

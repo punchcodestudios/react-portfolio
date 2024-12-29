@@ -15,10 +15,23 @@ const { UserStatus, UserRoles } = require("../utils/constants.js");
 
 const { getTimeZoneDate } = require("../utils/date-utils");
 
+const me = errorHandler(async (req, res, next) => {
+  // console.log("req: ", req.get("Authorization"));
+  try {
+    const authToken = req.get("Authorization");
+    const accessToken = authToken?.split("Bearer ")[1];
+    if (!accessToken) {
+      return next(createError(418, error));
+    }
+  } catch (error) {
+    return next(createError("error in me"));
+  }
+});
+
 const signUp = errorHandler(async (req, res, next) => {
   const { error } = validate(req.body);
   if (error) {
-    console.log("ERROR: ", error);
+    // console.log("ERROR: ", error);
     next(createError(401, "Invalid Data"));
   }
 
@@ -46,7 +59,7 @@ const signUp = errorHandler(async (req, res, next) => {
 });
 
 const login = errorHandler(async (req, res, next) => {
-  console.log("login data: ", req.body);
+  // console.log("login data: ", req.body);
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -94,9 +107,9 @@ const logout = errorHandler(async (req, res, next) => {
 });
 
 const confirm = errorHandler(async (req, res, next) => {
-  console.log(
-    `confirm.request: ${req.body.username} | ${req.body.confirmationCode}`
-  );
+  // console.log(
+  //   `confirm.request: ${req.body.username} | ${req.body.confirmationCode}`
+  // );
   const { username, confirmationCode } = req.body;
 
   const user = await User.findOneAndUpdate(
@@ -114,6 +127,7 @@ const confirm = errorHandler(async (req, res, next) => {
 const resetPassword = errorHandler(async (req, res, next) => {});
 
 module.exports = {
+  me,
   signUp,
   login,
   logout,

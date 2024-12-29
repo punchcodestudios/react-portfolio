@@ -4,6 +4,10 @@ import { TaskAction } from "./task-reducer";
 
 interface TaskContextType {
   tasks: TaskItem[];
+  total: number;
+  active: number;
+  filteredTasks: TaskItem[];
+  pagedTasks: TaskItem[];
   dispatch: Dispatch<TaskAction>;
 }
 
