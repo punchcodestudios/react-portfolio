@@ -1,5 +1,16 @@
-import { AddTaskItem, TaskItem, TaskResponse } from "@/entities/TaskItem";
-import { addTask, completeTask, getTasks } from "../api/taskApi";
+import {
+  AddTaskItem,
+  EditTaskItem,
+  TaskItem,
+  TaskResponse,
+} from "@/entities/TaskItem";
+import {
+  addTask,
+  completeTask,
+  getTasks,
+  getTask,
+  updateTask,
+} from "../api/taskApi";
 import { TaskQuery } from "@/state-management/task/task-query-store";
 import { ApiResponse } from "@/api/apiResponses";
 
@@ -14,6 +25,14 @@ const TaskService = {
       return Promise.resolve(map(error));
     }
   },
+  getTask: async (id: string) => {
+    try {
+      const response = await getTask(id);
+      return Promise.resolve(map(response));
+    } catch (error: any) {
+      return Promise.resolve(map(error));
+    }
+  },
   addTask: async (task: AddTaskItem) => {
     try {
       const response = await addTask(task);
@@ -21,6 +40,16 @@ const TaskService = {
       return Promise.resolve(map(response));
     } catch (error: any) {
       console.error("Error adding tasks: ", error);
+      return Promise.resolve(map(error));
+    }
+  },
+  updateTask: async (task: EditTaskItem) => {
+    try {
+      const response = await updateTask(task);
+      // console.log("response from addTask: ", response);
+      return Promise.resolve(map(response));
+    } catch (error: any) {
+      console.error("Error updating task: ", error);
       return Promise.resolve(map(error));
     }
   },

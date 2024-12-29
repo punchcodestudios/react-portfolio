@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import taskService from "../../../services/task-service";
 import TaskListGridItem from "./task-list-grid-item.control";
+import { useNavigate } from "react-router-dom";
 
 const TaskListGrid = () => {
   const { pagedTasks, dispatch } = useTasks();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const taskQueryStore = useTaskQueryStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setError("");
@@ -54,7 +56,8 @@ const TaskListGrid = () => {
   };
 
   const handleEdit = (id: string) => {
-    // console.log("handle edit: ", id);
+    console.log("handle edit: ", id);
+    navigate(`/tasks/edit-task/${id}`);
   };
 
   return (
@@ -63,13 +66,16 @@ const TaskListGrid = () => {
       {pagedTasks.length == 0 && <NoContent></NoContent>}
       {pagedTasks?.length > 0 && (
         <div className="grid-container">
-          {pagedTasks.map((task, index) => (
-            <TaskListGridItem
-              task={task}
-              onComplete={(id: string) => setComplete(id)}
-              onEdit={(id: string) => handleEdit(id)}
-            ></TaskListGridItem>
-          ))}
+          <div className="grid-items">
+            {pagedTasks.map((task) => (
+              <TaskListGridItem
+                key={task._id}
+                task={task}
+                onComplete={(id: string) => setComplete(id)}
+                onEdit={(id: string) => handleEdit(id)}
+              ></TaskListGridItem>
+            ))}
+          </div>
         </div>
       )}
     </>

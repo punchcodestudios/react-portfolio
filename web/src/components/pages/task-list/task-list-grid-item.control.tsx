@@ -1,5 +1,7 @@
-import ButtonControl from "@/components/common/button/button.control";
 import { TaskItem } from "@/entities/TaskItem";
+import IconService from "@/services/icon-service";
+import { SolidIcon, TaskStatus } from "@/utils/enums";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect } from "react";
 import Date from "../../../extensions/Date";
 
@@ -23,57 +25,74 @@ const TaskListGridItem: React.FC<Props> = ({ task, onComplete, onEdit }) => {
   };
 
   useEffect(() => {
-    console.log("taskID: ", task._id);
+    //console.log("taskID: ", task._id);
   }, []);
 
   return (
-    <div className="d-flex grid-items mb-3">
-      <div className="col-md-2">
-        <ButtonControl
-          id={`complete_${task._id}`}
-          name="complete-task"
-          cssClass="btn btn-primary"
-          onClick={() => handleComplete(task._id)}
-        >
-          Complete
-        </ButtonControl>
-        <ButtonControl
-          id={`edit_${task._id}`}
-          name="edit-task"
-          cssClass="btn btn-primary"
-          onClick={() => handleEdit(task._id)}
-        >
-          Edit
-        </ButtonControl>
-      </div>
-      <div className="col-md-10">
+    <div className="data-item-wrapper mb-2">
+      {task.status !== TaskStatus.COMPLETE && (
         <ul className="data-items">
-          <li>
-            <label>Title:</label>
-            {task.title}
+          <li className="action-item-wrapper">
+            <div
+              className="action-item"
+              onClick={() => handleComplete(task._id)}
+            >
+              <FontAwesomeIcon
+                icon={IconService.getSolid(SolidIcon.SET_COMPLETE)}
+              ></FontAwesomeIcon>
+              <span className="ms-2">Mark Complete</span>
+            </div>
           </li>
-          <li>
-            <label>Due On:</label>
-            {new Date(task.dueDate).toDateOnlyString()}
-          </li>
-          <li>
-            <label>Group:</label>
-            {task.taskGroup}
-          </li>
-          <li className="">
-            <label>Status:</label>
-            {task.status}
+          <li className="action-item-wrapper">
+            <div className="action-item" onClick={() => handleEdit(task._id)}>
+              <FontAwesomeIcon
+                icon={IconService.getSolid(SolidIcon.EDIT)}
+              ></FontAwesomeIcon>
+              <span className="ms-2">Edit</span>
+            </div>
           </li>
         </ul>
-        <div className="data-items">
-          <ul className="">
-            <li className="">
-              <label>Description:</label>
-              {task.description}
-            </li>
-          </ul>
-        </div>
-      </div>
+      )}
+      <ul className="data-items">
+        <li className={`status-item ${task.status.toLowerCase()}`}>
+          <FontAwesomeIcon
+            icon={IconService.getIconByStatus(task.status)}
+            color={IconService.getColorByStatus(task.status)}
+          ></FontAwesomeIcon>
+          <span className={`ms-2 status ${task.status.toLowerCase()}`}>
+            <em>STATUS: </em>
+            {task.status}
+          </span>
+        </li>
+        <li className="status-item">
+          <FontAwesomeIcon
+            icon={IconService.getSolid(SolidIcon.DUE)}
+            color={
+              task.status == TaskStatus.COMPLETE
+                ? "black"
+                : IconService.getColorByDueDate(task.dueDate)
+            }
+          ></FontAwesomeIcon>
+          <span className="ms-2">
+            {new Date(task.dueDate).toDateOnlyString()}
+          </span>
+        </li>
+        <li className="status-item">
+          <FontAwesomeIcon
+            icon={IconService.getSolid(SolidIcon.GROUP)}
+          ></FontAwesomeIcon>
+          <span className="ms-2">{task.taskGroup}</span>
+        </li>
+      </ul>
+
+      <ul className="data-items">
+        <li>
+          <span className="ms-2">
+            <strong>{task.title}:</strong>
+            <span className="ms-3">{task.description}</span>
+          </span>
+        </li>
+      </ul>
     </div>
   );
 };

@@ -60,13 +60,13 @@ const TaskListMenuBar = () => {
       {/* <div className="col-lg-4">
         <SearchInput clickEvent={handleSearch}></SearchInput>
       </div> */}
-      <div className="col-12 col-lg-3 d-flex center middle">
+      <div className="col-12 col-lg-3 d-flex underline center middle">
         <Link to="/tasks/add-task" className="btn btn-primary">
           Add Task
         </Link>
       </div>
 
-      <div className="show-filter-wrapper col-12 col-lg-4 d-flex center middle">
+      <div className="show-filter-wrapper underline col-12 col-lg-4 d-flex center middle">
         <CheckboxGroup
           options={statusFilters}
           onChange={(option) => handleFilter(option)}

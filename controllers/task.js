@@ -2,8 +2,13 @@ const errorHandler = require("../middleware/handleError.js");
 const { Task } = require("../models/task.js");
 const { TaskStatus } = require("../utils/constants.js");
 
+const getTask = errorHandler(async (req, res, next) => {
+  let data = await Task.findById(req.params.id);
+  req.data = [data];
+  return next();
+});
+
 const getTasks = errorHandler(async (req, res, next) => {
-  // console.log("REQ.QUERY: ", req.query);
   let data = await Task.find({});
   data = [...data.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))];
   req.data = data;
@@ -27,6 +32,23 @@ const addTask = errorHandler(async (req, res, next) => {
   return next();
 });
 
+const updateTask = errorHandler(async (req, res, next) => {
+  const data = await Task.findByIdAndUpdate(
+    req.body.id,
+    {
+      title: req.body.title,
+      description: req.body.description,
+      dueDate: new Date(req.body.dueDate).toUTCString(),
+      taskGroup: req.body.taskGroup,
+      status: TaskStatus.ACTIVE,
+      updatedOn: new Date(Date.now()).toUTCString(),
+    },
+    { new: true }
+  );
+  req.data = [data];
+  return next();
+});
+
 const completeTask = errorHandler(async (req, res, next) => {
   let data = await Task.findOneAndUpdate(
     { _id: req.body.id },
@@ -36,13 +58,15 @@ const completeTask = errorHandler(async (req, res, next) => {
     },
     { new: true }
   );
-  // console.log(req.data);
+
   req.data = [data];
   return next();
 });
 
 module.exports = {
-  addTask,
+  getTask,
   getTasks,
+  addTask,
+  updateTask,
   completeTask,
 };

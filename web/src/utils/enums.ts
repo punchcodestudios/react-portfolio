@@ -26,4 +26,8 @@ export enum SolidIcon {
   DANGER = "DANGER",
   ADD = "ADD",
   SUBTRACT = "SUBTRACT",
+  SET_COMPLETE = "SET_COMPLETE",
+  EDIT = "EDIT",
+  DUE = "DUE",
+  GROUP = "GROUP",
 }

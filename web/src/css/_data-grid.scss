@@ -3,19 +3,45 @@
   ul {
     padding: 0;
     margin-bottom: 0;
+    border: 0px;
   }
 
   .grid-items {
-    background-color: white;
+    // background-color: white;
     margin: 1rem;
     padding: 1rem;
+
+    .data-item-wrapper {
+      margin-bottom: 1em;
+      background-color: white;
+      padding: 5px;
+    }
 
     .data-items {
       li {
         display: inline-block;
-        padding: 15px;
+        padding: 5px;
       }
-      @media screen and (min-width: 1200px) {
+      // .li.action-item {
+
+      // }
+      .action-item {
+        color: white;
+        padding: 5px;
+        background-color: $color-primary;
+      }
+
+      li.status-item {
+        padding: 5px;
+        background-color: white;
+        outline: none;
+
+        .status.active {
+          color: green;
+        }
+      }
+
+      @media screen and (min-width: 992px) {
         li:only-child {
           width: 100%;
         }
@@ -44,7 +70,7 @@
         }
       }
 
-      @media screen and (max-width: 1200px) {
+      @media screen and (max-width: 992px) {
         li {
           width: 100%;
           padding: 2px;

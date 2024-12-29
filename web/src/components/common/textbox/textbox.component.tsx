@@ -5,6 +5,7 @@ interface Props {
   name: string;
   cssClass?: string | "";
   placeholderText?: string | "";
+  value?: string | "";
   onChange?: (value: string) => void;
   onBlur?: (value: string) => void;
 }
@@ -14,6 +15,7 @@ export const Textbox: React.FC<Props> = ({
   name,
   cssClass,
   placeholderText,
+  value,
   onChange,
   onBlur,
 }) => {
@@ -37,6 +39,7 @@ export const Textbox: React.FC<Props> = ({
       id={id}
       name={name}
       type="text"
+      value={value}
       className={`input ${cssClass}`}
       ref={ref}
       placeholder={placeholderText}

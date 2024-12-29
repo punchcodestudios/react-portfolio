@@ -10,6 +10,7 @@ import HomePage from "../pages/home-page.component";
 import Resume from "../pages/resume/index";
 import TaskListPage from "../pages/task-list/task-list.page";
 import AddTaskForm from "../pages/task-list/add-task.form";
+import EditTaskForm from "../pages/task-list/edit-task.form";
 import SignUpConfirmationPage from "../pages/auth/sign-up-confirmation-page.component";
 import WelcomePage from "../pages/auth/welcome-page.component";
 import PublicRoute from "./publicRoute";
@@ -51,6 +52,10 @@ function routes() {
             {
               path: "add-task",
               element: <AddTaskForm></AddTaskForm>,
+            },
+            {
+              path: "edit-task/:id",
+              element: <EditTaskForm></EditTaskForm>,
             },
           ],
         },

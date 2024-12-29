@@ -13,4 +13,13 @@
   @media screen and (max-width: 1199) {
     font-size: 0.8em;
   }
+
+  .underline {
+    border-bottom: 0;
+    margin: 0 0;
+    @media screen and (min-width: 991) {
+      border-bottom: solid thin $color-primary-light;
+      margin: 5px 0;
+    }
+  }
 }

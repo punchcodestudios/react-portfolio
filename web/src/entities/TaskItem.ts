@@ -20,6 +20,14 @@ export interface AddTaskItem {
   taskGroup: string;
 }
 
+export interface EditTaskItem {
+  id: string;
+  title: string;
+  description: string;
+  dueDate: Date;
+  taskGroup: string;
+}
+
 export interface TaskQueryOptions {
   showActive: boolean;
   showCompleted: boolean;

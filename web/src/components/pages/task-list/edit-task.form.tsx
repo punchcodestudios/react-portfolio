@@ -1,27 +1,59 @@
 import ButtonControl from "@/components/common/button/button.control";
 import { Textbox } from "@/components/common/textbox/textbox.component";
-import { AddTaskItem } from "@/entities/TaskItem";
+import { EditTaskItem, TaskItem } from "@/entities/TaskItem";
 import useTasks from "@/state-management/task/use-tasks";
 import { joiResolver } from "@hookform/resolvers/joi";
 import JoiDate from "@joi/date";
 import BaseJoi from "joi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Spinner } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import taskService from "../../../services/task-service";
 
-const AddTaskForm = () => {
+const EditTaskForm = () => {
   const { dispatch } = useTasks();
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [taskItem, setTaskItem] = useState<TaskItem>({} as TaskItem);
   const navigate = useNavigate();
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    // console.log("edit task id: ", id);
+    if (id) {
+      taskService.getTask(id).then((response) => {
+        // console.log("response: ", response);
+        if (!response || !response.meta.success) {
+          //   console.log(response.error.message);
+          toast.error(response.error.message);
+        } else {
+          setTaskItem(response.target[0]);
+        }
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    setValue("id", taskItem._id || "");
+    setValue("title", taskItem.title || "");
+    setValue(
+      "dueDate",
+      taskItem.dueDate ? new Date(taskItem.dueDate) : new Date()
+    );
+    setValue("description", taskItem.description || "");
+    setValue("taskGroup", taskItem.taskGroup || "");
+  }, [taskItem]);
 
   const Joi = BaseJoi.extend(JoiDate);
   const schema = Joi.object({
+    id: Joi.string()
+      .required()
+      .messages({ "string.empty": "object must include a valid id" }),
     title: Joi.string()
       .required()
       .messages({ "string.empty": "Title is a required field." }),
@@ -41,9 +73,12 @@ const AddTaskForm = () => {
   const {
     handleSubmit,
     control,
+    setValue,
+    register,
     formState: { errors },
   } = useForm({
     defaultValues: {
+      id: "",
       title: "",
       dueDate: new Date(),
       description: "",
@@ -53,12 +88,12 @@ const AddTaskForm = () => {
     mode: "onSubmit",
   });
 
-  const onSubmit = (values: AddTaskItem) => {
-    // console.log(values);
+  const onSubmit = (values: EditTaskItem) => {
+    console.log("Form values: ", values);
     setError("");
     setIsLoading(true);
     taskService
-      .addTask(values)
+      .updateTask(values)
       .then((response) => {
         if (!response || !response.meta.success) {
           setError(response.error.message);
@@ -87,8 +122,8 @@ const AddTaskForm = () => {
         <Toaster></Toaster>
         <div className="formWrapper">
           <Form className="form" onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="formTitle">Add Task Item</h1>
-
+            <h1 className="formTitle">Edit Task Item</h1>
+            <input type="hidden" id="hidden" {...register("id")}></input>
             <Form.Group className="mb-3">
               <Controller
                 control={control}
@@ -100,6 +135,7 @@ const AddTaskForm = () => {
                     onBlur={field.onBlur}
                     onChange={field.onChange}
                     placeholderText="task title"
+                    value={field.value}
                   />
                 )}
               />
@@ -119,6 +155,7 @@ const AddTaskForm = () => {
                     onBlur={field.onBlur}
                     onChange={field.onChange}
                     placeholderText="task description"
+                    value={field.value}
                   />
                 )}
               />
@@ -141,6 +178,7 @@ const AddTaskForm = () => {
                     onBlur={field.onBlur}
                     className="input"
                     minDate={new Date()}
+                    value={new Date(field.value).toDateOnlyString()}
                   />
                 )}
               />
@@ -160,6 +198,7 @@ const AddTaskForm = () => {
                     onBlur={field.onBlur}
                     onChange={field.onChange}
                     placeholderText="task group"
+                    value={field.value}
                   />
                 )}
               />
@@ -176,7 +215,7 @@ const AddTaskForm = () => {
                 cssClass="btn btn-primary full-height"
                 disabled={isLoading}
               >
-                {isLoading ? <Spinner></Spinner> : "Add new item"}
+                {isLoading ? <Spinner></Spinner> : "Edit item"}
               </ButtonControl>
             </Form.Group>
 
@@ -199,4 +238,4 @@ const AddTaskForm = () => {
   );
 };
 
-export default AddTaskForm;
+export default EditTaskForm;
