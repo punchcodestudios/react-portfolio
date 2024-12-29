@@ -72,15 +72,13 @@ const isAuthenticated = errorHandler(async (req, res, next) => {
     const accessToken = authToken?.split("Bearer ")[1];
     // console.log("auth: ", accessToken);
     if (!accessToken) {
-      const error = createError.Unauthorized();
-      throw error;
+      return next(createError(401, `Invalid or no access token: ${authToken}`));
     }
 
     const { signedCookies = {} } = req;
     const { refreshToken } = signedCookies;
     if (!refreshToken) {
-      const error = createError.Unauthorized();
-      throw error;
+      return next(createError(401, `Invalid or no refresh token`));
     }
 
     // let refreshTokenInDB = tokens.find(
@@ -97,15 +95,13 @@ const isAuthenticated = errorHandler(async (req, res, next) => {
     try {
       decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
     } catch (err) {
-      const error = createError.Unauthorized();
-      return next(error);
+      return next(createError(401, `Decoded token failed validation`));
     }
 
     const { userId } = decodedToken;
     const user = User.find({ _id: userId });
     if (!user) {
-      const error = createError.Unauthorized();
-      throw error;
+      return next(createError(401, `Invalid user`));
     }
 
     // req.userId == user.id;
