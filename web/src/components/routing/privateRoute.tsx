@@ -10,6 +10,7 @@ const PrivateRoute: React.FC = () => {
   useEffect(() => {
     const hasAuthenticatedUser = async () => {
       const response = await userService.isAuthenticated();
+      console.log("auth response: ", response);
       return response.meta.success;
     };
 

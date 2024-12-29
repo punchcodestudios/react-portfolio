@@ -8,7 +8,7 @@ const UserService = {
       const response = await me();
       return Promise.resolve(map(response));
     } catch (error) {
-      // console.error("there is something wrong with me(): ", error);
+      console.error("there is something wrong with me(): ", error);
       throw error;
     }
   },
