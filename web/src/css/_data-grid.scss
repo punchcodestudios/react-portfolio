@@ -1,5 +1,5 @@
 .grid-container {
-  background-color: $color-primary-light;
+  background-color: $color-white;
   ul {
     padding: 0;
     margin-bottom: 0;
@@ -7,8 +7,6 @@
   }
 
   .grid-items {
-    // background-color: white;
-    margin: 1rem;
     padding: 1rem;
 
     .data-item-wrapper {
