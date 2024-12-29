@@ -19,6 +19,7 @@ const authService = {
   logout: async (request: LogoutRequest) => {
     try {
       const response = await logout(request);
+      localStorage.removeItem("token");
       return Promise.resolve(map(response));
     } catch (error) {
       // console.error("Error logging out: ", error);
