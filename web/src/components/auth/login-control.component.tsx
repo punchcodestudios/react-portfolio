@@ -11,6 +11,7 @@ const LoginControl = () => {
   const handleClick = () => {
     if (user && user.status == UserStatus.CONFIRMED) {
       authService.logout({ id: user._id } as LogoutRequest).then(() => {
+        localStorage.removeItem("token");
         dispatch({ type: "INIT" });
       });
       navigate("/");
