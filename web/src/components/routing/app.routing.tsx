@@ -9,10 +9,12 @@ import GalleryGridLayout from "../pages/gallery/galllery-grid-layout.component";
 import HomePage from "../pages/home-page.component";
 import Resume from "../pages/resume/index";
 import TaskListPage from "../pages/task-list/task-list.page";
+import AddTaskForm from "../pages/task-list/add-task.form";
+import EditTaskForm from "../pages/task-list/edit-task.form";
 import SignUpConfirmationPage from "../pages/auth/sign-up-confirmation-page.component";
 import WelcomePage from "../pages/auth/welcome-page.component";
-import RestrictAuthenticated from "./restrictAuthenticated";
-import RequireAuthenticated from "./requireAuthenticated";
+import PublicRoute from "./publicRoute";
+import PrivateRoute from "./privateRoute";
 
 function routes() {
   return [
@@ -40,8 +42,26 @@ function routes() {
           element: <GalleryDetails></GalleryDetails>,
         },
         {
-          element: <RestrictAuthenticated />,
-          errorElement: <ErrorPage></ErrorPage>,
+          path: "tasks",
+          element: <PrivateRoute />,
+          children: [
+            {
+              path: "task-list",
+              element: <TaskListPage></TaskListPage>,
+            },
+            {
+              path: "add-task",
+              element: <AddTaskForm></AddTaskForm>,
+            },
+            {
+              path: "edit-task/:id",
+              element: <EditTaskForm></EditTaskForm>,
+            },
+          ],
+        },
+        {
+          path: "user",
+          element: <PublicRoute />,
           children: [
             {
               path: "login",
@@ -58,16 +78,6 @@ function routes() {
             {
               path: "welcome",
               element: <WelcomePage />,
-            },
-          ],
-        },
-        {
-          element: <RequireAuthenticated></RequireAuthenticated>,
-          errorElement: <ErrorPage></ErrorPage>,
-          children: [
-            {
-              path: "task-list",
-              element: <TaskListPage></TaskListPage>,
             },
           ],
         },

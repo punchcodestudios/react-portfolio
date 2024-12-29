@@ -19,6 +19,7 @@ const authService = {
   logout: async (request: LogoutRequest) => {
     try {
       const response = await logout(request);
+      localStorage.removeItem("token");
       return Promise.resolve(map(response));
     } catch (error) {
       // console.error("Error logging out: ", error);
@@ -47,7 +48,7 @@ const authService = {
   refreshAccessToken: async () => {
     try {
       const response = await refreshAccessToken();
-      console.log("refresh access token: ", response);
+      // console.log("refresh access token: ", response);
       return Promise.resolve(map(response));
     } catch (error) {
       // console.log("Error while refreshing access token", error);

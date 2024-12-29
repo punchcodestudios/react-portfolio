@@ -1,6 +1,9 @@
 const NoContent = () => {
   return (
-    <div>Unable to load content at this time. Please check back later.</div>
+    <div>
+      No content was found. If you are using a query, search or filter
+      parameters, please adjust your settings and retry.
+    </div>
   );
 };
 

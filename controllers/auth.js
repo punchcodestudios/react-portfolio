@@ -5,16 +5,14 @@ const { User } = require("../models/user");
 const errorHandler = require("../middleware/handleError.js");
 const { WebToken } = require("../models/webtoken");
 
-const { generateJWT, getAccessTokenTTL } = require("../utils/auth-utils");
+const {
+  generateJWT,
+  getAccessTokenTTL,
+  getRefreshTokenTTL,
+} = require("../utils/auth-utils");
 const { getTimeZoneDate } = require("../utils/date-utils");
 
-const {
-  ACCESS_TOKEN_LIFE,
-  REFRESH_TOKEN_LIFE,
-  ACCESS_TOKEN_SECRET,
-  REFRESH_TOKEN_SECRET,
-  NODE_ENV,
-} = process.env;
+const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET, NODE_ENV } = process.env;
 
 const dev = NODE_ENV === "development";
 
@@ -32,20 +30,20 @@ const generateAuthTokens = errorHandler(async (req, res, next) => {
     const refreshToken = generateJWT(
       user._id,
       REFRESH_TOKEN_SECRET,
-      REFRESH_TOKEN_LIFE
+      getRefreshTokenTTL()
     );
 
     const accessToken = generateJWT(
       user._id,
       ACCESS_TOKEN_SECRET,
-      ACCESS_TOKEN_LIFE
+      getAccessTokenTTL()
     );
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: !dev,
       signed: true,
-      expires: getTimeZoneDate(new Date(Date.now() + ms(REFRESH_TOKEN_LIFE))),
+      expires: getTimeZoneDate(new Date(Date.now() + getRefreshTokenTTL())),
     });
 
     await persistRefreshToken(refreshToken);
@@ -53,7 +51,7 @@ const generateAuthTokens = errorHandler(async (req, res, next) => {
     const meta = {
       success: true,
       token: accessToken,
-      expiresAt: getTimeZoneDate(new Date(Date.now() + ms(ACCESS_TOKEN_LIFE))),
+      expiresAt: getTimeZoneDate(new Date(Date.now() + getAccessTokenTTL())),
       timetolive: getAccessTokenTTL(),
       isAuthenticated: true,
     };
@@ -70,44 +68,41 @@ const isAuthenticated = errorHandler(async (req, res, next) => {
   try {
     const authToken = req.get("Authorization");
     const accessToken = authToken?.split("Bearer ")[1];
+    // console.log("auth: ", accessToken);
     if (!accessToken) {
-      const error = createError.Unauthorized();
-      throw error;
+      return next(createError(401, `Invalid or no access token: ${authToken}`));
     }
 
     const { signedCookies = {} } = req;
     const { refreshToken } = signedCookies;
     if (!refreshToken) {
-      const error = createError.Unauthorized();
-      throw error;
+      return next(createError(401, `Invalid or no refresh token`));
     }
 
-    let refreshTokenInDB = tokens.find(
-      (token) => token.refreshToken === refreshToken
-    );
-    if (!refreshTokenInDB) {
-      const error = createError.Unauthorized();
-      throw error;
-    }
+    // let refreshTokenInDB = tokens.find(
+    //   (token) => token.refreshToken === refreshToken
+    // );
+    // if (!refreshTokenInDB) {
+    //   const error = createError.Unauthorized();
+    //   throw error;
+    // }
 
-    refreshTokenInDB = refreshTokenInDB.refreshToken;
+    // refreshTokenInDB = refreshTokenInDB.refreshToken;
 
     let decodedToken;
     try {
       decodedToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
     } catch (err) {
-      const error = createError.Unauthorized();
-      return next(error);
+      return next(createError(401, `Decoded token failed validation`));
     }
 
     const { userId } = decodedToken;
-    const user = users.find((user) => user.id == userId);
+    const user = User.find({ _id: userId });
     if (!user) {
-      const error = createError.Unauthorized();
-      throw error;
+      return next(createError(401, `Invalid user`));
     }
 
-    req.userId == user.id;
+    // req.userId == user.id;
     return next();
   } catch (error) {
     return next(error);

@@ -6,6 +6,12 @@ const userController = require("../controllers/user");
 const responseController = require("../controllers/response");
 const mailController = require("../controllers/mail");
 
+router.get(
+  "/me",
+  authController.isAuthenticated,
+  responseController.sendSuccessResponse
+);
+
 router.post(
   "/sign-up",
   userController.signUp,

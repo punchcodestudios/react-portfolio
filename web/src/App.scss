@@ -6,7 +6,10 @@
 @import "./css/input-radio-checkbox";
 @import "./css/data-grid";
 @import "./css/query-bar";
+@import "./css/icon-badge.scss";
 @import "./components/common/content-card/content-card";
 @import "./components/pages/resume/resume.scss";
-@import "./components/navigation//sub-nav//sub-nav.component.scss";
+@import "./components/navigation/sub-nav/sub-nav.component.scss";
 @import "./components/common/button/button-control.scss";
+@import "./components/common/data-grid/data-grid-menu-bar.scss";
+@import "./components/common/data-grid/data-pager.scss";

@@ -15,7 +15,7 @@ const LoginControl = () => {
       });
       navigate("/");
     } else {
-      navigate("/login");
+      navigate("/user/login");
     }
   };
 

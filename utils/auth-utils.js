@@ -6,11 +6,11 @@ const generateJWT = (userId, secret, expirationTime) => {
 };
 
 const getAccessTokenTTL = (req, res) => {
-  return process.env.ACCESS_TOKEN_LIFE * 60 * 1000 - 10 * 1000;
+  return process.env.ACCESS_TOKEN_LIFE * 60 * 60 * 1000;
 };
 
 const getRefreshTokenTTL = () => {
-  return process.env.REFRESH_TOKEN_LIFE * 60 * 1000 - 10 * 1000;
+  return process.env.REFRESH_TOKEN_LIFE * 60 * 60 * 1000;
 };
 
 const encodePassword = async (password) => {

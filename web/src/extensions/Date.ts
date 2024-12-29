@@ -20,9 +20,10 @@ Date.prototype.midnight = function () {
 
 Date.prototype.toDateOnlyString = function () {
   const date = new Date(this.valueOf());
-  return `${
-    date.getUTCMonth() + 1
-  }-${date.getUTCDate()}-${date.getUTCFullYear()}`;
+  return `${(date.getUTCMonth() + 1).toString().padStart(2, "0")}/${date
+    .getUTCDate()
+    .toString()
+    .padStart(2, "0")}/${date.getUTCFullYear()}`;
 };
 
 Date.prototype.addDays = function (days: number) {
