@@ -45,3 +45,8 @@ export interface ConfirmationRequest {
   confirmationCode: string;
   username: string;
 }
+
+export interface AuthRecoveryRequest {
+  username: string;
+  email: string;
+}

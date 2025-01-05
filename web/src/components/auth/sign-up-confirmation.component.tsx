@@ -11,7 +11,7 @@ import { Spinner } from "react-bootstrap";
 
 const SignUpConfirmation = () => {
   const navigate = useNavigate();
-  const { dispatch, user } = useAuth();
+  const { dispatch } = useAuth();
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

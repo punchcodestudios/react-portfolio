@@ -15,6 +15,9 @@ import SignUpConfirmationPage from "../pages/auth/sign-up-confirmation-page.comp
 import WelcomePage from "../pages/auth/welcome-page.component";
 import PublicRoute from "./publicRoute";
 import PrivateRoute from "./privateRoute";
+import TermsOfUsePage from "../pages/terms-of-use/terms-of-use.page";
+import PrivacyPolicyPage from "../pages/privacy-policy/privacy-policy.page";
+import MapPage from "../pages/location-services/map.page";
 
 function routes() {
   return [
@@ -40,6 +43,18 @@ function routes() {
         {
           path: "galleries/:slug",
           element: <GalleryDetails></GalleryDetails>,
+        },
+        {
+          path: "terms-of-use",
+          element: <TermsOfUsePage />,
+        },
+        {
+          path: "privacy-policy",
+          element: <PrivacyPolicyPage />,
+        },
+        {
+          path: "products/location-services/maps",
+          element: <MapPage></MapPage>,
         },
         {
           path: "tasks",

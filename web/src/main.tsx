@@ -12,6 +12,7 @@ import TaskProvider from "./state-management/task/task-provider";
 import { Provider } from "./components/ui/provider";
 import { Theme } from "@chakra-ui/react";
 import { AuthProvider } from "./state-management/auth/auth-provider";
+import { APIProvider } from "@vis.gl/react-google-maps";
 
 //http://localhost:5173/
 

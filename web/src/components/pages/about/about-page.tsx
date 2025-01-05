@@ -1,3 +1,4 @@
+import LocationMap from "@/components/maps/map.component";
 import ContactForm from "./contact-form.component";
 
 const AboutPage = () => {
