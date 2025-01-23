@@ -1,7 +1,11 @@
 import type { Config } from "tailwindcss";
 
 export default {
-  content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./node_modules/flowbite/**/*.js",
+    "./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}",
+  ],
+
   theme: {
     extend: {
       fontFamily: {
@@ -15,8 +19,22 @@ export default {
           '"Segoe UI Symbol"',
           '"Noto Color Emoji"',
         ],
+        serif: [],
+      },
+      colors: {
+        siteBlack: "var(--color-black)",
+        siteWhite: "var(--color-white)",
+        primary: "var(--color-primary)",
+        primaryLight: "var(--color-primary-light)",
+        primaryDark: "var(--color-primary-dark)",
+        secondary: "var(--color-secondary)",
+        secondaryLight: "var(--color-secondary-light)",
+        secondaryDark: "var(--color-secondary-dark)",
+      },
+      backgroundImage: {
+        parallax: 'url("../public/static/img/home_hero.png")',
       },
     },
+    plugins: [require("flowbite/plugin")],
   },
-  plugins: [],
 } satisfies Config;

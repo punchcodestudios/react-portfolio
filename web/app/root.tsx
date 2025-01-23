@@ -1,5 +1,6 @@
 import {
   isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
@@ -7,12 +8,11 @@ import {
   ScrollRestoration,
 } from "react-router";
 
-import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
-import MainNav from "./components/main-nav.component";
-import Footer from "./components/footer.component";
+import Footer from "./components/layout/footer.component";
+import Navbar from "./components/layout/navbar.component";
 
-export const links: Route.LinksFunction = () => [
+export const links = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -26,6 +26,15 @@ export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
 
+const mainNavItems = [
+  <Link to="/resume" className="me-3">
+    Resume
+  </Link>,
+  <Link to="/about" className="me-3">
+    About
+  </Link>,
+];
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -36,7 +45,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <Navbar navItems={mainNavItems}></Navbar>
+        <div
+          id="siteContainer"
+          className="max-w-[100%] md:max-w-[90%] mx-auto bg-siteWhite"
+        >
+          {children}
+        </div>
+        <Footer></Footer>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -45,19 +61,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return (
-    <div className="app-wrapper">
-      <MainNav></MainNav>
-      <Outlet />
-      <Footer></Footer>
-    </div>
-  );
+  return <Outlet />;
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+export function ErrorBoundary({ error }: { error: Error }) {
   let message = "Oops!";
   let details = "An unexpected error occurred.";
-  let stack: string | undefined;
+  let stack;
 
   if (isRouteErrorResponse(error)) {
     message = error.status === 404 ? "404" : "Error";

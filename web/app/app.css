@@ -4,9 +4,21 @@
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
-
+  @apply text-siteBlack bg-gray-700;
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
+  }
+}
+
+@layer base {
+  :root {
+    --color-black: #222222;
+    --color-white: #eeeeee;
+    --color-primary-light: #587da0;
+    --color-primary: #0d263d;
+    --color-primary-dark: #021527;
+    --color-secondary: #ff6633;
+    --color-secondary-light: #f8b098;
+    --color-secondary-dark: #6d1d02;
   }
 }

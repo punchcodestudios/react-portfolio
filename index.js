@@ -24,15 +24,15 @@ const cors = require("cors");
 
 // console.log("index.js: 25");
 
-if (isDev) {
-  app.use(
-    cors({
-      origin: ["http://localhost:5174"],
-      methods: ["POST", "PUT", "GET", "DELETE"],
-      credentials: true,
-    })
-  );
-}
+// if (isDev) {
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    methods: ["POST", "PUT", "GET", "DELETE"],
+    credentials: true,
+  })
+);
+// }
 
 // console.log("index.js: 37");
 // logger.info("before startup: ");
