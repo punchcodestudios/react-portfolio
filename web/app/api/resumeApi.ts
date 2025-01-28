@@ -31,10 +31,12 @@ export const getAllSkills = async (
   const client = new ApiClient<Skill>("resume/get-all-skills", request);
   try {
     return client.getAll().then((response) => {
+      console.log("response: ", response);
       return Promise.resolve(response);
     });
   } catch (error: any) {
-    return Promise.resolve(error);
+    console.log("error response: ", error);
+    return Promise.reject(error);
   }
 };
 

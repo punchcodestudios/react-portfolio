@@ -15,7 +15,7 @@ const getAllSkills = errorHandler(async (req, res, next) => {
       foreignField: "refid",
     });
 
-    // return next(createError(402, "fabricated error message"));
+    return next(createError(418, "fabricated error message"));
     req.data = allSkills;
     return next();
   } catch (error) {
@@ -27,8 +27,7 @@ const addSkills = errorHandler(async (req, res, next) => {
   //console.log("addSkills: ", [...req.body]);
   try {
     const array = [...req.body];
-
-    array.forEach(async (item) => {
+    +array.forEach(async (item) => {
       let { error } = validate(item);
       if (error) return next(new Error(error.details[0].message));
 

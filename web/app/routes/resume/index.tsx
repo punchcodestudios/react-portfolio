@@ -4,16 +4,15 @@ import HeaderImage from "~/components/layout/header-image.component";
 import PageNav from "~/components/layout/page-nav.component";
 import SkillsContent from "~/components/resume/skills-content.component";
 import SummaryContent from "~/components/resume/summary-content.component";
-import type { Skill, SkillRequest } from "~/entities/resume";
+import type { Skill } from "~/entities/resume";
 import useImage from "~/hooks/useImage";
-import resumeService from "~/service/resume-service";
 import { SolidIcon } from "~/utils/enums";
 
-const skillsQuery = () => ({
-  queryKey: ["skills"],
-  queryFn: async () =>
-    resumeService.getAllSkills({ params: { skillsExclude: [] } }),
-});
+// const skillsQuery = () => ({
+//   queryKey: ["skills"],
+//   queryFn: async () =>
+//     resumeService.getAllSkills({ params: { skillsExclude: [] } }),
+// });
 
 // export async function clientLoader(qc: QueryClient) {
 //   const query = skillsQuery();
@@ -34,23 +33,23 @@ const skillsQuery = () => ({
 //   return response;
 // }
 
-export function clientLoader() {
-  // const query = skillsQuery();
-  // console.log("queryKey: ", query.queryKey);
-  // try {
-  //console.log("FN: ", queryClient.getQueryData(query.queryKey));
-  // const data = queryClient.fetchQuery(query);
-  //queryClient.getQueryData(query.queryKey) ?? queryClient.fetchQuery(query);
-  //   console.log("queryDATA: ", data);
-  // } catch (error) {
-  //   console.log("Error: ", error);
-  // }
+// export function clientLoader() {
+//   // const query = skillsQuery();
+//   // console.log("queryKey: ", query.queryKey);
+//   // try {
+//   //console.log("FN: ", queryClient.getQueryData(query.queryKey));
+//   // const data = queryClient.fetchQuery(query);
+//   //queryClient.getQueryData(query.queryKey) ?? queryClient.fetchQuery(query);
+//   //   console.log("queryDATA: ", data);
+//   // } catch (error) {
+//   //   console.log("Error: ", error);
+//   // }
 
-  const request: SkillRequest = { params: { skillsExclude: [] } };
-  const skills = resumeService.getAllSkills(request);
-  console.log(skills);
-  return skills;
-}
+//   const request: SkillRequest = { params: { skillsExclude: [] } };
+//   const skills = resumeService.getAllSkills(request);
+//   console.log(skills);
+//   return skills;
+// }
 
 const Resume = () => {
   const loaderData = useLoaderData();

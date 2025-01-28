@@ -1,4 +1,5 @@
 import {
+  data,
   isRouteErrorResponse,
   Link,
   Links,
@@ -6,25 +7,29 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
+  type LinksFunction,
+  type LoaderFunctionArgs,
 } from "react-router";
-
 import stylesheet from "./app.css?url";
 import Footer from "./components/layout/footer.component";
 import Navbar from "./components/layout/navbar.component";
+import fontStylestylesheetUrl from "./styles/font.css?url";
+import tailwindStylesheetUrl from "./styles/tailwind.css?url";
+import type { Route } from "./+types/root";
+import GenericErrorBoundary from "./components/ui/error-boundary";
+import { HoneypotProvider } from "remix-utils/honeypot/react";
+import { honeypot } from "./utils/honeypot.server";
+import { csrf } from "./utils/csrf.server";
+import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
 
-export const links = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
-  { rel: "stylesheet", href: stylesheet },
-];
+export const links: LinksFunction = () =>
+  [
+    { rel: "preconnect", href: "https://fonts.googleapis.com" },
+    // { rel: "stylesheet", href: fontStylestylesheetUrl },
+    { rel: "stylesheet", href: tailwindStylesheetUrl },
+    { rel: "stylesheet", href: stylesheet },
+  ].filter(Boolean);
 
 const mainNavItems = [
   <Link to="/resume" className="me-3">
@@ -33,26 +38,36 @@ const mainNavItems = [
   <Link to="/about" className="me-3">
     About
   </Link>,
+  <Link to="/contact" className="me-3">
+    Contact
+  </Link>,
 ];
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export async function loader({ request }: LoaderFunctionArgs) {
+  const [csrfToken, csrfCookieHeader] = await csrf.commitToken(request);
+  const honeyProps = await honeypot.getInputProps();
+  return data(
+    {
+      honeyProps,
+      csrfToken,
+    },
+    {
+      headers: csrfCookieHeader ? { "set-cookie": csrfCookieHeader } : {},
+    }
+  );
+}
+
+function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <Meta />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
         <Links />
       </head>
-      <body>
-        <Navbar navItems={mainNavItems}></Navbar>
-        <div
-          id="siteContainer"
-          className="max-w-[100%] md:max-w-[90%] mx-auto bg-siteWhite"
-        >
-          {children}
-        </div>
-        <Footer></Footer>
+      <body suppressHydrationWarning={true}>
+        {children}
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -60,35 +75,47 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App() {
-  return <Outlet />;
+function App() {
+  return (
+    <Layout>
+      <Navbar navItems={mainNavItems}></Navbar>
+      <div
+        id="siteContainer"
+        className="max-w-[100%] md:max-w-[90%] mx-auto bg-siteWhite"
+      >
+        <Outlet />
+      </div>
+      <Footer></Footer>
+    </Layout>
+  );
+}
+
+export default function AppWithProviders() {
+  const data = useLoaderData<typeof loader>();
+  return (
+    <AuthenticityTokenProvider token={data.csrfToken}>
+      <HoneypotProvider {...data.honeyProps}>
+        <App />
+      </HoneypotProvider>
+    </AuthenticityTokenProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
-  let stack;
-
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
-  }
-
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
+    <Layout>
+      <GenericErrorBoundary></GenericErrorBoundary>
+    </Layout>
   );
+}
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Punchcode Studios | Portfolio" },
+    {
+      name: "description",
+      content:
+        "Porfolio project showcasing React Development for PunchcodeStudios design company",
+    },
+  ];
 }
