@@ -19,7 +19,7 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@hookform/resolvers": "^3.9.1",
     "@joi/date": "^2.1.1",
-    "@react-email/components": "^0.0.28",
+    "@react-email/components": "^0.0.32",
     "@vitejs/plugin-react": "^4.3.3",
     "joi": "^17.13.3",
     "joi-password-complexity": "^5.2.0",
