@@ -35,7 +35,7 @@
     "react-select": "^5.8.3",
     "react-tooltip": "^5.28.0",
     "require": "^2.4.20",
-    "sass": "^1.81.0",
+    "sass": "^1.83.1",
     "vite": "^4.5.5",
     "vite-plugin-commonjs": "^0.10.3",
     "vite-plugin-require": "^1.2.14",
