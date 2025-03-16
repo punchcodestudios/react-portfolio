@@ -1,3 +1,5 @@
+import SummaryContent from "~/components/resume/summary-content.component";
+
 export default function Summary() {
-  return <div>summary</div>;
+  return <SummaryContent></SummaryContent>;
 }

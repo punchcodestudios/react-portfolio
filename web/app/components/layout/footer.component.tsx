@@ -3,10 +3,7 @@ import { NavLink } from "react-router";
 
 const Footer = () => {
   return (
-    <div
-      id="footerWrapper"
-      className="flex flex-row flex-wrap items-center bg-primary text-siteWhite p-2 min-h-12 w-full"
-    >
+    <div className="flex flex-row flex-wrap items-center bg-primary text-siteWhite p-2 min-h-[50px] w-full">
       <div className="w-full flex justify-center ps-2 mb-2 lg:justify-start lg:w-1/4 lg:mb-0">
         <div className="flex flex-wrap">
           <span className="whitespace-nowrap me-2">

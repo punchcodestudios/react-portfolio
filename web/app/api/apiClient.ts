@@ -1,11 +1,11 @@
-import axios from "axios";
-import type { ApiErrorResponse, ApiResponse } from "./apiResponses";
+import axios, { AxiosError } from "axios";
+import type { ApiErrorResponse, ApiResponse } from "~/entities/api";
 
 const axiosInstance = axios.create({
-  baseURL:
-    process.env.NODE_ENV !== "production"
-      ? "http://localhost:3000/api"
-      : "https://punchcodestudios-980650c93199.herokuapp.com/api",
+  baseURL: "http://localhost:3000/api",
+  // process.env.NODE_ENV !== "production"
+  //   ? "http://localhost:3000/api"
+  //   : "https://punchcodestudios-980650c93199.herokuapp.com/api",
   withCredentials: true,
 });
 
@@ -54,8 +54,12 @@ class ApiClient<T> {
       });
       return Promise.resolve({ ...response.data });
     } catch (error: any) {
-      console.log("apiClient.getAll: error", { error });
+      // console.log("apiClient.getAll: error", { error });
       if (typeof error == "string") {
+        return Promise.reject(error);
+      }
+      if (error instanceof AxiosError) {
+        console.log("axios error: ", error);
         return Promise.reject(error);
       }
       return Promise.reject({ ...error } as ApiErrorResponse);
@@ -77,7 +81,7 @@ class ApiClient<T> {
       const response = await axiosInstance.post(this.endpoint, entity);
       return Promise.resolve({ ...response.data });
     } catch (error: any) {
-      // console.log("apiClient.post: error", error);
+      console.log("apiClient.post: error", error);
       return Promise.reject({ ...error } as ApiErrorResponse);
     }
   };

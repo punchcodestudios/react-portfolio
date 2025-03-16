@@ -1,15 +1,8 @@
 import React from "react";
-import {
-  isRouteErrorResponse,
-  Link,
-  Outlet,
-  useRouteError,
-  type MetaFunction,
-} from "react-router";
+import { NavLink, Outlet, type MetaFunction } from "react-router";
 import PageNav from "~/components/layout/page-nav.component";
 import HeaderImage from "~/components/layout/header-image.component";
 import useImage from "~/hooks/useImage";
-import type { Route } from "../+types/home";
 
 export async function loader() {
   // throw new Response("made up this error", { status: 500 });
@@ -23,7 +16,7 @@ export const meta: MetaFunction<typeof loader> = ({
   matches,
 }) => {
   const title = data?.displayName ?? params.displayName;
-  console.log("matches: ", matches);
+  // console.log("matches: ", matches);
   return [
     {
       title: `${title}`,
@@ -35,32 +28,56 @@ export const meta: MetaFunction<typeof loader> = ({
 const ResumeLayout = () => {
   const headerImage = useImage({ path: "/resume" });
   const items = [
-    <Link to="resume" className={`w-full p-2 h-14 md:w-1/4 md:p-0 `}>
+    <NavLink
+      to="resume"
+      className={({ isActive, isPending }) =>
+        `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+        ${isActive ? "bg-secondary" : "bg-primary"} 
+        ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+      }
+    >
       Summary
-    </Link>,
-    <Link
+    </NavLink>,
+    <NavLink
       to="resume/skills"
-      className={`w-full p-2 h-14 md:w-1/4 md:p-0 `}
+      className={({ isActive, isPending }) =>
+        `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+        ${isActive ? "bg-secondary" : "bg-primary"} 
+        ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+      }
       prefetch="intent"
     >
       Skills
-    </Link>,
-    <Link
+    </NavLink>,
+    <NavLink
       to="/resume/experience"
-      className={`w-full p-2 h-14 md:w-1/4 md:p-0 `}
+      className={({ isActive, isPending }) =>
+        `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+        ${isActive ? "bg-secondary" : "bg-primary"} 
+        ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+      }
     >
       Experience
-    </Link>,
-    <Link to="resume/education" className={`w-full p-2 h-14 md:w-1/4 md:p-0 `}>
+    </NavLink>,
+    <NavLink
+      to="resume/education"
+      className={({ isActive, isPending }) =>
+        `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+        ${isActive ? "bg-secondary" : "bg-primary"} 
+        ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+      }
+    >
       Education
-    </Link>,
+    </NavLink>,
   ];
 
   return (
     <>
       {headerImage && <HeaderImage headerImage={headerImage}></HeaderImage>}
       <PageNav navItems={items}></PageNav>
-      <Outlet></Outlet>
+      <div className="flex flex-col w-[90%] mx-auto mt-3">
+        <Outlet></Outlet>
+      </div>
     </>
   );
 };

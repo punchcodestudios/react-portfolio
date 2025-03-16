@@ -1,4 +1,5 @@
-import type { ApiErrorResponse } from "~/api/apiResponses";
+import type { ApiErrorResponse } from "~/entities/api";
+import type { MetaResponse } from "./api";
 
 export interface Resume {
   skillResponse: SkillResponse;
@@ -30,16 +31,16 @@ export interface Skills {
 }
 
 export interface Experience {
-  company_name: String;
+  company_name: string;
   refid: string;
-  start_date: String;
-  end_date: String;
-  position: String;
-  location: String;
+  start_date: string;
+  end_date: string;
+  position: string;
+  location: string;
   skills: Skill[];
-  sort_order: String;
+  sort_order: string;
   experience_line_items: ExperienceLineItem[];
-  slug: String;
+  slug: string;
 }
 
 export interface ExperienceLineItem {
@@ -63,18 +64,9 @@ export interface ExperienceRequest {
   params: {};
 }
 
-export interface ResumeMeta {
-  total: number;
-  success: boolean;
-}
-export interface ExperienceMeta {
-  total: number;
-  success: boolean;
-}
-export interface SkillMeta {
-  total: number;
-  success: boolean;
-}
+export interface ResumeMeta extends MetaResponse {}
+export interface ExperienceMeta extends MetaResponse {}
+export interface SkillMeta extends MetaResponse {}
 
 export interface ResumeResponse {
   target: Resume[];

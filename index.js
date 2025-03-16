@@ -14,11 +14,13 @@ app.use(express.json({ type: "application/json" }));
 const { PORT, NODE_ENV } = process.env;
 const isDev = NODE_ENV === "local";
 
+console.log("before cookie parser");
 // Security
 const cookieParser = require("cookie-parser");
 app.use(cookieParser(process.env.COOKIE_SECRET));
 const cors = require("cors");
 
+console.log("before rate limiting");
 // todo parse this out to its own middleware and return standard error object to UI
 // -- BEGIN Rate Limiting
 const { rateLimit } = require("express-rate-limit");
@@ -70,7 +72,7 @@ app.use((req, res, next) => {
 // if (isDev) {
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5174", "http://localhost:5173"],
     methods: ["POST", "PUT", "GET", "DELETE"],
     credentials: true,
   })

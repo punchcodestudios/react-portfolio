@@ -17,7 +17,7 @@ interface WithIconProps {
 
 export const TechBadge: React.FC<Props> = ({ text }) => {
   return (
-    <div className="text-siteWhite text-sm bg-primaryLight rounded-lg px-2 me-2 mb-2">
+    <div className="text-siteWhite text-sm bg-primaryLight rounded-lg px-2 pb-1 me-2 mb-2">
       <span className="whitespace-nowrap">{text}</span>
     </div>
   );
@@ -25,7 +25,7 @@ export const TechBadge: React.FC<Props> = ({ text }) => {
 
 export const IconTechBadge: React.FC<WithIconProps> = ({ text, icon }) => {
   return (
-    <div className="text-siteWhite bg-primaryLight rounded-lg px-2 me-2 flex items-center">
+    <div className="text-siteWhite bg-primaryLight rounded-lg px-2 pb-1 me-2 flex items-center">
       <FontAwesomeIcon
         icon={IconService.getSolid(icon)}
         fontSize={12}

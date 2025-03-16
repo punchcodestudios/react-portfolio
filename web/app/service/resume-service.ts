@@ -1,4 +1,3 @@
-import type { ApiResponse } from "~/api/apiResponses";
 import { getAllSkills, getAllExperience } from "~/api/resumeApi";
 import { useQuery } from "@tanstack/react-query";
 import type {
@@ -9,6 +8,7 @@ import type {
   Experience,
   ExperienceResponse,
 } from "~/entities/resume";
+import type { ApiResponse } from "~/entities/api";
 
 const resumeService = {
   getAllSkills: async (request: SkillRequest) => {

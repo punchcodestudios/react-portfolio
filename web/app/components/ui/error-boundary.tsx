@@ -13,22 +13,22 @@ type StatusHandler = (info: {
 }) => JSX.Element | null;
 
 interface Props {
-  defaultStatusHandler?: StatusHandler;
   statusHandlers?: Record<number, StatusHandler>;
+  defaultStatusHandler?: StatusHandler;
   unexpectedErrorHandler?: (error: unknown) => JSX.Element | null;
 }
 
 export function GenericErrorBoundary({
+  statusHandlers,
   defaultStatusHandler = ({ error }) => (
     <>
       <h1>{error.status}</h1>
       <p>{error.data}</p>
     </>
   ),
-  statusHandlers,
   unexpectedErrorHandler = (error) => (
     <>
-      <h1>Unexpected Error</h1>
+      <h1></h1>
       <p className="text-sm">{getErrorMessage(error)}</p>
       <pre className="w-[90%] whitespace-pre p-4 overflow-x-auto text-xs">
         <code>{getStackTrace(error)}</code>
@@ -38,6 +38,8 @@ export function GenericErrorBoundary({
 }: Props) {
   const error = useRouteError();
   const params = useParams();
+
+  console.log("typeof document", typeof document);
 
   if (typeof document !== "undefined") {
     console.error(JSON.stringify(error));

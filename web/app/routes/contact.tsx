@@ -1,70 +1,87 @@
+import { conform, useForm } from "@conform-to/react";
+import { getFieldsetConstraint, parse } from "@conform-to/zod";
 import {
   data,
   Form,
-  redirect,
   useActionData,
   useLoaderData,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "react-router";
-import GenericErrorBoundary from "~/components/ui/error-boundary";
-import { Button } from "~/components/ui/button";
-import { Label } from "~/components/ui/label";
-import { Input } from "~/components/ui/input";
-import { Textarea } from "~/components/ui/text-area";
-import { invariantResponse, useIsSubmitting } from "~/utils/site";
-import { floatingToolbarClassName } from "~/components/ui/floating-toolbar";
-import { z } from "zod";
-import { parse, getFieldsetConstraint } from "@conform-to/zod";
-import { conform, useForm } from "@conform-to/react";
-import { HoneypotInputs } from "remix-utils/honeypot/react";
 import { AuthenticityTokenInput } from "remix-utils/csrf/react";
+import { HoneypotInputs } from "remix-utils/honeypot/react";
+import { z } from "zod";
+import { Button } from "~/components/ui/button";
+import { floatingToolbarClassName } from "~/components/ui/floating-toolbar";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
+import { Textarea } from "~/components/ui/text-area";
+import type { ContactRequest } from "~/entities/email";
+import { emailService } from "~/service/email-service";
 import { validateCSRF } from "~/utils/csrf.server";
-import { CSRFError } from "remix-utils/csrf/server";
 import { checkForHoneypot } from "~/utils/honeypot.server";
+import { invariantResponse, useIsSubmitting } from "~/utils/site";
+import { redirectWithToast } from "~/utils/toast.server";
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const note = { title: "Sample Title", content: "Default Content" };
+  const note = { title: "", content: "" };
   if (!note) {
     throw new Response("Note not found", { status: 404 });
   }
   return note;
 }
 
-const titleMaxLength = 100;
-const contentMaxLength = 1000;
+const subjectMaxLength = 100;
+const messageMaxLength = 1000;
 
 const contactSchema = z.object({
-  title: z
-    .string({ required_error: "Title is required" })
-    .min(1, "Title must be at least three character long")
-    .max(titleMaxLength, "title cannot be more than that"),
-  content: z
-    .string({ required_error: "Content is required" })
-    .min(1, { message: "Content is required." })
-    .max(contentMaxLength),
+  subject: z
+    .string({ required_error: "Subject is required" })
+    .min(1, "Subject must be at least three character long")
+    .max(
+      subjectMaxLength,
+      `Subject cannot be more than ${subjectMaxLength} characters`
+    ),
+  message: z
+    .string({ required_error: "Message is required" })
+    .min(1, { message: "Message is required." })
+    .max(
+      messageMaxLength,
+      `Message cannot be more than ${messageMaxLength} characters`
+    ),
 });
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  //invariantResponse(params.noteId, "noteId param is required");
   const formData = await request.formData();
-  const intent = formData.get("intent");
-  invariantResponse(intent === "submit", "Invalid intent");
   await validateCSRF(formData, request.headers);
+  const submission = parse(formData, { schema: contactSchema });
+
+  if (submission.intent !== "submit") {
+    return data({ status: "idle", submission } as const);
+  }
+  if (!submission.value) {
+    return data({ status: "error", submission } as const, { status: 400 });
+  }
 
   try {
     await checkForHoneypot(formData);
   } catch (error) {
-    throw new Response("Unauthorized", { status: 401 });
+    return data({ status: "error", submission } as const, { status: 401 });
   }
 
-  const submission = parse(formData, { schema: contactSchema });
-  if (submission.error) {
-    return data({ status: "error", submission });
-  }
+  const contactRequest: ContactRequest = {
+    params: {
+      subject: submission.value.subject,
+      message: submission.value.message,
+    },
+  };
+  emailService.sendContactEmail(contactRequest);
 
-  const { title, content } = { ...submission.value };
-  return redirect(`/`);
+  throw await redirectWithToast("/", {
+    type: "success",
+    title: "Success",
+    description: "Contact successfully submitted.",
+  });
 }
 
 function ErrorList({
@@ -98,83 +115,64 @@ const Contact = () => {
       return parse(formData, { schema: contactSchema });
     },
     defaultValue: {
-      title: data.title,
-      content: data.content,
+      subject: data.title,
+      message: data.content,
     },
   });
   return (
-    <div className="md:w-[80%] inset-0">
-      <Form
-        method="post"
-        className="flex h-full flex-col gap-y-4 overflow-y-auto overflow-x-hidden px-10 pb-28 pt-12"
-        {...form.props}
-      >
-        <HoneypotInputs></HoneypotInputs>
-        <AuthenticityTokenInput />
-        <div className="flex flex-col gap-1">
-          <div>
-            <Label htmlFor={fields.title.id}>Title</Label>
-            <Input {...conform.input(fields.title)} autoFocus />
-            <div className="min-h-[32px] px-4 pb-3 pt-1">
-              <ErrorList
-                id={fields.title.errorId}
-                errors={fields.title.errors}
-              />
-            </div>
-          </div>
-          <div>
-            <Label htmlFor={fields.content.id}>Content</Label>
-            <Textarea {...conform.textarea(fields.content)} />
-            <div className="min-h-[32px] px-4 pb-3 pt-1">
-              <ErrorList
-                id={fields.content.errorId}
-                errors={fields.content.errors}
-              />
-            </div>
-          </div>
+    <div className="container flex min-h-full flex-col justify-center pb-32 pt-20">
+      <div className="mx-auto w-full max-w-lg bg-white pt-20 rounded-xl">
+        <div className="flex flex-col gap-3 text-center">
+          <h1 className="text-h2 md:text-h1">Send a message</h1>
+          <p className="text-body-md text-muted-foreground">
+            We are happy to hear from you.
+          </p>
         </div>
-        <ErrorList id={form.errorId} errors={form.errors} />
-      </Form>
-      <div className={floatingToolbarClassName}>
-        <Button
-          form={form.id}
-          type="submit"
-          variant="outline"
-          name="intent"
-          value="submit"
+        <Form
+          method="post"
+          className="flex h-full flex-col gap-y-4 overflow-y-auto overflow-x-hidden px-10 pb-28 pt-12"
+          {...form.props}
         >
-          Send Message
-        </Button>
+          <HoneypotInputs></HoneypotInputs>
+          <AuthenticityTokenInput />
+          <div className="flex flex-col gap-1">
+            <div>
+              <Label htmlFor={fields.subject.id}>Subject</Label>
+              <Input {...conform.input(fields.subject)} autoFocus />
+              <div className="min-h-[32px] px-4 pb-3 pt-1">
+                <ErrorList
+                  id={fields.subject.errorId}
+                  errors={fields.subject.errors}
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor={fields.message.id}>Message</Label>
+              <Textarea {...conform.textarea(fields.message)} />
+              <div className="min-h-[32px] px-4 pb-3 pt-1">
+                <ErrorList
+                  id={fields.message.errorId}
+                  errors={fields.message.errors}
+                />
+              </div>
+            </div>
+          </div>
+          <ErrorList id={form.errorId} errors={form.errors} />
+          <div className={floatingToolbarClassName}>
+            <Button
+              form={form.id}
+              type="submit"
+              variant="outline"
+              name="intent"
+              value="submit"
+            >
+              Send Message
+            </Button>
+          </div>
+        </Form>
       </div>
     </div>
   );
 };
 
 export default Contact;
-
-export function ErrorBoundary() {
-  return (
-    <GenericErrorBoundary
-      statusHandlers={{
-        401: ({ params }) => (
-          <>
-            <h1>401</h1>
-            <p>Unauthorized</p>
-          </>
-        ),
-        403: ({ params }) => (
-          <>
-            <h1>403</h1>
-            <p>Invalid Request</p>
-          </>
-        ),
-        404: ({ params }) => (
-          <>
-            <h1>404</h1>
-            <p>Not Found</p>
-          </>
-        ),
-      }}
-    />
-  );
-}

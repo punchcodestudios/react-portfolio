@@ -2,16 +2,17 @@ const express = require("express");
 const router = express.Router();
 const mailController = require("../controllers/mail");
 const mailMiddleware = require("../middleware/mail");
+const responseController = require("../controllers/response");
 
 router.post(
   "/send-contact",
   mailController.sendContact,
-  mailMiddleware.sendContact
+  responseController.sendSuccessResponse
 );
 router.get(
   "/preview-contact",
   mailController.previewContact,
-  mailMiddleware.previewContact
+  responseController.sendSuccessResponse
 );
 
 module.exports = router;

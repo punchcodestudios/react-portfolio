@@ -6,9 +6,9 @@ const SummaryContent = () => {
   const image = useImage({ path: "/self" });
 
   return (
-    <section className="flex flex-row justify-center mt-5">
-      <div className="grid grid-cols:1 justify-center items-center md:w-[80%] lg:grid-cols-3 xl:grid-cols-4">
-        <div className="mx-auto p-4 lg:p-8 flex max-h-[300px] max-w-[300px] ">
+    <section className="flex flex-row justify-center my-5">
+      <div className="grid grid-cols:1 justify-center items-center md:w-[80%] lg:grid-cols-3 lg:w-[90%] xl:grid-cols-4">
+        <div className="mx-auto p-2 flex max-h-[200px] max-w-[200px] md:max-h-[250px] md:max-w-[250px] lg:max-h-[300px] lg:max-w-[300px] xl:max-h-[400px] xl:max-w-[400px]">
           <PortfolioImage headerImage={image}></PortfolioImage>
         </div>
         <div className="p-5 lg:col-span-2 xl:col-span-3 lg:p-5 md:lg-24">

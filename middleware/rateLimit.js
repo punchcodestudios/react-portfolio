@@ -25,7 +25,7 @@ const medLimit = {
 
 const limit = (req, res, next) => {
   console.log("REQUEST METHOD: ", req.method);
-  const strongPaths = ["signup", "login", "contact", "skills"];
+  const strongPaths = ["signup", "login", "contact"];
   if (
     req.method !== "GET" &&
     req.method !== "HEAD" &&

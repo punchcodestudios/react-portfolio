@@ -6,8 +6,9 @@ import type {
   ExperienceRequest,
   Experience,
 } from "~/entities/resume";
-import type { ApiResponse } from "./apiResponses";
+
 import ApiClient from "./apiClient";
+import type { ApiResponse } from "~/entities/api";
 
 export const getResume = async (
   request: ResumeRequest

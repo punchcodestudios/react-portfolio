@@ -19,6 +19,8 @@ import {
   faDatabase,
   faScrewdriverWrench,
   faHandshake,
+  faSun,
+  faMoon,
 } from "@fortawesome/free-solid-svg-icons";
 import { SolidIcon, TaskStatus } from "~/utils/enums";
 
@@ -42,6 +44,8 @@ const iconMap_solid: { [key: string]: IconProp } = {
   DATABASE: faDatabase,
   INFRASTRUCTURE: faScrewdriverWrench,
   SOFTSKILLS: faHandshake,
+  LIGHT_THEME: faSun,
+  DARK_THEME: faMoon,
 };
 
 const IconService = {

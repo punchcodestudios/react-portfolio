@@ -7,7 +7,7 @@ const sendgrid = async (req, res, next) => {
 };
 
 const sendContact = async (req, res, next) => {
-  // console.log("middleware.sendContact:10");
+  console.log("middleware.sendContact:10");
   return next();
 };
 

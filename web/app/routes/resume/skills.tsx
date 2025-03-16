@@ -3,8 +3,8 @@ import type { Route } from "./+types/skills";
 import type { Skill, SkillRequest } from "~/entities/resume";
 import SkillsContent from "~/components/resume/skills-content.component";
 import { SolidIcon } from "~/utils/enums";
-import { Suspense } from "react";
 import GenericErrorBoundary from "~/components/ui/error-boundary";
+import ApiError from "~/components/errors/api-error";
 
 export interface SkillContentItem {
   skillList: Skill[];
@@ -12,7 +12,6 @@ export interface SkillContentItem {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  // throw new Response("Unable to get Skills", { status: 418 });
   const request: SkillRequest = { params: { skillsExclude: [] } };
   const skillsData = await resumeService.getAllSkills(request);
   return { ...skillsData };
@@ -29,79 +28,83 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 const Skills = ({ loaderData }: Route.ComponentProps) => {
-  if (loaderData.error.status) {
-    return null;
+  if (!loaderData.meta.success) {
+    return <ApiError error={loaderData.error}></ApiError>;
   }
 
   if (!loaderData.target) {
     return null;
   }
 
-  let backendItems: SkillContentItem;
-  let frontendItems: SkillContentItem;
-  let infrastructureItems: SkillContentItem;
-  let databaseItems: SkillContentItem;
-  let designItems: SkillContentItem;
-  let softSkillsItems: SkillContentItem;
+  function filterSkills() {
+    let backendItems: SkillContentItem;
+    let frontendItems: SkillContentItem;
+    let infrastructureItems: SkillContentItem;
+    let databaseItems: SkillContentItem;
+    let designItems: SkillContentItem;
+    let softSkillsItems: SkillContentItem;
 
-  backendItems = {
-    iconType: SolidIcon.BACKEND,
-    skillList:
-      loaderData.target.filter(
-        (d: Skill) =>
-          d.skill_types[0].name.toLowerCase() === "back end development"
-      ) || ([] as Skill[]),
-  };
+    backendItems = {
+      iconType: SolidIcon.BACKEND,
+      skillList:
+        loaderData.target.filter(
+          (d: Skill) =>
+            d.skill_types[0].name.toLowerCase() === "back end development"
+        ) || ([] as Skill[]),
+    };
 
-  frontendItems = {
-    iconType: SolidIcon.FRONTEND,
-    skillList:
-      loaderData.target.filter(
-        (d: Skill) =>
-          d.skill_types[0].name.toLowerCase() === "front end development"
-      ) || ([] as Skill[]),
-  };
+    frontendItems = {
+      iconType: SolidIcon.FRONTEND,
+      skillList:
+        loaderData.target.filter(
+          (d: Skill) =>
+            d.skill_types[0].name.toLowerCase() === "front end development"
+        ) || ([] as Skill[]),
+    };
 
-  databaseItems = {
-    iconType: SolidIcon.DATABASE,
-    skillList:
-      loaderData.target.filter(
-        (d: Skill) => d.skill_types[0].name.toLowerCase() === "database"
-      ) || ([] as Skill[]),
-  };
+    databaseItems = {
+      iconType: SolidIcon.DATABASE,
+      skillList:
+        loaderData.target.filter(
+          (d: Skill) => d.skill_types[0].name.toLowerCase() === "database"
+        ) || ([] as Skill[]),
+    };
 
-  infrastructureItems = {
-    iconType: SolidIcon.INFRASTRUCTURE,
-    skillList:
-      loaderData.target.filter(
-        (d: Skill) => d.skill_types[0].name.toLowerCase() === "infrastructure"
-      ) || ([] as Skill[]),
-  };
+    infrastructureItems = {
+      iconType: SolidIcon.INFRASTRUCTURE,
+      skillList:
+        loaderData.target.filter(
+          (d: Skill) => d.skill_types[0].name.toLowerCase() === "infrastructure"
+        ) || ([] as Skill[]),
+    };
 
-  designItems = {
-    iconType: SolidIcon.DESIGN,
-    skillList:
-      loaderData.target.filter(
-        (d: Skill) => d.skill_types[0].name.toLowerCase() === "design"
-      ) || ([] as Skill[]),
-  };
+    designItems = {
+      iconType: SolidIcon.DESIGN,
+      skillList:
+        loaderData.target.filter(
+          (d: Skill) => d.skill_types[0].name.toLowerCase() === "design"
+        ) || ([] as Skill[]),
+    };
 
-  softSkillsItems = {
-    iconType: SolidIcon.SOFTSKILLS,
-    skillList:
-      loaderData.target.filter(
-        (d: Skill) => d.skill_types[0].name.toLowerCase() === "soft skills"
-      ) || ([] as Skill[]),
-  };
+    softSkillsItems = {
+      iconType: SolidIcon.SOFTSKILLS,
+      skillList:
+        loaderData.target.filter(
+          (d: Skill) => d.skill_types[0].name.toLowerCase() === "soft skills"
+        ) || ([] as Skill[]),
+    };
 
-  const contentItems = [
-    backendItems,
-    frontendItems,
-    databaseItems,
-    infrastructureItems,
-    designItems,
-    softSkillsItems,
-  ];
+    return [
+      backendItems,
+      frontendItems,
+      databaseItems,
+      infrastructureItems,
+      designItems,
+      softSkillsItems,
+    ];
+  }
+
+  const contentItems = filterSkills();
 
   return (
     <>
@@ -121,6 +124,6 @@ const Skills = ({ loaderData }: Route.ComponentProps) => {
 
 export default Skills;
 
-export function ErrorBoundary({ error }: { error: Error }) {
+export function ErrorBoundary() {
   return <GenericErrorBoundary></GenericErrorBoundary>;
 }

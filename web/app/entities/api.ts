@@ -3,6 +3,11 @@ export interface ApiErrorResponse {
   message: string;
 }
 
+export interface MetaResponse {
+  total: number;
+  success: boolean;
+}
+
 interface ApiContentResponse<T> {
   target: T[];
   meta: {};
