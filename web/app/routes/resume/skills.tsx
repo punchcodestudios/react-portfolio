@@ -5,6 +5,13 @@ import SkillsContent from "~/components/resume/skills-content.component";
 import { SolidIcon } from "~/utils/enums";
 import GenericErrorBoundary from "~/components/ui/error-boundary";
 import ApiError from "~/components/errors/api-error";
+import { Button } from "~/components/ui/button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import IconService from "~/service/icon-service";
+import { TechBadge } from "~/components/controls/tech-badge";
+// import innovationImage from "/static/img_fullpng/home_innovation.png";
+// import informationImage from "/static/img_fullpng/home_information.png";
+// import communicationImage from "/static/img_fullpng/home_communication.png";
 
 export interface SkillContentItem {
   skillList: Skill[];
@@ -107,20 +114,218 @@ const Skills = ({ loaderData }: Route.ComponentProps) => {
   const contentItems = filterSkills();
 
   return (
-    <>
-      {contentItems.map((items, index) => {
-        return (
-          <SkillsContent
-            key={index}
-            items={items.skillList}
-            iconType={items.iconType}
-            textClass={"text-primaryLight"}
-          ></SkillsContent>
-        );
-      })}
-    </>
+    <div className="flex-flex-col mx-auto max-w-[90%] lg:max-w-[70%]">
+      <div className="flex flex-col mx-auto">
+        <section id="skillsIntro" className="my-10">
+          <article>
+            <p className="text-siteBlack text-center">
+              In the continuously changing world of technology, it is important
+              to stay up to date with the skill-set that meets the demands of
+              the modern workplace. Punchcode Studios answers this call by
+              continuously evolving in its tech stack, while still recognizing
+              the need to support the established workflows still in existence.
+            </p>
+          </article>
+        </section>
+
+        <section id="mainSkillsContent">
+          <div className="flex flex-col mx-auto overflow:hidden xl:flex-row xl:flex-wrap xl:justify-between">
+            <article id="backendSkills" className="mb-5 xl:w-[45%]">
+              <div className="flex flex-col">
+                <div className="px-6 xl:shrink-0 bg-resume-skills flex flex-row">
+                  <FontAwesomeIcon
+                    icon={IconService.getSolid(SolidIcon.BACKEND)}
+                    fontSize={20}
+                    className="text-siteWhite my-auto"
+                  ></FontAwesomeIcon>
+                  <h3 className="mb-0 text-md font-semibold tracking-wide text-siteWhite font-header uppercase p-3">
+                    Back-end
+                  </h3>
+                </div>
+                <div className="px-6 xl:p-0 xl:px-5">
+                  <div className="my-4 flex flex-row flex-wrap justify-between">
+                    {contentItems[0].skillList?.map((item) => {
+                      return (
+                        <div className="min-w-[45%]">
+                          <TechBadge
+                            text={item.name}
+                            key={item.refid}
+                          ></TechBadge>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article id="frontendSkills" className="mb-5 xl:w-[45%]">
+              <div className="flex flex-col">
+                <div className="px-6 xl:shrink-0 bg-resume-skills flex flex-row">
+                  <FontAwesomeIcon
+                    icon={IconService.getSolid(SolidIcon.FRONTEND)}
+                    fontSize={30}
+                    className="text-siteWhite my-auto text-md"
+                  ></FontAwesomeIcon>
+                  <h3 className="mb-0 text-md font-semibold tracking-wide text-siteWhite font-header uppercase p-3">
+                    Front-end
+                  </h3>
+                </div>
+                <div className="px-6 xl:p-0 xl:px-5">
+                  <div className="my-4 flex flex-row flex-wrap justify-between">
+                    {contentItems[1].skillList?.map((item) => {
+                      return (
+                        <div className="min-w-[45%]">
+                          <TechBadge
+                            text={item.name}
+                            key={item.refid}
+                          ></TechBadge>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article id="databaseSkills" className="mb-5 xl:w-[45%]">
+              <div className="flex flex-col">
+                <div className="px-6 xl:shrink-0 bg-resume-skills flex flex-row">
+                  <FontAwesomeIcon
+                    icon={IconService.getSolid(SolidIcon.DATABASE)}
+                    fontSize={30}
+                    className="text-siteWhite my-auto text-md"
+                  ></FontAwesomeIcon>
+                  <h3 className="mb-0 text-md font-semibold tracking-wide text-siteWhite font-header uppercase p-3">
+                    Database
+                  </h3>
+                </div>
+                <div className="px-6 xl:p-0 xl:px-5">
+                  <div className="my-4 flex flex-row flex-wrap justify-between">
+                    {contentItems[2].skillList?.map((item) => {
+                      return (
+                        <div className="min-w-[45%]">
+                          <TechBadge
+                            text={item.name}
+                            key={item.refid}
+                          ></TechBadge>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article id="infrastructureSkills" className="mb-5 xl:w-[45%]">
+              <div className="flex flex-col">
+                <div className="px-6 xl:shrink-0 bg-resume-skills flex flex-row">
+                  <FontAwesomeIcon
+                    icon={IconService.getSolid(SolidIcon.INFRASTRUCTURE)}
+                    fontSize={30}
+                    className="text-siteWhite my-auto text-md"
+                  ></FontAwesomeIcon>
+                  <h3 className="mb-0 text-md font-semibold tracking-wide text-siteWhite font-header uppercase p-3">
+                    Infrastructure
+                  </h3>
+                </div>
+                <div className="px-6 xl:p-0 xl:px-5">
+                  <div className="my-4 flex flex-row flex-wrap justify-between">
+                    {contentItems[3].skillList?.map((item) => {
+                      return (
+                        <div className="min-w-[45%]">
+                          <TechBadge
+                            text={item.name}
+                            key={item.refid}
+                          ></TechBadge>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article id="designSkills" className="mb-5 xl:w-[45%]">
+              <div className="flex flex-col">
+                <div className="px-6 xl:shrink-0 bg-resume-skills flex flex-row">
+                  <FontAwesomeIcon
+                    icon={IconService.getSolid(SolidIcon.DESIGN)}
+                    fontSize={30}
+                    className="text-siteWhite my-auto text-md"
+                  ></FontAwesomeIcon>
+                  <h3 className="mb-0 text-md font-semibold tracking-wide text-siteWhite font-header uppercase p-3">
+                    Design
+                  </h3>
+                </div>
+                <div className="px-6 xl:p-0 xl:px-5">
+                  <div className="my-4 flex flex-row flex-wrap justify-between">
+                    {contentItems[4].skillList?.map((item) => {
+                      return (
+                        <div className="min-w-[45%]">
+                          <TechBadge
+                            text={item.name}
+                            key={item.refid}
+                          ></TechBadge>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article id="softSkills" className="mb-5 xl:w-[45%]">
+              <div className="flex flex-col">
+                <div className="px-6 xl:shrink-0 bg-resume-skills flex flex-row">
+                  <FontAwesomeIcon
+                    icon={IconService.getSolid(SolidIcon.SOFTSKILLS)}
+                    fontSize={30}
+                    className="text-siteWhite my-auto text-md"
+                  ></FontAwesomeIcon>
+                  <h3 className="mb-0 text-md font-semibold tracking-wide text-siteWhite font-header uppercase p-3">
+                    Soft
+                  </h3>
+                </div>
+                <div className="px-6 xl:p-0 xl:px-5">
+                  <div className="my-4 flex flex-row flex-wrap justify-between">
+                    {contentItems[5].skillList?.map((item) => {
+                      return (
+                        <div className="min-w-[45%]">
+                          <TechBadge
+                            text={item.name}
+                            key={item.refid}
+                          ></TechBadge>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </div>
   );
 };
+
+// )
+// return (
+//   <>
+//     {contentItems.map((items, index) => {
+//       return (
+//         <SkillsContent
+//           key={index}
+//           items={items.skillList}
+//           iconType={items.iconType}
+//           textClass={"text-primaryLight"}
+//         ></SkillsContent>
+//       );
+//     })}
+//   </>
+// );
+// };
 
 export default Skills;
 

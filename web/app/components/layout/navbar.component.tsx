@@ -1,11 +1,12 @@
 import React, { useEffect, useState, type ReactNode } from "react";
-import { Link, NavLink, useRouteLoaderData } from "react-router";
+import { Link, NavLink, useMatches, useRouteLoaderData } from "react-router";
 import logo from "/static/img_fullpng/logo.png";
 import { useOptionalUser } from "~/utils/user";
 
 const Navbar = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
   const user = useOptionalUser();
+  const matches = useMatches();
 
   return (
     <nav id="navbarWrapper">
@@ -19,18 +20,41 @@ const Navbar = () => {
               id="navItems"
               className="flex items-center flex-grow md:justify-around"
             >
-              <Link to="/resume" className="me-3 ">
-                <span className="font-navItem">Resume</span>
-              </Link>
-              <Link to="/about" className="me-3">
-                <span className="font-navItem">About</span>
-              </Link>
-              <Link to="/contact" className="me-3 font-greycliff">
-                <span className="font-navItem">Contact</span>
-              </Link>
+              <NavLink
+                to="/resume"
+                className={({ isActive, isPending }) =>
+                  `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+                      ${isActive ? "bg-secondary" : "bg-primary"} 
+                      `
+                }
+              >
+                Resume
+              </NavLink>
+              <NavLink
+                to="/about"
+                className={({ isActive, isPending }) =>
+                  `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+                      ${isActive ? "bg-secondary" : "bg-primary"} 
+                      ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+                }
+              >
+                About
+              </NavLink>
+              <NavLink
+                to="/contact"
+                className={({ isActive, isPending }) =>
+                  `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+                      ${isActive ? "bg-secondary" : "bg-primary"} 
+                      ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+                }
+              >
+                Contact
+              </NavLink>
               {user && (
                 <Link to="/logout" className="me-3 font-greycliff">
-                  <span className="font-navItem">Logout</span>
+                  <span className="font-navItem">
+                    Logout {`${user.username}`}
+                  </span>
                 </Link>
               )}
               {!user && (

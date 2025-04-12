@@ -64,7 +64,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
   );
 
   const userId = cookieSession?.get("userId");
-  console.log("root userId:", userId);
   const response = userId ? await UserService.getById(userId) : null;
   let user = null;
   if (response !== null) {

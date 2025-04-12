@@ -133,7 +133,9 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       backgroundImage: {
-        "home-hero": "url('/static/img_fullpng/home_hero_2.png')", // Path relative to the public folder
+        "home-hero": "url('/static/img_fullpng/home_hero_2.png')",
+        "resume-accordion": "url('/static/img_fullpng/home_hero_2.png')",
+        "resume-skills": "url('/static/img_fullpng/home_hero_2.png')",
       },
     },
     plugins: [animatePlugin],
