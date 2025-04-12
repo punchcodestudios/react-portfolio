@@ -22,6 +22,10 @@ import { AuthenticityTokenInput } from "remix-utils/csrf/react";
 import { HoneypotInputs } from "remix-utils/honeypot/react";
 import { conform, useForm } from "@conform-to/react";
 import { useIsPending } from "~/utils/site";
+import userService from "~/service/user-service";
+import { bcrypt } from "~/utils/auth.server";
+import type { RegisterRequest } from "~/entities/user";
+import authService from "~/service/auth-service";
 
 const SignupFormSchema = z
   .object({
@@ -30,10 +34,10 @@ const SignupFormSchema = z
     email: EmailSchema,
     password: PasswordSchema,
     confirmPassword: PasswordSchema,
-    agreeToTermsOfServiceAndPrivacyPolicy: z.boolean({
-      required_error:
-        "You must agree to the terms of service and privacy policy",
-    }),
+    // agreeToTermsOfServiceAndPrivacyPolicy: z.boolean({
+    //   required_error:
+    //     "You must agree to the terms of service and privacy policy",
+    // }),
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {
@@ -49,14 +53,12 @@ export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   await validateCSRF(formData, request.headers);
   checkForHoneypot(formData);
+  // console.log("signup: ", formData);
+
   const submission = await parse(formData, {
     schema: SignupFormSchema.superRefine(async (data, ctx) => {
-      // const existingUser = {id: '8', userName: 'patrick'}
-      const existingUser = undefined;
-      //   const existingUser = await prisma.user.findUnique({
-      //     where: { username: data.username },
-      //     select: { id: true },
-      //   });
+      const existingUser =
+        (await userService.userExists(data.username)).meta.total > 0;
       if (existingUser) {
         ctx.addIssue({
           path: ["username"],
@@ -75,14 +77,30 @@ export async function action({ request }: ActionFunctionArgs) {
   if (!submission.value) {
     return data({ status: "error", submission } as const, { status: 400 });
   }
+  // create password=
+  const hash = await bcrypt.hash(submission.value?.password, 10);
+  console.log("password: ", hash);
 
-  //create user here'
+  // create user here'
+  const userRequest: RegisterRequest = {
+    email: submission.value?.email,
+    username: submission.value?.username,
+    name: submission.value?.name,
+    password: hash,
+  };
 
-  return redirect("/");
+  console.log("signup.tsx userRequest: ", userRequest);
+  const userResponse = await authService.register(userRequest);
+  console.log("signUp.tsx userResponse: ", userResponse);
+  if (!userResponse.meta.success) {
+    return data({ status: "error", submission } as const, { status: 400 });
+  }
+
+  return redirect(`/register-confirm/${submission.value?.username}`);
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: "Setup Epic Notes Account" }];
+  return [{ title: "Register for Punchcode Studios" }];
 };
 
 export default function SignupRoute() {
@@ -94,6 +112,7 @@ export default function SignupRoute() {
     constraint: getFieldsetConstraint(SignupFormSchema),
     lastSubmission: actionData?.submission,
     onValidate({ formData }) {
+      console.log("formData: ", parse(formData, { schema: SignupFormSchema }));
       return parse(formData, { schema: SignupFormSchema });
     },
     shouldRevalidate: "onBlur",

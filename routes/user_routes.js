@@ -15,6 +15,7 @@ router.get(
 router.post(
   "/sign-up",
   userController.signUp,
+  userController.createPassword,
   mailController.sendRegistrationConfirmation,
   responseController.sendSuccessResponse
 );
@@ -36,7 +37,18 @@ router.post(
 router.post(
   "/confirm",
   userController.confirm,
-  authController.generateAuthTokens,
+  responseController.sendSuccessResponse
+);
+
+router.get(
+  "/findUser/:id",
+  userController.findUser,
+  responseController.sendSuccessResponse
+);
+
+router.get(
+  "/getById/:id",
+  userController.getById,
   responseController.sendSuccessResponse
 );
 

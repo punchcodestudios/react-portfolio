@@ -1,26 +1,43 @@
-import React, { useState, type ReactNode } from "react";
-import { NavLink } from "react-router";
+import React, { useEffect, useState, type ReactNode } from "react";
+import { Link, NavLink, useRouteLoaderData } from "react-router";
 import logo from "/static/img_fullpng/logo.png";
+import { useOptionalUser } from "~/utils/user";
 
-interface Props {
-  navItems: ReactNode[];
-}
-const Navbar = ({ navItems }: Props) => {
+const Navbar = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
+  const user = useOptionalUser();
 
   return (
     <nav id="navbarWrapper">
       <div className="bg-primary w-full text-siteWhite flex flex-row">
-        <div className="flex items-center justify-between h-14 w-full px-4 py-2 sm:px-6 lg:px-8">
-          <div className="flex flex-row h-[100%] items-center">
-            <img className="h-[100%] " src={logo} />
-            <div className="text-xl text-secondary ms-3">PUNCHCODE STUDIOS</div>
-          </div>
-          <div className="hidden md:block">
-            <div id="navItems" className="flex items-center ">
-              {navItems.map((item, index) => {
-                return <div key={index}>{item}</div>;
-              })}
+        <div className="flex items-center justify-between h-[60px] w-full px-4 py-2 sm:px-6 lg:px-8">
+          <Link to="/" className="flex flex-row w-[1/5] h-[100%] items-center">
+            <img className="h-[100%]" src={logo} />
+          </Link>
+          <div className="hidden md:flex md:flex-row md:flex-grow">
+            <div
+              id="navItems"
+              className="flex items-center flex-grow md:justify-around"
+            >
+              <Link to="/resume" className="me-3 ">
+                <span className="font-navItem">Resume</span>
+              </Link>
+              <Link to="/about" className="me-3">
+                <span className="font-navItem">About</span>
+              </Link>
+              <Link to="/contact" className="me-3 font-greycliff">
+                <span className="font-navItem">Contact</span>
+              </Link>
+              {user && (
+                <Link to="/logout" className="me-3 font-greycliff">
+                  <span className="font-navItem">Logout</span>
+                </Link>
+              )}
+              {!user && (
+                <Link to="/login" className="me-3 font-greycliff">
+                  <span className="font-navItem">Login</span>
+                </Link>
+              )}
             </div>
           </div>
 
@@ -58,9 +75,25 @@ const Navbar = ({ navItems }: Props) => {
       </div>
       {expanded && (
         <div className="bg-primary text-siteWhite flex flex-col gap-y-2 md:hidden px-4 sm:px-6 pb-2 justify-center">
-          {navItems.map((item, index) => {
-            return <div key={`${index}_mobile`}>{item}</div>;
-          })}
+          <Link to="/resume" className="me-3 font-greycliff">
+            <span className="font-navItem">Resume</span>
+          </Link>
+          <Link to="/about" className="me-3 font-greycliff">
+            <span className="font-navItem">About</span>
+          </Link>
+          <Link to="/contact" className="me-3 font-greycliff">
+            <span className="font-navItem">Contact</span>
+          </Link>
+          {!user && (
+            <Link to="/login" className="me-3 font-greycliff">
+              <span className="font-navItem">Login</span>
+            </Link>
+          )}
+          {user && (
+            <Link to="/logout" className="me-3 font-greycliff">
+              <span className="font-navItem">Logout</span>
+            </Link>
+          )}
         </div>
       )}
     </nav>

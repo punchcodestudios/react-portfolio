@@ -22,6 +22,7 @@ export default [
     route("forgot-password", "routes/auth/forgot-password.tsx"),
     route("logout", "routes/auth/logout.tsx"),
     route("signup", "routes/auth/signup.tsx"),
+    route("register-confirm/:username", "routes/auth/register-confirm.tsx"),
   ]),
   layout("routes/resume/resume-layout.tsx", [
     route("resume", "routes/resume/summary.tsx"),

@@ -15,6 +15,11 @@ export default {
     },
     extend: {
       fontFamily: {
+        brand: ["var(--font-brand)", ...defaultTheme.fontFamily.sans],
+        header: ["var(--font-header)", ...defaultTheme.fontFamily.mono],
+        navItem: ["var(--font-nav)", ...defaultTheme.fontFamily.mono],
+        anchor: ["var(--font-anchor)", ...defaultTheme.fontFamily.mono],
+        text: ["var(--font-text)", ...defaultTheme.fontFamily.mono],
         sans: ["var(--font-sans)", ...defaultTheme.fontFamily.sans],
         serif: [],
       },
@@ -79,19 +84,19 @@ export default {
       fontSize: {
         // 1rem = 16px
         /** 80px size / 84px high / bold */
-        mega: ["5rem", { lineHeight: "5.25rem", fontWeight: "700" }],
+        mega: ["5rem", { lineHeight: "5.25rem", fontWeight: "100" }],
         /** 56px size / 62px high / bold */
-        h1: ["3.5rem", { lineHeight: "3.875rem", fontWeight: "700" }],
+        h1: ["3.5rem", { lineHeight: "3.875rem", fontWeight: "100" }],
         /** 40px size / 48px high / bold */
-        h2: ["2.5rem", { lineHeight: "3rem", fontWeight: "700" }],
+        h2: ["2.5rem", { lineHeight: "3rem", fontWeight: "300" }],
         /** 32px size / 36px high / bold */
-        h3: ["2rem", { lineHeight: "2.25rem", fontWeight: "700" }],
+        h3: ["2rem", { lineHeight: "2.25rem", fontWeight: "300" }],
         /** 28px size / 36px high / bold */
-        h4: ["1.75rem", { lineHeight: "2.25rem", fontWeight: "700" }],
+        h4: ["1.75rem", { lineHeight: "2.25rem", fontWeight: "300" }],
         /** 24px size / 32px high / bold */
-        h5: ["1.5rem", { lineHeight: "2rem", fontWeight: "700" }],
+        h5: ["1.5rem", { lineHeight: "2rem", fontWeight: "300" }],
         /** 16px size / 20px high / bold */
-        h6: ["1rem", { lineHeight: "1.25rem", fontWeight: "700" }],
+        h6: ["1rem", { lineHeight: "1.25rem", fontWeight: "300" }],
 
         /** 32px size / 36px high / normal */
         "body-2xl": ["2rem", { lineHeight: "2.25rem" }],
@@ -128,7 +133,7 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       backgroundImage: {
-        "home-hero": "url('../public/static/img/home_hero.png')", // Path relative to the public folder
+        "home-hero": "url('/static/img_fullpng/home_hero_2.png')", // Path relative to the public folder
       },
     },
     plugins: [animatePlugin],

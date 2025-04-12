@@ -1,6 +1,8 @@
 import { Button } from "~/components/ui/button";
 import type { Route } from "./+types/home";
-import heroImage from "/static/img_fullpng/home_page_hero.png";
+import innovationImage from "/static/img_fullpng/home_innovation.png";
+import informationImage from "/static/img_fullpng/home_information.png";
+import communicationImage from "/static/img_fullpng/home_communication.png";
 import { redirect, type ActionFunctionArgs } from "react-router";
 import { toastSessionStorage } from "~/utils/toast.server";
 
@@ -43,74 +45,166 @@ export default function Home() {
 
   return (
     <div className="flex-flex-col">
-      <div className="flex flex-wrap h-[400px] items-center my-5 mx-5 bg-primary text-siteWhite">
-        <div className="w-[100%] h-[100%] bg-primary p-5">
-          <h2 className="text-siteWhite">a catchy slogan should go here</h2>
-          <button onClick={handleToast}>Click for Toast</button>
-        </div>
-      </div>
-
-      {/* <div className="w-[100%] h-[50%] xl:w-[50%] xl:p-1"> */}
-      {/* <div className="w-[100%] h-[50%] xl:w-[50%] xl:h-[100%] bg-home-hero bg-cover bg-center"></div> */}
-      {/* <p className="text-siteWhite flex flex-row text-center">
-            Explore this site to learn the many ways punchcodestudios leverages
-            the power and flexibility of react.js and many associated libraries
-            to develop robust solutions that will meet your business needs
-          </p> */}
-      {/* </div> */}
-
-      {/* <div className="text-siteWhite bg-primary my-5 p-4 justfy-center items-center">
-        <h2>a catchy slogan should go here</h2>
-        <p className="text-siteBlack m-0 text-center">
-            <a
-              className="text-siteWhite no-underline"
-              target="_blank"
-              href="https://avilpage.com/2014/12/14-great-quotes-about-python.html"
-            >
-              &quot;Everyone knows that any scripting language shootout that
-              doesnt show python as the best language is faulty by design&quot;
-              ~ Max M
-            </a>
-          </p>
-      </div> */}
-      <div className="flex flex-col mx-auto w-[90%] lg:flex-row lg:flex-wrap lg:justify-between">
-        <div className="mb-5 w-[100%] lg:w-[32%]">
-          <div className="flex flex-col p-5 lg:h-[300px] rounded-sm shadow-xl">
-            <h2 className="">Resume</h2>
-            <div className="grow">
-              <p className="">
-                Explore my interactive resume or download a print
-              </p>
-            </div>
-            <div className="mt-5">
-              <Button className="bg-secondary w-[100%]">More Info</Button>
-            </div>
+      <section className="justify-center mx-auto mb-2 p-2 bg-home-hero bg-no-repeat bg-cover bg-opacity-40 xl:flex-row xl:flex-wrap xl:justify-between xl:p-5 ">
+        <div className="p-2 xl:p-0 mt-5 xl:px-5 h-[125px] xl:mt-0 text-center">
+          <div className="mb-3 xl:w-120">
+            <h1 className="font-brand uppercase text-secondary mt-3 xl:mt-7">
+              punchcode studios
+            </h1>
+            <h2 className="text-sm text-siteWhite font-light tracking-wide font-header">
+              design | develop | test | deploy | maintain
+            </h2>
           </div>
         </div>
-        <div className="mb-5 w-[100%] lg:w-[32%]">
-          <div className="flex flex-col p-5 lg:h-[300px] rounded-sm shadow-xl">
-            <h2 className="">About this site</h2>
-            <p className="grow">
-              Examine the technical details of this site to learn how the power
-              of react.js can benefit your business
+      </section>
+      <section className="flex flex-col mx-auto p-6 pb-0">
+        <div className="mx-auto overflow-hidden h-[50px] max-w-[90%] lg:max-w-[70%]">
+          <div className="xl:flex">
+            <p className="text-siteBlack">
+              Punchcode Studios delivers excellence in every stage of the
+              Systems Development Lifecycle. From the initial requirements
+              gathering, all the way through to the deployment and maintenance,
+              Punchcode Studios has you covered.
             </p>
-            <div className="mt-5">
-              <Button className="bg-secondary w-[100%]">More Info</Button>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col mx-auto my-5 p-6 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
+        <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
+          <div className="xl:flex">
+            <div className="px-6 xl:p-0 xl:shrink-0">
+              <img
+                className="h-32 w-full object-cover xl:w-96 xl:h-full"
+                src={innovationImage}
+                alt="Modern building architecture"
+              />
+            </div>
+            <div className="p-6 xl:p-0 mt-2 xl:px-5 xl:mt-0">
+              <div className="mb-3 xl:w-120">
+                <h2 className="text-md font-semibold tracking-wide text-indigo-500 font-header uppercase">
+                  Inspiration
+                </h2>
+                <p className="mt-1 block text-xl leading-tight font-medium text-black">
+                  Adding value to your team
+                </p>
+                <p className="my-4 text-gray-500">
+                  As a fully dedicated member of your team, or as an independant
+                  contractor solving a specific problem, Punchcode Studios
+                  brings more than fifteen years of expertice and passion for
+                  web development to your organization or personal project.
+                </p>
+              </div>
+              <div className="md:flex md:flex-row">
+                <Button
+                  variant={"secondary"}
+                  className="my-2 w-full md:mb-0 md:me-2"
+                >
+                  Download Resume
+                </Button>
+                <Button
+                  variant={"secondary"}
+                  className="my-2 w-full md:mb-0 md:ms-2"
+                >
+                  Learn More {">>"}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-        <div className="mb-5 w-[100%] lg:w-[32%] ">
-          <div className="flex flex-col p-5 lg:h-[300px] rounded-sm shadow-xl">
-            <h2 className="">Contact</h2>
-            <p className="grow">
-              Send us a message - punchcodestudios is excited to hear from you!
-            </p>
-            <div className="mt-5">
-              <Button className="bg-secondary w-[100%]">More Info</Button>
+      </section>
+      <section className="flex flex-col mx-auto my-5 p-6 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
+        <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
+          <div className="xl:flex">
+            <div className="px-6 xl:p-0 xl:shrink-0">
+              <img
+                className="h-32 w-full object-cover xl:w-96 xl:h-full"
+                src={informationImage}
+                alt="Modern building architecture"
+              />
+            </div>
+            <div className="p-6 xl:p-0 mt-3 xl:px-5 xl:mt-0">
+              <div className="mb-3 xl:w-120">
+                <h2 className="text-md font-semibold tracking-wide text-indigo-500 font-header uppercase">
+                  Innovation
+                </h2>
+                <a
+                  href="#"
+                  className="mt-1 block text-xl leading-tight font-medium text-black hover:underline"
+                >
+                  Keeping up with the latest technology
+                </a>
+                <p className="my-4 text-gray-500">
+                  In this constantly changing landscape, my passion for
+                  innovation is just simply the best. There is no other person
+                  like me and the technology stack used in this website sets me
+                  apart from all of the other idiots.
+                </p>
+              </div>
+              <div className="md:flex md:flex-row">
+                <Button
+                  variant={"secondary"}
+                  className="my-2 w-full md:mb-0 md:me-2"
+                >
+                  Download Technical Specs
+                </Button>
+                <Button
+                  variant={"secondary"}
+                  className="my-2 w-full md:mb-0 md:ms-2"
+                >
+                  Learn More {">>"}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+      <section className="flex flex-col mx-auto my-5 p-6 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
+        <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
+          <div className="xl:flex">
+            <div className="px-6 xl:p-0 xl:shrink-0">
+              <img
+                className="h-32 w-full object-cover xl:w-96 xl:h-full"
+                src={communicationImage}
+                alt="Modern building architecture"
+              />
+            </div>
+            <div className="p-6 xl:p-0 mt-3 xl:px-5 xl:mt-0">
+              <div className="mb-3 xl:w-120">
+                <h2 className="text-md font-semibold tracking-wide text-indigo-500 font-header uppercase">
+                  Collaboration
+                </h2>
+                <a
+                  href="#"
+                  className="mt-1 block text-xl leading-tight font-medium text-black hover:underline"
+                >
+                  Communication is key to success
+                </a>
+                <p className="my-4 text-gray-500">
+                  As either a fully dedicated member of your team, or as an
+                  independant contractor for a specific project, I can bring my
+                  expertice and passion for state of the art development to your
+                  organiztion.
+                </p>
+              </div>
+              <div className="md:flex md:flex-row">
+                <Button
+                  variant={"secondary"}
+                  className="my-2 w-full md:mb-0 md:me-2"
+                >
+                  Schedule a live demo
+                </Button>
+                <Button
+                  variant={"secondary"}
+                  className="my-2 w-full md:mb-0 md:ms-2"
+                >
+                  Send a note
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

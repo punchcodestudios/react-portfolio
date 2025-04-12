@@ -21,6 +21,7 @@ import { Spacer } from "~/components/spacer";
 import GenericErrorBoundary from "~/components/ui/error-boundary";
 import { useIsPending } from "~/utils/site";
 import { sessionStorage } from "~/utils/session.server";
+import authService from "~/service/auth-service";
 
 const LoginFormSchema = z.object({
   username: UsernameSchema,
@@ -31,30 +32,36 @@ export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   await validateCSRF(formData, request.headers);
   checkForHoneypot(formData);
+
   const submission = await parse(formData, {
     schema: (intent) =>
       LoginFormSchema.transform(async (data, ctx) => {
         if (intent !== "submit") return { ...data, user: null };
 
-        // const user = await prisma.user.findUnique({
-        //   select: { id: true },
-        //   where: { username: data.username },
-        // });
-        // if (!user) {
-        //   ctx.addIssue({
-        //     code: "custom",
-        //     message: "Invalid username or password",
-        //   });
-        //   return z.NEVER;
-        // }
+        const userResponse = await authService.login({
+          username: data.username,
+          password: data.password,
+        });
 
-        const user = { id: "8", username: "patrick" };
+        console.log("user from service: ", userResponse);
+
+        if (userResponse.meta.total == 0) {
+          ctx.addIssue({
+            code: "custom",
+            message: "Invalid username or password",
+          });
+          return z.NEVER;
+        }
+
         // verify the password (we'll do this later)
+        const user = userResponse;
         console.log("user: ", user);
         return { ...data, user };
       }),
     async: true,
   });
+
+  // console.log("submission: ", submission);
   // get the password off the payload that's sent back
   const password = submission.payload.password;
 
@@ -63,6 +70,7 @@ export async function action({ request }: ActionFunctionArgs) {
     // delete submission.value?.password;
     return data({ status: "idle", submission } as const);
   }
+  console.log("submission: ", submission);
   if (!submission.value?.user) {
     console.log("submission error");
     return data({ status: "error", submission } as const, { status: 400 });
@@ -72,7 +80,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const cookieSession = await sessionStorage.getSession(
     request.headers.get("cookie")
   );
-  cookieSession.set("userId", user.id);
+  cookieSession.set("userId", user.target[0]._id);
 
   return redirect("/", {
     headers: {
@@ -166,7 +174,7 @@ export default function LoginPage() {
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: "Login to Epic Notes" }];
+  return [{ title: "Login to Punchcode Studios" }];
 };
 
 export function ErrorBoundary() {

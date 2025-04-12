@@ -36,7 +36,6 @@ const authService = {
     }
   },
   login: async (request: LoginRequest): Promise<UserResponse> => {
-    // console.log("login: ", request);
     try {
       const response = await login(request);
       return Promise.resolve(map(response));

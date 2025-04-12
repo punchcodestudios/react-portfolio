@@ -27,7 +27,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response) {
       // set up logging for this level
-      console.log("error response: ", error.response.data);
+      //console.log("error response: ", error.response.data);
       throw error.response.data;
     }
     throw error;
@@ -68,10 +68,11 @@ class ApiClient<T> {
 
   get = async (id: number | string): Promise<ApiResponse<T>> => {
     try {
+      console.log("endpoint: ", this.endpoint + "/" + id);
       const response = await axiosInstance.get(this.endpoint + "/" + id);
       return Promise.resolve({ ...response.data });
     } catch (error: any) {
-      console.log("apiClient.get: error", error);
+      //console.log("apiClient.get: error", error);
       return Promise.reject({ ...error } as ApiErrorResponse);
     }
   };

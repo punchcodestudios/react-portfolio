@@ -39,29 +39,16 @@ import { Toaster, toast as showToast } from "sonner";
 import { getEnv } from "./utils/env.server";
 import { getToast, type Toast } from "./utils/toast.server";
 import { sessionStorage } from "~/utils/session.server";
+import UserService from "./service/user-service";
 
 export const links: LinksFunction = () =>
   [
-    { rel: "preconnect", href: "https://fonts.googleapis.com" },
+    // { rel: "preconnect", href: "https://fonts.googleapis.com" },
+    { rel: "stylesheet", href: "https://use.typekit.net/utp7gyp.css" },
     // { rel: "stylesheet", href: fontStylestylesheetUrl },
     { rel: "stylesheet", href: tailwindStylesheetUrl },
     { rel: "stylesheet", href: stylesheet },
   ].filter(Boolean);
-
-const mainNavItems = [
-  <Link to="/resume" className="me-3">
-    Resume
-  </Link>,
-  <Link to="/about" className="me-3">
-    About
-  </Link>,
-  <Link to="/contact" className="me-3">
-    Contact
-  </Link>,
-  <Link to="/login" className="me-3">
-    Login
-  </Link>,
-];
 
 const ThemeFormSchema = z.object({
   theme: z.enum(["light", "dark"]),
@@ -75,9 +62,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const cookieSession = await sessionStorage.getSession(
     request.headers.get("cookie")
   );
-  console.log("userId: ", cookieSession.get("userId"));
+
+  const userId = cookieSession?.get("userId");
+  console.log("root userId:", userId);
+  const response = userId ? await UserService.getById(userId) : null;
+  let user = null;
+  if (response !== null) {
+    user = response?.meta.success ? response?.target[0] : null;
+  }
+
   return data(
     {
+      userId,
+      user,
       honeyProps,
       csrfToken,
       theme: getTheme(request),
@@ -169,12 +166,12 @@ function App() {
   return (
     <Layout theme={theme}>
       <div className="flex flex-col h-[100vh]">
-        <ThemeSwitch userPreference={theme} />
-        <Navbar navItems={mainNavItems}></Navbar>
+        {/* <ThemeSwitch userPreference={theme} /> */}
         <div
           id="siteContainer"
           className="flex grow flex-col w-[100%] md:w-[90%] mx-auto bg-siteWhite"
         >
+          <Navbar></Navbar>
           <Outlet />
         </div>
         <Footer></Footer>
@@ -198,11 +195,11 @@ export default function AppWithProviders() {
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Layout>
-      <Navbar navItems={mainNavItems}></Navbar>
       <div
         id="siteContainer"
         className="flex flex-col max-w-[100%] md:max-w-[90%] mx-auto bg-siteWhite"
       >
+        <Navbar></Navbar>
         <GenericErrorBoundary
           statusHandlers={{
             401: ({ params }) => (

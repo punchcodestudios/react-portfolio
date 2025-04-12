@@ -32,7 +32,7 @@ export const getAllSkills = async (
   const client = new ApiClient<Skill>("resume/get-all-skills", request);
   try {
     return client.getAll().then((response) => {
-      console.log("response: ", response);
+      console.log("resumeApi.getAllSkills response: ", response);
       return Promise.resolve(response);
     });
   } catch (error: any) {

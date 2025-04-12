@@ -1,1 +1,1 @@
-import type { ApiErrorResponse } from "~/api/apiResponses";
+import type { ApiErrorResponse } from "../entities/api";

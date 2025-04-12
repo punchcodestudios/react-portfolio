@@ -1,6 +1,7 @@
 const createError = require("http-errors");
 const jwt = require("jsonwebtoken");
 const { User, validate } = require("../models/user");
+const { Password } = require("../models/password");
 const { WebToken } = require("../models/webtoken");
 const errorHandler = require("../middleware/handleError.js");
 const ms = require("ms");
@@ -31,35 +32,60 @@ const me = errorHandler(async (req, res, next) => {
 const signUp = errorHandler(async (req, res, next) => {
   const { error } = validate(req.body);
   if (error) {
-    // console.log("ERROR: ", error);
+    console.log("user.js signUp ERROR: ", error);
     next(createError(401, "Invalid Data"));
   }
 
-  const userAlreadyExists = await User.findOne({ email: req.body.email });
-  if (userAlreadyExists) {
-    return next(createError(422, "an account with that email already exists"));
+  const emailExists = await User.findOne({ email: req.body.email });
+  const userNameExists = await User.findOne({ username: req.body.username });
+  if (emailExists || userNameExists) {
+    return next(
+      createError(422, "an account with those identifiers already exists.")
+    );
   }
 
-  const encoded = await encodePassword(req.body.password);
+  // const encoded = await encodePassword(req.body.password);
   const confirmCode = await generateConfirmCode(6);
   let user = new User({
     name: req.body.name,
     username: req.body.username,
     email: req.body.email,
-    password: encoded,
     roles: [UserRoles.USER],
     confirmCode: confirmCode,
     status: UserStatus.INITIAL,
   });
 
   const response = await user.save();
-  req.data = [response];
+  req.data = response;
+  req.meta = {};
+  return next();
+});
+
+const createPassword = errorHandler(async (req, res, next) => {
+  const user = await User.findOne({ username: req.body.username });
+  if (!user) {
+    next(createError(404, "User not found"));
+  }
+
+  let password = new Password({
+    userId: user._id,
+    password: req.body.password,
+  });
+
+  try {
+    password.save();
+  } catch (error) {
+    await User.findByIdAndDelete(user._id);
+    throw error;
+  }
+
+  req.data = [user];
   req.meta = {};
   return next();
 });
 
 const login = errorHandler(async (req, res, next) => {
-  // console.log("login data: ", req.body);
+  console.log("login data: ", req.body);
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -71,7 +97,10 @@ const login = errorHandler(async (req, res, next) => {
     return next(createError(401, "Invalid username or password"));
   }
 
-  const passwordsMatch = await validatePassword(password, user.password);
+  // password is now stored in separate table
+  const hash = await Password.findOne({ userId: user._id });
+  console.log("hash: ", hash);
+  const passwordsMatch = await validatePassword(password, hash.password);
   if (!passwordsMatch) {
     return next(createError(401, "Invalid username or password"));
   }
@@ -115,12 +144,34 @@ const confirm = errorHandler(async (req, res, next) => {
   const user = await User.findOneAndUpdate(
     { username: username, confirmCode: confirmationCode },
     { status: UserStatus.CONFIRMED, confirmCode: "" }
-  ).select(["-password", "-name", "-confirmCode"]);
+  ).select(["-name", "-confirmCode"]);
 
   if (!user) {
     return next(createError(401, "Invalid credentials."));
   }
   req.data = [user];
+  return next();
+});
+
+const findUser = errorHandler(async (req, res, next) => {
+  console.log("user.js params: ", req.params);
+  const { id } = req.params;
+  // console.log("user.js username: ", id);
+  const user = await User.findOne({ username: id });
+  // console.log("user.js user: ", user);
+  req.data = [user];
+  req.meta = { total: +(user !== null), success: true };
+  // console.log("user.js meta: ", req.meta);
+  return next();
+});
+
+const getById = errorHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const user = await User.findOne({ _id: id });
+  // console.log("user.js user: ", user);
+  req.data = [user];
+  req.meta = { total: +(user !== null), success: true };
+  // console.log("user.js meta: ", req.meta);
   return next();
 });
 
@@ -132,5 +183,8 @@ module.exports = {
   login,
   logout,
   confirm,
+  createPassword,
   resetPassword,
+  findUser,
+  getById,
 };

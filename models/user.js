@@ -1,8 +1,5 @@
-const config = require("config");
-const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 const mongoose = require("mongoose");
-const _ = require("lodash");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -23,9 +20,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
-    minlength: 5,
-    maxlength: 1024,
+    required: false,
   },
   status: {
     type: String,
@@ -48,8 +43,7 @@ function validateUser(user) {
     name: Joi.string().max(50).required(),
     username: Joi.string().max(50).required(),
     email: Joi.string().min(5).required().email(),
-    password: Joi.string().min(5).max(250).required(),
-    confirmPassword: Joi.string().optional().allow(null),
+    password: Joi.string().optional(),
   };
 
   return Joi.validate(user, schema);
