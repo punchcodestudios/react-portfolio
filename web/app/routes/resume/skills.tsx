@@ -217,35 +217,6 @@ const Skills = ({ loaderData }: Route.ComponentProps) => {
               </div>
             </article>
 
-            <article id="infrastructureSkills" className="mb-5 xl:w-[45%]">
-              <div className="flex flex-col">
-                <div className="px-6 xl:shrink-0 bg-resume-skills flex flex-row">
-                  <FontAwesomeIcon
-                    icon={IconService.getSolid(SolidIcon.INFRASTRUCTURE)}
-                    fontSize={30}
-                    className="text-siteWhite my-auto text-md"
-                  ></FontAwesomeIcon>
-                  <h3 className="mb-0 text-md font-semibold tracking-wide text-siteWhite font-header uppercase p-3">
-                    Infrastructure
-                  </h3>
-                </div>
-                <div className="px-6 xl:p-0 xl:px-5">
-                  <div className="my-4 flex flex-row flex-wrap justify-between">
-                    {contentItems[3].skillList?.map((item) => {
-                      return (
-                        <div className="min-w-[45%]">
-                          <TechBadge
-                            text={item.name}
-                            key={item.refid}
-                          ></TechBadge>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </article>
-
             <article id="designSkills" className="mb-5 xl:w-[45%]">
               <div className="flex flex-col">
                 <div className="px-6 xl:shrink-0 bg-resume-skills flex flex-row">
@@ -261,6 +232,35 @@ const Skills = ({ loaderData }: Route.ComponentProps) => {
                 <div className="px-6 xl:p-0 xl:px-5">
                   <div className="my-4 flex flex-row flex-wrap justify-between">
                     {contentItems[4].skillList?.map((item) => {
+                      return (
+                        <div className="min-w-[45%]">
+                          <TechBadge
+                            text={item.name}
+                            key={item.refid}
+                          ></TechBadge>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article id="infrastructureSkills" className="mb-5 xl:w-[45%]">
+              <div className="flex flex-col">
+                <div className="px-6 xl:shrink-0 bg-resume-skills flex flex-row">
+                  <FontAwesomeIcon
+                    icon={IconService.getSolid(SolidIcon.INFRASTRUCTURE)}
+                    fontSize={30}
+                    className="text-siteWhite my-auto text-md"
+                  ></FontAwesomeIcon>
+                  <h3 className="mb-0 text-md font-semibold tracking-wide text-siteWhite font-header uppercase p-3">
+                    Infrastructure
+                  </h3>
+                </div>
+                <div className="px-6 xl:p-0 xl:px-5">
+                  <div className="my-4 flex flex-row flex-wrap justify-between">
+                    {contentItems[3].skillList?.map((item) => {
                       return (
                         <div className="min-w-[45%]">
                           <TechBadge

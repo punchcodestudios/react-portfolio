@@ -8,49 +8,6 @@ import type { Skill } from "~/entities/resume";
 import useImage from "~/hooks/useImage";
 import { SolidIcon } from "~/utils/enums";
 
-// const skillsQuery = () => ({
-//   queryKey: ["skills"],
-//   queryFn: async () =>
-//     resumeService.getAllSkills({ params: { skillsExclude: [] } }),
-// });
-
-// export async function clientLoader(qc: QueryClient) {
-//   const query = skillsQuery();
-//   return async () => {
-//     const data = qc.getQueryData(skillsQuery().queryKey);
-//     if (data) return data;
-//     return qc.fetchQuery(skillsQuery());
-//   };
-
-// // ⬇️ return data or fetch it
-// const response = (
-//   return queryClient.getQueryData(query.queryKey) ??
-//   (queryClient.fetchQuery(query))
-// );
-//   const response = resumeService.getAllSkills({
-//     params: { skillsExclude: [] },
-//   });
-//   return response;
-// }
-
-// export function clientLoader() {
-//   // const query = skillsQuery();
-//   // console.log("queryKey: ", query.queryKey);
-//   // try {
-//   //console.log("FN: ", queryClient.getQueryData(query.queryKey));
-//   // const data = queryClient.fetchQuery(query);
-//   //queryClient.getQueryData(query.queryKey) ?? queryClient.fetchQuery(query);
-//   //   console.log("queryDATA: ", data);
-//   // } catch (error) {
-//   //   console.log("Error: ", error);
-//   // }
-
-//   const request: SkillRequest = { params: { skillsExclude: [] } };
-//   const skills = resumeService.getAllSkills(request);
-//   console.log(skills);
-//   return skills;
-// }
-
 const Resume = () => {
   const loaderData = useLoaderData();
   const [activeTab, setActiveTab] = useState<string>("1");
@@ -199,7 +156,7 @@ const Resume = () => {
   return (
     <>
       {headerImage && <HeaderImage headerImage={headerImage}></HeaderImage>}
-      <PageNav navItems={items}></PageNav>
+      <PageNav></PageNav>
       <Outlet></Outlet>
     </>
   );

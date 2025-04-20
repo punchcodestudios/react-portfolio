@@ -134,6 +134,7 @@ export default {
       },
       backgroundImage: {
         "home-hero": "url('/static/img_fullpng/home_hero_2.png')",
+        "about-hero": "url('/static/img_fullpng/about-this-site.png')",
         "resume-accordion": "url('/static/img_fullpng/home_hero_2.png')",
         "resume-skills": "url('/static/img_fullpng/home_hero_2.png')",
       },

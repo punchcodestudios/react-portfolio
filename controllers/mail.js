@@ -6,22 +6,12 @@ const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.PUNCHCODESTUDIOS_SENDGRID_API_KEY);
 
 const sendContact = errorHandler(async (req, res, next) => {
-  // const { to, name, from, subject, text } = req.body;
-
-  // const html = await ejs.renderFile(
-  //   path.resolve(__dirname, "..") + "/views/contact.ejs",
-  //   { data: { name: name, from: from, subject: subject, text: text } }
-  // );
-
-  // const data = { ...req.body, html };
-  // await send(req, res, next, data);
-  console.log("email sending: ", req.body.params);
-  // const user = req.data[0];.
+  console.log("email sending: ", req.body);
   try {
     const msg = {
       to: "pschandler@gmail.com",
       from: "admin@punchcodestudios.com",
-      subject: `CCONTACT: ${req.body.params.subject}`,
+      subject: `CONTACT: ${req.body.params.subject}`,
       text: `CONTACT`,
       html: `<h1>Message from website:</h1>
       <p>${req.body.params.message}</p>`,

@@ -1,14 +1,6 @@
-import React from "react";
-import {
-  NavLink,
-  Outlet,
-  useLoaderData,
-  useMatches,
-  useRouteLoaderData,
-  type MetaFunction,
-} from "react-router";
-import PageNav from "~/components/layout/page-nav.component";
+import { Outlet, useMatches, type MetaFunction } from "react-router";
 import HeaderImage from "~/components/layout/header-image.component";
+import PageNav from "~/components/layout/page-nav.component";
 import useImage from "~/hooks/useImage";
 
 export async function loader() {

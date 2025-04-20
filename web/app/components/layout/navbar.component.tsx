@@ -1,19 +1,21 @@
-import React, { useEffect, useState, type ReactNode } from "react";
-import { Link, NavLink, useMatches, useRouteLoaderData } from "react-router";
-import logo from "/static/img_fullpng/logo.png";
+import { useState } from "react";
+import { Link, NavLink, useMatches } from "react-router";
 import { useOptionalUser } from "~/utils/user";
+import logo from "/static/img_fullpng/logo.png";
 
 const Navbar = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
   const user = useOptionalUser();
-  const matches = useMatches();
 
   return (
     <nav id="navbarWrapper">
       <div className="bg-primary w-full text-siteWhite flex flex-row">
         <div className="flex items-center justify-between h-[60px] w-full px-4 py-2 sm:px-6 lg:px-8">
           <Link to="/" className="flex flex-row w-[1/5] h-[100%] items-center">
-            <img className="h-[100%]" src={logo} />
+            <img className="h-[100%]" src={logo} />{" "}
+            <span className="font-brand text-secondary uppercase ms-3">
+              Punchcode Studios
+            </span>
           </Link>
           <div className="hidden md:flex md:flex-row md:flex-grow">
             <div
@@ -22,9 +24,13 @@ const Navbar = () => {
             >
               <NavLink
                 to="/resume"
-                className={({ isActive, isPending }) =>
-                  `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
-                      ${isActive ? "bg-secondary" : "bg-primary"} 
+                className={({ isActive }) =>
+                  `flex flex-row w-full p-2 h-14 font-navItem md:w-1/4 md:p-0 justify-center items-center
+                      ${
+                        isActive
+                          ? "bg-secondary text-siteWhite"
+                          : "bg-primary text-secondary"
+                      } 
                       `
                 }
               >
@@ -33,9 +39,12 @@ const Navbar = () => {
               <NavLink
                 to="/about"
                 className={({ isActive, isPending }) =>
-                  `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
-                      ${isActive ? "bg-secondary" : "bg-primary"} 
-                      ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+                  `flex flex-row w-full p-2 h-14 font-navItem md:w-1/4 md:p-0 justify-center items-center
+                    ${
+                      isActive
+                        ? "bg-secondary text-siteWhite"
+                        : "bg-primary text-secondary"
+                    }`
                 }
               >
                 About
@@ -43,25 +52,28 @@ const Navbar = () => {
               <NavLink
                 to="/contact"
                 className={({ isActive, isPending }) =>
-                  `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
-                      ${isActive ? "bg-secondary" : "bg-primary"} 
-                      ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+                  `flex flex-row w-full p-2 h-14 font-navItem md:w-1/4 md:p-0 justify-center items-center
+                                        ${
+                                          isActive
+                                            ? "bg-secondary text-siteWhite"
+                                            : "bg-primary text-secondary"
+                                        } `
                 }
               >
                 Contact
               </NavLink>
-              {user && (
-                <Link to="/logout" className="me-3 font-greycliff">
+              {/* {user && (
+                <Link to="/logout" className="me-3 font-navItem">
                   <span className="font-navItem">
                     Logout {`${user.username}`}
                   </span>
                 </Link>
               )}
               {!user && (
-                <Link to="/login" className="me-3 font-greycliff">
+                <Link to="/login" className="me-3 ffont-navItem">
                   <span className="font-navItem">Login</span>
                 </Link>
-              )}
+              )} */}
             </div>
           </div>
 
@@ -98,26 +110,26 @@ const Navbar = () => {
         </div>
       </div>
       {expanded && (
-        <div className="bg-primary text-siteWhite flex flex-col gap-y-2 md:hidden px-4 sm:px-6 pb-2 justify-center">
-          <Link to="/resume" className="me-3 font-greycliff">
+        <div className="bg-primary flex flex-col gap-y-2 md:hidden px-4 sm:px-6 pb-2 justify-center">
+          <Link to="/resume" className="me-3">
             <span className="font-navItem">Resume</span>
           </Link>
-          <Link to="/about" className="me-3 font-greycliff">
+          <Link to="/about" className="me-3">
             <span className="font-navItem">About</span>
           </Link>
-          <Link to="/contact" className="me-3 font-greycliff">
-            <span className="font-navItem">Contact</span>
+          <Link to="/contact" className="me-3">
+            <span className="font-nav">Contact</span>
           </Link>
-          {!user && (
-            <Link to="/login" className="me-3 font-greycliff">
-              <span className="font-navItem">Login</span>
+          {/* {!user && (
+            <Link to="/login" className="me-3">
+              <span className="font-nav">Login</span>
             </Link>
           )}
           {user && (
-            <Link to="/logout" className="me-3 font-greycliff">
-              <span className="font-navItem">Logout</span>
+            <Link to="/logout" className="me-3">
+              <span className="font-nav">Logout</span>
             </Link>
-          )}
+          )} */}
         </div>
       )}
     </nav>

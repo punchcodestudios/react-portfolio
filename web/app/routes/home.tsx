@@ -45,7 +45,7 @@ export default function Home() {
 
   return (
     <div className="flex-flex-col">
-      <section className="justify-center mx-auto mb-2 p-2 bg-home-hero bg-no-repeat bg-cover bg-opacity-40 xl:flex-row xl:flex-wrap xl:justify-between xl:p-5 ">
+      <div className="justify-center mx-auto mb-2 p-2 bg-home-hero bg-no-repeat bg-cover bg-opacity-40 xl:flex-row xl:flex-wrap xl:justify-between xl:p-5 ">
         <div className="p-2 xl:p-0 mt-5 xl:px-5 h-[125px] xl:mt-0 text-center">
           <div className="mb-3 xl:w-120">
             <h1 className="font-brand uppercase text-secondary mt-3 xl:mt-7">
@@ -56,21 +56,20 @@ export default function Home() {
             </h2>
           </div>
         </div>
-      </section>
-      <section className="flex flex-col mx-auto p-6 pb-0">
-        <div className="mx-auto overflow-hidden h-[50px] max-w-[90%] lg:max-w-[70%]">
+      </div>
+      <div className="flex flex-col mx-auto p-6 pb-0">
+        <div className="mx-auto min-h-[50px] max-w-[90%] lg:max-w-[70%]">
           <div className="xl:flex">
-            <p className="text-siteBlack">
-              Punchcode Studios delivers excellence in every stage of the
-              Systems Development Lifecycle. From the initial requirements
-              gathering, all the way through to the deployment and maintenance,
-              Punchcode Studios has you covered.
+            <p className="text-siteBlack text-center md:text-start">
+              Punchcode Studios is a full service software development company.
+              We offer robust solutions tailored to your individual needs with
+              development packages that will fit any budget.
             </p>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section className="flex flex-col mx-auto my-5 p-6 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
+      <div className="flex flex-col mx-auto my-5 p-6 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
         <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
           <div className="xl:flex">
             <div className="px-6 xl:p-0 xl:shrink-0">
@@ -82,7 +81,7 @@ export default function Home() {
             </div>
             <div className="p-6 xl:p-0 mt-2 xl:px-5 xl:mt-0">
               <div className="mb-3 xl:w-120">
-                <h2 className="text-md font-semibold tracking-wide text-indigo-500 font-header uppercase">
+                <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
                   Inspiration
                 </h2>
                 <p className="mt-1 block text-xl leading-tight font-medium text-black">
@@ -95,6 +94,7 @@ export default function Home() {
                   web development to your organization or personal project.
                 </p>
               </div>
+
               <div className="md:flex md:flex-row">
                 <Button
                   variant={"secondary"}
@@ -112,20 +112,13 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
-      <section className="flex flex-col mx-auto my-5 p-6 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
+      </div>
+      <div className="flex flex-col mx-auto my-5 p-6 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
         <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
-          <div className="xl:flex">
-            <div className="px-6 xl:p-0 xl:shrink-0">
-              <img
-                className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src={informationImage}
-                alt="Modern building architecture"
-              />
-            </div>
-            <div className="p-6 xl:p-0 mt-3 xl:px-5 xl:mt-0">
+          <div className="flex flex-col-reverse xl:flex-row">
+            <div className="p-6 xl:p-0 mt-3 xl:pe-5 xl:mt-0">
               <div className="mb-3 xl:w-120">
-                <h2 className="text-md font-semibold tracking-wide text-indigo-500 font-header uppercase">
+                <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
                   Innovation
                 </h2>
                 <a
@@ -156,10 +149,17 @@ export default function Home() {
                 </Button>
               </div>
             </div>
+            <div className="px-6 xl:p-0 xl:shrink-0">
+              <img
+                className="h-32 w-full object-cover xl:w-96 xl:h-full"
+                src={informationImage}
+                alt="Modern building architecture"
+              />
+            </div>
           </div>
         </div>
-      </section>
-      <section className="flex flex-col mx-auto my-5 p-6 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
+      </div>
+      <div className="flex flex-col mx-auto my-5 p-6 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
         <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
           <div className="xl:flex">
             <div className="px-6 xl:p-0 xl:shrink-0">
@@ -171,7 +171,7 @@ export default function Home() {
             </div>
             <div className="p-6 xl:p-0 mt-3 xl:px-5 xl:mt-0">
               <div className="mb-3 xl:w-120">
-                <h2 className="text-md font-semibold tracking-wide text-indigo-500 font-header uppercase">
+                <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
                   Collaboration
                 </h2>
                 <a
@@ -204,7 +204,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

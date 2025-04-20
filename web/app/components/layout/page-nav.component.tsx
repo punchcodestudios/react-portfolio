@@ -18,13 +18,12 @@ const Navbar = () => {
           <NavLink
             to="resume"
             className={({ isPending }) =>
-              `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+              `flex flex-row w-full font-navItem p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
         ${
           matches.find((m: any) => m.id === "routes/resume/summary")
-            ? "bg-secondary"
+            ? "bg-secondary text-siteWhite"
             : "bg-primary"
-        } 
-        ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+        }`
             }
           >
             Summary
@@ -32,9 +31,8 @@ const Navbar = () => {
           <NavLink
             to="resume/skills"
             className={({ isActive, isPending }) =>
-              `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
-        ${isActive ? "bg-secondary" : "bg-primary"} 
-        ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+              `flex flex-row w-full font-navItem p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+        ${isActive ? "bg-secondary text-siteWhite" : "bg-primary"}`
             }
             prefetch="intent"
           >
@@ -43,9 +41,8 @@ const Navbar = () => {
           <NavLink
             to="/resume/experience"
             className={({ isActive, isPending }) =>
-              `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
-        ${isActive ? "bg-secondary" : "bg-primary"} 
-        ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+              `flex flex-row w-full font-navItem p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+        ${isActive ? "bg-secondary text-siteWhite" : "bg-primary"}`
             }
           >
             Experience
@@ -53,9 +50,8 @@ const Navbar = () => {
           <NavLink
             to="resume/education"
             className={({ isActive, isPending }) =>
-              `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
-        ${isActive ? "bg-secondary" : "bg-primary"} 
-        ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+              `flex flex-row w-full font-navItem p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+        ${isActive ? "bg-secondary text-siteWhite" : "bg-primary"}`
             }
           >
             Education
@@ -98,13 +94,12 @@ const Navbar = () => {
           <NavLink
             to="resume"
             className={({ isPending }) =>
-              `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+              `flex flex-row w-full font-navItem p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
         ${
           matches.find((m: any) => m.id === "routes/resume/summary")
-            ? "bg-secondary"
+            ? "bg-secondary text-siteWhite"
             : "bg-primary"
-        } 
-        ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+        }`
             }
           >
             Summary
@@ -112,9 +107,8 @@ const Navbar = () => {
           <NavLink
             to="resume/skills"
             className={({ isActive, isPending }) =>
-              `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
-        ${isActive ? "bg-secondary" : "bg-primary"} 
-        ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+              `flex flex-row w-full font-navItem p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+        ${isActive ? "bg-secondary text-siteWhite" : "bg-primary"}`
             }
             prefetch="intent"
           >
@@ -123,9 +117,8 @@ const Navbar = () => {
           <NavLink
             to="/resume/experience"
             className={({ isActive, isPending }) =>
-              `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
-        ${isActive ? "bg-secondary" : "bg-primary"} 
-        ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+              `flex flex-row w-full font-navItem p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+        ${isActive ? "bg-secondary text-siteWhite" : "bg-primary"}`
             }
           >
             Experience
@@ -133,9 +126,8 @@ const Navbar = () => {
           <NavLink
             to="resume/education"
             className={({ isActive, isPending }) =>
-              `flex flex-row w-full p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
-        ${isActive ? "bg-secondary" : "bg-primary"} 
-        ${isPending ? "bg-secondaryLight" : "bg-primary"}`
+              `flex flex-row w-full font-navItem p-2 h-14 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+        ${isActive ? "bg-secondary text-siteWhite" : "bg-primary"}`
             }
           >
             Education

@@ -156,25 +156,24 @@ function Layout({
 function App() {
   const data = useLoaderData<typeof loader>();
   const theme = useTheme();
-  const matches = useMatches();
-
-  const resumeActive = matches.find((m) => m.id === "routes/resume");
-  const aboutActive = matches.find((m) => m.id === "routes/about");
-  const contactActive = matches.find((m) => m.id === "routes/contact");
 
   return (
     <Layout theme={theme}>
-      <div className="flex flex-col h-[100vh]">
+      {/* <div className="flex flex-row justify-center"> */}
+      <div className="flex flex-col align-center h-[100vh] max-w-[2100px]">
         {/* <ThemeSwitch userPreference={theme} /> */}
         <div
           id="siteContainer"
           className="flex grow flex-col w-[100%] md:w-[90%] mx-auto bg-siteWhite"
         >
           <Navbar></Navbar>
-          <Outlet />
+          <main>
+            <Outlet />
+          </main>
+          <Footer></Footer>
         </div>
-        <Footer></Footer>
       </div>
+      {/* </div> */}
       {data.toast ? <ShowToast toast={data.toast} /> : null}
     </Layout>
   );

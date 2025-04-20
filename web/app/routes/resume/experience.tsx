@@ -37,7 +37,7 @@ const Accordion = ({
   return (
     <div
       id={id}
-      className={`bg-slate-600 mb-5 transition-all duration-100 ${
+      className={`bg-primary mb-5 transition-all duration-100 ${
         isExpanded ? "" : "min-h-20"
       }`}
     >
@@ -70,18 +70,6 @@ const Accordion = ({
   );
 };
 
-// <details
-//   className="border border-transparent open:border-black/10 open:bg-gray-100 ..."
-//   open
-// >
-//   <summary className="text-sm leading-6 font-semibold text-gray-900 select-none">
-//     Why do they call it Ovaltine?
-//   </summary>
-//   <div className="mt-3 text-sm leading-6 text-gray-600">
-//     <p>The mug is round. The jar is round. They should call it Roundtine.</p>
-//   </div>
-// </details>;
-
 const Experience = ({ loaderData }: Route.ComponentProps) => {
   const [expandedId, setExpandedId] = useState<string>("");
   const toggleExpand = (id: string) => {
@@ -91,6 +79,7 @@ const Experience = ({ loaderData }: Route.ComponentProps) => {
       window.scrollTo(0, 0);
     }
     if (expandedId === id) {
+      console.log("ExpandedID: ", expandedId);
       window.scrollTo(100, 0);
     }
   };
@@ -168,9 +157,9 @@ const ResumeContent = ({ data }: { data: Experience }) => {
 const ResumeHeader = ({ data }: { data: Experience }) => {
   return (
     <div className="p-6 flex flex-col">
-      <h2 className="text-siteWhite">{data.company_name}</h2>
-      <p className="text-siteWhite font-bold">{data.position}</p>
-      <p className="text-siteWhite">
+      <h2 className="text-siteWhite font-header">{data.company_name}</h2>
+      <p className="text-siteWhite font-header font-bold">{data.position}</p>
+      <p className="text-siteWhite font-text">
         {formatDate(data.start_date)} -{" "}
         {data.end_date == "" ? "present" : formatDate(data.end_date)}
       </p>

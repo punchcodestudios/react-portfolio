@@ -43,8 +43,6 @@ export async function action({ request }: ActionFunctionArgs) {
           password: data.password,
         });
 
-        console.log("user from service: ", userResponse);
-
         if (userResponse.meta.total == 0) {
           ctx.addIssue({
             code: "custom",

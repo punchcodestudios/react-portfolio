@@ -29,13 +29,18 @@ h4 {
 p {
   @apply text-siteBlack text-sm md:text-lg xl:text-xl;
 }
+
+a {
+  @apply font-anchor text-secondary cursor-pointer;
+}
+
 @layer base {
   :root {
     --color-black: #222222;
     --color-white: #eeeeee;
     --color-primary-light: #587da0;
-    /* --color-primary: #0d263d; */
-    --color-primary: #100326;
+    --color-primary: #0d263d;
+    /* --color-primary: #100326; */
     --color-primary-dark: #021527;
     --color-secondary: #ff6633;
     --color-secondary-light: #f8b098;
