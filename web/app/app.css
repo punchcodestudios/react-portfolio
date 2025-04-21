@@ -20,10 +20,10 @@ h2 {
   @apply mb-4 text-2xl leading-none md:text-3xl lg:text-4xl text-siteBlack;
 }
 h3 {
-  @apply mb-4 text-xl font-bold leading-none tracking-tight md:text-2xl lg:text-3xl text-siteBlack;
+  @apply mb-4 text-xl leading-none tracking-tight md:text-2xl lg:text-3xl text-siteBlack;
 }
 h4 {
-  @apply mb-4 text-lg font-bold leading-none tracking-tight md:text-xl lg:text-2xl text-siteBlack;
+  @apply mb-4 text-lg leading-none tracking-tight md:text-xl lg:text-2xl text-siteBlack;
 }
 
 p {
