@@ -59,9 +59,16 @@ const ContactSchema = z.object({
       messageMaxLength,
       `Message cannot be more than ${messageMaxLength} characters`
     ),
-  name: z
-    .string({ required_error: "Please enter your name." })
-    .max(50, { message: "Name is restricted to 50 characters." }),
+  firstName: z
+    .string({ required_error: "Please enter your first name." })
+    .max(50, { message: "First Name is restricted to 50 characters." }),
+  lastName: z
+    .string({ required_error: "Please enter your last name." })
+    .max(50, { message: "Last Name is restricted to 50 characters." }),
+  organization: z
+    .string()
+    .max(50, { message: "Last Name is restricted to 50 characters." })
+    .optional(),
   formOfContact: z.string({
     message: "Please indicate a preferred method of contact.",
   }),
@@ -135,7 +142,9 @@ export async function action({ request, params }: ActionFunctionArgs) {
       formOfContact: submission.value.formOfContact,
       emailAddress: submission.value.emailAddress || "",
       phoneNumber: submission.value.phoneNumber || "",
-      name: submission.value.name,
+      firstName: submission.value.firstName,
+      lastName: submission.value.lastName,
+      organization: submission.value.organization || "",
     },
   };
 
@@ -244,18 +253,59 @@ const Contact = () => {
               </div>
             </div>
             <div>
-              <Label htmlFor={fields.name.id} className="font-navItem text-md">
-                Name:
+              <Label
+                htmlFor={fields.firstName.id}
+                className="font-navItem text-md"
+              >
+                First Name:
               </Label>
               <Input
-                {...conform.textarea(fields.name)}
+                {...conform.textarea(fields.firstName)}
                 type="text"
                 className="mt-3"
               />
               <div className="min-h-[32px] px-4 pb-3 pt-1">
                 <ErrorList
-                  id={fields.name.errorId}
-                  errors={fields.name.errors}
+                  id={fields.firstName.errorId}
+                  errors={fields.firstName.errors}
+                />
+              </div>
+            </div>
+            <div>
+              <Label
+                htmlFor={fields.lastName.id}
+                className="font-navItem text-md"
+              >
+                Last Name:
+              </Label>
+              <Input
+                {...conform.textarea(fields.lastName)}
+                type="text"
+                className="mt-3"
+              />
+              <div className="min-h-[32px] px-4 pb-3 pt-1">
+                <ErrorList
+                  id={fields.lastName.errorId}
+                  errors={fields.lastName.errors}
+                />
+              </div>
+            </div>
+            <div>
+              <Label
+                htmlFor={fields.organization.id}
+                className="font-navItem text-md"
+              >
+                Organization:
+              </Label>
+              <Input
+                {...conform.textarea(fields.organization)}
+                type="text"
+                className="mt-3"
+              />
+              <div className="min-h-[32px] px-4 pb-3 pt-1">
+                <ErrorList
+                  id={fields.organization.errorId}
+                  errors={fields.organization.errors}
                 />
               </div>
             </div>

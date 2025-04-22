@@ -11,9 +11,16 @@ const sendContact = errorHandler(async (req, res, next) => {
     const msg = {
       to: "pschandler@gmail.com",
       from: "admin@punchcodestudios.com",
-      subject: `CONTACT: ${req.body.params.subject}`,
+      subject: `PUNCHCODESTUDIOS_${req.body.params.subject}`,
       text: `CONTACT`,
-      html: `<h1>Message from website:</h1>
+      html: `<h1>contact from punchcodestudios.com</h1>
+      <ul style="list-style:none;">
+      <li><strong>Name: </strong>${req.body.params.firstName} ${req.body.params.lastName}</li>
+      <li><strong>Organization: </strong>${req.body.params.organization}</li>
+      <li><strong>Preferred method of contact: </strong>${req.body.params.formOfContact}</li>
+      <li><strong>Email address: </strong>${req.body.params.emailAddress}</li>
+      <li><strong>Phone mumber: </strong>${req.body.params.phoneNumber}</li>
+      </ul>
       <p>${req.body.params.message}</p>`,
     };
     sgMail

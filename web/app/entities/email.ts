@@ -6,7 +6,9 @@ export interface Contact {
   formOfContact: string;
   emailAddress: string;
   phoneNumber: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  organization: string;
 }
 
 export interface ContactRequest {
