@@ -3,7 +3,7 @@ const winston = require("winston");
 require("dotenv").config();
 
 process.on("unhandledRejection", (ex) => {
-  // console.log("unhandled Rejection: ", ex);
+  console.log("unhandled Rejection: ", ex);
   throw `${ex.message} | exception: ${ex}`;
 });
 
@@ -69,15 +69,15 @@ app.use((req, res, next) => {
 });
 //-- END Rate Limiting
 
-// if (isDev) {
-app.use(
-  cors({
-    origin: ["http://localhost:5174", "http://localhost:5173"],
-    methods: ["POST", "PUT", "GET", "DELETE"],
-    credentials: true,
-  })
-);
-// }
+if (isDev) {
+  app.use(
+    cors({
+      origin: ["http://localhost:5174", "http://localhost:5173"],
+      methods: ["POST", "PUT", "GET", "DELETE"],
+      credentials: true,
+    })
+  );
+}
 
 require("./startup/logging");
 const logger = winston.loggers.get("appLogger");
