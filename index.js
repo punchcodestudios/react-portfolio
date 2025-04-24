@@ -104,7 +104,7 @@ app.set("views", path.join(__dirname, "views"));
 if (!isDev) {
   app.use(express.static(path.join(__dirname, "/web/build/client")));
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "/web/build/index.html"));
+    res.sendFile(path.join(__dirname, "/web/build/client"));
   });
 }
 
