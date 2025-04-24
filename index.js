@@ -103,12 +103,12 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 console.log("index.js: 105");
-if (!isDev) {
-  app.use(express.static(path.join(__dirname, "/web/build/client")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "/web/index.html"));
-  });
-}
+// if (!isDev) {
+app.use(express.static(path.join(__dirname, "/web/build/client/static")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/web/index.html"));
+});
+// }
 
 console.log("index.js: 113");
 // General
