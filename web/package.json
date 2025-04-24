@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router build",
+    "build": "tsc -b && vite build",
     "build_remove": "vite build",
     "dev": "vite",
     "start": "react-router-serve ./build/server/index.js",

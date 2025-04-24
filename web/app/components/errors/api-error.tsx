@@ -1,5 +1,4 @@
-import React from "react";
-import type { ApiErrorResponse } from "~/api/apiResponses";
+import type { ApiErrorResponse } from "~/entities/api";
 
 const ApiError = ({ error }: { error: ApiErrorResponse }) => {
   return (
