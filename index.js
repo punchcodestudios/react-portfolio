@@ -107,7 +107,7 @@ if (!isDev) {
   app.use(express.static(path.join(__dirname, "/web/build/client")));
   app.get("*", (req, res) => {
     res.sendFile(
-      path.join(__dirname, "/web/build/client/assets/entry.client-Dbfr3tem.js")
+      path.join(__dirname, "/web/build/client/assets/entry.client-*.js")
     );
   });
 }
