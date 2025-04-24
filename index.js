@@ -30,6 +30,7 @@ const limiterBase = {
   max: 10000 * maxMultiple,
   standardHeaders: true,
   legacyHeaders: false,
+  trustProxy: true,
   handler: (req, res, next, options) => {
     res.status(400).send({
       content: {
@@ -38,9 +39,6 @@ const limiterBase = {
         error: { status: 429, message: "Too many requests" },
       },
     });
-  },
-  validate: {
-    trustProxy: true,
   },
 };
 
