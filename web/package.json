@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build_remove": "cross-env NODE_ENV=production react-router build",
-    "build": "vite build",
+    "build": "react-router build",
+    "build_remove": "vite build",
     "dev": "vite",
-    "start": "cross-env NODE_ENV=production react-router-serve ./build/server/index.js",
+    "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
