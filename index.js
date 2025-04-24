@@ -102,9 +102,9 @@ app.set("views", path.join(__dirname, "views"));
 
 // console.log("index.js: 59");
 if (!isDev) {
-  app.use(express.static(path.join(__dirname, "/web/build/server")));
+  app.use(express.static(path.join(__dirname, "/web/build/client/static")));
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "/web/build/server/index.js"));
+    res.sendFile(path.join(__dirname, "/web/app/root.tsx"));
   });
 }
 
