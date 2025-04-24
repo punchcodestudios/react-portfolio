@@ -70,6 +70,7 @@ app.use((req, res, next) => {
 });
 //-- END Rate Limiting
 
+console.log("beore cors check isDev: ", isDev);
 if (isDev) {
   app.use(
     cors({
@@ -92,7 +93,7 @@ require("./startup/db")(logger);
 //   process.exit(1);
 // }
 
-// console.log("index.js: 51");
+console.log("index.js: 96");
 // email
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -101,7 +102,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// console.log("index.js: 59");
+console.log("index.js: 105");
 if (!isDev) {
   app.use(express.static(path.join(__dirname, "/web/build/client")));
   app.get("*", (req, res) => {
@@ -109,7 +110,7 @@ if (!isDev) {
   });
 }
 
-// console.log("index.js: 67");
+console.log("index.js: 113");
 // General
 const port = PORT || 3000;
 app.listen(port, () => logger.info(`Listening on port ${port}...`));
