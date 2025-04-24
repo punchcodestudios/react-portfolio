@@ -54,20 +54,20 @@ const strongRateLimit = rateLimit({
 
 const generalRateLimit = rateLimit(limiterBase);
 
-app.use((req, res, next) => {
-  const strongPaths = ["skills"];
-  if (
-    req.method !== "GET" &&
-    req.method !== "HEAD" &&
-    req.method !== "OPTION"
-  ) {
-    if (strongPaths.some((path) => path.includes[("signup", "login")])) {
-      return strongestRateLimit(req, res, next);
-    }
-    return strongRateLimit(req, res, next);
-  }
-  return generalRateLimit(req, res, next);
-});
+// app.use((req, res, next) => {
+//   const strongPaths = ["skills"];
+//   if (
+//     req.method !== "GET" &&
+//     req.method !== "HEAD" &&
+//     req.method !== "OPTION"
+//   ) {
+//     if (strongPaths.some((path) => path.includes[("signup", "login")])) {
+//       return strongestRateLimit(req, res, next);
+//     }
+//     return strongRateLimit(req, res, next);
+//   }
+//   return generalRateLimit(req, res, next);
+// });
 //-- END Rate Limiting
 
 console.log("beore cors check isDev: ", isDev);
