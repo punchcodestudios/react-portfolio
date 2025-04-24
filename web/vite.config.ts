@@ -4,6 +4,7 @@ import tailwindcss from "tailwindcss";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import react from "@vitejs/plugin-react";
+import commonjs from "vite-plugin-commonjs";
 
 export default defineConfig({
   css: {
@@ -11,11 +12,8 @@ export default defineConfig({
       plugins: [tailwindcss, autoprefixer],
     },
   },
-  plugins: [reactRouter(), tsconfigPaths()],
   build: {
-    outDir: "dist",
-    rollupOptions: {
-      input: ["./app/root.tsx"],
-    },
+    outDir: "./dist",
   },
+  plugins: [commonjs(), react(), reactRouter(), tsconfigPaths()],
 });
