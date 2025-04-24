@@ -227,17 +227,6 @@ export function ErrorBoundary({ error }: { error: Error }) {
   );
 }
 
-function ShowToast({ toast }: { toast: Toast }) {
-  const { id, type, title, description } = toast;
-
-  useEffect(() => {
-    setTimeout(() => {
-      showToast[type](title, { id, description });
-    }, 0);
-  }, [description, id, title, type]);
-  return null;
-}
-
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Punchcode Studios | Portfolio" },
@@ -247,6 +236,17 @@ export function meta({}: Route.MetaArgs) {
         "Porfolio project showcasing React Development for PunchcodeStudios design company",
     },
   ];
+}
+
+function ShowToast({ toast }: { toast: Toast }) {
+  const { id, type, title, description } = toast;
+
+  useEffect(() => {
+    setTimeout(() => {
+      showToast[type](title, { id, description });
+    }, 0);
+  }, [description, id, title, type]);
+  return null;
 }
 
 function useTheme() {
