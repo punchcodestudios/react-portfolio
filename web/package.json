@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router typegen && tsc -b && vite build",
+    "build": "react-router typegen && react-router build && tsc -b && vite build",
     "preview": "vite preview --port 8080",
     "build_remove": "vite build",
     "dev": "vite",
