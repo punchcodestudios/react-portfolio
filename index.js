@@ -39,6 +39,9 @@ const limiterBase = {
       },
     });
   },
+  validate: {
+    trustProxy: true,
+  },
 };
 
 const strongestRateLimit = rateLimit({
