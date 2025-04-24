@@ -11,5 +11,11 @@ export default defineConfig({
       plugins: [tailwindcss, autoprefixer],
     },
   },
-  plugins: [react(), reactRouter(), tsconfigPaths()],
+  plugins: [reactRouter(), tsconfigPaths()],
+  build: {
+    outDir: "dist",
+    rollupOptions: {
+      input: ["./app/root.tsx"],
+    },
+  },
 });
