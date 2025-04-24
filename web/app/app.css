@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  @apply text-siteBlack bg-gray-700;
+  scroll-behavior: smooth;
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+}
+
+h1 {
+  @apply mb-4 text-4xl font-bold leading-none tracking-tight md:text-5xl lg:text-6xl text-siteBlack;
+}
+h2 {
+  font-weight: 100;
+  letter-spacing: 0.025rem;
+  @apply mb-4 text-2xl leading-none md:text-3xl lg:text-4xl text-siteBlack;
+}
+h3 {
+  @apply mb-4 text-xl leading-none tracking-tight md:text-2xl lg:text-3xl text-siteBlack;
+}
+h4 {
+  @apply mb-4 text-lg leading-none tracking-tight md:text-xl lg:text-2xl text-siteBlack;
+}
+
+p {
+  @apply text-siteBlack text-sm md:text-lg xl:text-xl;
+}
+
+a {
+  @apply font-anchor text-secondary cursor-pointer;
+}
+
+@layer base {
+  :root {
+    --color-black: #222222;
+    --color-white: #eeeeee;
+    --color-primary-light: #587da0;
+    --color-primary: #0d263d;
+    /* --color-primary: #100326; */
+    --color-primary-dark: #021527;
+    --color-secondary: #ff6633;
+    --color-secondary-light: #f8b098;
+    --color-secondary-dark: #6d1d02;
+
+    --font-brand: "ivymode", mono;
+    --font-header: "zekton", mono;
+    --font-control: "zekton", mono;
+    --font-nav: "zekton", mono;
+    --font-text: "greycliff-cf", mono;
+    --font-anchor: "greycliff-cf", mono;
+  }
+
+  @theme {
+    --spacing: 1px;
+  }
+}

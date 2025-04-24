@@ -96,19 +96,28 @@ const deleteExperience = errorHandler(async (req, res, next) => {
 });
 
 const seedExperience = errorHandler(async (req, res, next) => {
+  console.log("seed experience: ", req.body);
   req.body.forEach(async (item) => {
     let { error } = validate(item);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send();
   });
-
+  console.log("seed experience after for each");
   try {
-    await mongoose.connection.db.dropCollection("experiences");
+    // await mongoose.connection.db.dropCollection("experiences");
+    // mongoose.connection.collections["experiences"].drop((error) => {
+    //   if (error) console.error("Drop failed", error);
+    //   else console.log("Successfully dropped collection");
+    // });
+    console.log("seed experience after drop collection");
     await Experience.insertMany(req.body).catch((err) => console.log(err));
+    console.log("seed experience after insert many");
     const currentExperience = await Experience.find();
     req.data = currentExperience;
+    console.log("seed experience current experience: ", currentExperience);
     return next();
   } catch {
     (error) => {
+      console.log("error: ", error);
       return next(createError(418, error));
     };
   }

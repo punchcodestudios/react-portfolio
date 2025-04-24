@@ -1,19 +1,19 @@
-import {
+import type {
   ConfirmationRequest,
   LoginRequest,
   LogoutRequest,
   RegisterRequest,
   User,
   UserResponse,
-} from "@/entities/User";
+} from "../entities/user";
 import {
   login,
   logout,
   register,
   refreshAccessToken,
-  confirmEmail,
+  confirmUser,
 } from "../api/authApi";
-import { ApiResponse } from "@/api/apiResponses";
+import type { ApiResponse } from "../entities/api";
 
 const authService = {
   logout: async (request: LogoutRequest) => {
@@ -36,7 +36,6 @@ const authService = {
     }
   },
   login: async (request: LoginRequest): Promise<UserResponse> => {
-    // console.log("login: ", request);
     try {
       const response = await login(request);
       return Promise.resolve(map(response));
@@ -55,9 +54,9 @@ const authService = {
       throw error;
     }
   },
-  confirmEmail: async (request: ConfirmationRequest): Promise<UserResponse> => {
+  confirmUser: async (request: ConfirmationRequest): Promise<UserResponse> => {
     try {
-      const response = await confirmEmail(request);
+      const response = await confirmUser(request);
       return Promise.resolve(map(response));
     } catch (error: any) {
       return Promise.resolve(map(error));

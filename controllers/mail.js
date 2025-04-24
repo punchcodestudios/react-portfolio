@@ -6,15 +6,36 @@ const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.PUNCHCODESTUDIOS_SENDGRID_API_KEY);
 
 const sendContact = errorHandler(async (req, res, next) => {
-  const { to, name, from, subject, text } = req.body;
-
-  const html = await ejs.renderFile(
-    path.resolve(__dirname, "..") + "/views/contact.ejs",
-    { data: { name: name, from: from, subject: subject, text: text } }
-  );
-
-  const data = { ...req.body, html };
-  await send(req, res, next, data);
+  console.log("email sending: ", req.body);
+  try {
+    const msg = {
+      to: "pschandler@gmail.com",
+      from: "admin@punchcodestudios.com",
+      subject: `PUNCHCODESTUDIOS_${req.body.params.subject}`,
+      text: `CONTACT`,
+      html: `<h1>contact from punchcodestudios.com</h1>
+      <ul style="list-style:none;">
+      <li><strong>Name: </strong>${req.body.params.firstName} ${req.body.params.lastName}</li>
+      <li><strong>Organization: </strong>${req.body.params.organization}</li>
+      <li><strong>Preferred method of contact: </strong>${req.body.params.formOfContact}</li>
+      <li><strong>Email address: </strong>${req.body.params.emailAddress}</li>
+      <li><strong>Phone mumber: </strong>${req.body.params.phoneNumber}</li>
+      </ul>
+      <p>${req.body.params.message}</p>`,
+    };
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log("mail.js: send message");
+        return next();
+      })
+      .catch((error) => {
+        return next(createError(500, `Error sending email: ${error}`));
+      });
+  } catch (error) {
+    return next(createError(418, `Error generating email template: ${error}`));
+  }
+  return next();
 });
 
 const previewContact = async (req, res, next) => {

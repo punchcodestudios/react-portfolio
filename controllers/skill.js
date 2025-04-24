@@ -2,11 +2,8 @@ const createError = require("http-errors");
 const { Skill, validate } = require("../models/skill");
 const errorHandler = require("../middleware/handleError.js");
 const mongoose = require("mongoose");
-const assert = require("assert");
-const ms = require("ms");
 
 const getAllSkills = errorHandler(async (req, res, next) => {
-  // return next(createError(418, "Skills error fabricated for testing"));
   try {
     const allSkills = await Skill.find().populate({
       path: "skill_types",
@@ -14,8 +11,6 @@ const getAllSkills = errorHandler(async (req, res, next) => {
       model: "SkillType",
       foreignField: "refid",
     });
-
-    // return next(createError(402, "fabricated error message"));
     req.data = allSkills;
     return next();
   } catch (error) {
@@ -27,7 +22,6 @@ const addSkills = errorHandler(async (req, res, next) => {
   //console.log("addSkills: ", [...req.body]);
   try {
     const array = [...req.body];
-
     array.forEach(async (item) => {
       let { error } = validate(item);
       if (error) return next(new Error(error.details[0].message));

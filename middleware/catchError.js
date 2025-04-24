@@ -7,7 +7,7 @@ module.exports = async function (err, req, res, next) {
     content: {
       target: [],
       meta: { total: 0, success: false },
-      error: { status: err.status, message: err.message },
+      error: { status: err.status, message: err.message, type: "api" },
     },
   });
 };
