@@ -2,13 +2,13 @@ import axios, { AxiosError } from "axios";
 import type { ApiErrorResponse, ApiResponse } from "~/entities/api";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/api",
-  // process.env.NODE_ENV !== "production"
-  //   ? "http://localhost:3000/api"
-  //   : "https://punchcodestudios-980650c93199.herokuapp.com/api",
+  // baseURL: "http://localhost:3000/api",
+  baseURL:
+    process.env.NODE_ENV !== "heroku"
+      ? "http://localhost:3000/api"
+      : "https://www.punchcodestudios.com/api",
   withCredentials: true,
 });
-
 axios.interceptors.request.use(
   async (config) => {
     return config;

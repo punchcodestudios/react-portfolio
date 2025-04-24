@@ -103,7 +103,7 @@ const seedExperience = errorHandler(async (req, res, next) => {
   });
   console.log("seed experience after for each");
   try {
-    await mongoose.connection.db.dropCollection("experiences");
+    // await mongoose.connection.db.dropCollection("experiences");
     // mongoose.connection.collections["experiences"].drop((error) => {
     //   if (error) console.error("Drop failed", error);
     //   else console.log("Successfully dropped collection");

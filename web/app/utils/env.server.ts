@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const schema = z.object({
-  NODE_ENV: z.enum(["production", "development", "test"] as const),
+  NODE_ENV: z.enum(["development", "test", "heroku"] as const),
   HONEYPOT_SECRET: z.string(),
   SESSION_SECRET: z.string(),
 });

@@ -2,8 +2,6 @@ const createError = require("http-errors");
 const { Skill, validate } = require("../models/skill");
 const errorHandler = require("../middleware/handleError.js");
 const mongoose = require("mongoose");
-const assert = require("assert");
-const ms = require("ms");
 
 const getAllSkills = errorHandler(async (req, res, next) => {
   try {
@@ -13,8 +11,6 @@ const getAllSkills = errorHandler(async (req, res, next) => {
       model: "SkillType",
       foreignField: "refid",
     });
-    // return next(createError(418, "fabricated error message"));
-    //throw new Error();
     req.data = allSkills;
     return next();
   } catch (error) {
