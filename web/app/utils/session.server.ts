@@ -7,6 +7,6 @@ export const sessionStorage = createCookieSessionStorage({
     path: "/",
     httpOnly: true,
     secrets: process.env.SESSION_SECRET.split(","),
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "heroku",
   },
 });

@@ -23,7 +23,7 @@ const cookie = createCookie("pcs_toast", {
   path: "/",
   httpOnly: true,
   secrets: process.env.SESSION_SECRET.split(","),
-  secure: process.env.NODE_ENV === "production",
+  secure: process.env.NODE_ENV === "heroku",
 });
 
 export const toastSessionStorage = createCookieSessionStorage({
