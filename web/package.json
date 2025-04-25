@@ -6,7 +6,7 @@
     "build": "react-router typegen && tsc && react-router build",
     "preview": "vite preview --port 8080 --outDir build",
     "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
+    "serve": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
