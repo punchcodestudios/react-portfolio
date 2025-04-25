@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router typegen && tsc && react-router build",
+    "build": "react-router typegen && tsc && react-router build && vite build",
     "preview": "vite preview --port 8080 --outDir build",
     "dev": "react-router dev",
     "serve": "react-router-serve ./build/server/index.js",
