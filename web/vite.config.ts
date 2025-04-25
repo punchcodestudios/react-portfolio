@@ -15,5 +15,5 @@ export default defineConfig({
   build: {
     outDir: "/dist",
   },
-  plugins: [commonjs(), react(), reactRouter(), tsconfigPaths()],
+  plugins: [reactRouter(), tsconfigPaths()],
 });
