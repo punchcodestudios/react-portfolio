@@ -136,7 +136,7 @@ function Layout({
   theme?: Theme;
 }) {
   return (
-    <html lang="en" className={`${theme}`}>
+    <html lang="en" className={`${theme} added here`}>
       <head>
         <Meta />
         <meta charSet="utf-8" />

@@ -54,21 +54,21 @@ const strongRateLimit = rateLimit({
 
 const generalRateLimit = rateLimit(limiterBase);
 
-// app.use((req, res, next) => {
-//   const strongPaths = ["skills"];
-//   if (
-//     req.method !== "GET" &&
-//     req.method !== "HEAD" &&
-//     req.method !== "OPTION"
-//   ) {
-//     if (strongPaths.some((path) => path.includes[("signup", "login")])) {
-//       return strongestRateLimit(req, res, next);
-//     }
-//     return strongRateLimit(req, res, next);
-//   }
-//   return generalRateLimit(req, res, next);
-// });
-//-- END Rate Limiting
+app.use((req, res, next) => {
+  const strongPaths = ["skills"];
+  if (
+    req.method !== "GET" &&
+    req.method !== "HEAD" &&
+    req.method !== "OPTION"
+  ) {
+    if (strongPaths.some((path) => path.includes[("signup", "login")])) {
+      return strongestRateLimit(req, res, next);
+    }
+    return strongRateLimit(req, res, next);
+  }
+  return generalRateLimit(req, res, next);
+});
+// -- END Rate Limiting
 
 console.log("beore cors check isDev: ", isDev);
 if (isDev) {
@@ -104,9 +104,9 @@ app.set("views", path.join(__dirname, "views"));
 
 console.log("index.js: 105");
 // if (!isDev) {
-app.use(express.static(path.join(__dirname, "/web/build/client/static")));
+app.use(express.static(path.join(__dirname, "/web/build/client")));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/web/app/index.tsx"));
+  res.sendFile(path.join(__dirname, "/web/build/server/index.js"));
 });
 // }
 

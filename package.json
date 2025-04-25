@@ -4,12 +4,12 @@
   "description": "punchcodestudios.com portfolio site focusing primarily on react development",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js",
-    "client": "npm run dev --prefix web",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "start": "node index.js",
     "heroku-postbuild": "cd web && npm install && npm run build",
-    "test-build": "cd web && npm install && npm run build"
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon index.js",
+    "client": "npm run dev --prefix web",
+    "test-prod-build": "npm run heroku-postbuild"
   },
   "engines": {
     "node": "22.12.0"
