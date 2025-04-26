@@ -165,7 +165,6 @@ function App() {
       {/* <div className="flex flex-row justify-center"> */}
       <div className="flex flex-col align-center h-[100vh] max-w-[2100px]">
         {/* <ThemeSwitch userPreference={theme} /> */}
-        <p>SOWA ADAD</p>
         <div
           id="siteContainer"
           className="flex grow flex-col w-[100%] md:w-[90%] mx-auto bg-siteWhite"
@@ -183,7 +182,7 @@ function App() {
   );
 }
 
-export default function AppWithProviders() {
+export default function root() {
   const data = useLoaderData<typeof loader>();
   return (
     <AuthenticityTokenProvider token={data.csrfToken}>

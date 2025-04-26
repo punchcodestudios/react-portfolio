@@ -26,3 +26,16 @@ export default [
     route("resume/education", "routes/resume/education.tsx"),
   ]),
 ] satisfies RouteConfig;
+
+// export default [
+//   {
+//     path: "/",
+//     file: "./routes/form-layout.tsx",
+//     children: [
+//       { index: true, file: "./routes/home.tsx" },
+//       { path: "/about", file: "./routes/about.tsx" },
+//       { path: "contact", file: "./routes/contact.tsx" },
+//       { path: "resume", file: "./routes/resume/summary.tsx" },
+//     ],
+//   },
+// ] satisfies RouteConfig;
