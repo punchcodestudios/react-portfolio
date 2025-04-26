@@ -1,11 +1,18 @@
 import { Button } from "~/components/ui/button";
 import type { Route } from "./+types/home";
-import planningImage from "/static/img_fullpng/callout-planning.png";
-import requirementsImage from "/static/img_fullpng/callout-requirements.png";
+// @ts-ignore
+import planningImage from "../assets/img_fullpng/callout-planning.png";
+// @ts-ignore
+import requirementsImage from "../assets/img_fullpng/callout-requirements.png";
+// @ts-ignore
 import designImage from "/static/img_fullpng/callout-design.png";
+// @ts-ignore
 import codingImage from "/static/img_fullpng/callout-coding.png";
+// @ts-ignore
 import testingImage from "/static/img_fullpng/callout-testing.png";
+// @ts-ignore
 import deploymentImage from "/static/img_fullpng/callout-deployment.png";
+// @ts-ignore
 import maintenanceImage from "/static/img_fullpng/callout-maintenance.png";
 import {
   redirect,
@@ -20,9 +27,6 @@ import { useState } from "react";
 
 export async function loader() {
   // throw new Response("Error Message from API", { status: 405 });
-}
-export async function clientLoader() {
-  return { title: About };
 }
 
 export async function action({ request, params }: ActionFunctionArgs) {
