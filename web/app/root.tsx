@@ -179,7 +179,7 @@ function App() {
   );
 }
 
-export default function root() {
+export default function Root() {
   const data = useLoaderData<typeof loader>();
   return (
     <AuthenticityTokenProvider token={data.csrfToken}>
