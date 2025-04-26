@@ -7,7 +7,12 @@ import codingImage from "/static/img_fullpng/callout-coding.png";
 import testingImage from "/static/img_fullpng/callout-testing.png";
 import deploymentImage from "/static/img_fullpng/callout-deployment.png";
 import maintenanceImage from "/static/img_fullpng/callout-maintenance.png";
-import { redirect, useLocation, type ActionFunctionArgs } from "react-router";
+import {
+  redirect,
+  useLocation,
+  type ActionFunctionArgs,
+  type ClientActionFunctionArgs,
+} from "react-router";
 import { toastSessionStorage } from "~/utils/toast.server";
 import useImage from "~/hooks/useImage";
 import HeaderImage from "~/components/layout/header-image.component";
@@ -15,6 +20,9 @@ import { useState } from "react";
 
 export async function loader() {
   // throw new Response("Error Message from API", { status: 405 });
+}
+export async function clientLoader() {
+  return { title: About };
 }
 
 export async function action({ request, params }: ActionFunctionArgs) {
@@ -33,6 +41,11 @@ export async function action({ request, params }: ActionFunctionArgs) {
     },
   });
 }
+
+export async function clientAction({
+  request,
+  params,
+}: ClientActionFunctionArgs) {}
 
 export function meta({}: Route.MetaArgs) {
   return [

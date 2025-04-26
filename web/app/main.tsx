@@ -1,7 +1,27 @@
-import ReactDOM from "react-dom/client";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 import AppWithProviders from "./root";
+import { createBrowserRouter } from "react-router";
 
-const element = document.getElementById("root") as HTMLElement;
-const root = ReactDOM.createRoot(element!);
+function convert(m: any) {
+  let { clientLoader, clientAction, default: Component, ...rest } = m;
+  return {
+    ...rest,
+    loader: clientLoader,
+    action: clientAction,
+    Component,
+  };
+}
 
-root.render(<AppWithProviders></AppWithProviders>);
+let router = createBrowserRouter([
+  {
+    path: "about",
+    lazy: () => import("./routes/about").then(convert),
+  },
+]);
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <AppWithProviders />
+  </StrictMode>
+);
