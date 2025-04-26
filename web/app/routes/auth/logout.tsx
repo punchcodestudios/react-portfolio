@@ -16,13 +16,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
   });
 }
 
-// export async function action({ request }: ActionFunctionArgs) {
-//   const cookieSession = await sessionStorage.getSession(
-//     request.headers.get("cookie")
-//   );
-//   return redirect("/", {
-//     headers: {
-//       "set-cookie": await sessionStorage.destroySession(cookieSession),
-//     },
-//   });
-// }
+export async function action({ request }: ActionFunctionArgs) {
+  const cookieSession = await sessionStorage.getSession(
+    request.headers.get("cookie")
+  );
+  return redirect("/", {
+    headers: {
+      "set-cookie": await sessionStorage.destroySession(cookieSession),
+    },
+  });
+}

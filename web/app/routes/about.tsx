@@ -1,5 +1,5 @@
 import { Button } from "~/components/ui/button";
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/about";
 // @ts-ignore
 import planningImage from "../assets/img_fullpng/callout-planning.png";
 // @ts-ignore
@@ -15,8 +15,10 @@ import deploymentImage from "/static/img_fullpng/callout-deployment.png";
 // @ts-ignore
 import maintenanceImage from "/static/img_fullpng/callout-maintenance.png";
 import {
+  isRouteErrorResponse,
   redirect,
   useLocation,
+  useRouteError,
   type ActionFunctionArgs,
   type ClientActionFunctionArgs,
 } from "react-router";
@@ -24,10 +26,6 @@ import { toastSessionStorage } from "~/utils/toast.server";
 import useImage from "~/hooks/useImage";
 import HeaderImage from "~/components/layout/header-image.component";
 import { useState } from "react";
-
-export async function loader() {
-  // throw new Response("Error Message from API", { status: 405 });
-}
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const toastCookieSession = await toastSessionStorage.getSession(
@@ -584,4 +582,37 @@ export default function About() {
       </div>
     </div>
   );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h1>
+          {error.status} {error.statusText}
+        </h1>
+        <p>{error.data}</p>
+      </div>
+    );
+  } else if (error instanceof Error) {
+    return (
+      <div>
+        <h1>Error</h1>
+        <p>{error.message}</p>
+        <p>The stack trace is:</p>
+        <pre>{error.stack}</pre>
+      </div>
+    );
+  } else {
+    return <h1>Unknown Error</h1>;
+  }
+}
+
+export function HydrateFallback() {
+  return <p>Loading....</p>;
+}
+
+export function links() {
+  return [{ rel: "preload", href: "/assets/img_fullpng/about-this-site.png" }];
 }
