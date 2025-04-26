@@ -1,5 +1,5 @@
 import { useRouteLoaderData } from "react-router";
-import { type loader as rootLoader } from "app/root";
+import { type loader as rootLoader } from "~/root";
 
 export function useOptionalUser() {
   const data = useRouteLoaderData<typeof rootLoader>("root");
