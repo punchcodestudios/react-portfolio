@@ -5,6 +5,7 @@ import {
   Links,
   Meta,
   Outlet,
+  RouterProvider,
   Scripts,
   ScrollRestoration,
   useFetcher,
@@ -15,14 +16,16 @@ import {
   type LinksFunction,
   type LoaderFunctionArgs,
 } from "react-router";
+// @ts-ignore
+import appStylesheetUrl from "./app.css?url";
+// @ts-ignore
+import tailwindStylesheetUrl from "./styles/tailwind.css?url";
 import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
 import { HoneypotProvider } from "remix-utils/honeypot/react";
 import type { Route } from "./+types/root";
-import stylesheet from "./app.css?url";
 import Footer from "./components/layout/footer.component";
 import Navbar from "./components/layout/navbar.component";
 import GenericErrorBoundary from "./components/ui/error-boundary";
-import tailwindStylesheetUrl from "./styles/tailwind.css?url";
 import { csrf } from "./utils/csrf.server";
 import { honeypot } from "./utils/honeypot.server";
 import { useForm } from "@conform-to/react";
@@ -47,7 +50,7 @@ export const links: LinksFunction = () =>
     { rel: "stylesheet", href: "https://use.typekit.net/utp7gyp.css" },
     // { rel: "stylesheet", href: fontStylestylesheetUrl },
     { rel: "stylesheet", href: tailwindStylesheetUrl },
-    { rel: "stylesheet", href: stylesheet },
+    { rel: "stylesheet", href: appStylesheetUrl },
   ].filter(Boolean);
 
 const ThemeFormSchema = z.object({
@@ -136,7 +139,7 @@ function Layout({
   theme?: Theme;
 }) {
   return (
-    <html lang="en" className={`${theme} added here`}>
+    <html lang="en" className={`${theme}`}>
       <head>
         <Meta />
         <meta charSet="utf-8" />
@@ -162,6 +165,7 @@ function App() {
       {/* <div className="flex flex-row justify-center"> */}
       <div className="flex flex-col align-center h-[100vh] max-w-[2100px]">
         {/* <ThemeSwitch userPreference={theme} /> */}
+        <p>SOWA ADAD</p>
         <div
           id="siteContainer"
           className="flex grow flex-col w-[100%] md:w-[90%] mx-auto bg-siteWhite"
@@ -184,7 +188,7 @@ export default function AppWithProviders() {
   return (
     <AuthenticityTokenProvider token={data.csrfToken}>
       <HoneypotProvider {...data.honeyProps}>
-        <App />
+        <App></App>
       </HoneypotProvider>
     </AuthenticityTokenProvider>
   );

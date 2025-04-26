@@ -3,11 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router typegen && tsc && react-router build && vite build",
+    "build": "react-router typegen &&  react-router build",
     "preview": "vite preview --port 8080 --outDir build",
     "dev": "react-router dev",
     "serve": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "vite-build": "vite build"
   },
   "dependencies": {
     "@conform-to/react": "0.9.0",
