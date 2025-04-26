@@ -1,7 +1,10 @@
 import { Button } from "~/components/ui/button";
 import type { Route } from "./+types/home";
+//@ts-ignore
 import innovationImage from "/static/img_fullpng/home_innovation.png";
+//@ts-ignore
 import informationImage from "/static/img_fullpng/home_information.png";
+//@ts-ignore
 import communicationImage from "/static/img_fullpng/home_communication.png";
 import { redirect, type ActionFunctionArgs } from "react-router";
 import { toastSessionStorage } from "~/utils/toast.server";

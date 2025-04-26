@@ -25,7 +25,7 @@ export const meta: MetaFunction<typeof loader> = ({
   ];
 };
 
-const ResumeLayout = () => {
+const FormLayout = () => {
   const headerImage = useImage({ path: "/error" });
   return (
     <>
@@ -37,4 +37,4 @@ const ResumeLayout = () => {
   );
 };
 
-export default ResumeLayout;
+export default FormLayout;

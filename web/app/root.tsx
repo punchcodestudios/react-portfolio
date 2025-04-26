@@ -1,17 +1,13 @@
-import { CookiesProvider } from "react-cookie";
 import {
   data,
-  Link,
   Links,
   Meta,
   Outlet,
-  RouterProvider,
   Scripts,
   ScrollRestoration,
   useFetcher,
   useFetchers,
   useLoaderData,
-  useMatches,
   type ActionFunctionArgs,
   type LinksFunction,
   type LoaderFunctionArgs,
@@ -19,30 +15,31 @@ import {
 // @ts-ignore
 import appStylesheetUrl from "./app.css?url";
 // @ts-ignore
-import tailwindStylesheetUrl from "./styles/tailwind.css?url";
-import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
-import { HoneypotProvider } from "remix-utils/honeypot/react";
-import type { Route } from "./+types/root";
-import Footer from "./components/layout/footer.component";
-import Navbar from "./components/layout/navbar.component";
-import GenericErrorBoundary from "./components/ui/error-boundary";
-import { csrf } from "./utils/csrf.server";
-import { honeypot } from "./utils/honeypot.server";
 import { useForm } from "@conform-to/react";
 import { parse } from "@conform-to/zod";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect } from "react";
+import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
+import { HoneypotProvider } from "remix-utils/honeypot/react";
+import { toast as showToast, Toaster } from "sonner";
 import { z } from "zod";
 import IconService from "~/service/icon-service";
 import { SolidIcon } from "~/utils/enums";
+import { sessionStorage } from "~/utils/session.server";
+import type { Route } from "./+types/root";
 import { ErrorList } from "./components/forms";
+import Footer from "./components/layout/footer.component";
+import Navbar from "./components/layout/navbar.component";
+import GenericErrorBoundary from "./components/ui/error-boundary";
+import UserService from "./service/user-service";
+//@ts-ignore
+import tailwindStylesheetUrl from "./styles/tailwind.css?url";
+import { csrf } from "./utils/csrf.server";
+import { getEnv } from "./utils/env.server";
+import { honeypot } from "./utils/honeypot.server";
 import { combineHeaders, invariantResponse } from "./utils/site";
 import { getTheme, setTheme, type Theme } from "./utils/theme.server";
-import { Toaster, toast as showToast } from "sonner";
-import { getEnv } from "./utils/env.server";
 import { getToast, type Toast } from "./utils/toast.server";
-import { sessionStorage } from "~/utils/session.server";
-import UserService from "./service/user-service";
 
 export const links: LinksFunction = () =>
   [

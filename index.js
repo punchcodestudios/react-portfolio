@@ -106,7 +106,7 @@ console.log("index.js: 105");
 // if (!isDev) {
 app.use(express.static(path.join(__dirname, "/web/build/client")));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "web/build/client"));
+  res.sendFile(path.join(__dirname, "/web/build/client/index.html"));
 });
 // }
 
