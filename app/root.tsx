@@ -67,8 +67,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
     request.headers.get("cookie")
   );
 
-  console.log("root request: ", request);
-  redirect("https://www.punchcodestudios.com");
+  console.log("root request: ", request.headers.get("host"));
+  //redirect("https://www.punchcodestudios.com");
 
   const userId = cookieSession?.get("userId");
   // const response = userId ? await UserService.getById(userId) : null;
@@ -76,7 +76,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   // if (response !== null) {
   //   user = response?.meta.success ? response?.target[0] : null;
   // }
-
+  console.log("root request B");
   return data(
     {
       userId,
@@ -99,7 +99,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
 
-  // console.log("action: ", formData);
+  console.log("action: ", formData);
   invariantResponse(
     formData.get("intent") === "update-theme",
     "Invalid intent",
@@ -131,7 +131,7 @@ export async function action({ request }: ActionFunctionArgs) {
     },
   });
 
-  // console.log("response: ", response);
+  console.log("response: ", response);
   return data({ submission }, response);
 }
 
@@ -163,9 +163,9 @@ function Layout({
 function App() {
   const data = useLoaderData<typeof loader>();
   const theme = useTheme();
-
+  console.log("root request DD");
   return (
-    <Layout theme={theme}>
+    <Layout>
       {/* <div className="flex flex-row justify-center"> */}
       <div className="flex flex-col align-center h-[100vh] max-w-[2100px]">
         {/* <ThemeSwitch userPreference={theme} /> */}
@@ -198,6 +198,7 @@ export default function Root() {
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
+  console.log("error boundary in root: ");
   return (
     <Layout>
       <div
@@ -257,6 +258,7 @@ function ShowToast({ toast }: { toast: Toast }) {
 }
 
 function useTheme() {
+  console.log("inside useTheme");
   const data = useLoaderData<typeof loader>();
   const fetchers = useFetchers();
   const fetcher = fetchers.find(

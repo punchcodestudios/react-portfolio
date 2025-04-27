@@ -6,17 +6,20 @@ import innovationImage from "/images/home_innovation.png";
 import informationImage from "/images/home_information.png";
 //@ts-ignore
 import communicationImage from "/images/home_communication.png";
-import { redirect, type ActionFunctionArgs } from "react-router";
+import {
+  isRouteErrorResponse,
+  redirect,
+  useRouteError,
+  type ActionFunctionArgs,
+} from "react-router";
 import { toastSessionStorage } from "~/utils/toast.server";
 
-export async function loader() {
-  // throw new Response("Error Message from API", { status: 405 });
-}
-
 export async function action({ request, params }: ActionFunctionArgs) {
+  console.log("action: ");
   const toastCookieSession = await toastSessionStorage.getSession(
     request.headers.get("cookie")
   );
+  console.log("toast cookie session: ", toastCookieSession);
   toastCookieSession.set("toast", {
     type: "success",
     title: "Toast Updated",
@@ -210,4 +213,30 @@ export default function Home() {
       </div>
     </div>
   );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h1>
+          Route Error: {error.status} {error.statusText}
+        </h1>
+        <p>{error.data}</p>
+      </div>
+    );
+  } else if (error instanceof Error) {
+    return (
+      <div>
+        <h1>{`Error: ${typeof error}`}</h1>
+        {`${error.toString()}`}
+        <p>{error.message}</p>
+        <p>The stack trace is:</p>
+        <pre>{error.stack}</pre>
+      </div>
+    );
+  } else {
+    return <h1>Unknown Error</h1>;
+  }
 }
