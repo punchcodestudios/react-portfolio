@@ -1,14 +1,46 @@
+import { Button } from "~/components/ui/button";
+import type { Route } from "./+types/about";
+import planningImage from "/images/callout-planning.png";
+import requirementsImage from "/images/callout-requirements.png";
+import designImage from "/images/callout-design.png";
+import codingImage from "/images/callout-coding.png";
+import testingImage from "/images/callout-testing.png";
+import deploymentImage from "/images/callout-deployment.png";
+import maintenanceImage from "/images/callout-maintenance.png";
 import {
   isRouteErrorResponse,
+  redirect,
   useLocation,
   useRouteError,
   type ActionFunctionArgs,
+  type ClientActionFunctionArgs,
 } from "react-router";
-
-import type { Route } from "./+types/about";
+import { toastSessionStorage } from "~/utils/toast.server";
+import useImage from "~/hooks/useImage";
+import HeaderImage from "~/components/layout/header-image";
 import { useState } from "react";
 
-export async function action({ request, params }: ActionFunctionArgs) {}
+export async function action({ request, params }: ActionFunctionArgs) {
+  const toastCookieSession = await toastSessionStorage.getSession(
+    request.headers.get("cookie")
+  );
+  toastCookieSession.set("toast", {
+    type: "success",
+    title: "Toast Updated",
+    description: "This is the description for the toast",
+  });
+
+  return redirect("/", {
+    headers: {
+      "Set-Cookie": await toastSessionStorage.commitSession(toastCookieSession),
+    },
+  });
+}
+
+export async function clientAction({
+  request,
+  params,
+}: ClientActionFunctionArgs) {}
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -23,6 +55,11 @@ export function meta({}: Route.MetaArgs) {
 
 export default function About() {
   const location = useLocation();
+  const headerImage = useImage({ path: location.pathname });
+
+  function handleToast() {
+    console.log("handle toast");
+  }
 
   const [skillSetClosed, setSkillSetClosed] = useState<boolean[]>([
     false,
@@ -42,6 +79,7 @@ export default function About() {
 
   return (
     <div className="flex-flex-col">
+      {headerImage && <HeaderImage headerImage={headerImage}></HeaderImage>}
       <div>
         <div className="flex flex-col mx-auto p-6 pb-0">
           <div className="mx-auto min-h-[50px] max-w-[90%] lg:max-w-[70%]">
@@ -72,7 +110,7 @@ export default function About() {
             <div className="px-6 xl:p-0 xl:shrink-0">
               <img
                 className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src=""
+                src={planningImage}
                 alt=""
               />
             </div>
@@ -157,7 +195,7 @@ export default function About() {
             <div className="px-6 xl:p-0 xl:shrink-0">
               <img
                 className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src=""
+                src={requirementsImage}
                 alt="Modern building architecture"
               />
             </div>
@@ -203,7 +241,7 @@ export default function About() {
             <div className="px-6 xl:p-0 xl:shrink-0">
               <img
                 className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src=""
+                src={designImage}
                 alt="Modern building architecture"
               />
             </div>
@@ -291,7 +329,7 @@ export default function About() {
             <div className="px-6 xl:p-0 xl:shrink-0">
               <img
                 className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src=""
+                src={codingImage}
                 alt="Modern building architecture"
               />
             </div>
@@ -337,7 +375,7 @@ export default function About() {
             <div className="px-6 xl:p-0 xl:shrink-0">
               <img
                 className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src=""
+                src={testingImage}
                 alt="Modern building architecture"
               />
             </div>
@@ -427,7 +465,7 @@ export default function About() {
             <div className="px-6 xl:p-0 xl:shrink-0">
               <img
                 className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src=""
+                src={deploymentImage}
                 alt="Modern building architecture"
               />
             </div>
@@ -473,7 +511,7 @@ export default function About() {
             <div className="px-6 xl:p-0 xl:shrink-0">
               <img
                 className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src=""
+                src={maintenanceImage}
                 alt="Modern building architecture"
               />
             </div>
@@ -502,6 +540,20 @@ export default function About() {
               </div>
             </div>
           </div>
+          {/* <div className="px-6 md:flex md:flex-row xl:p-0">
+            <Button
+              variant={"secondary"}
+              className="my-2 w-full md:mb-0 md:me-2"
+            >
+              Download Technical Specs
+            </Button>
+            <Button
+              variant={"secondary"}
+              className="my-2 w-full md:mb-0 md:ms-2"
+            >
+              Learn More {">>"}
+            </Button>
+          </div> */}
           <div className="mt-2 px-4 xl:p-0">
             <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
               <summary
