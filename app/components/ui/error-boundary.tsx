@@ -39,7 +39,9 @@ export function GenericErrorBoundary({
   const error = useRouteError();
   const params = useParams();
 
-  console.log("typeof document", typeof document);
+  if (error === undefined) {
+    return "";
+  }
 
   if (typeof document !== "undefined") {
     console.error(JSON.stringify(error));

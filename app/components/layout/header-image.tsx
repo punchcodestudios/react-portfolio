@@ -25,7 +25,7 @@ export const PortfolioImage = ({ headerImage }: Props) => {
   return (
     <img
       id={headerImage.id}
-      src={`static/img/${headerImage.name}`}
+      src={`/images/${headerImage.name}`}
       className="rounded-[50%] object-fill"
       alt={headerImage.description}
       title={headerImage.title}

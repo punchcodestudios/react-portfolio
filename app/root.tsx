@@ -4,6 +4,7 @@ import {
   Links,
   Meta,
   Outlet,
+  redirect,
   Scripts,
   ScrollRestoration,
   useFetcher,
@@ -65,6 +66,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const cookieSession = await sessionStorage.getSession(
     request.headers.get("cookie")
   );
+
+  console.log("root request: ", request);
+  redirect("https://www.punchcodestudios.com");
 
   const userId = cookieSession?.get("userId");
   // const response = userId ? await UserService.getById(userId) : null;

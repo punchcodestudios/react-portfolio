@@ -9,10 +9,12 @@ import type { ScreenSize } from "../entities/site";
  */
 
 export function getErrorMessage(error: unknown): string {
-  if (!error) {
+  if (!error || error === undefined) {
     return "";
   }
+
   if (typeof error === "string") return error;
+
   if (
     error &&
     typeof error === "object" &&
