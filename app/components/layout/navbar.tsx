@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, NavLink, useMatches } from "react-router";
 import { useOptionalUser } from "~/utils/user";
-import logo from "/static/img_fullpng/logo.png";
+import logo from "/images/logo.png";
 
 const Navbar = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
