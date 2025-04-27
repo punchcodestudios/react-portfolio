@@ -1,0 +1,93 @@
+[
+  {
+    "id": "0",
+    "ref": "",
+    "title": "unable to load image",
+    "description": "the selected image was not found",
+    "name": "image-not-found.png",
+    "properties": {
+      "width": 0,
+      "height": 0,
+      "resolution": 0,
+      "fileSize": 0
+    }
+  },
+  {
+    "id": "1",
+    "ref": "/resume",
+    "name": "resume.png",
+    "title": "Patrick Schandler resume",
+    "description": "header image for the resume page of punchcodestudios.com",
+    "properties": {
+      "width": 0,
+      "height": 0,
+      "resolution": 0,
+      "fileSize": 0
+    }
+  },
+  {
+    "id": "2",
+    "ref": "/about",
+    "name": "about-this-site.png",
+    "title": "About the punchcode studios website",
+    "description": "Find information about this site at punchcodestudios.com",
+    "properties": {
+      "width": 0,
+      "height": 0,
+      "resolution": 0,
+      "fileSize": 0
+    }
+  },
+  {
+    "id": "3",
+    "ref": "/products",
+    "name": "gallery.png",
+    "title": "Punchcode Studios products",
+    "description": "Find information about the various products Punchcode Studios has to offer",
+    "properties": {
+      "width": 0,
+      "height": 0,
+      "resolution": 0,
+      "fileSize": 0
+    }
+  },
+  {
+    "id": "4",
+    "ref": "/error",
+    "name": "error.png",
+    "title": "Error",
+    "description": "An error has occurred. Please return to the homepage",
+    "properties": {
+      "width": 0,
+      "height": 0,
+      "resolution": 0,
+      "fileSize": 0
+    }
+  },
+  {
+    "id": "5",
+    "ref": "/users/kody",
+    "name": "resume.png",
+    "title": "Punchcode Studios products",
+    "description": "Find information about the various products Punchcode Studios has to offer",
+    "properties": {
+      "width": 0,
+      "height": 0,
+      "resolution": 0,
+      "fileSize": 0
+    }
+  },
+  {
+    "id": "6",
+    "ref": "/self",
+    "name": "self_portrait.png",
+    "title": "Portrait",
+    "description": "Self portrait image",
+    "properties": {
+      "width": 0,
+      "height": 0,
+      "resolution": 0,
+      "fileSize": 0
+    }
+  }
+]

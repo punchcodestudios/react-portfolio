@@ -12,7 +12,7 @@ export const HeaderImage = ({ headerImage }: Props) => {
     >
       <img
         id={headerImage.id}
-        src={`/static/img/${headerImage.name}`}
+        src={`/images/${headerImage.name}`}
         className="h-auto max-w-full object-cover"
         alt={headerImage.description}
         title={headerImage.title}
