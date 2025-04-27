@@ -4,8 +4,8 @@ import {
   useRouteError,
   type ActionFunctionArgs,
 } from "react-router";
-import type { Route } from "./+types/about";
 
+import type { Route } from "./+types/about";
 import { useState } from "react";
 
 export async function action({ request, params }: ActionFunctionArgs) {}
