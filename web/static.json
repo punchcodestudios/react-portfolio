@@ -1,0 +1,7 @@
+{
+  "root": "build",
+  "routes": {
+    "/**": "/client/index.html"
+  },
+  "clean_urls": false
+}
