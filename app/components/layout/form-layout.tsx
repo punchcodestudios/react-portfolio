@@ -3,7 +3,7 @@ import { Outlet } from "react-router";
 
 const FormLayout = () => {
   return (
-    <div className="form-wrapper">
+    <div className="w-[90%]">
       <Outlet></Outlet>
     </div>
   );
