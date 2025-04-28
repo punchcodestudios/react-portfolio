@@ -1,5 +1,5 @@
-// import { sendContactEmail } from "~/api/emailApi";
-// import type { ApiResponse } from "~/entities/api";
+import { sendContactEmail } from "~/api/emailApi";
+import type { ApiResponse } from "~/entities/api";
 import type {
   Contact,
   ContactRequest,
@@ -9,22 +9,21 @@ import type {
 export const emailService = {
   sendContactEmail: async (request: ContactRequest) => {
     console.log("emailservice. send contact email", request);
-    // try {
-    //   const response = await sendContactEmail(request);
-    //   return Promise.resolve(mapContact(response));
-    // } catch (error) {
-    //   //console.log("error in emailService: ", error);
-    //   throw error;
-    // }
+    try {
+      const response = await sendContactEmail(request);
+      return Promise.resolve(mapContact(response));
+    } catch (error) {
+      throw error;
+    }
   },
 };
 
-// function mapContact(item: ApiResponse<Contact>): ContactResponse {
-//   const res = {
-//     target: item.content.target,
-//     meta: item.content.meta,
-//     error: item.content.error,
-//   } as ContactResponse;
+function mapContact(item: ApiResponse<Contact>): ContactResponse {
+  const res = {
+    target: item.content.target,
+    meta: item.content.meta,
+    error: item.content.error,
+  } as ContactResponse;
 
-//   return res;
-// }
+  return res;
+}
