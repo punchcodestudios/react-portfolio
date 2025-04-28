@@ -1,13 +1,7 @@
-import type { Route } from "./+types/skills";
-
 import resumeService from "~/service/resume-service";
-import type {
-  ResumeResponse,
-  Skill,
-  SkillRequest,
-  SkillResponse,
-} from "~/entities/resume";
-// import SkillsContent from "../components/resume/skills-content";
+import type { Route } from "./+types/skills";
+import type { Skill, SkillRequest } from "~/entities/resume";
+import SkillsContent from "~/components/resume/skills-content";
 import { SolidIcon } from "~/utils/enums";
 import GenericErrorBoundary from "~/components/ui/error-boundary";
 import ApiError from "~/components/errors/api-error";
@@ -22,29 +16,29 @@ export interface SkillContentItem {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  // const request: SkillRequest = { params: { skillsExclude: [] } };
-  // const skillsData = await resumeService.getAllSkills(request);
-  // return { ...skillsData };
+  const request: SkillRequest = { params: { skillsExclude: [] } };
+  const skillsData = await resumeService.getAllSkills(request);
+  return { ...skillsData };
 }
 
 export async function action({ request }: Route.ActionArgs) {
   // just an example for when i need to submit forms
-  // const formData = await request.formData();
-  // const a = formData.get("textboxA");
-  // if (typeof a !== "string") {
-  //   throw new Response("must be a string", { status: 400 });
-  // }
+  const formData = await request.formData();
+  const a = formData.get("textboxA");
+
+  if (typeof a !== "string") {
+    throw new Response("must be a string", { status: 400 });
+  }
 }
 
-// const Skills = ({ loaderData }: Route.ComponentProps) => {
-const Skills = () => {
-  // if (!loaderData.meta.success) {
-  //   return <ApiError error={loaderData.error}></ApiError>;
-  // }
+const Skills = ({ loaderData }: Route.ComponentProps) => {
+  if (!loaderData.meta.success) {
+    return <ApiError error={loaderData.error}></ApiError>;
+  }
 
-  // if (!loaderData.target) {
-  //   return null;
-  // }
+  if (!loaderData.target) {
+    return null;
+  }
 
   function filterSkills() {
     let backendItems: SkillContentItem;
@@ -56,52 +50,52 @@ const Skills = () => {
 
     backendItems = {
       iconType: SolidIcon.BACKEND,
-      skillList: [] as Skill[],
-      // loaderData.target.filter(
-      //   (d: Skill) =>
-      //     d.skill_types[0].name.toLowerCase() === "back end development"
-      // ) || ([] as Skill[]),
+      skillList:
+        loaderData.target.filter(
+          (d: Skill) =>
+            d.skill_types[0].name.toLowerCase() === "back end development"
+        ) || ([] as Skill[]),
     };
 
     frontendItems = {
       iconType: SolidIcon.FRONTEND,
-      skillList: [] as Skill[],
-      // loaderData.target.filter(
-      //   (d: Skill) =>
-      //     d.skill_types[0].name.toLowerCase() === "front end development"
-      // ) || ([] as Skill[]),
+      skillList:
+        loaderData.target.filter(
+          (d: Skill) =>
+            d.skill_types[0].name.toLowerCase() === "front end development"
+        ) || ([] as Skill[]),
     };
 
     databaseItems = {
       iconType: SolidIcon.DATABASE,
-      skillList: [] as Skill[],
-      // loaderData.target.filter(
-      //   (d: Skill) => d.skill_types[0].name.toLowerCase() === "database"
-      // ) || ([] as Skill[]),
+      skillList:
+        loaderData.target.filter(
+          (d: Skill) => d.skill_types[0].name.toLowerCase() === "database"
+        ) || ([] as Skill[]),
     };
 
     infrastructureItems = {
       iconType: SolidIcon.INFRASTRUCTURE,
-      skillList: [] as Skill[],
-      // loaderData.target.filter(
-      //   (d: Skill) => d.skill_types[0].name.toLowerCase() === "infrastructure"
-      // ) || ([] as Skill[]),
+      skillList:
+        loaderData.target.filter(
+          (d: Skill) => d.skill_types[0].name.toLowerCase() === "infrastructure"
+        ) || ([] as Skill[]),
     };
 
     designItems = {
       iconType: SolidIcon.DESIGN,
-      skillList: [] as Skill[],
-      // loaderData.target.filter(
-      //   (d: Skill) => d.skill_types[0].name.toLowerCase() === "design"
-      // ) || ([] as Skill[]),
+      skillList:
+        loaderData.target.filter(
+          (d: Skill) => d.skill_types[0].name.toLowerCase() === "design"
+        ) || ([] as Skill[]),
     };
 
     softSkillsItems = {
       iconType: SolidIcon.SOFTSKILLS,
-      skillList: [] as Skill[],
-      // loaderData.target.filter(
-      //   (d: Skill) => d.skill_types[0].name.toLowerCase() === "soft skills"
-      // ) || ([] as Skill[]),
+      skillList:
+        loaderData.target.filter(
+          (d: Skill) => d.skill_types[0].name.toLowerCase() === "soft skills"
+        ) || ([] as Skill[]),
     };
 
     return [

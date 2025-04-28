@@ -1,8 +1,7 @@
-import type { Route } from "./+types/experience";
 import { useEffect, useState } from "react";
 import Scrollable from "~/components/ui/scrollable";
 import { TechBadge } from "~/components/ui/tech-badge";
-// import ApiError from "~/components/errors/api-error";
+import ApiError from "~/components/errors/api-error";
 import type {
   Experience,
   ExperienceRequest,
@@ -10,16 +9,16 @@ import type {
 } from "~/entities/resume";
 import resumeService from "~/service/resume-service";
 import { formatDate } from "~/utils/site";
+import type { Route } from "./+types/experience";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import IconService from "~/service/icon-service";
 import { SolidIcon } from "~/utils/enums";
-import ApiError from "~/components/errors/api-error";
 
 export async function loader({ params }: Route.LoaderArgs) {
-  //   // const request: ExperienceRequest = { params: {} };
-  //   // const experienceData: ExperienceResponse =
-  //   //   await resumeService.getAllExperience(request);
-  //   // return { ...experienceData };
+  const request: ExperienceRequest = { params: {} };
+  const experienceData: ExperienceResponse =
+    await resumeService.getAllExperience(request);
+  return { ...experienceData };
 }
 
 const Accordion = ({
@@ -71,8 +70,7 @@ const Accordion = ({
   );
 };
 
-// const Experience = ({ loaderData }: Route.ComponentProps) => {
-const Experience = () => {
+const Experience = ({ loaderData }: Route.ComponentProps) => {
   const [expandedId, setExpandedId] = useState<string>("");
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? "" : id);
@@ -89,15 +87,15 @@ const Experience = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   });
-  // if (!loaderData.meta.success) {
-  //   return <ApiError error={loaderData.error}></ApiError>;
-  // }
+  if (!loaderData.meta.success) {
+    return <ApiError error={loaderData.error}></ApiError>;
+  }
 
-  // if (!loaderData.target) {
-  //   return null;
-  // }
+  if (!loaderData.target) {
+    return null;
+  }
 
-  const data: Experience[] = []; //loaderData.target;
+  const data = loaderData.target;
 
   const accordionData = [
     {
