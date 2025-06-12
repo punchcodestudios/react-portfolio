@@ -26,7 +26,7 @@ export const meta: MetaFunction<typeof loader> = ({
 const ResumeLayout = () => {
   const headerImage = useImage({ path: "/resume" });
   const matches = useMatches();
-  console.log("matches from resume layout: ", matches);
+  // console.log("matches from resume layout: ", matches);
 
   return (
     <>

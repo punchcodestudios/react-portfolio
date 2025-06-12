@@ -1,5 +1,6 @@
 import { Button } from "~/components/ui/button";
 import type { Route } from "./+types/home";
+import IconService from "~/service/icon-service";
 //@ts-ignore
 import innovationImage from "/images/home_innovation.png";
 //@ts-ignore
@@ -8,18 +9,22 @@ import informationImage from "/images/home_information.png";
 import communicationImage from "/images/home_communication.png";
 import {
   isRouteErrorResponse,
+  Link,
   redirect,
   useRouteError,
   type ActionFunctionArgs,
 } from "react-router";
 import { toastSessionStorage } from "~/utils/toast.server";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { SolidIcon } from "~/utils/enums";
+import { getDateStampForFilename } from "~/utils/date";
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  console.log("action: ");
+  // console.log("action: ");
   const toastCookieSession = await toastSessionStorage.getSession(
     request.headers.get("cookie")
   );
-  console.log("toast cookie session: ", toastCookieSession);
+  // console.log("toast cookie session: ", toastCookieSession);
   toastCookieSession.set("toast", {
     type: "success",
     title: "Toast Updated",
@@ -45,9 +50,18 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  function handleToast() {
-    console.log("handle toast");
-  }
+  const downloadResume = () => {
+    fetch("/docs/CURRENT_RESUME_2025.docx").then((response) => {
+      response.blob().then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `patrick_schandler_resume_${getDateStampForFilename()}`;
+        a.click();
+        window.URL.revokeObjectURL(url); // Clean up
+      });
+    });
+  };
 
   return (
     <div className="flex-flex-col">
@@ -57,25 +71,31 @@ export default function Home() {
             <h1 className="font-brand uppercase text-secondary mt-3 xl:mt-7">
               punchcode studios
             </h1>
-            <h2 className="text-sm text-siteWhite font-light tracking-wide font-header">
+            <h2 className="text-sm text-white font-light tracking-wide font-header">
               design | develop | test | deploy | maintain
             </h2>
           </div>
         </div>
       </div>
-      <div className="flex flex-col mx-auto p-6 pb-0">
-        <div className="mx-auto min-h-[50px] max-w-[90%] lg:max-w-[70%]">
+      <div className="flex flex-col mx-auto pb-0">
+        <div className="mx-auto mt-10 min-h-[50px] max-w-[90%] lg:max-w-[70%]">
           <div className="xl:flex">
-            <p className="text-siteBlack text-center md:text-start">
-              Punchcode Studios is a full service software development company.
-              We offer robust solutions tailored to your individual needs with
-              development packages that will fit any budget.
+            <p className="text-center md:text-start">
+              Punchcode Studios is a full service software development company,
+              providing robust solutions tailored to your individual needs with
+              development packages that will fit any budget. At Punchcode
+              Studios, we believe that clear, concise communication is as
+              essential to delivering an exceptional product as the code we
+              write. Our attention to detail in every step of the process is
+              what sets us apart and makes Punchcode Studios the clear choice
+              when deciding on how to best fulfill your software development
+              needs.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col mx-auto my-5 p-6 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
+      <div className="flex flex-col mx-auto my-5 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-around xl:p-20 ">
         <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
           <div className="xl:flex">
             <div className="px-6 xl:p-0 xl:shrink-0">
@@ -85,15 +105,15 @@ export default function Home() {
                 alt="Modern building architecture"
               />
             </div>
-            <div className="p-6 xl:p-0 mt-2 xl:px-5 xl:mt-0">
+            <div className="p-6 xl:p-0 mt-2 xl:px-5 xl:mt-0 xl:ms-10">
               <div className="mb-3 xl:w-120">
-                <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
+                <h2 className="font-semibold tracking-wide text-primary font-header uppercase">
                   Inspiration
                 </h2>
-                <p className="mt-1 block text-xl leading-tight font-medium text-black">
+                <p className="mt-1 block text-xl leading-tight font-medium">
                   Adding value to your team
                 </p>
-                <p className="my-4 text-gray-500">
+                <p className="my-4">
                   As a fully dedicated member of your team, or as an independant
                   contractor solving a specific problem, Punchcode Studios
                   brings more than fifteen years of expertice and passion for
@@ -101,111 +121,140 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="md:flex md:flex-row">
-                <Button
-                  variant={"secondary"}
-                  className="my-2 w-full md:mb-0 md:me-2"
-                >
-                  Download Resume
-                </Button>
-                <Button
-                  variant={"secondary"}
-                  className="my-2 w-full md:mb-0 md:ms-2"
-                >
-                  Learn More {">>"}
-                </Button>
+              <div className="md:flex md:flex-row md:justify-between">
+                <div className="w-full mb-3 md:w-[45%]">
+                  <Button
+                    variant="secondary"
+                    size="md"
+                    onClick={downloadResume}
+                  >
+                    <FontAwesomeIcon
+                      icon={IconService.getSolid(SolidIcon.FILE_DOWNLOAD)}
+                      className="text-lg me-5"
+                    ></FontAwesomeIcon>
+                    Download Resume
+                  </Button>
+                </div>
+                <div className="w-full mb-3 md:w-[45%]">
+                  <Link to={"/resume"}>
+                    <Button variant="secondary" size="md">
+                      Learn More
+                      <FontAwesomeIcon
+                        icon={IconService.getSolid(SolidIcon.FORWARD)}
+                        className="text-lg ms-5"
+                      ></FontAwesomeIcon>
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="flex flex-col mx-auto my-5 p-6 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
+
+      <div className="flex flex-col mx-auto my-5 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
         <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
           <div className="flex flex-col-reverse xl:flex-row">
-            <div className="p-6 xl:p-0 mt-3 xl:pe-5 xl:mt-0">
+            <div className="p-6 xl:p-0 mt-2 xl:px-5 xl:mt-0 xl:me-10">
               <div className="mb-3 xl:w-120">
-                <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
+                <h2 className="font-semibold tracking-wide text-primary font-header uppercase">
                   Innovation
                 </h2>
-                <a
-                  href="#"
-                  className="mt-1 block text-xl leading-tight font-medium text-black hover:underline"
-                >
-                  Keeping up with the latest technology
-                </a>
-                <p className="my-4 text-gray-500">
-                  In this constantly changing landscape, my passion for
-                  innovation is just simply the best. There is no other person
-                  like me and the technology stack used in this website sets me
-                  apart from all of the other idiots.
+                <p className="mt-1 block text-xl leading-tight font-medium text-black">
+                  Keeping up with industry standards
+                </p>
+                <p className="my-4">
+                  Continuous growth is a challenge that every business faces in
+                  today's marketplace. Punchcode Studios is passionate about
+                  adapting to the constantly evoloving landscape of this modern
+                  age, and is commited to providing reliable software solutions
+                  that will scale with your growing needs.
                 </p>
               </div>
-              <div className="md:flex md:flex-row">
-                <Button
-                  variant={"secondary"}
-                  className="my-2 w-full md:mb-0 md:me-2"
-                >
-                  Download Technical Specs
-                </Button>
-                <Button
-                  variant={"secondary"}
-                  className="my-2 w-full md:mb-0 md:ms-2"
-                >
-                  Learn More {">>"}
-                </Button>
+              <div className="md:flex md:flex-row  md:justify-between">
+                <div className="w-full mb-3 md:w-[45%]">
+                  <Button variant="secondary" size="md">
+                    <FontAwesomeIcon
+                      icon={IconService.getSolid(SolidIcon.FILE_DOWNLOAD)}
+                      className="text-lg me-5"
+                    ></FontAwesomeIcon>
+                    Download Technical Specs
+                  </Button>
+                </div>
+                <div className="w-full mb-3 md:w-[45%]">
+                  <Link to={"/about"}>
+                    <Button variant="secondary" size="md">
+                      Learn More
+                      <FontAwesomeIcon
+                        icon={IconService.getSolid(SolidIcon.FORWARD)}
+                        className="text-lg ms-5"
+                      ></FontAwesomeIcon>
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
             <div className="px-6 xl:p-0 xl:shrink-0">
               <img
                 className="h-32 w-full object-cover xl:w-96 xl:h-full"
                 src={informationImage}
-                alt="Modern building architecture"
+                alt="blue and orange geometric image illustrating concept of central processing unit and related circuits"
               />
             </div>
           </div>
         </div>
       </div>
-      <div className="flex flex-col mx-auto my-5 p-6 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
+      <div className="flex flex-col mx-auto my-5 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
         <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
           <div className="xl:flex">
             <div className="px-6 xl:p-0 xl:shrink-0">
               <img
                 className="h-32 w-full object-cover xl:w-96 xl:h-full"
                 src={communicationImage}
-                alt="Modern building architecture"
+                alt="image of people gathered together to interact with each other"
+                title="collaboration image"
               />
             </div>
-            <div className="p-6 xl:p-0 mt-3 xl:px-5 xl:mt-0">
+            <div className="p-6 xl:p-0 mt-2 xl:px-5 xl:mt-0 xl:ms-10">
               <div className="mb-3 xl:w-120">
-                <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
+                <h2 className="font-semibold tracking-wide text-primary font-header uppercase">
                   Collaboration
                 </h2>
-                <a
-                  href="#"
-                  className="mt-1 block text-xl leading-tight font-medium text-black hover:underline"
-                >
+                <p className="mt-1 block text-xl leading-tight font-medium">
                   Communication is key to success
-                </a>
-                <p className="my-4 text-gray-500">
-                  As either a fully dedicated member of your team, or as an
-                  independant contractor for a specific project, I can bring my
-                  expertice and passion for state of the art development to your
-                  organiztion.
+                </p>
+                <p className="my-4">
+                  Effective communication is at the heart of uncovering the
+                  specific requirements that a well-designed software should
+                  meet. Punchcode Studios listens first, then is dedicated to
+                  clear and consice communication for collaboration with
+                  stakeholders at each phase of the Software Development Life
+                  Cycle.
                 </p>
               </div>
-              <div className="md:flex md:flex-row">
-                <Button
-                  variant={"secondary"}
-                  className="my-2 w-full md:mb-0 md:me-2"
-                >
-                  Schedule a live demo
-                </Button>
-                <Button
-                  variant={"secondary"}
-                  className="my-2 w-full md:mb-0 md:ms-2"
-                >
-                  Send a note
-                </Button>
+              <div className="md:flex md:flex-row md:justify-between">
+                <div className="w-full mb-3 md:w-[45%]">
+                  <Link to={"/contact"}>
+                    <Button variant="secondary" size="md">
+                      Schedule a Live Demo
+                      <FontAwesomeIcon
+                        icon={IconService.getSolid(SolidIcon.FORWARD)}
+                        className="text-lg ms-5"
+                      ></FontAwesomeIcon>
+                    </Button>
+                  </Link>
+                </div>
+                <div className="w-full mb-3 md:w-[45%]">
+                  <Link to={"/contact"}>
+                    <Button variant="secondary" size="md">
+                      Send a Note
+                      <FontAwesomeIcon
+                        icon={IconService.getSolid(SolidIcon.FORWARD)}
+                        className="text-lg ms-5"
+                      ></FontAwesomeIcon>
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

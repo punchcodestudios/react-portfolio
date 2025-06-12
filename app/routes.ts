@@ -8,9 +8,9 @@ import {
 export default [
   index("routes/home.tsx"),
   route("about", "routes/about.tsx"),
-
   route("privacy-policy", "routes/privacy-policy.tsx"),
   route("terms-of-use", "routes/terms-of-use.tsx"),
+  route("ui/index", "routes/ui/index.tsx"),
   layout("routes/form-layout.tsx", [route("contact", "routes/contact.tsx")]),
   layout("routes/resume/resume-layout.tsx", [
     route("resume", "routes/resume/summary.tsx"),

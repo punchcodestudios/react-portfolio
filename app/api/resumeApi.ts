@@ -32,11 +32,29 @@ export const getAllSkills = async (
   const client = new ApiClient<Skill>("resume/get-all-skills", request);
   try {
     return client.getAll().then((response) => {
-      console.log("resumeApi.getAllSkills response: ", response);
+      // console.log("resumeApi.getAllSkills response: ", response);
       return Promise.resolve(response);
     });
   } catch (error: any) {
-    console.log("error response: ", error);
+    // console.log("error response: ", error);
+    return Promise.reject(error);
+  }
+};
+
+export const getSkillsBySlug = async (
+  request: SkillRequest
+): Promise<ApiResponse<Skill>> => {
+  const client = new ApiClient<Skill>(
+    `resume/get-skills-by-slug/${request.params.slug}`
+  );
+  // console.log("getSkillsBySlug ResumeApi: ", request.params.slug);
+  try {
+    return client.getAll().then((response) => {
+      // console.log("resumeApi.getSkillsBySlug response: ", response);
+      return Promise.resolve(response);
+    });
+  } catch (error: any) {
+    //console.log("error response: ", error);
     return Promise.reject(error);
   }
 };

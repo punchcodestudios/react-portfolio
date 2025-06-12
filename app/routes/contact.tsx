@@ -89,7 +89,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     schema: (intent) =>
       ContactSchema.transform((data, ctx) => {
         if (intent !== "submit") {
-          console.log("intent: ", intent);
+          // console.log("intent: ", intent);
           return { ...data };
         }
 
@@ -127,11 +127,11 @@ export async function action({ request, params }: ActionFunctionArgs) {
   });
 
   if (submission.intent !== "submit") {
-    console.log("submisssion.intent: ", submission.intent);
+    // console.log("submisssion.intent: ", submission.intent);
     return data({ status: "idle", submission } as const);
   }
   if (!submission.value) {
-    console.log("submission.value: ", submission.value);
+    // console.log("submission.value: ", submission.value);
     return data({ status: "error", submission } as const, { status: 400 });
   }
 
@@ -186,7 +186,7 @@ const Contact = () => {
   const [selectedSubject, setSelectedSubject] = useState<string>("");
 
   const handleContactMethod = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleContactMethod: ", event);
+    // console.log("handleContactMethod: ", event);
     setSelectedContactMethod(event.target.value);
   };
 
@@ -195,9 +195,9 @@ const Contact = () => {
     constraint: getFieldsetConstraint(ContactSchema),
     lastSubmission: actionData?.submission,
     onValidate({ formData }) {
-      console.log("form data: ", formData);
+      // console.log("form data: ", formData);
       const validation = parse(formData, { schema: ContactSchema });
-      console.log(validation);
+      // console.log(validation);
       return validation;
     },
     defaultValue: {
@@ -423,10 +423,10 @@ const Contact = () => {
             <Button
               form={form.id}
               type="submit"
-              variant="outline"
+              variant="secondary"
               name="intent"
               value="submit"
-              className="w-full bg-secondary"
+              className=""
             >
               Send Message
             </Button>

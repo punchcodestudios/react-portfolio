@@ -8,7 +8,7 @@ export const honeypot = new Honeypot({
 });
 
 export async function checkForHoneypot(formData: FormData) {
-  console.log("honeypot form data: ", formData);
+  // console.log("honeypot form data: ", formData);
   try {
     // honeypot.check(formData);
     await honeypot.check(formData);

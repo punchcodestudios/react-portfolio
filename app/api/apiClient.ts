@@ -2,10 +2,10 @@ import axios, { AxiosError } from "axios";
 import type { ApiErrorResponse, ApiResponse } from "~/entities/api";
 
 const axiosInstance = axios.create({
-  // baseURL: "http://localhost:3000/api",
-  baseURL: process.env.API_BASE_URL || "http://localhost:3000/api",
+  baseURL: "http://localhost:3000/api",
   withCredentials: true,
 });
+
 axios.interceptors.request.use(
   async (config) => {
     return config;
@@ -51,12 +51,12 @@ class ApiClient<T> {
       });
       return Promise.resolve({ ...response.data });
     } catch (error: any) {
-      // console.log("apiClient.getAll: error", { error });
+      console.log("apiClient.getAll: error", { error });
       if (typeof error == "string") {
         return Promise.reject(error);
       }
       if (error instanceof AxiosError) {
-        console.log("axios error: ", error);
+        // console.log("axios error: ", error);
         return Promise.reject(error);
       }
       return Promise.reject({ ...error } as ApiErrorResponse);
@@ -65,7 +65,7 @@ class ApiClient<T> {
 
   get = async (id: number | string): Promise<ApiResponse<T>> => {
     try {
-      console.log("endpoint: ", this.endpoint + "/" + id);
+      // console.log("endpoint: ", this.endpoint + "/" + id);
       const response = await axiosInstance.get(this.endpoint + "/" + id);
       return Promise.resolve({ ...response.data });
     } catch (error: any) {
@@ -79,7 +79,7 @@ class ApiClient<T> {
       const response = await axiosInstance.post(this.endpoint, entity);
       return Promise.resolve({ ...response.data });
     } catch (error: any) {
-      console.log("apiClient.post: error", error);
+      // console.log("apiClient.post: error", error);
       return Promise.reject({ ...error } as ApiErrorResponse);
     }
   };

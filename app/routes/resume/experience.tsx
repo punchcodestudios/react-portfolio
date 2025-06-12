@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Scrollable from "~/components/ui/scrollable";
-import { TechBadge } from "~/components/ui/tech-badge";
+import { Badge } from "~/components/ui/badge";
 import ApiError from "~/components/errors/api-error";
 import type {
   Experience,
@@ -13,6 +13,7 @@ import type { Route } from "./+types/experience";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import IconService from "~/service/icon-service";
 import { SolidIcon } from "~/utils/enums";
+import GenericErrorBoundary from "~/components/ui/error-boundary";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const request: ExperienceRequest = { params: {} };
@@ -75,11 +76,11 @@ const Experience = ({ loaderData }: Route.ComponentProps) => {
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? "" : id);
     if (id == "") {
-      console.log("ExpandedID: ", expandedId);
+      // console.log("ExpandedID: ", expandedId);
       window.scrollTo(0, 0);
     }
     if (expandedId === id) {
-      console.log("ExpandedID: ", expandedId);
+      // console.log("ExpandedID: ", expandedId);
       window.scrollTo(100, 0);
     }
   };
@@ -122,7 +123,7 @@ const Experience = ({ loaderData }: Route.ComponentProps) => {
 
   return accordionData.map((item) => {
     return (
-      <Scrollable id={item.id} timeout={1000}>
+      <Scrollable id={item.id} timeout={1000} key={`${item.id}_scrollableKey`}>
         <Accordion
           {...item}
           key={item.id}
@@ -142,8 +143,6 @@ const ResumeContent = ({ data }: { data: Experience }) => {
       setIsMobile(window.innerWidth < 1280);
     };
     window.addEventListener("resize", handleResize);
-
-    console.log("isMobile: ", isMobile);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -157,8 +156,10 @@ const ResumeContent = ({ data }: { data: Experience }) => {
 const ResumeHeader = ({ data }: { data: Experience }) => {
   return (
     <div className="p-6 flex flex-col">
-      <h2 className="text-siteWhite font-header">{data.company_name}</h2>
-      <p className="text-siteWhite font-header font-bold">{data.position}</p>
+      <h2 className="text-siteWhite text-md font-header font-bold">
+        {data.company_name}
+      </h2>
+      <p className="text-siteWhite font-header">{data.position}</p>
       <p className="text-siteWhite font-text">
         {formatDate(data.start_date)} -{" "}
         {data.end_date == "" ? "present" : formatDate(data.end_date)}
@@ -173,20 +174,28 @@ const ExperienceContent = ({ data }: { data: Experience }) => {
     <div className="flex flex-row bg-siteWhite flex-wrap p-5">
       <div className="lg:w-[30%] flex flex-wrap lg:flex-col">
         {data.skills.map((skill) => {
-          return <TechBadge key={skill.refid} text={skill.name}></TechBadge>;
+          return <Badge key={skill.refid}>{skill.name}</Badge>;
         })}
       </div>
       <div className="lg:w-[70%] flex flex-col ps-3">
-        {data.experience_line_items.map((item) => {
-          return (
-            <div
-              className="mb-3 p-6 border-b-2 border-primary"
-              key={item.refid}
-            >
-              <p>{item.text}</p>
-            </div>
-          );
-        })}
+        {data.company_name.includes("eImagine") ? (
+          <EImagineLineItems></EImagineLineItems>
+        ) : (
+          data.experience_line_items.map((item, index) => {
+            return (
+              <div
+                className={`mb-3 p-6 ${
+                  index < data.experience_line_items.length - 1
+                    ? "border-b-2 border-primary"
+                    : ""
+                }`}
+                key={item.refid}
+              >
+                <p>{item.text}</p>
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );
@@ -208,23 +217,182 @@ const ExperienceContentMobile = ({ data }: { data: Experience }) => {
         {expandedId == data.refid && (
           <div className="flex flex-wrap m-5">
             {data.skills.map((skill) => {
-              return (
-                <TechBadge key={skill.refid} text={skill.name}></TechBadge>
-              );
+              return <Badge key={skill.refid}>{skill.name}</Badge>;
             })}
           </div>
         )}
         <div className="flex flex-col p-3">
-          {data.experience_line_items.map((item) => {
-            return (
-              <div
-                className="mb-3 p-3 border-b-2 border-primary"
-                key={item.refid}
-              >
-                <p>{item.text}</p>
-              </div>
-            );
-          })}
+          {data.company_name.includes("eImagine") ? (
+            <EImagineLineItems></EImagineLineItems>
+          ) : (
+            data.experience_line_items.map((item, index) => {
+              return (
+                <div
+                  key={item.refid}
+                  className={`mb-3 p-6 ${
+                    index < data.experience_line_items.length - 1
+                      ? "border-b-2 border-primary"
+                      : ""
+                  }`}
+                >
+                  <p>{item.text}</p>
+                </div>
+              );
+            })
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const EImagineLineItems = () => {
+  return (
+    <div className="flex flex-col items-center">
+      <div className="w-[95%] xl:w-[80%]">
+        <p className="font-semibold my-3 md:my-5">
+          As the primary developer, refactor legacy Application Management
+          System into a modern tech-stack. Application serves as the entry point
+          for individuals applying for services eventually managed by the
+          primary Case Management System.
+        </p>
+        <div className="ms-10 mb-10 lg:w-[90%]">
+          <ul className="list-disc list-outside">
+            <li className="mb-3 me-8 md:me-0">
+              Legacy Application Management System utilizes .NET4 Framework with
+              C#.NET backend and leverages JavaScript/jQuery with HTML5, MVC
+              Razor and CSS for the front-end.
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              Refactored Application Management System is a React/Typescript
+              front end consuming a .NET8 WebAPI with EntityFramework. Front end
+              utilizes JSX/HTML, React-Bootstrap, Mobx for state management and
+              Axios for communication with the back end. This defines the
+              standard architecture for future development of similar
+              applications within the organization, currently in the planning
+              phases.
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              As the primary developer, collaborate with Business Analysts,
+              Project Managers and Lead Architect while analyzing, translating
+              and communicating specific details of the legacy system to
+              identify potential areas of improvement.
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              Provide proof of concepts for suggested enhancements focusing on
+              performance, accessibility and user experience.
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              Work with external vendors to facilitate data transfers between
+              systems and incorporate global authentication and authorization
+              (OIDC) workflow into refactored application.
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              Collaborate with both internal and external Quality Assurance
+              teams to troubleshoot and remediate issues and enhancements found
+              during development sprints.
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              Present a demonstration of functionality for each development
+              sprint to both internal and external stakeholders, providing
+              transparency during the development lifecycle and establishing
+              relationships focused on the core value of a client-first
+              methodology.
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              This milestone project was delivered two months ahead of schedule,
+              carrying zero defects across all development and testing sprints,
+              with only one defect found during the post-release stabilization
+              period.
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              The application was unique in receiving a 100% scorecard from an
+              internal team of stakeholders evaluating compliance with internal
+              processes and procedures.
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              Additionally, the application was unique in achieving a 100%
+              rating by an external organization representing the end user for
+              accomplishments in delivering a final product that met or exceeded
+              standards for usability, performance, timeliness and overall
+              client satisfaction.
+            </li>
+          </ul>
+        </div>
+
+        <p className="font-semibold my-3 md:my-5">
+          As a member of a development team working in an Agile environment,
+          analyze and solve issues for the primary Case Management System as
+          reported by stakeholders and end users through JIRA ticketing
+        </p>
+        <div className="ms-10 mb-10">
+          <ul className="list-disc list-outside w-[95%]">
+            <li className="mb-3 me-8 md:me-0">
+              The primary system utilizes .NET 4 Framework with C#.NET backend
+              and leverages JavaScript/jQuery with HTML5, Kendo UI Controls, MVC
+              Razor and CSS for the front end.{" "}
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              Interact with managers and peers by participating in code reviews,
+              discussions on best practices as well as periodic meetings to
+              evaluate opportunities for process improvements.
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              Actively participate in daily standups in accordance with SCRUM
+              methodologies and attend regular sprint planning meetings to
+              determine development scope and provide level of effort estimates
+              for upcoming sprint tasks.{" "}
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              Lead the initiative to streamline naming conventions, branching
+              policies and check-in procedures using Git repositories, managed
+              by Microsoft Azure, resulting in consistency between code bases,
+              and transparency during code reviews prompted by pull requests.
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              Provide a proof-of-concept that led the initiative to incorporate
+              Continuous Integration / Deployment via Azure DevOps services
+              ensuring integrity and consistency throughout deployment
+              lifecycle.
+            </li>
+          </ul>
+        </div>
+        <p className="font-semibold my-3 md:my-5">
+          As a member of the eImagine organization, promote the core value of
+          continuous improvement by leading initiatives that facilitate personal
+          growth and provide opportunities for awareness to individuals outside
+          of my immediate team.
+        </p>
+        <div className="ms-10 mb-10">
+          <ul className="list-disc list-outside w-[95%]">
+            <li className="mb-3 me-8 md:me-0">
+              Research and analyze relevant third-party tools to provide
+              proof-of-concept for .pdf generation utility to be used across
+              multiple applications within the organization. Utility is being
+              integrated into current and future systems to aid in streamlining
+              the processes relevant to .pdf generation. Proof of concept was
+              accepted by stakeholders and development of full-featured utility
+              led to increased revenue for the organization.
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              Create “lunch-and-learn” content demonstrating the details of the
+              React ecosystem and present to all company team members via
+              Microsoft Teams. This created awareness of my specific role and
+              allowed others to gain an understanding of how this role
+              contributes to the overall benefit of the organization.
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              Promote personal improvement by setting and accomplishing
+              quarterly and annual goals, including obtaining certifications
+              relevant to my professional development, transferring knowledge to
+              other team members and adopting best practices as defined by
+              company standards.
+            </li>
+            <li className="mb-3 me-8 md:me-0">
+              Maintain 100% regulatory compliance with training modules as
+              required by eImagine as well as the state of Indiana.
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -232,3 +400,7 @@ const ExperienceContentMobile = ({ data }: { data: Experience }) => {
 };
 
 export default Experience;
+
+export function ErrorBoundary() {
+  return <GenericErrorBoundary></GenericErrorBoundary>;
+}

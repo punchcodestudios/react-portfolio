@@ -58,6 +58,7 @@ export interface ResumeRequest {
 export interface SkillRequest {
   params: {
     skillsExclude: SkillType[];
+    slug?: string;
   };
 }
 export interface ExperienceRequest {

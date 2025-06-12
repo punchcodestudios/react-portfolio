@@ -12,7 +12,7 @@ export const sendContactEmail = async (
   const client = new ApiClient<Contact>("mail/send-contact", {
     params: request.params,
   });
-  console.log("request.body: ", request);
+  // console.log("request.body: ", request);
   try {
     return client.post(request).then((response) => {
       return Promise.resolve(response);

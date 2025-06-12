@@ -7,7 +7,11 @@ import type {
   ExperienceResponse,
 } from "~/entities/resume";
 import type { ApiResponse } from "~/entities/api";
-import { getAllExperience, getAllSkills } from "~/api/resumeApi";
+import {
+  getAllExperience,
+  getAllSkills,
+  getSkillsBySlug,
+} from "~/api/resumeApi";
 
 const resumeService = {
   getAllSkills: async (request: SkillRequest) => {
@@ -28,12 +32,20 @@ const resumeService = {
       throw error;
     }
   },
+  getSkillsBySlug: async (request: SkillRequest) => {
+    // console.log("getSkillsBySlug request: ", request);
+    try {
+      const response = await getSkillsBySlug(request);
+      return Promise.resolve(mapSkills(response));
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default resumeService;
 
 const mapSkills = (item: ApiResponse<Skill>): SkillResponse => {
-  // console.log("mapSkills: ", item);
   const res = {
     target: item.content.target,
     meta: item.content.meta,
@@ -44,7 +56,7 @@ const mapSkills = (item: ApiResponse<Skill>): SkillResponse => {
 };
 
 const mapExperience = (item: ApiResponse<Experience>): ExperienceResponse => {
-  // console.log("mapExperience: ", item);
+  console.log("mapExperience: ", item);
   const res = {
     target: item.content.target,
     meta: item.content.meta,

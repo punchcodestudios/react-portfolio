@@ -8,7 +8,7 @@ import type {
 
 export const emailService = {
   sendContactEmail: async (request: ContactRequest) => {
-    console.log("emailservice. send contact email", request);
+    // console.log("emailservice. send contact email", request);
     try {
       const response = await sendContactEmail(request);
       return Promise.resolve(mapContact(response));

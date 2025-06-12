@@ -21,6 +21,8 @@ import {
   faHandshake,
   faSun,
   faMoon,
+  faFileDownload,
+  faDownload,
 } from "@fortawesome/free-solid-svg-icons";
 import { SolidIcon, TaskStatus } from "~/utils/enums";
 
@@ -46,6 +48,9 @@ const iconMap_solid: { [key: string]: IconProp } = {
   SOFTSKILLS: faHandshake,
   LIGHT_THEME: faSun,
   DARK_THEME: faMoon,
+  FILE_DOWNLOAD: faFileDownload,
+  DOWNLOAD: faDownload,
+  RECYCLE: faRecycle,
 };
 
 const IconService = {

@@ -10,32 +10,53 @@ import * as React from "react";
 import { cn } from "~/utils/site";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors outline-none focus-visible:ring-4 focus-within:ring-4 ring-ring ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex w-full px-3 items-center justify-center text-sm font-medium ring-offset-background transition-colors outline-none focus-visible:ring-4 focus-within:ring-4 ring-ring ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/80",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        default:
+          "bg-primary text-primary-foreground hover:text-primary-accented border border-4 border-primary hover:bg-primary-muted hover:border-primary-muted",
+        primary:
+          "bg-primary text-primary-foreground hover:text-primary-accented border border-4 border-primary hover:bg-primary-muted hover:border-primary-muted",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          "bg-secondary text-secondary-foreground hover:text-secondary-accented border border-4 border-secondary hover:bg-secondary-muted hover:border-secondary-muted",
+        error:
+          "bg-error text-error-foreground hover:text-error-accented border border-4 border-error hover:bg-error-muted hover:border-error-muted",
+        warning:
+          "bg-warning text-warning-foreground hover:text-warning-accented border border-4 border-warning hover:bg-warning-muted hover:border-warning-muted",
+        success:
+          "bg-success text-success-foreground hover:text-success-accented border border-4 border-success hover:bg-success-muted hover:border-success-muted",
+        information:
+          "bg-information text-information-foreground hover:text-information-accented border border-4 border-information hover:bg-information-muted hover:border-information-muted",
+        disabled:
+          "bg-disabled text-disabled-foreground border border-4 border-disabled cursor-not-allowed",
+      },
+      styleType: {
+        solid: "border border-1 border-input hover:border-input",
+        outline:
+          "bg-transparent hover:bg-transparent text-foreground hover:text-foreground-muted",
       },
       size: {
-        default: "h-10 px-4 py-2",
         wide: "px-24 py-5",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        pill: "px-12 py-3 leading-3",
-        icon: "h-10 w-10",
+        sm: "h-8",
+        md: "h-10",
+        lg: "h-14",
+      },
+      rounded: {
+        none: "rounded-none",
+        sm: "rounded-sm",
+        md: "rounded-md",
+        lg: "rounded-lg",
+        xl: "rounded-xl",
+        xxl: "rounded-2xl",
+        xxxl: "rounded-3xl",
       },
     },
     defaultVariants: {
       variant: "default",
-      size: "default",
+      styleType: "solid",
+      size: "md",
+      rounded: "sm",
     },
   }
 );
@@ -47,11 +68,16 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  (
+    { className, variant, size, styleType, rounded, asChild = false, ...props },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(
+          buttonVariants({ variant, size, styleType, rounded, className })
+        )}
         ref={ref}
         {...props}
       />

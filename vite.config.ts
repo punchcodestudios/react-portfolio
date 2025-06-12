@@ -11,4 +11,7 @@ export default defineConfig({
     },
   },
   plugins: [reactRouter(), tsconfigPaths()],
+  test: {
+    exclude: ["node_modules"],
+  },
 });

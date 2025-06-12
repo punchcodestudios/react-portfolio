@@ -47,11 +47,10 @@ import Navbar from "./components/layout/navbar";
 
 export const links: LinksFunction = () =>
   [
-    // { rel: "preconnect", href: "https://fonts.googleapis.com" },
     { rel: "stylesheet", href: "https://use.typekit.net/utp7gyp.css" },
     // { rel: "stylesheet", href: fontStylestylesheetUrl },
     { rel: "stylesheet", href: tailwindStylesheetUrl },
-    { rel: "stylesheet", href: appStylesheetUrl },
+    // { rel: "stylesheet", href: appStylesheetUrl },
   ].filter(Boolean);
 
 const ThemeFormSchema = z.object({
@@ -63,12 +62,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const honeyProps = await honeypot.getInputProps();
   const { toast, headers: toastHeaders } = await getToast(request);
 
+  // console.log("toast: ", toast);
   const cookieSession = await sessionStorage.getSession(
     request.headers.get("cookie")
   );
-
-  console.log("root request: ", request.headers.get("host"));
-  //redirect("https://www.punchcodestudios.com");
 
   const userId = cookieSession?.get("userId");
   // const response = userId ? await UserService.getById(userId) : null;
@@ -76,7 +73,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
   // if (response !== null) {
   //   user = response?.meta.success ? response?.target[0] : null;
   // }
-  console.log("root request B");
   return data(
     {
       userId,
@@ -99,7 +95,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
 
-  console.log("action: ", formData);
+  // console.log("action: ", formData);
   invariantResponse(
     formData.get("intent") === "update-theme",
     "Invalid intent",
@@ -131,7 +127,7 @@ export async function action({ request }: ActionFunctionArgs) {
     },
   });
 
-  console.log("response: ", response);
+  // console.log("response: ", response);
   return data({ submission }, response);
 }
 
@@ -150,8 +146,13 @@ function Layout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Links />
       </head>
-      <body suppressHydrationWarning={true}>
-        {children}
+      <body
+        suppressHydrationWarning={true}
+        className="flex justify-center w-full"
+      >
+        <div className="flex flex-col align-center h-[100vh] w-[95%] max-w-[2100px]">
+          {children}
+        </div>
         <Toaster closeButton position="top-center" />
         <ScrollRestoration />
         <Scripts />
@@ -163,24 +164,20 @@ function Layout({
 function App() {
   const data = useLoaderData<typeof loader>();
   const theme = useTheme();
-  console.log("root request DD");
+
   return (
     <Layout>
-      {/* <div className="flex flex-row justify-center"> */}
-      <div className="flex flex-col align-center h-[100vh] max-w-[2100px]">
-        {/* <ThemeSwitch userPreference={theme} /> */}
-        <div
-          id="siteContainer"
-          className="flex grow flex-col w-[100%] md:w-[90%] mx-auto bg-siteWhite"
-        >
-          <Navbar></Navbar>
-          <main>
-            <Outlet />
-          </main>
-          <Footer></Footer>
-        </div>
+      {/* <ThemeSwitch userPreference={theme} /> */}
+      <div
+        id="siteContainer"
+        className="flex grow flex-col w-full mx-auto bg-background"
+      >
+        <Navbar></Navbar>
+        <main>
+          <Outlet />
+        </main>
+        <Footer></Footer>
       </div>
-      {/* </div> */}
       {data.toast ? <ShowToast toast={data.toast} /> : null}
     </Layout>
   );
@@ -198,38 +195,33 @@ export default function Root() {
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
-  console.log("error boundary in root: ");
+  // console.log("error boundary in root: ");
   return (
     <Layout>
-      <div
-        id="siteContainer"
-        className="flex flex-col max-w-[100%] md:max-w-[90%] mx-auto bg-siteWhite"
-      >
-        <Navbar></Navbar>
-        <GenericErrorBoundary
-          statusHandlers={{
-            401: ({ params }) => (
-              <>
-                <h1>401</h1>
-                <p>Unauthorized</p>
-              </>
-            ),
-            403: ({ params }) => (
-              <>
-                <h1>403</h1>
-                <p>Invalid Request</p>
-              </>
-            ),
-            404: ({ params }) => (
-              <>
-                <h1>404</h1>
-                <p>Not Found</p>
-              </>
-            ),
-            418: ({ params }) => <>{`${params.key} ${params.value}`}</>,
-          }}
-        ></GenericErrorBoundary>
-      </div>
+      <Navbar></Navbar>
+      <GenericErrorBoundary
+        statusHandlers={{
+          401: ({ params }) => (
+            <>
+              <h1>401</h1>
+              <p>Unauthorized</p>
+            </>
+          ),
+          403: ({ params }) => (
+            <>
+              <h1>403</h1>
+              <p>Invalid Request</p>
+            </>
+          ),
+          404: ({ params }) => (
+            <>
+              <h1>404</h1>
+              <p>Not Found</p>
+            </>
+          ),
+          418: ({ params }) => <>{`${params.key} ${params.value}`}</>,
+        }}
+      ></GenericErrorBoundary>
       <Footer></Footer>
     </Layout>
   );
@@ -258,7 +250,7 @@ function ShowToast({ toast }: { toast: Toast }) {
 }
 
 function useTheme() {
-  console.log("inside useTheme");
+  // console.log("inside useTheme");
   const data = useLoaderData<typeof loader>();
   const fetchers = useFetchers();
   const fetcher = fetchers.find(

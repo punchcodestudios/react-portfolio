@@ -18,7 +18,7 @@ export const me = async (): Promise<ApiResponse<User>> => {
 };
 
 export const findUser = (userName: string): Promise<ApiResponse<User>> => {
-  console.log("userAPI.findUser: ", userName);
+  // console.log("userAPI.findUser: ", userName);
   const client = new ApiClient<User>("/user/findUser", {}, {});
   try {
     return client.get(userName).then((response) => {

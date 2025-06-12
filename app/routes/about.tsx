@@ -10,6 +10,7 @@ import maintenanceImage from "/images/callout-maintenance.png";
 import {
   isRouteErrorResponse,
   redirect,
+  useLoaderData,
   useLocation,
   useRouteError,
   type ActionFunctionArgs,
@@ -19,6 +20,49 @@ import { toastSessionStorage } from "~/utils/toast.server";
 import useImage from "~/hooks/useImage";
 import HeaderImage from "~/components/layout/header-image";
 import { useState } from "react";
+import type { Skill, SkillRequest } from "~/entities/resume";
+import resumeService from "~/service/resume-service";
+import { Badge } from "~/components/ui/badge";
+
+export async function loader({ params }: Route.LoaderArgs) {
+  const request: SkillRequest = {
+    params: { skillsExclude: [], slug: "" },
+  };
+  const skillsData = await resumeService.getAllSkills(request);
+  if (skillsData.meta.total > 0) {
+    const planningSkills = skillsData.target.filter((s) =>
+      s.slug.includes("planning")
+    );
+    const requirementsSkills = skillsData.target.filter((s) =>
+      s.slug.includes("requirements")
+    );
+    const designSkills = skillsData.target.filter((s) =>
+      s.slug.includes("design")
+    );
+    const codingSkills = skillsData.target.filter((s) =>
+      s.slug.includes("coding")
+    );
+    const testingSkills = skillsData.target.filter((s) =>
+      s.slug.includes("testing")
+    );
+    const deploymentSkills = skillsData.target.filter((s) =>
+      s.slug.includes("deployment")
+    );
+    const maintenanceSkills = skillsData.target.filter((s) =>
+      s.slug.includes("maintenance")
+    );
+    return {
+      planningSkills: [...planningSkills],
+      requirementsSkills: [...requirementsSkills],
+      designSkills: [...designSkills],
+      codingSkills: [...codingSkills],
+      testingSkills: [...testingSkills],
+      deploymentSkills: [...deploymentSkills],
+      maintenanceSkills: [...maintenanceSkills],
+    };
+  }
+  return {};
+}
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const toastCookieSession = await toastSessionStorage.getSession(
@@ -56,9 +100,18 @@ export function meta({}: Route.MetaArgs) {
 export default function About() {
   const location = useLocation();
   const headerImage = useImage({ path: location.pathname });
+  const {
+    planningSkills,
+    requirementsSkills,
+    designSkills,
+    codingSkills,
+    deploymentSkills,
+    testingSkills,
+    maintenanceSkills,
+  } = useLoaderData();
 
   function handleToast() {
-    console.log("handle toast");
+    // console.log("handle toast");
   }
 
   const [skillSetClosed, setSkillSetClosed] = useState<boolean[]>([
@@ -75,6 +128,22 @@ export default function About() {
     updated[+event.currentTarget?.id] =
       !skillSetClosed[+event.currentTarget?.id];
     setSkillSetClosed(updated);
+  };
+  const getBadgeVariantBySkillType = (skillType: string) => {
+    switch (skillType.toLowerCase()) {
+      case "back-end":
+        return "primary";
+      case "front-end":
+        return "secondary";
+      case "database":
+        return "red";
+      case "design":
+        return "green";
+      case "infrastructure":
+        return "blue";
+      case "soft":
+        return "silver";
+    }
   };
 
   return (
@@ -134,34 +203,31 @@ export default function About() {
               </div>
             </div>
           </div>
-          {/* <div className="px-6 md:flex md:flex-row xl:p-0">
-            <Button
-              variant={"secondary"}
-              className="my-2 w-full md:mb-0 md:me-2"
-            >
-              Download project scope
-            </Button>
-            <Button
-              variant={"secondary"}
-              className="my-2 w-full md:mb-0 md:ms-2"
-            >
-              Learn More {">>"}
-            </Button>
-          </div> */}
           <div className="mt-2 px-4 xl:p-0">
             <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
               <summary
                 id="0"
-                className="font-header text-md leading-6 font-semibold text-primary select-none"
+                className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
                 onClick={(event) => toggleSkillSet(event)}
               >
                 {`${skillSetClosed[0] ? "hide" : "show"} relevant skills`}
               </summary>
-              <div className="mt-3 leading-6 text-gray-600">
-                <p>
-                  The mug is round. The jar is round. They should call it
-                  Roundtine.
-                </p>
+              <div className="flex flex-wrap">
+                {planningSkills.length > 0 &&
+                  planningSkills.length > 0 &&
+                  planningSkills.map((skill: Skill) => {
+                    return (
+                      <Badge
+                        variant={getBadgeVariantBySkillType(
+                          skill.skill_types[0].name
+                        )}
+                        size={"xs"}
+                        columns="fit"
+                      >
+                        {skill.name}
+                      </Badge>
+                    );
+                  })}
               </div>
             </details>
           </div>
@@ -177,12 +243,9 @@ export default function About() {
                 <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
                   Requirements Gathering
                 </h2>
-                <a
-                  href="#"
-                  className="mt-1 block text-xl leading-tight font-medium text-black hover:underline"
-                >
+                <p className="mt-1 block text-xl leading-tight font-medium text-black">
                   A requirement to a successful project
-                </a>
+                </p>
                 <p className="my-4 text-gray-500">
                   During this phase, Punchcode Studios collaborates with
                   stakeholders to determine their needs as well as the needs of
@@ -200,34 +263,31 @@ export default function About() {
               />
             </div>
           </div>
-          {/* <div className="px-6 md:flex md:flex-row xl:p-0">
-            <Button
-              variant={"secondary"}
-              className="my-2 w-full md:mb-0 md:me-2"
-            >
-              Download Technical specs
-            </Button>
-            <Button
-              variant={"secondary"}
-              className="my-2 w-full md:mb-0 md:ms-2"
-            >
-              Download Requirements Document
-            </Button>
-          </div> */}
           <div className="mt-2 px-4 xl:p-0">
             <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
               <summary
                 id="1"
-                className="font-header text-md leading-6 font-semibold text-primary select-none"
+                className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
                 onClick={(event) => toggleSkillSet(event)}
               >
                 {`${skillSetClosed[1] ? "hide" : "show"} relevant skills`}
               </summary>
-              <div className="mt-3 leading-6 text-gray-600">
-                <p>
-                  The mug is round. The jar is round. They should call it
-                  Roundtine.
-                </p>
+              <div className="flex flex-wrap">
+                {requirementsSkills.length > 0 &&
+                  requirementsSkills.length > 0 &&
+                  requirementsSkills.map((skill: Skill) => {
+                    return (
+                      <Badge
+                        variant={getBadgeVariantBySkillType(
+                          skill.skill_types[0].name
+                        )}
+                        size={"xs"}
+                        columns="fit"
+                      >
+                        {skill.name}
+                      </Badge>
+                    );
+                  })}
               </div>
             </details>
           </div>
@@ -265,34 +325,31 @@ export default function About() {
               </div>
             </div>
           </div>
-          {/* <div className="px-6 md:flex md:flex-row xl:p-0">
-            <Button
-              variant={"secondary"}
-              className="my-2 w-full md:mb-0 md:me-2"
-            >
-              Download Technical Specs
-            </Button>
-            <Button
-              variant={"secondary"}
-              className="my-2 w-full md:mb-0 md:ms-2"
-            >
-              Learn More {">>"}
-            </Button>
-          </div> */}
           <div className="mt-2 px-4 xl:p-0">
             <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
               <summary
                 id="2"
-                className="font-header text-md leading-6 font-semibold text-primary select-none"
+                className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
                 onClick={(event) => toggleSkillSet(event)}
               >
                 {`${skillSetClosed[2] ? "hide" : "show"} relevant skills`}
               </summary>
-              <div className="mt-3 leading-6 text-gray-600">
-                <p>
-                  The mug is round. The jar is round. They should call it
-                  Roundtine.
-                </p>
+              <div className="flex flex-wrap">
+                {designSkills.length > 0 &&
+                  designSkills.length > 0 &&
+                  designSkills.map((skill: Skill) => {
+                    return (
+                      <Badge
+                        variant={getBadgeVariantBySkillType(
+                          skill.skill_types[0].name
+                        )}
+                        size={"xs"}
+                        columns="fit"
+                      >
+                        {skill.name}
+                      </Badge>
+                    );
+                  })}
               </div>
             </details>
           </div>
@@ -308,12 +365,9 @@ export default function About() {
                 <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
                   Coding
                 </h2>
-                <a
-                  href="#"
-                  className="mt-1 block text-xl leading-tight font-medium text-black hover:underline"
-                >
+                <p className="mt-1 block text-xl leading-tight font-medium text-black">
                   Good code is driven by a passion for elegant simplicity
-                </a>
+                </p>
                 <p className="my-4 text-gray-500">
                   The deliverable for this phase is a fully functional software
                   solution that complies with the previously defined
@@ -334,34 +388,31 @@ export default function About() {
               />
             </div>
           </div>
-          {/* <div className="px-6 md:flex md:flex-row xl:p-0">
-            <Button
-              variant={"secondary"}
-              className="my-2 w-full md:mb-0 md:me-2"
-            >
-              Download Technical Specs
-            </Button>
-            <Button
-              variant={"secondary"}
-              className="my-2 w-full md:mb-0 md:ms-2"
-            >
-              Learn More {">>"}
-            </Button>
-          </div> */}
           <div className="mt-2 px-4 xl:p-0">
             <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
               <summary
                 id="3"
-                className="font-header text-md leading-6 font-semibold text-primary select-none"
+                className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
                 onClick={(event) => toggleSkillSet(event)}
               >
                 {`${skillSetClosed[3] ? "hide" : "show"} relevant skills`}
               </summary>
-              <div className="mt-3 leading-6 text-gray-600">
-                <p>
-                  The mug is round. The jar is round. They should call it
-                  Roundtine.
-                </p>
+              <div className="flex flex-wrap">
+                {codingSkills.length > 0 &&
+                  codingSkills.length > 0 &&
+                  codingSkills.map((skill: Skill) => {
+                    return (
+                      <Badge
+                        variant={getBadgeVariantBySkillType(
+                          skill.skill_types[0].name
+                        )}
+                        size={"xs"}
+                        columns="fit"
+                      >
+                        {skill.name}
+                      </Badge>
+                    );
+                  })}
               </div>
             </details>
           </div>
@@ -402,34 +453,31 @@ export default function About() {
               </div>
             </div>
           </div>
-          {/* <div className="px-6 md:flex md:flex-row xl:p-0">
-            <Button
-              variant={"secondary"}
-              className="my-2 w-full md:mb-0 md:me-2"
-            >
-              Download Technical Specs
-            </Button>
-            <Button
-              variant={"secondary"}
-              className="my-2 w-full md:mb-0 md:ms-2"
-            >
-              Learn More {">>"}
-            </Button>
-          </div> */}
           <div className="mt-2 px-4 xl:p-0">
             <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
               <summary
                 id="4"
-                className="font-header text-md leading-6 font-semibold text-primary select-none"
+                className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
                 onClick={(event) => toggleSkillSet(event)}
               >
                 {`${skillSetClosed[4] ? "hide" : "show"} relevant skills`}
               </summary>
-              <div className="mt-3 leading-6 text-gray-600">
-                <p>
-                  The mug is round. The jar is round. They should call it
-                  Roundtine.
-                </p>
+              <div className="flex flex-wrap">
+                {testingSkills.length > 0 &&
+                  testingSkills.length > 0 &&
+                  testingSkills.map((skill: Skill) => {
+                    return (
+                      <Badge
+                        variant={getBadgeVariantBySkillType(
+                          skill.skill_types[0].name
+                        )}
+                        size={"xs"}
+                        columns="fit"
+                      >
+                        {skill.name}
+                      </Badge>
+                    );
+                  })}
               </div>
             </details>
           </div>
@@ -445,12 +493,9 @@ export default function About() {
                 <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
                   Deployment
                 </h2>
-                <a
-                  href="#"
-                  className="mt-1 block text-xl leading-tight font-medium text-black hover:underline"
-                >
+                <p className="mt-1 block text-xl leading-tight font-medium text-black">
                   A perfect deployment is one that goes unnoticed
-                </a>
+                </p>
                 <p className="my-4 text-gray-500">
                   During this phase, the software is now delivered to the end
                   user. Either utilizing modern deployment strategies such as
@@ -470,34 +515,32 @@ export default function About() {
               />
             </div>
           </div>
-          {/* <div className="px-6 md:flex md:flex-row xl:p-0">
-            <Button
-              variant={"secondary"}
-              className="my-2 w-full md:mb-0 md:me-2"
-            >
-              Download Technical Specs
-            </Button>
-            <Button
-              variant={"secondary"}
-              className="my-2 w-full md:mb-0 md:ms-2"
-            >
-              Learn More {">>"}
-            </Button>
-          </div> */}
+
           <div className="mt-2 px-4 xl:p-0">
             <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
               <summary
                 id="5"
-                className="font-header text-md leading-6 font-semibold text-primary select-none"
+                className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
                 onClick={(event) => toggleSkillSet(event)}
               >
                 {`${skillSetClosed[5] ? "hide" : "show"} relevant skills`}
               </summary>
-              <div className="mt-3 leading-6 text-gray-600">
-                <p>
-                  The mug is round. The jar is round. They should call it
-                  Roundtine.
-                </p>
+              <div className="flex flex-wrap">
+                {deploymentSkills.length > 0 &&
+                  deploymentSkills.length > 0 &&
+                  deploymentSkills.map((skill: Skill) => {
+                    return (
+                      <Badge
+                        variant={getBadgeVariantBySkillType(
+                          skill.skill_types[0].name
+                        )}
+                        size={"xs"}
+                        columns="fit"
+                      >
+                        {skill.name}
+                      </Badge>
+                    );
+                  })}
               </div>
             </details>
           </div>
@@ -540,34 +583,32 @@ export default function About() {
               </div>
             </div>
           </div>
-          {/* <div className="px-6 md:flex md:flex-row xl:p-0">
-            <Button
-              variant={"secondary"}
-              className="my-2 w-full md:mb-0 md:me-2"
-            >
-              Download Technical Specs
-            </Button>
-            <Button
-              variant={"secondary"}
-              className="my-2 w-full md:mb-0 md:ms-2"
-            >
-              Learn More {">>"}
-            </Button>
-          </div> */}
+
           <div className="mt-2 px-4 xl:p-0">
             <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
               <summary
                 id="6"
-                className="font-header text-md leading-6 font-semibold text-primary select-none"
+                className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
                 onClick={(event) => toggleSkillSet(event)}
               >
                 {`${skillSetClosed[6] ? "hide" : "show"} relevant skills`}
               </summary>
-              <div className="mt-3 leading-6 text-gray-600">
-                <p>
-                  The mug is round. The jar is round. They should call it
-                  Roundtine.
-                </p>
+              <div className="flex flex-wrap">
+                {maintenanceSkills.length > 0 &&
+                  maintenanceSkills.length > 0 &&
+                  maintenanceSkills.map((skill: Skill) => {
+                    return (
+                      <Badge
+                        variant={getBadgeVariantBySkillType(
+                          skill.skill_types[0].name
+                        )}
+                        size={"xs"}
+                        columns="fit"
+                      >
+                        {skill.name}
+                      </Badge>
+                    );
+                  })}
               </div>
             </details>
           </div>

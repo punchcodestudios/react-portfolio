@@ -19,7 +19,7 @@ const Resume = () => {
   };
 
   const handleTabBlur = () => {
-    console.log("tab blur");
+    // console.log("tab blur");
   };
 
   const items = [

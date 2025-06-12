@@ -8,7 +8,7 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "1rem",
       screens: {
         "2xl": "1400px",
       },
@@ -19,42 +19,89 @@ export default {
         header: ["var(--font-header)", ...defaultTheme.fontFamily.mono],
         navItem: ["var(--font-nav)", ...defaultTheme.fontFamily.mono],
         anchor: ["var(--font-anchor)", ...defaultTheme.fontFamily.mono],
+        control: ["var(--font-control)", ...defaultTheme.fontFamily.mono],
         text: ["var(--font-text)", ...defaultTheme.fontFamily.mono],
         sans: ["var(--font-sans)", ...defaultTheme.fontFamily.sans],
         serif: [],
       },
       colors: {
-        siteBlack: "var(--color-black)",
-        siteWhite: "var(--color-white)",
-        primary: "var(--color-primary)",
-        primaryLight: "var(--color-primary-light)",
-        primaryDark: "var(--color-primary-dark)",
-        secondary: "var(--color-secondary)",
-        secondaryLight: "var(--color-secondary-light)",
-        secondaryDark: "var(--color-secondary-dark)",
+        siteBlack: "hsl(var(--black))",
+        siteWhite: "hsl(var(--white))",
+
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+          muted: "hsl(var(--primary-muted))",
+          accented: "hsl(var(--primary-accented))",
+        },
+
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+          muted: "hsl(var(--secondary-muted))",
+          accented: "hsl(var(--secondary-accented))",
+        },
+
+        error: {
+          DEFAULT: "hsl(var(--error))",
+          foreground: "hsl(var(--error-foreground))",
+          muted: "hsl(var(--error-muted))",
+          accented: "hsl(var(--error-accented))",
+        },
+
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+          muted: "hsl(var(--warning-muted))",
+          accented: "hsl(var(--warning-accented))",
+        },
+
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+          muted: "hsl(var(--success-muted))",
+          accented: "hsl(var(--success-accented))",
+        },
+
+        information: {
+          DEFAULT: "hsl(var(--information))",
+          foreground: "hsl(var(--information-foreground))",
+          muted: "hsl(var(--information-muted))",
+          accented: "hsl(var(--information-accented))",
+        },
+
+        silver: {
+          DEFAULT: "hsl(var(--silver))",
+          foreground: "hsl(var(--silver-foreground))",
+          muted: "hsl(var(--silver-muted))",
+          accented: "hsl(var(--silver-accented))",
+        },
+
+        disabled: {
+          DEFAULT: "hsl(var(--disabled))",
+          foreground: "hsl(var(--disabled-foreground))",
+          muted: "hsl(var(--disabled-muted))",
+          accented: "hsl(var(--disabled-accented))",
+        },
 
         border: "hsl(var(--border))",
         input: {
           DEFAULT: "hsl(var(--input))",
           invalid: "hsl(var(--input-invalid))",
         },
+
         ring: {
           DEFAULT: "hsl(var(--ring))",
           invalid: "hsl(var(--foreground-destructive))",
         },
+
         background: "hsl(var(--background))",
         foreground: {
           DEFAULT: "hsl(var(--foreground))",
           destructive: "hsl(var(--foreground-destructive))",
+          muted: "hsl(var(--foreground-muted))",
         },
-        // primary: {
-        //   DEFAULT: "hsl(var(--primary))",
-        //   foreground: "hsl(var(--primary-foreground))",
-        // },
-        // secondary: {
-        //   DEFAULT: "hsl(var(--secondary))",
-        //   foreground: "hsl(var(--secondary-foreground))",
-        // },
+
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",

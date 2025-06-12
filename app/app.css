@@ -12,6 +12,8 @@ body {
 }
 
 h1 {
+  font-weight: 100;
+  letter-spacing: 0.025rem;
   @apply mb-4 text-4xl font-bold leading-none tracking-tight md:text-5xl lg:text-6xl text-siteBlack;
 }
 h2 {
@@ -27,24 +29,46 @@ h4 {
 }
 
 p {
-  @apply text-siteBlack text-sm md:text-lg xl:text-xl;
+  @apply text-foreground text-sm md:text-lg xl:text-xl;
 }
 
 a {
-  @apply font-anchor text-secondary cursor-pointer;
+  @apply font-anchor cursor-pointer;
 }
 
 @layer base {
   :root {
+    --spacing: 1px;
     --color-black: #222222;
     --color-white: #eeeeee;
+
     --color-primary-light: #587da0;
     --color-primary: #0d263d;
-    /* --color-primary: #100326; */
     --color-primary-dark: #021527;
+
     --color-secondary: #ff6633;
     --color-secondary-light: #f8b098;
     --color-secondary-dark: #6d1d02;
+
+    --color-primary-button-background: var(--color-primary);
+    --color-primary-button-background-hover: var(--color-primary-light);
+    --color-primary-button-foreground: var(--color-white);
+    --color-primary-button-foreground-hover: var(--color-white);
+
+    --color-secondary-button-background: var(--color-secondary);
+    --color-secondary-button-background-hover: var(--color-secondary-light);
+    --color-secondary-button-foreground: var(--color-white);
+    --color-secondary-button-foreground-hover: var(--color-white);
+
+    --color-destructive-button-background: var(--color-destructive);
+
+    --color-primary-link-text: var(--color-secondary);
+    --color-primary-link-hover: var(--color-secondary-light);
+    --color-primary-link-active: var(--color-secondary-light);
+
+    --color-secondary-link-text: var(--color-primary);
+    --color-secondary-link-hover: var(--color-primary-light);
+    --color-secondary-link-active: var(--color-primary-light);
 
     --font-brand: "ivymode", mono;
     --font-header: "zekton", mono;
@@ -53,8 +77,42 @@ a {
     --font-text: "greycliff-cf", mono;
     --font-anchor: "greycliff-cf", mono;
   }
+}
 
-  @theme {
-    --spacing: 1px;
+@layer components {
+  /* .btn {
+    @apply text-sm font-medium font-control ring-offset-background transition-colors outline-none focus-visible:ring-4 focus-within:ring-4 ring-ring ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
   }
+  .btn-primary {
+    @apply bg-primaryButtonBackground text-primaryButtonForeground hover:bg-primaryButtonBackgroundHover hover:text-primaryButtonForegroundHover;
+  }
+  .btn-secondary {
+    @apply bg-secondaryButtonBackground text-secondaryButtonForeground hover:bg-secondaryButtonBackgroundHover hover:text-secondaryButtonForegroundHover;
+  }
+  .btn-destructive {
+    @apply bg-destructive text-destructive-foreground hover:bg-destructive/80;
+  }
+
+  .btn-outline {
+    @apply border border-input bg-background hover:bg-accent hover:text-accent-foreground;
+  }
+  .btn-ghost {
+    @apply hover:bg-accent hover:text-accent-foreground;
+  }
+
+  .btn-round {
+    @apply rounded-md;
+  }
+
+  .link {
+    @apply underline-offset-4 hover:underline font-semibold;
+  }
+
+  .link-primary {
+    @apply text-primaryLink;
+  }
+
+  .link-secondary {
+    @apply text-secondaryLink;
+  } */
 }

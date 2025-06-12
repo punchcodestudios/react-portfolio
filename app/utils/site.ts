@@ -34,7 +34,7 @@ export function getErrorMessage(error: unknown): string {
     "message" in error.content.error &&
     typeof error.content.error.message === "string"
   ) {
-    console.log("type of error", typeof error);
+    // console.log("type of error", typeof error);
     return error.content.error.message;
   }
   console.error("Unable to get error message for error", error);

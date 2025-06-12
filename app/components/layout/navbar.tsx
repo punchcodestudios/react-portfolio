@@ -9,9 +9,13 @@ const Navbar = () => {
 
   return (
     <nav id="navbarWrapper">
-      <div className="bg-primary w-full text-siteWhite flex flex-row">
+      <div className="bg-primary w-full flex flex-row">
         <div className="flex items-center justify-between h-[60px] w-full px-4 py-2 sm:px-6 lg:px-8">
-          <Link to="/" className="flex flex-row w-[1/5] h-[100%] items-center">
+          <Link
+            to="/"
+            onClick={() => setExpanded(false)}
+            className="flex flex-row w-[1/5] h-[100%] items-center"
+          >
             <img className="h-[100%]" src={logo} />{" "}
             <span className="font-brand text-secondary uppercase ms-3">
               Punchcode Studios
@@ -24,6 +28,7 @@ const Navbar = () => {
             >
               <NavLink
                 to="/resume"
+                onClick={() => setExpanded(false)}
                 className={({ isActive }) =>
                   `flex flex-row w-full p-2 h-14 font-navItem md:w-1/4 md:p-0 justify-center items-center
                       ${
@@ -38,6 +43,7 @@ const Navbar = () => {
               </NavLink>
               <NavLink
                 to="/about"
+                onClick={() => setExpanded(false)}
                 className={({ isActive, isPending }) =>
                   `flex flex-row w-full p-2 h-14 font-navItem md:w-1/4 md:p-0 justify-center items-center
                     ${
@@ -51,6 +57,7 @@ const Navbar = () => {
               </NavLink>
               <NavLink
                 to="/contact"
+                onClick={() => setExpanded(false)}
                 className={({ isActive, isPending }) =>
                   `flex flex-row w-full p-2 h-14 font-navItem md:w-1/4 md:p-0 justify-center items-center
                                         ${
@@ -111,13 +118,21 @@ const Navbar = () => {
       </div>
       {expanded && (
         <div className="bg-primary flex flex-col gap-y-2 md:hidden px-4 sm:px-6 pb-2 justify-center">
-          <Link to="/resume" className="me-3">
+          <Link
+            to="/resume"
+            className="me-3"
+            onClick={() => setExpanded(false)}
+          >
             <span className="font-navItem">Resume</span>
           </Link>
-          <Link to="/about" className="me-3">
+          <Link to="/about" className="me-3" onClick={() => setExpanded(false)}>
             <span className="font-navItem">About</span>
           </Link>
-          <Link to="/contact" className="me-3">
+          <Link
+            to="/contact"
+            className="me-3"
+            onClick={() => setExpanded(false)}
+          >
             <span className="font-nav">Contact</span>
           </Link>
           {/* {!user && (
