@@ -95,7 +95,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
         if (data.formOfContact == "email" && !data.emailAddress) {
           ctx.addIssue({
-            code: "custom",
+            code: z.ZodIssueCode.custom,
             message:
               "A valid email address is required when contact method is 'email'",
             path: ["emailAddress"],
@@ -105,7 +105,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
         if (data.formOfContact == "telephone" && !data.phoneNumber) {
           ctx.addIssue({
-            code: "custom",
+            code: z.ZodIssueCode.custom,
             message:
               "A valid phone number is required when contact method is 'telephone'",
             path: ["phoneNumber"],
@@ -115,7 +115,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
         // if (data.phoneNumber && !phoneRegex.test(data.phoneNumber)) {
         //   ctx.addIssue({
-        //     code: "custom",
+        //     code: z.ZodIssueCode.custom,
         //     message:
         //       "A valid phone number is required when contact method is 'telephone'",
         //     path: ["phoneNumber"],

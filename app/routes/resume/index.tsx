@@ -4,7 +4,6 @@ import HeaderImage from "~/components/layout/header-image";
 import PageNav from "~/components/layout/page-nav";
 import SkillsContent from "~/components/resume/skills-content";
 import SummaryContent from "~/components/resume/summary-content";
-import type { Skill } from "~/entities/resume";
 import useImage from "~/hooks/useImage";
 import { SolidIcon } from "~/utils/enums";
 

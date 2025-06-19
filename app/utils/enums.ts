@@ -21,6 +21,8 @@ export enum TaskStatus {
 export enum SolidIcon {
   FORWARD = "FORWARD",
   BACKWARD = "BACKWARD",
+  STEP_BACKWARD = "STEP_BACKWARD",
+  STEP_FORWARD = "STEP_FORWARD",
   SUCCESS = "SUCCESS",
   WARNING = "WARNING",
   DANGER = "DANGER",
@@ -40,4 +42,32 @@ export enum SolidIcon {
   DARK_THEME = "DARK_THEME",
   FILE_DOWNLOAD = "FILE_DOWNLOAD",
   DOWNLOAD = "DOWNLOAD",
+}
+
+export enum FilterColumnDataType {
+  STRING = "STRING",
+  NUMBER = "NUMBER",
+  DATE = "DATE",
+  BOOLEAN = "BOOLEAN",
+}
+
+export enum FilterAction {
+  EQUALS = "Equals",
+  NOT_EQUALS = "Not Equal",
+  CONTAINS = "Contains",
+  NOT_CONTAINS = "Not Contain",
+  GREATER_THAN = "Greater Than",
+  LESS_THAN = "Less Than",
+  IN_RANGE = "In Range",
+  IS_NULL = "NULL",
+  IS_NOT_NULL = "Not NULL",
+  STARTS_WITH = "Starts With",
+  ENDS_WITH = "Ends With",
+  IN = "In",
+  NOT_IN = "Not In",
+}
+
+export enum SortDirection {
+  ASC = "Ascending",
+  DESC = "Descending",
 }

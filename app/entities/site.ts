@@ -4,3 +4,9 @@ export interface ScreenSize {
 }
 
 export type Theme = "light" | "dark";
+
+export type SelectOption<T> = {
+  key: string | number;
+  label: string;
+  value: T;
+};

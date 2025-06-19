@@ -1,0 +1,184 @@
+import React, { createContext, useContext, useState, useEffect } from "react";
+import type { Filter, TableColumn } from "./dataTableTypes";
+import { FilterAction, SortDirection } from "~/utils/enums";
+
+type TableRow = { [key: string]: any };
+
+export interface DataContextType {
+  data: TableRow[];
+  setData: React.Dispatch<React.SetStateAction<TableRow[]>>;
+  displayData: TableRow[];
+  setDisplayData: React.Dispatch<React.SetStateAction<TableRow[]>>;
+  // columns: TableColumn[];
+  // setColumns: React.Dispatch<React.SetStateAction<TableColumn[]>>;
+  selectedRows: Set<number>;
+  setSelectedRows: React.Dispatch<React.SetStateAction<Set<number>>>;
+  filters: Record<string | number, Filter[]> | null;
+  setFilters: React.Dispatch<
+    React.SetStateAction<Record<string | number, Filter[]> | null>
+  >;
+  sort: { key: string; direction: SortDirection } | null;
+  setSort: React.Dispatch<
+    React.SetStateAction<{ key: string; direction: SortDirection } | null>
+  >;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  rowsPerPage: number;
+  setRowsPerPage: React.Dispatch<React.SetStateAction<number>>;
+  totalItems: number;
+  setTotalItems: React.Dispatch<React.SetStateAction<number>>;
+  refreshData: number;
+  setRefreshData: React.Dispatch<React.SetStateAction<number>>;
+  errors: Record<string | number, string> | null;
+  setErrors: React.Dispatch<
+    React.SetStateAction<Record<string | number, string> | null>
+  >;
+}
+
+const DataContext = createContext<DataContextType | undefined>(undefined);
+
+export const useDataContext = () => {
+  const ctx = useContext(DataContext);
+  if (!ctx) {
+    throw new Error("useDataContext must be used within a DataContextProvider");
+  }
+  return ctx;
+};
+
+interface DataContextProviderProps {
+  initialData: TableRow[];
+  children: React.ReactNode;
+}
+
+export const DataContextProvider: React.FC<DataContextProviderProps> = ({
+  initialData,
+  children,
+}) => {
+  const [data, setData] = useState<TableRow[]>(initialData);
+  const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+  const [filters, setFilters] = useState<Record<
+    string | number,
+    Filter[]
+  > | null>(null);
+
+  // --- SORT STATE ---
+  const [sort, setSort] = useState<{
+    key: string;
+    direction: SortDirection;
+  } | null>(null);
+  // --- END SORT STATE ---
+
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+  const [totalItems, setTotalItems] = useState<number>(0);
+  const [displayData, setDisplayData] = useState<TableRow[]>(initialData);
+  const [refreshData, setRefreshData] = useState<number>(new Date().getTime());
+  const [errors, setErrors] = useState<Record<string | number, string> | null>(
+    null
+  );
+
+  useEffect(() => {
+    let filteredData = data;
+    // Filtering logic
+    if (filters) {
+      Object.keys(filters).forEach((columnKey) => {
+        const columnFilters = filters[columnKey];
+        columnFilters.forEach((filter) => {
+          filteredData = filteredData.filter((row) => {
+            const cellValue = row[columnKey];
+            switch (filter.action) {
+              case FilterAction.EQUALS:
+                return cellValue === filter.value;
+              case FilterAction.CONTAINS:
+                return String(cellValue).includes(String(filter.value));
+              case FilterAction.GREATER_THAN:
+                return +cellValue > +filter.value;
+              case FilterAction.LESS_THAN:
+                return +cellValue < +filter.value;
+              case FilterAction.STARTS_WITH:
+                return String(cellValue).startsWith(String(filter.value));
+              case FilterAction.ENDS_WITH:
+                return String(cellValue).endsWith(String(filter.value));
+              case FilterAction.IN:
+                return (
+                  Array.isArray(filter.value) &&
+                  filter.value.includes(cellValue)
+                );
+              case FilterAction.NOT_IN:
+                return !(
+                  Array.isArray(filter.value) &&
+                  filter.value.includes(cellValue)
+                );
+              case FilterAction.IS_NULL:
+                return cellValue === null || cellValue === undefined;
+              case FilterAction.IS_NOT_NULL:
+                return cellValue !== null && cellValue !== undefined;
+              default:
+                return true;
+            }
+          });
+        });
+      });
+    }
+    console.log("filteredData: ", filteredData);
+    // --- SORT LOGIC ---
+    if (sort && sort.key) {
+      filteredData = [...filteredData].sort((a, b) => {
+        const aValue = a[sort.key];
+        const bValue = b[sort.key];
+        if (aValue == null && bValue == null) return 0;
+        if (aValue == null)
+          return sort.direction === SortDirection.ASC ? -1 : 1;
+        if (bValue == null)
+          return sort.direction === SortDirection.ASC ? 1 : -1;
+        if (typeof aValue === "number" && typeof bValue === "number") {
+          return sort.direction === SortDirection.ASC
+            ? aValue - bValue
+            : bValue - aValue;
+        }
+        return sort.direction === SortDirection.ASC
+          ? String(aValue).localeCompare(String(bValue))
+          : String(bValue).localeCompare(String(aValue));
+      });
+    }
+    console.log("filteredData: ", filteredData);
+    // --- END SORT LOGIC ---
+    // Pagination
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    const paginatedData = filteredData.slice(startIndex, endIndex);
+    setDisplayData(paginatedData);
+    setTotalItems(filteredData.length);
+  }, [refreshData, data, filters, sort, currentPage, rowsPerPage]);
+
+  return (
+    <DataContext.Provider
+      value={{
+        data,
+        setData,
+        displayData,
+        setDisplayData,
+        // columns,
+        // setColumns,
+        selectedRows,
+        setSelectedRows,
+        filters,
+        setFilters,
+        sort,
+        setSort,
+        currentPage,
+        setCurrentPage,
+        rowsPerPage,
+        setRowsPerPage,
+        totalItems,
+        setTotalItems,
+        refreshData,
+        setRefreshData,
+        errors,
+        setErrors,
+      }}
+    >
+      {children}
+    </DataContext.Provider>
+  );
+};

@@ -1,0 +1,225 @@
+import React from "react";
+import { DataContextProvider } from "~/components/data/dataContext";
+import type { TableColumn } from "~/components/data/dataTableTypes";
+import { Button } from "~/components/ui/button";
+import type { Route } from "./+types/dataTableContainer";
+import {
+  useLoaderData,
+  type ClientLoaderFunctionArgs,
+  type LoaderFunctionArgs,
+} from "react-router";
+import ResponsiveDataTable from "~/components/data/responsiveDataTable";
+import gradImage from "/images/graduation-logo.png";
+import innovationImage from "/images/home_innovation.png";
+//@ts-ignore
+import informationImage from "/images/home_information.png";
+//@ts-ignore
+import communicationImage from "/images/home_communication.png";
+import SlideshowViewer from "~/components/Slideshow/SlideshowViewer";
+
+export const initColumns: TableColumn[] = [
+  { key: "ID", label: "ID", hidden: true },
+  { key: "Name", label: "Name", filterable: true, sortable: true },
+  { key: "Age", label: "Age", filterable: true, sortable: true },
+  { key: "City", label: "City", filterable: true, sortable: true },
+  { key: "Country", label: "Country", filterable: true, sortable: true },
+  { key: "Email", label: "Email", filterable: true, sortable: true },
+  { key: "Phone", label: "Phone", filterable: true, sortable: true },
+  { key: "Occupation", label: "Occupation", filterable: true, sortable: true },
+  { key: "Company", label: "Company", filterable: true, sortable: true },
+  { key: "Status", label: "Status", filterable: true, sortable: true },
+  { key: "Registered", label: "Registered", filterable: true, sortable: true },
+  { key: "LastLogin", label: "Last Login", filterable: true, sortable: true },
+  { key: "render", label: "Actions", filterable: false, sortable: false },
+];
+
+export const initData = [
+  {
+    ID: 1,
+    Name: "Alice Johnson",
+    Age: 28,
+    City: "New York",
+    Country: "USA",
+    Email: "alice.johnson@example.com",
+    Phone: "555-1234",
+    Occupation: "Engineer",
+    Company: "TechCorp",
+    Status: "Active",
+    Registered: "2023-01-15",
+    LastLogin: "2025-05-30",
+  },
+  {
+    ID: 2,
+    Name: "Bob Smith",
+    Age: 34,
+    City: "San Francisco",
+    Country: "USA",
+    Email: "bob.smith@example.com",
+    Phone: "555-5678",
+    Occupation: "Designer",
+    Company: "Creative Inc",
+    Status: "Inactive",
+    Registered: "2022-11-20",
+    LastLogin: "2025-05-30",
+  },
+  {
+    ID: 3,
+    Name: "Charlie Lee",
+    Age: 25,
+    City: "Chicago",
+    Country: "USA",
+    Email: "charlie.lee@example.com",
+    Phone: "555-8765",
+    Occupation: "Developer",
+    Company: "WebWorks",
+    Status: "Active",
+    Registered: "2024-03-10",
+    LastLogin: "2025-05-30",
+  },
+];
+
+// export const initColumns2: TableColumn[] = [
+//   { key: "ID", label: "ID", hidden: true },
+//   {
+//     key: "Image",
+//     label: "Image",
+//     filterable: false,
+//     sortable: false,
+//     render: (value: string, row: Record<string, any>) => (
+//       <div className="flex items-center space-x-2">
+//         <img src={row.value} alt="gradImage"></img>
+//       </div>
+//     ),
+//   },
+//   { key: "Name", label: "Name", filterable: true, sortable: true },
+//   { key: "Age", label: "Age", filterable: true, sortable: true },
+//   { key: "City", label: "City", filterable: true, sortable: true },
+//   { key: "Country", label: "Country", filterable: true, sortable: true },
+//   { key: "Email", label: "Email", filterable: true, sortable: true },
+// ];
+
+// export async function getInitColumns2() {
+//   return initColumns2;
+// }
+
+// export const initData2 = [
+//   {
+//     ID: 1,
+//     Name: "Alice Johnson",
+//     Age: 228,
+//     City: "New York",
+//     Country: "USA",
+//     Email: "alice.johnson@example.com",
+//     Phone: "+1 555-1234",
+//     Occupation: "Engineer",
+//     Company: "TechCorp",
+//     Status: "Active",
+//     Registered: "2023-01-15",
+//     LastLogin: "2025-05-30",
+//     value: gradImage,
+//   },
+//   {
+//     ID: 2,
+//     Name: "Bob Smith",
+//     Age: 234,
+//     City: "San Francisco",
+//     Country: "USA",
+//     Email: "bob.smith@example.com",
+//     Phone: "+1 555-5678",
+//     Occupation: "Designer",
+//     Company: "Creative Inc",
+//     Status: "Inactive",
+//     Registered: "2022-11-20",
+//     LastLogin: "2025-05-30",
+//     value: innovationImage,
+//   },
+//   {
+//     ID: 3,
+//     Name: "Charlie Lee",
+//     Age: 225,
+//     City: "Chicago",
+//     Country: "USA",
+//     Email: "charlie.lee@example.com",
+//     Phone: "+1 555-8765",
+//     Occupation: "Developer",
+//     Company: "WebWorks",
+//     Status: "Active",
+//     Registered: "2024-03-10",
+//     LastLogin: "2025-05-30",
+//     value: communicationImage,
+//   },
+// ];
+
+export async function loader({ params }: LoaderFunctionArgs) {
+  return {
+    data: {
+      columns: initColumns,
+      initData: [...initData],
+    },
+  };
+}
+
+const DataTableContainer: React.FC<{}> = () => {
+  const { data } = useLoaderData();
+
+  const actionRender = (value: string, row: Record<string, any>) => (
+    <div className="flex items-center space-x-2">
+      <Button
+        variant="primary"
+        onClick={() => {
+          console.log("row:, value: ", { row: row, value: value });
+          return alert(`Edit row with ID: ${row.Name}`);
+        }}
+      >
+        Edit
+      </Button>
+      <Button
+        variant="primary"
+        onClick={() => {
+          console.log("row:, value: ", { row: row, value: value });
+          return alert(`Delete row with ID: ${row.ID}`);
+        }}
+      >
+        Delete
+      </Button>
+    </div>
+  );
+
+  const renderedColumns = data.columns.map((col: TableColumn) =>
+    col.key === "render" ? { ...col, render: actionRender } : col
+  );
+
+  return (
+    <>
+      <DataContextProvider initialData={data.initData}>
+        <div className="p-4">
+          <h2 className="text-xl font-semibold mb-4">
+            Responsive Data Grid with Data Context
+          </h2>
+          <ResponsiveDataTable
+            dataColumns={renderedColumns}
+            breakpoint="lg"
+            rowLabelKey="Name"
+          ></ResponsiveDataTable>
+        </div>
+      </DataContextProvider>
+
+      {/* <DataContextProvider initialData={loaderData.data.initData2}>
+        <div className="p-4">
+          <h2 className="text-xl font-semibold mb-4">
+            Data Grid as Image Gallery
+          </h2>
+          <ResponsiveDataTable
+            dataColumns={columns}
+            breakpoint="lg"
+            rowLabelKey="Name"
+          ></ResponsiveDataTable>
+        </div>
+      </DataContextProvider> */}
+      {/* 
+      <SlideshowViewer></SlideshowViewer> */}
+    </>
+  );
+};
+
+export default DataTableContainer;

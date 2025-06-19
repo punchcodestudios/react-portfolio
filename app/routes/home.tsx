@@ -14,10 +14,11 @@ import {
   useRouteError,
   type ActionFunctionArgs,
 } from "react-router";
-import { toastSessionStorage } from "~/utils/toast.server";
+import { redirectWithToast, toastSessionStorage } from "~/utils/toast.server";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SolidIcon } from "~/utils/enums";
 import { getDateStampForFilename } from "~/utils/date";
+import { getResumeDoc } from "~/utils/fileDownload";
 
 export async function action({ request, params }: ActionFunctionArgs) {
   // console.log("action: ");
@@ -51,16 +52,12 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   const downloadResume = () => {
-    fetch("/docs/CURRENT_RESUME_2025.docx").then((response) => {
-      response.blob().then((blob) => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `patrick_schandler_resume_${getDateStampForFilename()}`;
-        a.click();
-        window.URL.revokeObjectURL(url); // Clean up
-      });
-    });
+    // redirectWithToast("/", {
+    //   type: "success",
+    //   title: "Success",
+    //   description: "Contact successfully submitted.",
+    // });
+    return getResumeDoc();
   };
 
   return (
@@ -138,7 +135,7 @@ export default function Home() {
                 <div className="w-full mb-3 md:w-[45%]">
                   <Link to={"/resume"}>
                     <Button variant="secondary" size="md">
-                      Learn More
+                      View Online
                       <FontAwesomeIcon
                         icon={IconService.getSolid(SolidIcon.FORWARD)}
                         className="text-lg ms-5"

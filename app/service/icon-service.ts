@@ -2,7 +2,9 @@ import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 import {
   faBackward,
+  faStepBackward,
   faForward,
+  faStepForward,
   faTriangleExclamation,
   faSquareCheck,
   faSkullCrossbones,
@@ -29,6 +31,8 @@ import { SolidIcon, TaskStatus } from "~/utils/enums";
 const iconMap_solid: { [key: string]: IconProp } = {
   FORWARD: faForward,
   BACKWARD: faBackward,
+  STEP_BACKWARD: faStepBackward,
+  STEP_FORWARD: faStepForward,
   SUCCESS: faSquareCheck,
   WARNING: faTriangleExclamation,
   DANGER: faSkullCrossbones,

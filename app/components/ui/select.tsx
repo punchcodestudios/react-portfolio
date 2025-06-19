@@ -2,11 +2,6 @@ import * as React from "react";
 import { cn } from "../../utils/site";
 import type { ReactNode } from "react";
 
-export interface SelectOption {
-  key: string;
-  value: string;
-}
-
 export interface SelectProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {
   children: ReactNode;
