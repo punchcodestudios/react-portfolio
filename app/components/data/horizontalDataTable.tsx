@@ -1,9 +1,9 @@
 import React from "react";
-import type { TableColumn, TableRow } from "./dataTableTypes";
+import type { DataItemProps, TableRow } from "./dataTableTypes";
 import { useDataContext } from "./dataContext";
 
 interface DataTableProps {
-  columns: TableColumn[];
+  columns: DataItemProps[];
 }
 
 const HorizontalDataTable: React.FC<DataTableProps> = ({ columns }) => {

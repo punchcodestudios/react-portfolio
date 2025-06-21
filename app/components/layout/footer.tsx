@@ -15,21 +15,28 @@ const Footer = () => {
         </div>
       </div>
       <div className="w-full flex justify-center mb-2 lg:w-1/2 lg:mb-0">
-        <NavLink to="privacy-policy" className="mx-3">
+        <NavLink
+          to="privacy-policy"
+          className="mx-3 font-control text-secondary hover:text-secondary-accented hover:underline"
+        >
           Privacy Policy
         </NavLink>
         |
-        <NavLink to="terms-of-use" className="mx-3">
+        <NavLink
+          to="terms-of-use"
+          className="mx-3 font-control text-secondary hover:text-secondary-accented hover:underline"
+        >
           Terms of Use
         </NavLink>
         |
-        <NavLink to="contact" className="mx-3">
-          Contact Us
+        <NavLink
+          to="contact"
+          className="mx-3 font-control text-secondary hover:text-secondary-accented hover:underline"
+        >
+          Contact
         </NavLink>
       </div>
-      <div className="w-full flex justify-center pe-2 mb-2 lg:justify-end lg:w-1/4 lg:mb-0">
-        footer right
-      </div>
+      <div className="w-full flex justify-center pe-2 mb-2 lg:justify-end lg:w-1/4 lg:mb-0"></div>
     </div>
   );
 };

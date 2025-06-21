@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import type { TableColumn } from "./dataTableTypes";
+import type { DataItemProps } from "./dataTableTypes";
 import { useDataContext } from "./dataContext";
 
 type TableRow = { [key: string]: string | number };
 
 interface VerticalDataTableProps {
-  columns: TableColumn[];
+  columns: DataItemProps[];
   rowLabelKey?: string | number; // Optional: which property to use as the row label
 }
 
@@ -21,7 +21,7 @@ const VerticalDataTable: React.FC<VerticalDataTableProps> = ({
     );
   };
 
-  const { displayData } = useDataContext();
+  const { displayData } = useDataContext<TableRow>();
   if (!displayData || displayData.length === 0) {
     return <div>No data available.</div>;
   }

@@ -5,7 +5,7 @@ import { useDataContext } from "./dataContext";
 
 import { SortDirection } from "~/utils/enums";
 import VerticalExpandCard from "../ui/verticalExpandCard";
-import type { TableColumn } from "./dataTableTypes";
+import type { DataItemProps } from "./dataTableTypes";
 import type { SelectOption } from "~/entities/site";
 
 // need to put zod into here .. no form
@@ -37,6 +37,7 @@ type DataSortHeaderProps = {
 const DataSortHeader: React.FC<DataSortHeaderProps> = ({
   headerText,
   onClearSort,
+  showClearSort,
 }: DataSortHeaderProps) => {
   const { errors } = useDataContext();
 
@@ -49,12 +50,23 @@ const DataSortHeader: React.FC<DataSortHeaderProps> = ({
           <span className="text-red-600 text-sm ml-2">{`${errors["sort"]}`}</span>
         )}
       </div>
+      <div className="flex items-center space-x-2">
+        {showClearSort && (
+          <button
+            className="px-2 py-1 text-xs bg-gray-200 rounded hover:bg-gray-300"
+            onClick={onClearSort}
+            type="button"
+          >
+            Clear Sort
+          </button>
+        )}
+      </div>
     </div>
   );
 };
 
 type DataSortBodyProps = {
-  sortColumns: TableColumn[];
+  sortColumns: DataItemProps[];
   currSortColumn: string;
   onSortColumnChange: (value: string) => void;
   sortDirections: SelectOption<SortDirection>[];
@@ -140,13 +152,14 @@ const DataSortFooter: React.FC<DataSortFooterProps> = ({
 };
 
 type DataSortContainerProps = {
-  columns: TableColumn[];
+  columns: DataItemProps[];
 };
 
 const DataSortContainer: React.FC<DataSortContainerProps> = ({
   columns,
 }: DataSortContainerProps) => {
-  const { setSort, setRefreshData, errors, setErrors } = useDataContext();
+  const { setSort, sort, setRefreshData, errors, setErrors, setCurrentPage } =
+    useDataContext();
   const [currSortColumn, setCurrSortColumn] = React.useState<string>("");
   const [currSortDirection, setCurrSortDirection] =
     React.useState<SortDirection>(SortDirection.ASC);
@@ -162,6 +175,7 @@ const DataSortContainer: React.FC<DataSortContainerProps> = ({
   };
 
   const handleApplySort = () => {
+    setErrors(null); // Clear previous errors
     if (!currSortColumn || !currSortDirection) {
       setErrors({ ...errors, sort: "All sort fields must be filled out" });
       return;
@@ -178,8 +192,11 @@ const DataSortContainer: React.FC<DataSortContainerProps> = ({
     setErrors(() => {
       return newRecord as Record<string | number, string>;
     });
+    console.log("Clearing sort");
     setCurrSortColumn("");
     setCurrSortDirection(SortDirection.ASC);
+    setCurrentPage(1);
+    setSort(null);
     setRefreshData(new Date().getTime());
   };
 
@@ -200,33 +217,31 @@ const DataSortContainer: React.FC<DataSortContainerProps> = ({
   ];
 
   return (
-    <div className="mb-2">
-      <VerticalExpandCard
-        header={
-          <DataSortHeader
-            headerText="Data Sort"
-            onClearSort={handleClearSort}
-            showClearSort={true}
-          />
-        }
-        body={
-          <DataSortBody
-            sortColumns={sortColumns}
-            currSortColumn={currSortColumn}
-            onSortColumnChange={handleSortColumnChange}
-            sortDirections={sortDirections}
-            currSortDirection={currSortDirection}
-            onSortDirectionChange={handleSortDirectionChange}
-          ></DataSortBody>
-        }
-        footer={
-          <DataSortFooter
-            onApplySort={handleApplySort}
-            onCancelSort={handleCancelSort}
-          />
-        }
-      ></VerticalExpandCard>
-    </div>
+    <VerticalExpandCard
+      header={
+        <DataSortHeader
+          headerText="Data Sort"
+          onClearSort={handleClearSort}
+          showClearSort={sort?.key ? true : false}
+        />
+      }
+      body={
+        <DataSortBody
+          sortColumns={sortColumns}
+          currSortColumn={currSortColumn}
+          onSortColumnChange={handleSortColumnChange}
+          sortDirections={sortDirections}
+          currSortDirection={currSortDirection}
+          onSortDirectionChange={handleSortDirectionChange}
+        ></DataSortBody>
+      }
+      footer={
+        <DataSortFooter
+          onApplySort={handleApplySort}
+          onCancelSort={handleCancelSort}
+        />
+      }
+    ></VerticalExpandCard>
   );
 };
 

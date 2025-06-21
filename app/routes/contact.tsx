@@ -6,6 +6,7 @@ import {
   Form,
   isRouteErrorResponse,
   Link,
+  NavLink,
   useActionData,
   useLoaderData,
   useRouteError,
@@ -461,8 +462,19 @@ export default function Contact() {
             </Button>
           </div>
           <div className="text-center">
-            <Link to="/">Privacy Policy</Link> |{" "}
-            <Link to="/">Terms of Use</Link>
+            <NavLink
+              className="mx-3 font-control text-secondary hover:text-secondary-muted hover:underline"
+              to="/privacy-policy"
+            >
+              Privacy Policy
+            </NavLink>{" "}
+            |{" "}
+            <NavLink
+              className="mx-3 font-control text-secondary hover:text-secondary-muted hover:underline"
+              to="/terms-of-use"
+            >
+              Terms of Use
+            </NavLink>
           </div>
         </Form>
       </div>

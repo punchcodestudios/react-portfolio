@@ -13,7 +13,9 @@ const SummaryContent = () => {
           {/* <PortfolioImage headerImage={image}></PortfolioImage> */}
           <div className="w-full p-10">
             <h2 className="font-header">Patrick Schandler</h2>
-            <p className="font-text mb-5">Kansas City, MO | Chicago, IL</p>
+            <p className="font-text text-sm mb-5">
+              Kansas City, MO | Chicago, IL
+            </p>
             {/* </div>
           <div> */}
             <Link to="/contact">

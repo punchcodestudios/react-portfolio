@@ -1,11 +1,11 @@
 import React from "react";
 import { DataContextProvider } from "~/components/data/dataContext";
-import type { TableColumn } from "~/components/data/dataTableTypes";
+import type { DataItemProps } from "~/components/data/dataTableTypes";
 import { Button } from "~/components/ui/button";
 import { useLoaderData, type LoaderFunctionArgs } from "react-router";
 import ResponsiveDataTable from "~/components/data/responsiveDataTable";
 
-export const initColumns: TableColumn[] = [
+export const initColumns: DataItemProps[] = [
   { key: "ID", label: "ID", hidden: true },
   { key: "Name", label: "Name", filterable: true, sortable: true },
   { key: "Age", label: "Age", filterable: true, sortable: true },
@@ -101,19 +101,19 @@ const DataTableContainer: React.FC<{}> = () => {
     </div>
   );
 
-  const renderedColumns = data.columns.map((col: TableColumn) =>
+  const renderedColumns = data.columns.map((col: DataItemProps) =>
     col.key === "render" ? { ...col, render: actionRender } : col
   );
 
   return (
     <>
-      <DataContextProvider<TableColumn> initialData={data.initData}>
+      <DataContextProvider<DataItemProps> initialData={data.initData}>
         <div className="p-4">
           <h2 className="text-xl font-semibold mb-4">
             Responsive Data Grid with Data Context
           </h2>
           <ResponsiveDataTable
-            dataColumns={renderedColumns}
+            columns={renderedColumns}
             breakpoint="lg"
             rowLabelKey="Name"
           ></ResponsiveDataTable>

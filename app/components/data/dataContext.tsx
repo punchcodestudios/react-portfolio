@@ -76,12 +76,22 @@ export function DataContextProvider<T>({
   useEffect(() => {
     let filteredData = data;
     // Filtering logic
+    // console.log("Applying filters:", { filters: filters, row: rowsPerPage });
     if (filters) {
       Object.keys(filters).forEach((columnKey) => {
         const columnFilters = filters[columnKey];
+        // console.log("Applying filters:", {
+        //   filters: filters,
+        //   columnFilters: columnFilters,
+        // });
         columnFilters.forEach((filter) => {
           filteredData = filteredData.filter((row: any) => {
-            const cellValue = row[columnKey];
+            const cellValue = row[columnKey.toLowerCase()] || row[columnKey];
+            // console.log("inside foreach:", {
+            //   row: row,
+            //   columnKey: columnKey,
+            //   cellValue: cellValue,
+            // });
             switch (filter.action) {
               case FilterAction.EQUALS:
                 return cellValue === filter.value;
@@ -118,9 +128,16 @@ export function DataContextProvider<T>({
     }
     // --- SORT LOGIC ---
     if (sort && sort.key) {
+      console.log("Sorting data by:", sort);
       filteredData = [...filteredData].sort((a: any, b: any) => {
-        const aValue = a[sort.key];
-        const bValue = b[sort.key];
+        const aValue = a[sort.key.toLowerCase()] || a[sort.key];
+        const bValue = b[sort.key.toLowerCase()] || b[sort.key];
+        console.log("Comparing values:", {
+          filteredData: filteredData,
+          aValue: aValue,
+          bValue: bValue,
+          direction: sort.direction,
+        });
         if (aValue == null && bValue == null) return 0;
         if (aValue == null)
           return sort.direction === SortDirection.ASC ? -1 : 1;
@@ -132,8 +149,12 @@ export function DataContextProvider<T>({
             : bValue - aValue;
         }
         return sort.direction === SortDirection.ASC
-          ? String(aValue).localeCompare(String(bValue))
-          : String(bValue).localeCompare(String(aValue));
+          ? String(aValue)
+              .toLowerCase()
+              .localeCompare(String(bValue).toLowerCase())
+          : String(bValue)
+              .toLowerCase()
+              .localeCompare(String(aValue).toLowerCase());
       });
     }
     // --- END SORT LOGIC ---

@@ -6,7 +6,7 @@ import { useDataContext } from "./dataContext";
 import { FilterAction } from "~/utils/enums";
 import { Input } from "../ui/input";
 import VerticalExpandCard from "../ui/verticalExpandCard";
-import type { TableColumn } from "./dataTableTypes";
+import type { DataItemProps } from "./dataTableTypes";
 import type { SelectOption } from "~/entities/site";
 
 // need to put zod into here .. no form
@@ -31,26 +31,10 @@ export const FiltersRecordSchema = z.record(
   z.array(FilterSchema)
 );
 
-type DataFilterFooterProps = {
-  onApplyFilter: () => void;
-  onCancelFilter: () => void;
-};
-
 type DataFilterHeaderProps = {
   headerText: string;
   showClearFilter: boolean;
   onClearFilter: () => void;
-};
-
-type DataFilterBodyProps = {
-  filterColumns: TableColumn[];
-  currFilterColumn: string;
-  onFilterColumnChange: (value: string) => void;
-  filterActions: SelectOption<FilterAction>[];
-  currFilterAction: string;
-  onFilterActionChange: (value: FilterAction) => void;
-  currFilterValue: string;
-  onFilterValueChange: (value: string) => void;
 };
 
 const DataFilterHeader: React.FC<DataFilterHeaderProps> = ({
@@ -81,6 +65,17 @@ const DataFilterHeader: React.FC<DataFilterHeaderProps> = ({
       </div>
     </div>
   );
+};
+
+type DataFilterBodyProps = {
+  filterColumns: DataItemProps[];
+  currFilterColumn: string;
+  onFilterColumnChange: (value: string) => void;
+  filterActions: SelectOption<FilterAction>[];
+  currFilterAction: string;
+  onFilterActionChange: (value: FilterAction) => void;
+  currFilterValue: string;
+  onFilterValueChange: (value: string) => void;
 };
 
 const DataFilterBody: React.FC<DataFilterBodyProps> = ({
@@ -144,6 +139,11 @@ const DataFilterBody: React.FC<DataFilterBodyProps> = ({
   );
 };
 
+type DataFilterFooterProps = {
+  onApplyFilter: () => void;
+  onCancelFilter: () => void;
+};
+
 const DataFilterFooter: React.FC<DataFilterFooterProps> = ({
   onApplyFilter,
   onCancelFilter,
@@ -169,7 +169,7 @@ const DataFilterFooter: React.FC<DataFilterFooterProps> = ({
 };
 
 type DataFilterContainerProps = {
-  columns: TableColumn[];
+  columns: DataItemProps[];
 };
 
 const DataFilterContainer: React.FC<DataFilterContainerProps> = ({
@@ -282,35 +282,33 @@ const DataFilterContainer: React.FC<DataFilterContainerProps> = ({
   };
 
   return (
-    <div className="mb-2">
-      <VerticalExpandCard
-        header={
-          <DataFilterHeader
-            headerText="Data Filter"
-            onClearFilter={handleClearFilter}
-            showClearFilter={true}
-          />
-        }
-        body={
-          <DataFilterBody
-            filterColumns={filterColumns}
-            currFilterColumn={currFilterColumn}
-            onFilterColumnChange={handleFilterColumnChange}
-            filterActions={filterActions}
-            currFilterAction={currFilterAction}
-            onFilterActionChange={handleFilterActionChange}
-            currFilterValue={currFilterValue}
-            onFilterValueChange={handleFilterValueChange}
-          ></DataFilterBody>
-        }
-        footer={
-          <DataFilterFooter
-            onApplyFilter={handleApplyFilter}
-            onCancelFilter={handleCancelFilter}
-          />
-        }
-      ></VerticalExpandCard>
-    </div>
+    <VerticalExpandCard
+      header={
+        <DataFilterHeader
+          headerText="Data Filter"
+          onClearFilter={handleClearFilter}
+          showClearFilter={true}
+        />
+      }
+      body={
+        <DataFilterBody
+          filterColumns={filterColumns}
+          currFilterColumn={currFilterColumn}
+          onFilterColumnChange={handleFilterColumnChange}
+          filterActions={filterActions}
+          currFilterAction={currFilterAction}
+          onFilterActionChange={handleFilterActionChange}
+          currFilterValue={currFilterValue}
+          onFilterValueChange={handleFilterValueChange}
+        ></DataFilterBody>
+      }
+      footer={
+        <DataFilterFooter
+          onApplyFilter={handleApplyFilter}
+          onCancelFilter={handleCancelFilter}
+        />
+      }
+    ></VerticalExpandCard>
   );
 };
 

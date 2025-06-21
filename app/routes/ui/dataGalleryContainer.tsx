@@ -7,7 +7,7 @@ import {
 import DataFilterContainer from "~/components/data/dataFilterContainer";
 import DataPager from "~/components/data/dataPager";
 import DataSortContainer from "~/components/data/dataSortContainer";
-import type { TableColumn } from "~/components/data/dataTableTypes";
+import type { DataItemProps } from "~/components/data/dataTableTypes";
 import ImageGallery from "~/components/gallery/image-gallery";
 import { Button } from "~/components/ui/button";
 
@@ -23,15 +23,16 @@ export type GalleryItem = {
 const initData: GalleryItem[] = [
   {
     id: 1,
-    image: "/images/card1.jpg",
+    image: "/images/error-404.png",
     title: "Mountain Sunrise",
-    description: "Experience the beauty of a sunrise over the mountains.",
+    description:
+      "Experience the beauty of a sunrise over the mountains. What happens with this expands to be larger than the others?",
     ctaText: "View Gallery",
     ctaUrl: "#",
   },
   {
     id: 2,
-    image: "/images/card2.jpg",
+    image: "/images/error-404.png",
     title: "City Lights",
     description: "Explore the vibrant nightlife and cityscapes.",
     ctaText: "See More",
@@ -39,7 +40,7 @@ const initData: GalleryItem[] = [
   },
   {
     id: 3,
-    image: "/images/card3.jpg",
+    image: "/images/self_portrait.png",
     title: "Forest Path",
     description: "Take a walk through serene forest trails.",
     ctaText: "Discover",
@@ -47,7 +48,7 @@ const initData: GalleryItem[] = [
   },
   {
     id: 4,
-    image: "/images/card4.jpg",
+    image: "/images/error-500.png",
     title: "Desert Adventure",
     description: "Embark on a journey across golden sands.",
     ctaText: "Start Adventure",
@@ -55,7 +56,7 @@ const initData: GalleryItem[] = [
   },
   {
     id: 5,
-    image: "/images/card5.jpg",
+    image: "/images/error-401.png",
     title: "Ocean Breeze",
     description: "Relax by the calming waves of the ocean.",
     ctaText: "Book Now",
@@ -63,7 +64,7 @@ const initData: GalleryItem[] = [
   },
   {
     id: 6,
-    image: "/images/card6.jpg",
+    image: "/images/about-this-site.png",
     title: "Countryside Escape",
     description: "Unwind in the peaceful countryside.",
     ctaText: "Learn More",
@@ -71,7 +72,7 @@ const initData: GalleryItem[] = [
   },
   {
     id: 7,
-    image: "/images/card7.jpg",
+    image: "/images/callout-coding.png",
     title: "Winter Wonderland",
     description: "Enjoy the magic of snowy landscapes.",
     ctaText: "Explore",
@@ -79,7 +80,7 @@ const initData: GalleryItem[] = [
   },
   {
     id: 8,
-    image: "/images/card8.jpg",
+    image: "/images/callout-deployment.png",
     title: "Tropical Paradise",
     description: "Soak up the sun in a tropical paradise.",
     ctaText: "Plan Trip",
@@ -87,7 +88,7 @@ const initData: GalleryItem[] = [
   },
   {
     id: 9,
-    image: "/images/card9.jpg",
+    image: "/images/callout-design.png",
     title: "Historic Landmarks",
     description: "Visit iconic landmarks from around the world.",
     ctaText: "View Landmarks",
@@ -95,7 +96,7 @@ const initData: GalleryItem[] = [
   },
   {
     id: 10,
-    image: "/images/card10.jpg",
+    image: "/images/callout-maintenance.png",
     title: "Wildlife Safari",
     description: "Get close to nature on a thrilling safari.",
     ctaText: "Join Safari",
@@ -103,7 +104,7 @@ const initData: GalleryItem[] = [
   },
   {
     id: 11,
-    image: "/images/card11.jpg",
+    image: "/images/callout-testing.png",
     title: "Cultural Festival",
     description: "Experience the colors and sounds of local festivals.",
     ctaText: "Attend Event",
@@ -132,7 +133,7 @@ const DataGalleryContainer: React.FC<DynamicGridProps> = ({
 }: DynamicGridProps) => {
   const { data } = useLoaderData();
 
-  const initColumns: TableColumn[] = [
+  const initColumns: DataItemProps[] = [
     {
       key: "ID",
       label: "ID",
@@ -157,18 +158,20 @@ const DataGalleryContainer: React.FC<DynamicGridProps> = ({
             Responsive Content Grid with Data Context
           </h2>
         </div>
-        <div className="flex flex-row px-3">
-          <div className="w-1/2">
+        <div className="flex flex-col lg:flex-row px-3 pb-0">
+          <div className="w-full lg:w-1/2">
             <DataFilterContainer columns={initColumns}></DataFilterContainer>
           </div>
-          <div className="w-1/2">
+          <div className="w-full lg:w-1/2">
             <DataSortContainer columns={initColumns}></DataSortContainer>
           </div>
+        </div>
+        <div className="bg-slate-200 p-4 rounded-md mt-4">
+          <DataPager />
         </div>
         <div className="flex justify-center">
           <ImageGallery></ImageGallery>
         </div>
-        <DataPager></DataPager>
       </DataContextProvider>
     </>
   );

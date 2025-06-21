@@ -2,7 +2,7 @@ export type TableRow = { [key: string]: string | number };
 import React from "react";
 import type { SortDirection } from "~/utils/enums";
 
-export type TableColumn = {
+export type DataItemProps = {
   key: string;
   label: string;
   hidden?: boolean;
@@ -30,8 +30,8 @@ export type TableTheme = {
   headerColor?: string;
 };
 
-export type TableProps = {
-  data: [];
-  columns: TableColumn[];
+export type TableProps<T> = {
+  data: T[];
+  columns: DataItemProps[];
   theme?: TableTheme;
 };

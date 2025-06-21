@@ -150,7 +150,7 @@ function Layout({
         suppressHydrationWarning={true}
         className="flex justify-center w-full"
       >
-        <div className="flex flex-col align-center h-[100vh] w-[95%] max-w-[2100px]">
+        <div className="flex flex-col align-center flex-grow-1 min-h-[100vh] w-[95%] max-w-[2100px]">
           {children}
         </div>
         <Toaster closeButton position="top-center" />
