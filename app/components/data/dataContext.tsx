@@ -1,16 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import type { Filter, TableColumn } from "./dataTableTypes";
+import type { Filter } from "./dataTableTypes";
 import { FilterAction, SortDirection } from "~/utils/enums";
 
 type TableRow = { [key: string]: any };
 
-export interface DataContextType {
-  data: TableRow[];
-  setData: React.Dispatch<React.SetStateAction<TableRow[]>>;
-  displayData: TableRow[];
-  setDisplayData: React.Dispatch<React.SetStateAction<TableRow[]>>;
-  // columns: TableColumn[];
-  // setColumns: React.Dispatch<React.SetStateAction<TableColumn[]>>;
+export interface DataContextType<T> {
+  data: T[];
+  setData: React.Dispatch<React.SetStateAction<T[]>>;
+  displayData: T[];
+  setDisplayData: React.Dispatch<React.SetStateAction<T[]>>;
   selectedRows: Set<number>;
   setSelectedRows: React.Dispatch<React.SetStateAction<Set<number>>>;
   filters: Record<string | number, Filter[]> | null;
@@ -35,43 +33,41 @@ export interface DataContextType {
   >;
 }
 
-const DataContext = createContext<DataContextType | undefined>(undefined);
+const DataContext = createContext<DataContextType<any> | undefined>(undefined);
 
-export const useDataContext = () => {
-  const ctx = useContext(DataContext);
+export function useDataContext<T>() {
+  const ctx = useContext(DataContext) as DataContextType<T> | undefined;
   if (!ctx) {
     throw new Error("useDataContext must be used within a DataContextProvider");
   }
   return ctx;
-};
+}
 
-interface DataContextProviderProps {
-  initialData: TableRow[];
+interface DataContextProviderProps<T> {
+  initialData: T[];
   children: React.ReactNode;
 }
 
-export const DataContextProvider: React.FC<DataContextProviderProps> = ({
+export function DataContextProvider<T>({
   initialData,
   children,
-}) => {
-  const [data, setData] = useState<TableRow[]>(initialData);
+}: DataContextProviderProps<T>) {
+  const [data, setData] = useState<T[]>(initialData);
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
   const [filters, setFilters] = useState<Record<
     string | number,
     Filter[]
   > | null>(null);
 
-  // --- SORT STATE ---
   const [sort, setSort] = useState<{
     key: string;
     direction: SortDirection;
   } | null>(null);
-  // --- END SORT STATE ---
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [totalItems, setTotalItems] = useState<number>(0);
-  const [displayData, setDisplayData] = useState<TableRow[]>(initialData);
+  const [displayData, setDisplayData] = useState<T[]>(initialData);
   const [refreshData, setRefreshData] = useState<number>(new Date().getTime());
   const [errors, setErrors] = useState<Record<string | number, string> | null>(
     null
@@ -84,7 +80,7 @@ export const DataContextProvider: React.FC<DataContextProviderProps> = ({
       Object.keys(filters).forEach((columnKey) => {
         const columnFilters = filters[columnKey];
         columnFilters.forEach((filter) => {
-          filteredData = filteredData.filter((row) => {
+          filteredData = filteredData.filter((row: any) => {
             const cellValue = row[columnKey];
             switch (filter.action) {
               case FilterAction.EQUALS:
@@ -120,10 +116,9 @@ export const DataContextProvider: React.FC<DataContextProviderProps> = ({
         });
       });
     }
-    console.log("filteredData: ", filteredData);
     // --- SORT LOGIC ---
     if (sort && sort.key) {
-      filteredData = [...filteredData].sort((a, b) => {
+      filteredData = [...filteredData].sort((a: any, b: any) => {
         const aValue = a[sort.key];
         const bValue = b[sort.key];
         if (aValue == null && bValue == null) return 0;
@@ -141,7 +136,6 @@ export const DataContextProvider: React.FC<DataContextProviderProps> = ({
           : String(bValue).localeCompare(String(aValue));
       });
     }
-    console.log("filteredData: ", filteredData);
     // --- END SORT LOGIC ---
     // Pagination
     const startIndex = (currentPage - 1) * rowsPerPage;
@@ -158,8 +152,6 @@ export const DataContextProvider: React.FC<DataContextProviderProps> = ({
         setData,
         displayData,
         setDisplayData,
-        // columns,
-        // setColumns,
         selectedRows,
         setSelectedRows,
         filters,
@@ -181,4 +173,4 @@ export const DataContextProvider: React.FC<DataContextProviderProps> = ({
       {children}
     </DataContext.Provider>
   );
-};
+}

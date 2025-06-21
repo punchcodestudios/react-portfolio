@@ -7,7 +7,7 @@ interface DataTableProps {
 }
 
 const HorizontalDataTable: React.FC<DataTableProps> = ({ columns }) => {
-  const { displayData } = useDataContext();
+  const { displayData } = useDataContext<TableRow>();
   if (!displayData || displayData.length === 0) {
     return <div>No data available.</div>;
   }

@@ -8,9 +8,10 @@ import DataFilterContainer from "~/components/data/dataFilterContainer";
 import DataPager from "~/components/data/dataPager";
 import DataSortContainer from "~/components/data/dataSortContainer";
 import type { TableColumn } from "~/components/data/dataTableTypes";
+import ImageGallery from "~/components/gallery/image-gallery";
 import { Button } from "~/components/ui/button";
 
-type GalleryItem = {
+export type GalleryItem = {
   id: string | number;
   image: string;
   title: string;
@@ -130,7 +131,6 @@ const DataGalleryContainer: React.FC<DynamicGridProps> = ({
   gap = "gap-4",
 }: DynamicGridProps) => {
   const { data } = useLoaderData();
-  const { displayData } = useDataContext();
 
   const initColumns: TableColumn[] = [
     {
@@ -151,7 +151,7 @@ const DataGalleryContainer: React.FC<DynamicGridProps> = ({
 
   return (
     <>
-      <DataContextProvider initialData={data.initData}>
+      <DataContextProvider<GalleryItem> initialData={data.initData}>
         <div className="p-4">
           <h2 className="text-xl font-semibold mb-4">
             Responsive Content Grid with Data Context
@@ -165,29 +165,10 @@ const DataGalleryContainer: React.FC<DynamicGridProps> = ({
             <DataSortContainer columns={initColumns}></DataSortContainer>
           </div>
         </div>
-        <DataPager></DataPager>
-        <div className="flex flex-row flex-wrap justify-around">
-          {data.initData &&
-            data.map((item: GalleryItem) => {
-              return (
-                <div key={item.id} className="p-4">
-                  <div className="w-full md:w-[300px] 2xl:w-[400px] h-[300px] bg-slate-50 rounded-md p-4 flex flex-col justify-between">
-                    <div>
-                      <img src="/images/error-401.png"></img>
-                    </div>
-                    <h2>{item.title}</h2>
-                    <div className="flex flex-grow">
-                      <p>{item.description}</p>
-                    </div>
-
-                    <Link to={item.ctaUrl}>
-                      <Button variant="secondary">GO</Button>
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
+        <div className="flex justify-center">
+          <ImageGallery></ImageGallery>
         </div>
+        <DataPager></DataPager>
       </DataContextProvider>
     </>
   );

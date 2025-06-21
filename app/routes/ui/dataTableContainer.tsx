@@ -4,13 +4,6 @@ import type { TableColumn } from "~/components/data/dataTableTypes";
 import { Button } from "~/components/ui/button";
 import { useLoaderData, type LoaderFunctionArgs } from "react-router";
 import ResponsiveDataTable from "~/components/data/responsiveDataTable";
-import gradImage from "/images/graduation-logo.png";
-import innovationImage from "/images/home_innovation.png";
-//@ts-ignore
-import informationImage from "/images/home_information.png";
-//@ts-ignore
-import communicationImage from "/images/home_communication.png";
-import SlideshowViewer from "~/components/Slideshow/SlideshowViewer";
 
 export const initColumns: TableColumn[] = [
   { key: "ID", label: "ID", hidden: true },
@@ -114,7 +107,7 @@ const DataTableContainer: React.FC<{}> = () => {
 
   return (
     <>
-      <DataContextProvider initialData={data.initData}>
+      <DataContextProvider<TableColumn> initialData={data.initData}>
         <div className="p-4">
           <h2 className="text-xl font-semibold mb-4">
             Responsive Data Grid with Data Context
