@@ -14,11 +14,13 @@ import {
   useRouteError,
   type ActionFunctionArgs,
 } from "react-router";
-import { redirectWithToast, toastSessionStorage } from "~/utils/toast.server";
+import { toastSessionStorage } from "~/utils/toast.server";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SolidIcon } from "~/utils/enums";
 import { getDateStampForFilename } from "~/utils/date";
 import { getResumeDoc } from "~/utils/fileDownload";
+import { CallToActionLeft, CallToActionRight } from "~/components/cards/cta";
+import GenericErrorBoundary from "~/components/ui/error-boundary";
 
 export async function action({ request, params }: ActionFunctionArgs) {
   // console.log("action: ");
@@ -52,16 +54,94 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   const downloadResume = () => {
-    // redirectWithToast("/", {
-    //   type: "success",
-    //   title: "Success",
-    //   description: "Contact successfully submitted.",
-    // });
-    return getResumeDoc();
+    return console.log("get resume");
+  };
+
+  const inspriationCtaActions = () => {
+    return (
+      <div className="md:flex md:flex-row md:justify-between">
+        <div className="w-full mb-3 md:w-[45%]">
+          <Button variant="secondary" size="md" onClick={downloadResume}>
+            <FontAwesomeIcon
+              icon={IconService.getSolid(SolidIcon.FILE_DOWNLOAD)}
+              className="text-lg me-5"
+            ></FontAwesomeIcon>
+            Download Resume
+          </Button>
+        </div>
+        <div className="w-full mb-3 md:w-[45%]">
+          <Link to={"/resume"}>
+            <Button variant="secondary" size="md">
+              View Online
+              <FontAwesomeIcon
+                icon={IconService.getSolid(SolidIcon.FORWARD)}
+                className="text-lg ms-5"
+              ></FontAwesomeIcon>
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  };
+
+  const innovationCtaActions = () => {
+    return (
+      <div className="md:flex md:flex-row  md:justify-between">
+        <div className="w-full mb-3 md:w-[45%]">
+          <Button variant="secondary" size="md">
+            <FontAwesomeIcon
+              icon={IconService.getSolid(SolidIcon.FILE_DOWNLOAD)}
+              className="text-lg me-5"
+            ></FontAwesomeIcon>
+            Download Technical Specs
+          </Button>
+        </div>
+        <div className="w-full mb-3 md:w-[45%]">
+          <Link to={"/about"}>
+            <Button variant="secondary" size="md">
+              Learn More
+              <FontAwesomeIcon
+                icon={IconService.getSolid(SolidIcon.FORWARD)}
+                className="text-lg ms-5"
+              ></FontAwesomeIcon>
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  };
+
+  const collaborationCtaActions = () => {
+    return (
+      <div className="md:flex md:flex-row md:justify-between">
+        <div className="w-full mb-3 md:w-[45%]">
+          <Link to={"/contact"}>
+            <Button variant="secondary" size="md">
+              Schedule a Live Demo
+              <FontAwesomeIcon
+                icon={IconService.getSolid(SolidIcon.FORWARD)}
+                className="text-lg ms-5"
+              ></FontAwesomeIcon>
+            </Button>
+          </Link>
+        </div>
+        <div className="w-full mb-3 md:w-[45%]">
+          <Link to={"/contact"}>
+            <Button variant="secondary" size="md">
+              Send a Note
+              <FontAwesomeIcon
+                icon={IconService.getSolid(SolidIcon.FORWARD)}
+                className="text-lg ms-5"
+              ></FontAwesomeIcon>
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
   };
 
   return (
-    <div className="flex-flex-col">
+    <div className="">
       <div className="justify-center mx-auto mb-2 p-2 bg-home-hero bg-no-repeat bg-cover bg-opacity-40 xl:flex-row xl:flex-wrap xl:justify-between xl:p-5 ">
         <div className="p-2 xl:p-0 mt-5 xl:px-5 h-[125px] xl:mt-0 text-center">
           <div className="mb-3 xl:w-120">
@@ -74,6 +154,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+
       <div className="flex flex-col mx-auto pb-0">
         <div className="mx-auto mt-10 min-h-[50px] max-w-[90%] lg:max-w-[70%]">
           <div className="xl:flex">
@@ -93,169 +174,48 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col mx-auto my-5 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-around xl:p-20 ">
-        <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
-          <div className="xl:flex">
-            <div className="px-6 xl:p-0 xl:shrink-0">
-              <img
-                className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src={innovationImage}
-                alt="Modern building architecture"
-              />
-            </div>
-            <div className="p-6 xl:p-0 mt-2 xl:px-5 xl:mt-0 xl:ms-10">
-              <div className="mb-3 xl:w-120">
-                <h2 className="font-semibold tracking-wide text-primary font-header uppercase">
-                  Inspiration
-                </h2>
-                <p className="mt-1 block text-xl leading-tight font-medium">
-                  Adding value to your team
-                </p>
-                <p className="my-4">
-                  As a fully dedicated member of your team, or as an independant
+        <CallToActionLeft
+          title="Inspriation"
+          imageUrl={innovationImage}
+          imageAlt="image of a lighbulb emitting visible signs of energy signifying ideas and innovative thinking"
+          tagLine="Adding value to your team"
+          text="As a fully dedicated member of your team, or as an independant
                   contractor solving a specific problem, Punchcode Studios
                   brings more than fifteen years of expertice and passion for
-                  web development to your organization or personal project.
-                </p>
-              </div>
-
-              <div className="md:flex md:flex-row md:justify-between">
-                <div className="w-full mb-3 md:w-[45%]">
-                  <Button
-                    variant="secondary"
-                    size="md"
-                    onClick={downloadResume}
-                  >
-                    <FontAwesomeIcon
-                      icon={IconService.getSolid(SolidIcon.FILE_DOWNLOAD)}
-                      className="text-lg me-5"
-                    ></FontAwesomeIcon>
-                    Download Resume
-                  </Button>
-                </div>
-                <div className="w-full mb-3 md:w-[45%]">
-                  <Link to={"/resume"}>
-                    <Button variant="secondary" size="md">
-                      View Online
-                      <FontAwesomeIcon
-                        icon={IconService.getSolid(SolidIcon.FORWARD)}
-                        className="text-lg ms-5"
-                      ></FontAwesomeIcon>
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                  web development to your organization or personal project."
+          actions={inspriationCtaActions()}
+        ></CallToActionLeft>
       </div>
 
-      <div className="flex flex-col mx-auto my-5 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
-        <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
-          <div className="flex flex-col-reverse xl:flex-row">
-            <div className="p-6 xl:p-0 mt-2 xl:px-5 xl:mt-0 xl:me-10">
-              <div className="mb-3 xl:w-120">
-                <h2 className="font-semibold tracking-wide text-primary font-header uppercase">
-                  Innovation
-                </h2>
-                <p className="mt-1 block text-xl leading-tight font-medium text-black">
-                  Keeping up with industry standards
-                </p>
-                <p className="my-4">
-                  Continuous growth is a challenge that every business faces in
+      <div className="flex flex-col mx-auto my-5 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-around xl:p-20 ">
+        <CallToActionRight
+          title="Innovation"
+          imageUrl={informationImage}
+          imageAlt="blue and orange geometric image illustrating concept of central processing unit and related circuits"
+          tagLine="Keeping up with industry standards"
+          text="Continuous growth is a challenge that every business faces in
                   today's marketplace. Punchcode Studios is passionate about
                   adapting to the constantly evoloving landscape of this modern
                   age, and is commited to providing reliable software solutions
-                  that will scale with your growing needs.
-                </p>
-              </div>
-              <div className="md:flex md:flex-row  md:justify-between">
-                <div className="w-full mb-3 md:w-[45%]">
-                  <Button variant="secondary" size="md">
-                    <FontAwesomeIcon
-                      icon={IconService.getSolid(SolidIcon.FILE_DOWNLOAD)}
-                      className="text-lg me-5"
-                    ></FontAwesomeIcon>
-                    Download Technical Specs
-                  </Button>
-                </div>
-                <div className="w-full mb-3 md:w-[45%]">
-                  <Link to={"/about"}>
-                    <Button variant="secondary" size="md">
-                      Learn More
-                      <FontAwesomeIcon
-                        icon={IconService.getSolid(SolidIcon.FORWARD)}
-                        className="text-lg ms-5"
-                      ></FontAwesomeIcon>
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="px-6 xl:p-0 xl:shrink-0">
-              <img
-                className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src={informationImage}
-                alt="blue and orange geometric image illustrating concept of central processing unit and related circuits"
-              />
-            </div>
-          </div>
-        </div>
+                  that will scale with your growing needs."
+          actions={innovationCtaActions()}
+        ></CallToActionRight>
       </div>
-      <div className="flex flex-col mx-auto my-5 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
-        <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
-          <div className="xl:flex">
-            <div className="px-6 xl:p-0 xl:shrink-0">
-              <img
-                className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src={communicationImage}
-                alt="image of people gathered together to interact with each other"
-                title="collaboration image"
-              />
-            </div>
-            <div className="p-6 xl:p-0 mt-2 xl:px-5 xl:mt-0 xl:ms-10">
-              <div className="mb-3 xl:w-120">
-                <h2 className="font-semibold tracking-wide text-primary font-header uppercase">
-                  Collaboration
-                </h2>
-                <p className="mt-1 block text-xl leading-tight font-medium">
-                  Communication is key to success
-                </p>
-                <p className="my-4">
-                  Effective communication is at the heart of uncovering the
+
+      <div className="flex flex-col mx-auto my-5 xl:flex-row xl:flex-wrap xl:justify-around xl:p-20 ">
+        <CallToActionLeft
+          title="Collaboration"
+          imageUrl={communicationImage}
+          imageAlt="image of people gathered together to interact with each other"
+          tagLine="Communication is key to success"
+          text="Effective communication is at the heart of uncovering the
                   specific requirements that a well-designed software should
                   meet. Punchcode Studios listens first, then is dedicated to
                   clear and consice communication for collaboration with
                   stakeholders at each phase of the Software Development Life
-                  Cycle.
-                </p>
-              </div>
-              <div className="md:flex md:flex-row md:justify-between">
-                <div className="w-full mb-3 md:w-[45%]">
-                  <Link to={"/contact"}>
-                    <Button variant="secondary" size="md">
-                      Schedule a Live Demo
-                      <FontAwesomeIcon
-                        icon={IconService.getSolid(SolidIcon.FORWARD)}
-                        className="text-lg ms-5"
-                      ></FontAwesomeIcon>
-                    </Button>
-                  </Link>
-                </div>
-                <div className="w-full mb-3 md:w-[45%]">
-                  <Link to={"/contact"}>
-                    <Button variant="secondary" size="md">
-                      Send a Note
-                      <FontAwesomeIcon
-                        icon={IconService.getSolid(SolidIcon.FORWARD)}
-                        className="text-lg ms-5"
-                      ></FontAwesomeIcon>
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                  Cycle."
+          actions={collaborationCtaActions()}
+        ></CallToActionLeft>
       </div>
     </div>
   );
@@ -273,15 +233,7 @@ export function ErrorBoundary() {
       </div>
     );
   } else if (error instanceof Error) {
-    return (
-      <div>
-        <h1>{`Error: ${typeof error}`}</h1>
-        {`${error.toString()}`}
-        <p>{error.message}</p>
-        <p>The stack trace is:</p>
-        <pre>{error.stack}</pre>
-      </div>
-    );
+    return <GenericErrorBoundary></GenericErrorBoundary>;
   } else {
     return <h1>Unknown Error</h1>;
   }

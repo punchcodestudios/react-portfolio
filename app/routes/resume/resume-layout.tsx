@@ -1,6 +1,13 @@
-import { Outlet, useMatches, type MetaFunction } from "react-router";
+import {
+  isRouteErrorResponse,
+  Outlet,
+  useMatches,
+  useRouteError,
+  type MetaFunction,
+} from "react-router";
 import HeaderImage from "~/components/layout/header-image";
 import PageNav from "~/components/layout/page-nav";
+import GenericErrorBoundary from "~/components/ui/error-boundary";
 import useImage from "~/hooks/useImage";
 
 export async function loader() {
@@ -23,7 +30,7 @@ export const meta: MetaFunction<typeof loader> = ({
   ];
 };
 
-const ResumeLayout = () => {
+export default function ResumeLayout() {
   const headerImage = useImage({ path: "/resume" });
   const matches = useMatches();
   // console.log("matches from resume layout: ", matches);
@@ -37,6 +44,22 @@ const ResumeLayout = () => {
       </div>
     </>
   );
-};
+}
 
-export default ResumeLayout;
+export function ErrorBoundary() {
+  const error = useRouteError();
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h1>
+          Route Error: {error.status} {error.statusText}
+        </h1>
+        <p>{error.data}</p>
+      </div>
+    );
+  } else if (error instanceof Error) {
+    return <GenericErrorBoundary></GenericErrorBoundary>;
+  } else {
+    return <h1>Unknown Error</h1>;
+  }
+}

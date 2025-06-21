@@ -30,7 +30,7 @@ const FormLayout = () => {
   return (
     <>
       {/* {headerImage && <HeaderImage headerImage={headerImage}></HeaderImage>} */}
-      <div className="flex flex-col w-[90%] mx-auto mt-3">
+      <div className="flex flex-col w-full md:w-[90%] mx-auto mt-3">
         <Outlet></Outlet>
       </div>
     </>

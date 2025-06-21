@@ -4,9 +4,11 @@ import { useState } from "react";
 import {
   data,
   Form,
+  isRouteErrorResponse,
   Link,
   useActionData,
   useLoaderData,
+  useRouteError,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "react-router";
@@ -24,6 +26,7 @@ import { checkForHoneypot } from "~/utils/honeypot.server";
 import { redirectWithToast } from "~/utils/toast.server";
 import { Select } from "../components/ui/select";
 import { Input } from "~/components/ui/input";
+import GenericErrorBoundary from "~/components/ui/error-boundary";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const note = {
@@ -177,7 +180,7 @@ function ErrorList({
   ) : null;
 }
 
-const Contact = () => {
+export default function Contact() {
   const data = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
 
@@ -211,8 +214,8 @@ const Contact = () => {
     shouldRevalidate: "onBlur",
   });
   return (
-    <div className="container flex min-h-full flex-col justify-center pb-32 pt-20">
-      <div className="mx-auto w-full max-w-lg bg-white pt-20 rounded-xl">
+    <div className="flex min-h-full flex-col justify-center pb-32 pt-20">
+      <div className="mx-auto w-full  bg-white pt-20 rounded-xl">
         <div className="flex flex-col gap-3 text-center">
           <h1 className="text-h2 md:text-h1 font-header lowercase text-secondary">
             Send a message
@@ -223,92 +226,101 @@ const Contact = () => {
         </div>
         <Form
           method="post"
-          className="flex h-full flex-col gap-y-4 overflow-y-auto overflow-x-hidden px-10 pb-28 pt-12"
+          className="flex h-full w-full flex-col px-4 gap-y-4 overflow-y-auto overflow-x-hidden md:px-10 pb-28 pt-12"
           {...form.props}
         >
           <HoneypotInputs></HoneypotInputs>
           <AuthenticityTokenInput />
+
           <div className="flex flex-col gap-1">
-            <div>
-              <Label
-                htmlFor={fields.subject.id}
-                className="font-navItem text-md"
-              >
-                Subject:
-              </Label>
-              <Select
-                {...conform.input(fields.subject)}
-                className="dark:text-siteWhite dark:bg-slate-600 mt-3"
-                onChange={(event) => setSelectedSubject(event.target.value)}
-              >
-                <option value="">Please Select</option>
-                <option value="request_demo">Request a demontration</option>
-                <option value="general">General correspondence</option>
-              </Select>
-              <div className="min-h-[32px] px-4 pb-3 pt-1">
-                <ErrorList
-                  id={fields.subject.errorId}
-                  errors={fields.subject.errors}
-                />
+            {/* Subject */}
+            <div className="flex flex-row">
+              <div className="w-full">
+                <Label
+                  htmlFor={fields.subject.id}
+                  className="font-navItem text-md"
+                >
+                  Subject:
+                </Label>
+                <Select
+                  {...conform.input(fields.subject)}
+                  className="dark:text-siteWhite dark:bg-slate-600 mt-3"
+                  onChange={(event) => setSelectedSubject(event.target.value)}
+                >
+                  <option value="">Please Select</option>
+                  <option value="request_demo">Request a demontration</option>
+                  <option value="general">General correspondence</option>
+                </Select>
+                <div className="min-h-[32px] px-4 pb-3 pt-1">
+                  <ErrorList
+                    id={fields.subject.errorId}
+                    errors={fields.subject.errors}
+                  />
+                </div>
               </div>
             </div>
-            <div>
-              <Label
-                htmlFor={fields.firstName.id}
-                className="font-navItem text-md"
-              >
-                First Name:
-              </Label>
-              <Input
-                {...conform.textarea(fields.firstName)}
-                type="text"
-                className="mt-3"
-              />
-              <div className="min-h-[32px] px-4 pb-3 pt-1">
-                <ErrorList
-                  id={fields.firstName.errorId}
-                  errors={fields.firstName.errors}
+            {/* First Name / Last Name*/}
+            <div className="flex flex-row flex-wrap">
+              <div className="w-full lg:w-1/3 lg:pe-2">
+                <Label
+                  htmlFor={fields.firstName.id}
+                  className="font-navItem text-md"
+                >
+                  First Name:
+                </Label>
+                <Input
+                  {...conform.textarea(fields.firstName)}
+                  type="text"
+                  className="mt-3"
                 />
+                <div className="min-h-[32px] px-4 pb-3 pt-1">
+                  <ErrorList
+                    id={fields.firstName.errorId}
+                    errors={fields.firstName.errors}
+                  />
+                </div>
+              </div>
+              <div className="w-full lg:w-1/3 lg:pe-2">
+                <Label
+                  htmlFor={fields.lastName.id}
+                  className="font-navItem text-md"
+                >
+                  Last Name:
+                </Label>
+                <Input
+                  {...conform.textarea(fields.lastName)}
+                  type="text"
+                  className="mt-3"
+                />
+                <div className="min-h-[32px] px-4 pb-3 pt-1">
+                  <ErrorList
+                    id={fields.lastName.errorId}
+                    errors={fields.lastName.errors}
+                  />
+                </div>
+              </div>
+              <div className="w-full lg:w-1/3">
+                <Label
+                  htmlFor={fields.organization.id}
+                  className="font-navItem text-md"
+                >
+                  Organization:
+                </Label>
+                <Input
+                  {...conform.textarea(fields.organization)}
+                  type="text"
+                  className="mt-3"
+                />
+                <div className="min-h-[32px] px-4 pb-3 pt-1">
+                  <ErrorList
+                    id={fields.organization.errorId}
+                    errors={fields.organization.errors}
+                  />
+                </div>
               </div>
             </div>
-            <div>
-              <Label
-                htmlFor={fields.lastName.id}
-                className="font-navItem text-md"
-              >
-                Last Name:
-              </Label>
-              <Input
-                {...conform.textarea(fields.lastName)}
-                type="text"
-                className="mt-3"
-              />
-              <div className="min-h-[32px] px-4 pb-3 pt-1">
-                <ErrorList
-                  id={fields.lastName.errorId}
-                  errors={fields.lastName.errors}
-                />
-              </div>
-            </div>
-            <div>
-              <Label
-                htmlFor={fields.organization.id}
-                className="font-navItem text-md"
-              >
-                Organization:
-              </Label>
-              <Input
-                {...conform.textarea(fields.organization)}
-                type="text"
-                className="mt-3"
-              />
-              <div className="min-h-[32px] px-4 pb-3 pt-1">
-                <ErrorList
-                  id={fields.organization.errorId}
-                  errors={fields.organization.errors}
-                />
-              </div>
-            </div>
+
+            {/* Message */}
             <div>
               <Label
                 htmlFor={fields.message.id}
@@ -327,98 +339,115 @@ const Contact = () => {
                 />
               </div>
             </div>
+
+            {/* Preferred Method of Contact */}
+            <div className="flex w-full">
+              <fieldset className="bg-slate-100 flex w-full flex-col md:flex-row md:flex-wrap">
+                <legend className="font-navItem text-md mb-3 bg-background p-3">
+                  Preferred method of contact:
+                </legend>
+                <div className="flex flex-col w-full md:flex-row">
+                  {selectedSubject != "request_demo" && (
+                    <div key={0} className="flex items-center ms-4">
+                      <label
+                        className="relative flex items-center cursor-pointer"
+                        html-for={fields.formOfContact.id}
+                      >
+                        <input
+                          id="contact_method_0"
+                          type="radio"
+                          name={fields.formOfContact.name}
+                          value={"do not contact"}
+                          defaultChecked={
+                            fields.formOfContact.defaultValue ===
+                            "do not contact"
+                          }
+                          className="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
+                          onChange={(event) => handleContactMethod(event)}
+                        ></input>
+                        <span className="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
+                      </label>
+                      <Label htmlFor={fields.formOfContact.id} className="m-3">
+                        {"do not contact"}
+                      </Label>
+                    </div>
+                  )}
+                  {[
+                    { id: "1", value: "email" },
+                    { id: "2", value: "telephone" },
+                  ].map((item) => (
+                    <div key={item.id} className="flex items-center ms-4">
+                      <label
+                        className="relative flex items-center cursor-pointer"
+                        html-for={fields.formOfContact.id}
+                      >
+                        <input
+                          id={`contact_method_${item.id}`}
+                          type="radio"
+                          name={fields.formOfContact.name}
+                          value={item.value}
+                          defaultChecked={
+                            fields.formOfContact.defaultValue === item.value
+                          }
+                          className="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
+                          onChange={(event) => handleContactMethod(event)}
+                        ></input>
+                        <span className="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
+                      </label>
+                      <Label htmlFor={fields.formOfContact.id} className="m-3">
+                        {item.value}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-col md:flex-row w-full">
+                  <div
+                    className={`flex mx-4 mt-3 md:w-full ${
+                      selectedContactMethod == "telephone" ? "block" : "hidden"
+                    }`}
+                  >
+                    <Field
+                      labelProps={{
+                        children: "Phone Number",
+                      }}
+                      inputProps={{
+                        ...conform.input(fields.phoneNumber),
+                        autoFocus: true,
+                        className: "lowercase flex w-full mt-4",
+                        placeholder: "(XXX)-XXX-XXXX",
+                      }}
+                      className="w-full"
+                      errors={fields.phoneNumber.errors}
+                    />
+                  </div>
+                  <div
+                    className={`flex mx-4 mt-3 md:w-full ${
+                      selectedContactMethod == "email" ? "block" : "hidden"
+                    }`}
+                  >
+                    <Field
+                      labelProps={{ children: "Email Address" }}
+                      inputProps={{
+                        ...conform.input(fields.emailAddress),
+                        autoFocus: true,
+                        className: "lowercase mt-4",
+                      }}
+                      className="w-full"
+                      errors={fields.emailAddress.errors}
+                    />
+                  </div>
+                  <div className="min-h-[32px] px-4 pb-3 pt-1">
+                    <ErrorList
+                      id={fields.formOfContact.errorId}
+                      errors={fields.formOfContact.errors}
+                    />
+                  </div>
+                </div>
+              </fieldset>
+            </div>
           </div>
           <ErrorList id={form.errorId} errors={form.errors} />
 
-          <fieldset>
-            <legend className="font-navItem text-md mb-3">
-              Preferred method of contact:
-            </legend>
-            {selectedSubject != "request_demo" && (
-              <div key={0} className="flex items-center ms-4">
-                <label
-                  className="relative flex items-center cursor-pointer"
-                  html-for={fields.formOfContact.id}
-                >
-                  <input
-                    id="contact_method_0"
-                    type="radio"
-                    name={fields.formOfContact.name}
-                    value={"do not contact"}
-                    defaultChecked={
-                      fields.formOfContact.defaultValue === "do not contact"
-                    }
-                    className="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
-                    onChange={(event) => handleContactMethod(event)}
-                  ></input>
-                  <span className="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
-                </label>
-                <Label htmlFor={fields.formOfContact.id} className="m-3">
-                  {"do not contact"}
-                </Label>
-              </div>
-            )}
-            {[
-              { id: "1", value: "email" },
-              { id: "2", value: "telephone" },
-            ].map((item) => (
-              <div key={item.id} className="flex items-center ms-4">
-                <label
-                  className="relative flex items-center cursor-pointer"
-                  html-for={fields.formOfContact.id}
-                >
-                  <input
-                    id={`contact_method_${item.id}`}
-                    type="radio"
-                    name={fields.formOfContact.name}
-                    value={item.value}
-                    defaultChecked={
-                      fields.formOfContact.defaultValue === item.value
-                    }
-                    className="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
-                    onChange={(event) => handleContactMethod(event)}
-                  ></input>
-                  <span className="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
-                </label>
-                <Label htmlFor={fields.formOfContact.id} className="m-3">
-                  {item.value}
-                </Label>
-              </div>
-            ))}
-            {selectedContactMethod == "telephone" && (
-              <div className="mt-3">
-                <Field
-                  labelProps={{ children: "Phone Number" }}
-                  inputProps={{
-                    ...conform.input(fields.phoneNumber),
-                    autoFocus: true,
-                    className: "lowercase",
-                    placeholder: "(XXX)-XXX-XXXX",
-                  }}
-                  errors={fields.phoneNumber.errors}
-                />
-              </div>
-            )}
-            {selectedContactMethod == "email" && (
-              <div className="mt-3">
-                <Field
-                  labelProps={{ children: "Email Address" }}
-                  inputProps={{
-                    ...conform.input(fields.emailAddress),
-                    autoFocus: true,
-                    className: "lowercase",
-                  }}
-                  errors={fields.emailAddress.errors}
-                />
-              </div>
-            )}
-            <div className="min-h-[32px] px-4 pb-3 pt-1">
-              <ErrorList
-                id={fields.formOfContact.errorId}
-                errors={fields.formOfContact.errors}
-              />
-            </div>
-          </fieldset>
           <div className="w-full p-3 mt-3">
             <Button
               form={form.id}
@@ -439,6 +468,22 @@ const Contact = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Contact;
+export function ErrorBoundary() {
+  const error = useRouteError();
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h1>
+          Route Error: {error.status} {error.statusText}
+        </h1>
+        <p>{error.data}</p>
+      </div>
+    );
+  } else if (error instanceof Error) {
+    return <GenericErrorBoundary></GenericErrorBoundary>;
+  } else {
+    return <h1>Unknown Error</h1>;
+  }
+}

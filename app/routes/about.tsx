@@ -23,6 +23,7 @@ import { useState } from "react";
 import type { Skill, SkillRequest } from "~/entities/resume";
 import resumeService from "~/service/resume-service";
 import { Badge } from "~/components/ui/badge";
+import GenericErrorBoundary from "~/components/ui/error-boundary";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const request: SkillRequest = {
@@ -147,7 +148,7 @@ export default function About() {
   };
 
   return (
-    <div className="flex-flex-col">
+    <div className="">
       {headerImage && <HeaderImage headerImage={headerImage}></HeaderImage>}
       <div>
         <div className="flex flex-col mx-auto p-6 pb-0">
@@ -630,14 +631,7 @@ export function ErrorBoundary() {
       </div>
     );
   } else if (error instanceof Error) {
-    return (
-      <div>
-        <h1>Error</h1>
-        <p>{error.message}</p>
-        <p>The stack trace is:</p>
-        <pre>{error.stack}</pre>
-      </div>
-    );
+    return <GenericErrorBoundary></GenericErrorBoundary>;
   } else {
     return <h1>Unknown Error</h1>;
   }

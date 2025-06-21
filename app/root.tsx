@@ -199,29 +199,31 @@ export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Layout>
       <Navbar></Navbar>
-      <GenericErrorBoundary
-        statusHandlers={{
-          401: ({ params }) => (
-            <>
-              <h1>401</h1>
-              <p>Unauthorized</p>
-            </>
-          ),
-          403: ({ params }) => (
-            <>
-              <h1>403</h1>
-              <p>Invalid Request</p>
-            </>
-          ),
-          404: ({ params }) => (
-            <>
-              <h1>404</h1>
-              <p>Not Found</p>
-            </>
-          ),
-          418: ({ params }) => <>{`${params.key} ${params.value}`}</>,
-        }}
-      ></GenericErrorBoundary>
+      <main>
+        <GenericErrorBoundary
+        // statusHandlers={{
+        //   401: ({ params }) => (
+        //     <>
+        //       <h1>401</h1>
+        //       <p>Unauthorized</p>
+        //     </>
+        //   ),
+        //   403: ({ params }) => (
+        //     <>
+        //       <h1>403</h1>
+        //       <p>Invalid Request</p>
+        //     </>
+        //   ),
+        //   404: ({ params }) => (
+        //     <>
+        //       <h1>404</h1>
+        //       <p>Not Found</p>
+        //     </>
+        //   ),
+        //   418: ({ params }) => <>{`${params.key} ${params.value}`}</>,
+        // }}
+        ></GenericErrorBoundary>
+      </main>
       <Footer></Footer>
     </Layout>
   );

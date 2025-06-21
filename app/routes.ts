@@ -12,6 +12,7 @@ export default [
   route("terms-of-use", "routes/terms-of-use.tsx"),
   route("ui/index", "routes/ui/index.tsx"),
   route("ui/data-table", "routes/ui/dataTableContainer.tsx"),
+  route("ui/data-gallery", "routes/ui/dataGalleryContainer.tsx"),
   layout("routes/form-layout.tsx", [route("contact", "routes/contact.tsx")]),
   layout("routes/resume/resume-layout.tsx", [
     route("resume", "routes/resume/summary.tsx"),
