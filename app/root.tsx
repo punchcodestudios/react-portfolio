@@ -45,6 +45,9 @@ import GenericErrorBoundary from "./components/ui/error-boundary";
 import Footer from "./components/layout/footer";
 import Navbar from "./components/layout/navbar";
 
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+
 export const links: LinksFunction = () =>
   [
     { rel: "stylesheet", href: "https://use.typekit.net/utp7gyp.css" },
@@ -185,6 +188,7 @@ function App() {
 
 export default function Root() {
   const data = useLoaderData<typeof loader>();
+
   return (
     <AuthenticityTokenProvider token={data.csrfToken}>
       <HoneypotProvider {...data.honeyProps}>
@@ -200,29 +204,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
     <Layout>
       <Navbar></Navbar>
       <main>
-        <GenericErrorBoundary
-        // statusHandlers={{
-        //   401: ({ params }) => (
-        //     <>
-        //       <h1>401</h1>
-        //       <p>Unauthorized</p>
-        //     </>
-        //   ),
-        //   403: ({ params }) => (
-        //     <>
-        //       <h1>403</h1>
-        //       <p>Invalid Request</p>
-        //     </>
-        //   ),
-        //   404: ({ params }) => (
-        //     <>
-        //       <h1>404</h1>
-        //       <p>Not Found</p>
-        //     </>
-        //   ),
-        //   418: ({ params }) => <>{`${params.key} ${params.value}`}</>,
-        // }}
-        ></GenericErrorBoundary>
+        <GenericErrorBoundary></GenericErrorBoundary>
       </main>
       <Footer></Footer>
     </Layout>

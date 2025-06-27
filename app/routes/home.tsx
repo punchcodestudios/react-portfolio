@@ -141,7 +141,7 @@ export default function Home() {
   };
 
   return (
-    <div className="">
+    <>
       <div className="justify-center mx-auto mb-2 p-2 bg-home-hero bg-no-repeat bg-cover bg-opacity-40 xl:flex-row xl:flex-wrap xl:justify-between xl:p-5 ">
         <div className="p-2 xl:p-0 mt-5 xl:px-5 h-[125px] xl:mt-0 text-center">
           <div className="mb-3 xl:w-120">
@@ -217,7 +217,7 @@ export default function Home() {
           actions={collaborationCtaActions()}
         ></CallToActionLeft>
       </div>
-    </div>
+    </>
   );
 }
 
