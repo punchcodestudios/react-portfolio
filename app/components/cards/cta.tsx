@@ -45,10 +45,10 @@ export const CallToActionLeft: React.FC<CallToActionLeftProps> = ({
   return (
     <div
       id="cta_container"
-      className="container mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]"
+      className="mx-auto max-w-full overflow-hidden md:max-w-[90%] 2xl-max-w-[70%]"
     >
-      <div className="xl:flex">
-        <div id="cta_image-container" className="px-6 xl:p-0 xl:shrink-0">
+      <div className="flex flex-col xl:flex-row">
+        <div className="px-6 xl:p-0 xl:shrink-0">
           <img
             className="h-32 w-full object-cover xl:w-96 xl:h-full"
             src={imageUrl}
@@ -100,10 +100,13 @@ export const CallToActionRight: React.FC<CallToActionRightProps> = ({
   return (
     <div
       id="cta_container"
-      className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]"
+      className="mx-auto max-w-full overflow-hidden md:max-w-[90%] 2xl-max-w-[70%]"
     >
       <div className="flex flex-col-reverse xl:flex-row">
-        <div className="p-6 xl:p-0 mt-2 xl:mt-0 xl:me-10">
+        <div
+          id="cta_content-container"
+          className="p-6 xl:p-0 mt-2 xl:mt-0 xl:me-10"
+        >
           <div className="mb-3 xl:w-120">
             <h2 className="font-semibold tracking-wide text-primary font-header uppercase">
               {title}
@@ -117,7 +120,7 @@ export const CallToActionRight: React.FC<CallToActionRightProps> = ({
           </div>
           {actions && actions}
         </div>
-        <div className="p-2 lg:px-6 xl:p-0 xl:shrink-0">
+        <div className="px-6 xl:p-0 xl:shrink-0">
           <img
             className="h-32 w-full object-cover xl:w-96 xl:h-full"
             src={imageUrl}
@@ -125,7 +128,7 @@ export const CallToActionRight: React.FC<CallToActionRightProps> = ({
           />
         </div>
       </div>
-      {children && children}
+      <div id="cta_children">{children && children}</div>
     </div>
   );
 };

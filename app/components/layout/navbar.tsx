@@ -123,26 +123,26 @@ const Navbar = () => {
             className="me-3"
             onClick={() => setExpanded(false)}
           >
-            <span className="font-navItem">Resume</span>
+            <span className="font-navItem text-siteWhite">Resume</span>
           </Link>
           <Link to="/about" className="me-3" onClick={() => setExpanded(false)}>
-            <span className="font-navItem">About</span>
+            <span className="font-navItem text-siteWhite">About</span>
           </Link>
           <Link
             to="/contact"
             className="me-3"
             onClick={() => setExpanded(false)}
           >
-            <span className="font-nav">Contact</span>
+            <span className="font-navItem text-siteWhite">Contact</span>
           </Link>
           {/* {!user && (
             <Link to="/login" className="me-3">
-              <span className="font-nav">Login</span>
+              <span className="font-navItem text-siteWhite">Login</span>
             </Link>
           )}
           {user && (
             <Link to="/logout" className="me-3">
-              <span className="font-nav">Logout</span>
+              <span className="font-navItem text-siteWhite">Logout</span>
             </Link>
           )} */}
         </div>

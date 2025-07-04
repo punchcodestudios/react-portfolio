@@ -25,19 +25,21 @@ export const getResume = async (
   }
 };
 
+const delayRequest = (ms: number): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 export const getAllSkills = async (
   request: SkillRequest
 ): Promise<ApiResponse<Skill>> => {
-  // console.log("request.params: ", request);
   const client = new ApiClient<Skill>("resume/get-all-skills", request);
+  await delayRequest(3000);
   try {
-    return client.getAll().then((response) => {
-      // console.log("resumeApi.getAllSkills response: ", response);
-      return Promise.resolve(response);
-    });
+    //throw new Error("Simulated error for testing purposes");
+    return await client.getAll();
   } catch (error: any) {
-    // console.log("error response: ", error);
-    return Promise.reject(error);
+    console.error("Error in getAllSkills:", error);
+    return Promise.reject({ ...error, message: "Failed to fetch skills" });
   }
 };
 

@@ -1,14 +1,10 @@
-import { Button } from "~/components/ui/button";
-import type { Route } from "./+types/about";
-import planningImage from "/images/callout-planning.png";
-import requirementsImage from "/images/callout-requirements.png";
-import designImage from "/images/callout-design.png";
-import codingImage from "/images/callout-coding.png";
-import testingImage from "/images/callout-testing.png";
-import deploymentImage from "/images/callout-deployment.png";
-import maintenanceImage from "/images/callout-maintenance.png";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useState } from "react";
 import {
   isRouteErrorResponse,
+  Link,
   redirect,
   useLoaderData,
   useLocation,
@@ -16,19 +12,27 @@ import {
   type ActionFunctionArgs,
   type ClientActionFunctionArgs,
 } from "react-router";
-import { toastSessionStorage } from "~/utils/toast.server";
-import useImage from "~/hooks/useImage";
+import { CallToActionLeft, CallToActionRight } from "~/components/cards/cta";
 import HeaderImage from "~/components/layout/header-image";
-import { useState } from "react";
-import type { Skill, SkillRequest } from "~/entities/resume";
-import resumeService from "~/service/resume-service";
-import { Badge } from "~/components/ui/badge";
+import { Button } from "~/components/ui/button";
 import GenericErrorBoundary from "~/components/ui/error-boundary";
+import type { SkillRequest } from "~/entities/resume";
+import useImage from "~/hooks/useImage";
+import resumeService from "~/service/resume-service";
+import { toastSessionStorage } from "~/utils/toast.server";
+import type { Route } from "./+types/about";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export async function loader({ params }: Route.LoaderArgs) {
   const request: SkillRequest = {
     params: { skillsExclude: [], slug: "" },
   };
+  console.log('"loader called for about page"');
+  setTimeout(() => {
+    console.log("timeout in loader");
+  }, 3000);
+
   const skillsData = await resumeService.getAllSkills(request);
   if (skillsData.meta.total > 0) {
     const planningSkills = skillsData.target.filter((s) =>
@@ -99,6 +103,52 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function About() {
+  useGSAP(() => {
+    const containers = [
+      ".planning-container",
+      ".requirements-container",
+      ".design-container",
+      ".coding-container",
+      ".testing-container",
+      ".deployment-container",
+      ".maintenance-container",
+    ];
+
+    containers.forEach((selector) => {
+      gsap.set(selector, { scale: 1 });
+      gsap.set(`${selector}-skills-wrapper`, { opacity: 0, scale: 1.25 });
+      gsap.to(selector, {
+        opacity: 1,
+        scale: 1.05,
+        y: 0,
+        duration: 0.7,
+        ease: "power2.inOut",
+        boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
+        scrollTrigger: {
+          trigger: selector,
+          start: "center 70%",
+          end: "center 40%",
+          markers: false, // set to true for debugging
+          scrub: true,
+        },
+        onComplete: () => {
+          gsap.to(selector, {
+            scale: 1,
+            ease: "power2.inOut",
+            boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.0)",
+            duration: 0.7,
+          });
+          gsap.to(`${selector}-skills-wrapper`, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.75,
+            ease: "power2.inOut",
+          });
+        },
+      });
+    });
+  }, []);
+
   const location = useLocation();
   const headerImage = useImage({ path: location.pathname });
   const {
@@ -109,27 +159,29 @@ export default function About() {
     deploymentSkills,
     testingSkills,
     maintenanceSkills,
-  } = useLoaderData();
+  } = useLoaderData() ?? {};
 
   function handleToast() {
     // console.log("handle toast");
   }
 
   const [skillSetClosed, setSkillSetClosed] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
   ]);
+
   const toggleSkillSet = (event: React.MouseEvent<HTMLElement>) => {
     const updated = [...skillSetClosed];
     updated[+event.currentTarget?.id] =
       !skillSetClosed[+event.currentTarget?.id];
     setSkillSetClosed(updated);
   };
+
   const getBadgeVariantBySkillType = (skillType: string) => {
     switch (skillType.toLowerCase()) {
       case "back-end":
@@ -147,300 +199,157 @@ export default function About() {
     }
   };
 
+  if (
+    planningSkills === undefined ||
+    requirementsSkills === undefined ||
+    designSkills === undefined ||
+    codingSkills === undefined ||
+    deploymentSkills === undefined ||
+    testingSkills === undefined ||
+    maintenanceSkills === undefined
+  ) {
+    return <p>Loading</p>;
+  }
+
+  useGSAP(() => {
+    const containers = [
+      ".planning-container",
+      ".requirements-container",
+      ".design-container",
+      ".coding-container",
+      ".testing-container",
+      ".deployment-container",
+      ".maintenance-container",
+    ];
+
+    containers.forEach((selector) => {
+      gsap.set(selector, { scale: 1 });
+      gsap.set(`${selector}-skills-wrapper`, { opacity: 0, scale: 1.25 });
+      gsap.to(selector, {
+        opacity: 1,
+        scale: 1.05,
+        y: 0,
+        duration: 0.7,
+        ease: "power2.inOut",
+        boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
+        scrollTrigger: {
+          trigger: selector,
+          start: "center 70%",
+          end: "center 40%",
+          markers: false, // set to true for debugging
+          scrub: true,
+        },
+        onComplete: () => {
+          gsap.to(selector, {
+            scale: 1,
+            ease: "power2.inOut",
+            boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.0)",
+            duration: 0.7,
+          });
+          gsap.to(`${selector}-skills-wrapper`, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.75,
+            ease: "power2.inOut",
+          });
+        },
+      });
+    });
+  }, []);
+
   return (
-    <div className="">
+    <>
       {headerImage && <HeaderImage headerImage={headerImage}></HeaderImage>}
-      <div>
-        <div className="flex flex-col mx-auto p-6 pb-0">
-          <div className="mx-auto min-h-[50px] max-w-[90%] lg:max-w-[70%]">
-            <div className="xl:flex xl:flex-col">
-              <h1 className="font-header text-secondary">mission statement</h1>
-              <p className="text-siteBlack text-center md:text-start">
-                To deliver reliable software that provides long term solutions
-                to business or personal needs, while adhering to budget and time
-                constraints.
-              </p>
-              <p className="text-siteBlack text-center mt-2 md:text-start ">
-                Punchcode Studios excels in every stage of the Systems
-                Development Lifecycle (SDLC). By following the structured
-                approach outlined below, Punchcode Studios has achieved a proven
-                track record of delivering high-quality software that meets or
-                exceeds initial expectations in a timely and cost-effecitve
-                manner.
-              </p>
-            </div>
-          </div>
-        </div>
+
+      <div className="flex flex-col mx-auto max-w-[90%] lg:max-w-[70%]">
+        <section className="my-10">
+          <p className="text-siteBlack text-center md:text-start">
+            Punchcode Studios is a software development company that specializes
+            in delivering high-quality, reliable software solutions. With a
+            focus on the Systems Development Lifecycle (SDLC), Punchcode Studios
+            ensures that every project is executed with precision and attention
+            to detail.
+          </p>
+        </section>
       </div>
 
-      {/* Planning */}
-      <div className="flex flex-col mx-auto my-5 p-6 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20">
-        <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
-          <div className="xl:flex">
-            <div className="px-6 xl:p-0 xl:shrink-0">
-              <img
-                className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src={planningImage}
-                alt=""
-              />
-            </div>
-            <div className="px-6 xl:p-0 mt-2 xl:px-5 xl:mt-0">
-              <div className="mb-3 xl:w-120">
-                <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
-                  Planning
-                </h2>
-                <p className="mt-1 block text-xl leading-tight font-medium text-black">
-                  Every success begins with a successful plan
-                </p>
-                <p className="my-4 text-gray-500">
-                  The first stage in the process is where initial expectations
+      <div className="flex flex-col mx-auto xl:max-w-[90%]">
+        <div className="flex flex-col mx-auto overflow:hidden xl:flex-row xl:flex-wrap xl:justify-between">
+          {/* Planning */}
+          <div className="planning-container py-10 lg:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
+            <CallToActionLeft
+              title="Planning"
+              imageUrl="/images/callout-planning.png"
+              imageAlt="image of two hands working on a planning board with post it notes"
+              tagLine="Every success begins with a successful plan"
+              text="The first stage in the process is where initial expectations
                   are defined, including overall goals and high-level
                   requirements. A feasiblity analysis is completed to determine
                   the project scope as well as a timeline for deliverables.
                   Punchcode Studios is able to provide valuable input at this
                   stage to ensure a realistic plan for the execution of the
-                  following phases in the cycle.
-                </p>
-              </div>
-            </div>
+                  following phases in the cycle."
+            ></CallToActionLeft>
           </div>
-          <div className="mt-2 px-4 xl:p-0">
-            <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
-              <summary
-                id="0"
-                className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
-                onClick={(event) => toggleSkillSet(event)}
-              >
-                {`${skillSetClosed[0] ? "hide" : "show"} relevant skills`}
-              </summary>
-              <div className="flex flex-wrap">
-                {planningSkills.length > 0 &&
-                  planningSkills.length > 0 &&
-                  planningSkills.map((skill: Skill) => {
-                    return (
-                      <Badge
-                        variant={getBadgeVariantBySkillType(
-                          skill.skill_types[0].name
-                        )}
-                        size={"xs"}
-                        columns="fit"
-                      >
-                        {skill.name}
-                      </Badge>
-                    );
-                  })}
-              </div>
-            </details>
-          </div>
-        </div>
-      </div>
 
-      {/* Requirements */}
-      <div className="flex flex-col mx-auto my-5 p-6 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
-        <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
-          <div className="flex flex-col-reverse xl:flex-row">
-            <div className="px-6 xl:p-0 mt-3 xl:pe-5 xl:mt-0">
-              <div className="xl:w-120">
-                <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
-                  Requirements Gathering
-                </h2>
-                <p className="mt-1 block text-xl leading-tight font-medium text-black">
-                  A requirement to a successful project
-                </p>
-                <p className="my-4 text-gray-500">
-                  During this phase, Punchcode Studios collaborates with
+          {/* Requirements */}
+          <div className="requirements-container py-10 lg:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
+            <CallToActionRight
+              title="Requirements Gathering"
+              imageUrl="/images/callout-requirements.png"
+              imageAlt="image of a person writing requirements on a whiteboard"
+              tagLine="A requirement to a successful project"
+              text="During this phase, Punchcode Studios collaborates with
                   stakeholders to determine their needs as well as the needs of
                   any additional users. The deliverable for this phase is a set
                   of functional and non-functional documents that clearly
-                  illustrate the expecations of the software.
-                </p>
-              </div>
-            </div>
-            <div className="px-6 xl:p-0 xl:shrink-0">
-              <img
-                className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src={requirementsImage}
-                alt="Modern building architecture"
-              />
-            </div>
+                  illustrate the expecations of the software."
+            ></CallToActionRight>
           </div>
-          <div className="mt-2 px-4 xl:p-0">
-            <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
-              <summary
-                id="1"
-                className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
-                onClick={(event) => toggleSkillSet(event)}
-              >
-                {`${skillSetClosed[1] ? "hide" : "show"} relevant skills`}
-              </summary>
-              <div className="flex flex-wrap">
-                {requirementsSkills.length > 0 &&
-                  requirementsSkills.length > 0 &&
-                  requirementsSkills.map((skill: Skill) => {
-                    return (
-                      <Badge
-                        variant={getBadgeVariantBySkillType(
-                          skill.skill_types[0].name
-                        )}
-                        size={"xs"}
-                        columns="fit"
-                      >
-                        {skill.name}
-                      </Badge>
-                    );
-                  })}
-              </div>
-            </details>
-          </div>
-        </div>
-      </div>
 
-      {/* Design */}
-      <div className="flex flex-col mx-auto my-5 p-6 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20">
-        <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
-          <div className="xl:flex">
-            <div className="px-6 xl:p-0 xl:shrink-0">
-              <img
-                className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src={designImage}
-                alt="Modern building architecture"
-              />
-            </div>
-            <div className="p-6 xl:p-0 mt-2 xl:px-5 xl:mt-0">
-              <div className="mb-3 xl:w-120">
-                <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
-                  Design
-                </h2>
-                <p className="mt-1 block text-xl leading-tight font-medium text-black">
-                  Impactful Design makes a lasting impression
-                </p>
-                <p className="my-4 text-gray-500">
-                  This stage is focused on deciding how the software will be
+          {/* Design */}
+          <div className="design-container py-10 lg:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
+            <CallToActionLeft
+              title="Design"
+              imageUrl="/images/callout-design.png"
+              imageAlt="multi-color image of technology graphics on different sized displays"
+              tagLine="Impactful Design makes a lasting impression"
+              text="This stage is focused on deciding how the software will be
                   implemented. Consideration is given for architectural and
                   component composition as well as the look and feel of the user
                   interface (UI). Punchcode Studios has extensive experience in
                   creating and adhering to the deliverables from this phase
                   which include comprehensive design documents such as style
-                  guides, flowcharts and story boards.
-                </p>
-              </div>
-            </div>
+                  guides, flowcharts and story boards."
+            ></CallToActionLeft>
           </div>
-          <div className="mt-2 px-4 xl:p-0">
-            <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
-              <summary
-                id="2"
-                className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
-                onClick={(event) => toggleSkillSet(event)}
-              >
-                {`${skillSetClosed[2] ? "hide" : "show"} relevant skills`}
-              </summary>
-              <div className="flex flex-wrap">
-                {designSkills.length > 0 &&
-                  designSkills.length > 0 &&
-                  designSkills.map((skill: Skill) => {
-                    return (
-                      <Badge
-                        variant={getBadgeVariantBySkillType(
-                          skill.skill_types[0].name
-                        )}
-                        size={"xs"}
-                        columns="fit"
-                      >
-                        {skill.name}
-                      </Badge>
-                    );
-                  })}
-              </div>
-            </details>
-          </div>
-        </div>
-      </div>
 
-      {/* Coding */}
-      <div className="flex flex-col mx-auto my-5 p-6 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
-        <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
-          <div className="flex flex-col-reverse xl:flex-row">
-            <div className="p-6 xl:p-0 mt-3 xl:pe-5 xl:mt-0">
-              <div className="mb-3 xl:w-120">
-                <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
-                  Coding
-                </h2>
-                <p className="mt-1 block text-xl leading-tight font-medium text-black">
-                  Good code is driven by a passion for elegant simplicity
-                </p>
-                <p className="my-4 text-gray-500">
-                  The deliverable for this phase is a fully functional software
+          {/* Coding */}
+          <div className="coding-container py-10 lg:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
+            <CallToActionRight
+              title="Coding"
+              imageUrl="/images/callout-coding.png"
+              imageAlt="image of code being displayed on a computer screen"
+              tagLine="Good code is driven by a passion for elegant simplicity"
+              text="The deliverable for this phase is a fully functional software
                   solution that complies with the previously defined
                   requirements and client expectations. Punchcode Studios
                   dedicates more than 15 years experience and passion for
                   software development towards implementing high quality
                   software solutions. Punchcode Studios has a proven track
                   record of providing tangible solutions that meet or exceed
-                  timeline, budget and end-user experience expectations.
-                </p>
-              </div>
-            </div>
-            <div className="px-6 xl:p-0 xl:shrink-0">
-              <img
-                className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src={codingImage}
-                alt="Modern building architecture"
-              />
-            </div>
+                  timeline, budget and end-user experience expectations."
+            ></CallToActionRight>
           </div>
-          <div className="mt-2 px-4 xl:p-0">
-            <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
-              <summary
-                id="3"
-                className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
-                onClick={(event) => toggleSkillSet(event)}
-              >
-                {`${skillSetClosed[3] ? "hide" : "show"} relevant skills`}
-              </summary>
-              <div className="flex flex-wrap">
-                {codingSkills.length > 0 &&
-                  codingSkills.length > 0 &&
-                  codingSkills.map((skill: Skill) => {
-                    return (
-                      <Badge
-                        variant={getBadgeVariantBySkillType(
-                          skill.skill_types[0].name
-                        )}
-                        size={"xs"}
-                        columns="fit"
-                      >
-                        {skill.name}
-                      </Badge>
-                    );
-                  })}
-              </div>
-            </details>
-          </div>
-        </div>
-      </div>
 
-      {/* Testing */}
-      <div className="flex flex-col mx-auto my-5 p-6 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20">
-        <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
-          <div className="xl:flex">
-            <div className="px-6 xl:p-0 xl:shrink-0">
-              <img
-                className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src={testingImage}
-                alt="Modern building architecture"
-              />
-            </div>
-            <div className="p-6 xl:p-0 mt-2 xl:px-5 xl:mt-0">
-              <div className="mb-3 xl:w-120">
-                <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
-                  Testing
-                </h2>
-                <p className="mt-1 block text-xl leading-tight font-medium text-black">
-                  All code is as good as its testing
-                </p>
-                <p className="my-4 text-gray-500">
-                  During this phase, the software is put through extensive
+          {/* Testing */}
+          <div className="testing-container py-10 lg:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
+            <CallToActionLeft
+              title="Testing"
+              imageUrl="/images/callout-testing.png"
+              imageAlt="multi-color image of hard shelled insect made of circuitry"
+              tagLine="All code is as good as its testing"
+              text="During this phase, the software is put through extensive
                   testing to ensure a high quality product is ultimately
                   deployed to the end user. Punchcode Studios has extensive
                   experience with various testing frameworks and methodologies
@@ -449,127 +358,36 @@ export default function About() {
                   promote proper quality assurance (QA) resource managment.
                   Punchcode Studios efficiently provides solutions to issues
                   found during third-party QA testing with minimal amounts of
-                  rework.
-                </p>
-              </div>
-            </div>
+                  rework."
+            ></CallToActionLeft>
           </div>
-          <div className="mt-2 px-4 xl:p-0">
-            <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
-              <summary
-                id="4"
-                className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
-                onClick={(event) => toggleSkillSet(event)}
-              >
-                {`${skillSetClosed[4] ? "hide" : "show"} relevant skills`}
-              </summary>
-              <div className="flex flex-wrap">
-                {testingSkills.length > 0 &&
-                  testingSkills.length > 0 &&
-                  testingSkills.map((skill: Skill) => {
-                    return (
-                      <Badge
-                        variant={getBadgeVariantBySkillType(
-                          skill.skill_types[0].name
-                        )}
-                        size={"xs"}
-                        columns="fit"
-                      >
-                        {skill.name}
-                      </Badge>
-                    );
-                  })}
-              </div>
-            </details>
-          </div>
-        </div>
-      </div>
 
-      {/* Deployment */}
-      <div className="flex flex-col mx-auto my-5 p-6 border-b border-slate-600 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20 ">
-        <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
-          <div className="flex flex-col-reverse xl:flex-row">
-            <div className="p-6 xl:p-0 mt-3 xl:pe-5 xl:mt-0">
-              <div className="mb-3 xl:w-120">
-                <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
-                  Deployment
-                </h2>
-                <p className="mt-1 block text-xl leading-tight font-medium text-black">
-                  A perfect deployment is one that goes unnoticed
-                </p>
-                <p className="my-4 text-gray-500">
-                  During this phase, the software is now delivered to the end
+          {/* Deployment */}
+          <div className="deployment-container py-10 lg:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
+            <CallToActionRight
+              title="Deployment"
+              imageUrl="/images/callout-deployment.png"
+              imageAlt="a predominently blue image of a server room"
+              tagLine="A perfect deployment is one that goes unnoticed"
+              text="During this phase, the software is now delivered to the end
                   user. Either utilizing modern deployment strategies such as
                   Continuous Integration / Continuous Deployment (CI/CD) or
                   incorporating legacy strategies such as manual SFTP
                   deployment, Punchcode Studios has reliably and consistently
                   deployed applications to production environments with little
-                  to no downtime.
-                </p>
-              </div>
-            </div>
-            <div className="px-6 xl:p-0 xl:shrink-0">
-              <img
-                className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src={deploymentImage}
-                alt="Modern building architecture"
-              />
-            </div>
+                  to no downtime."
+            ></CallToActionRight>
           </div>
 
-          <div className="mt-2 px-4 xl:p-0">
-            <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
-              <summary
-                id="5"
-                className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
-                onClick={(event) => toggleSkillSet(event)}
-              >
-                {`${skillSetClosed[5] ? "hide" : "show"} relevant skills`}
-              </summary>
-              <div className="flex flex-wrap">
-                {deploymentSkills.length > 0 &&
-                  deploymentSkills.length > 0 &&
-                  deploymentSkills.map((skill: Skill) => {
-                    return (
-                      <Badge
-                        variant={getBadgeVariantBySkillType(
-                          skill.skill_types[0].name
-                        )}
-                        size={"xs"}
-                        columns="fit"
-                      >
-                        {skill.name}
-                      </Badge>
-                    );
-                  })}
-              </div>
-            </details>
-          </div>
-        </div>
-      </div>
-
-      {/* Maintenance */}
-      <div className="flex flex-col mx-auto my-5 p-6 xl:flex-row xl:flex-wrap xl:justify-between xl:p-20">
-        <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
-          <div className="xl:flex">
-            <div className="px-6 xl:p-0 xl:shrink-0">
-              <img
-                className="h-32 w-full object-cover xl:w-96 xl:h-full"
-                src={maintenanceImage}
-                alt="Modern building architecture"
-              />
-            </div>
-            <div className="p-6 xl:p-0 mt-2 xl:px-5 xl:mt-0">
-              <div className="mb-3 xl:w-120">
-                <h2 className="text-md font-semibold tracking-wide text-primary font-header uppercase">
-                  Maintenance
-                </h2>
-                <p className="mt-1 block text-xl leading-tight font-medium text-black">
-                  An investment in maintainable code today pays dividends
-                  tomorrow
-                </p>
-                <p className="my-4 text-gray-500">
-                  Any issues that are discovered through end-user experiences
+          {/* Maintenance */}
+          <div className="maintenance-container py-10 lg:px-10 mb-5 xl:w-full">
+            <CallToActionLeft
+              title="Maintenance"
+              imageUrl="/images/callout-maintenance.png"
+              imageAlt="image of a maintenance message on a computer screen in mostly blue hues"
+              tagLine="An investment in maintainable code today pays dividends
+                  tomorrow"
+              text="Any issues that are discovered through end-user experiences
                   are addressed during this phase. This phase also allows
                   consideration for any enhancements or changes to initial
                   requirements not previously addressed during the previous
@@ -579,43 +397,27 @@ export default function About() {
                   post-deployment and will reliably offer a solution that will
                   remediate any adverse side effects, as well as implement
                   preventative measures to ensure a comprehensive solution is
-                  achieved.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-2 px-4 xl:p-0">
-            <details className="p-2 border border-transparent open:border-black/10 open:bg-gray-100">
-              <summary
-                id="6"
-                className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
-                onClick={(event) => toggleSkillSet(event)}
-              >
-                {`${skillSetClosed[6] ? "hide" : "show"} relevant skills`}
-              </summary>
-              <div className="flex flex-wrap">
-                {maintenanceSkills.length > 0 &&
-                  maintenanceSkills.length > 0 &&
-                  maintenanceSkills.map((skill: Skill) => {
-                    return (
-                      <Badge
-                        variant={getBadgeVariantBySkillType(
-                          skill.skill_types[0].name
-                        )}
-                        size={"xs"}
-                        columns="fit"
-                      >
-                        {skill.name}
-                      </Badge>
-                    );
-                  })}
-              </div>
-            </details>
+                  achieved."
+            ></CallToActionLeft>
           </div>
         </div>
+
+        <div id="aboutFooter" className="py-10 m-2 lg:px-10 lg:m-10 xl:my-20">
+          <article>
+            <Link to="/contact" className="text-center">
+              <Button
+                variant="primary"
+                size="wide"
+                className="mx-auto block"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              >
+                Whats next
+              </Button>
+            </Link>
+          </article>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

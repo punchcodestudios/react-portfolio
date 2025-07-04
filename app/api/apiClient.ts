@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import type { ApiErrorResponse, ApiResponse } from "~/entities/api";
 
 const axiosInstance = axios.create({
-  baseURL: "https://punchcodestudios-api-2cbe706bb11a.herokuapp.com/api",
+  baseURL: "http://localhost:3000/api", //"https://punchcodestudios-api-2cbe706bb11a.herokuapp.com/api",
   withCredentials: true,
 });
 

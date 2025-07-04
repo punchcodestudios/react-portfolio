@@ -1,10 +1,12 @@
+import { useForm } from "@conform-to/react";
+import { parse } from "@conform-to/zod";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect } from "react";
 import {
   data,
   Links,
   Meta,
   Outlet,
-  redirect,
   Scripts,
   ScrollRestoration,
   useFetcher,
@@ -14,39 +16,29 @@ import {
   type LinksFunction,
   type LoaderFunctionArgs,
 } from "react-router";
-import type { Route } from "./+types/root";
-// @ts-ignore
-import appStylesheetUrl from "./app.css?url";
-// @ts-ignore
-//@ts-ignore
-import tailwindStylesheetUrl from "./styles/tailwind.css?url";
-import { useForm } from "@conform-to/react";
-import { parse } from "@conform-to/zod";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
 import { HoneypotProvider } from "remix-utils/honeypot/react";
 import { toast as showToast, Toaster } from "sonner";
 import { z } from "zod";
+import type { Route } from "./+types/root";
+import tailwindStylesheetUrl from "./styles/tailwind.css?url";
 
 import IconService from "./service/icon-service";
 // import UserService from "./service/user-service";
 
-import { SolidIcon } from "./utils/enums";
-import { sessionStorage } from "./utils/session.server";
 import { csrf } from "./utils/csrf.server";
+import { SolidIcon } from "./utils/enums";
 import { getEnv } from "./utils/env.server";
 import { honeypot } from "./utils/honeypot.server";
+import { sessionStorage } from "./utils/session.server";
 import { combineHeaders, invariantResponse } from "./utils/site";
 import { getTheme, setTheme, type Theme } from "./utils/theme.server";
 import { getToast, type Toast } from "./utils/toast.server";
 
 import { ErrorList } from "./components/forms";
-import GenericErrorBoundary from "./components/ui/error-boundary";
 import Footer from "./components/layout/footer";
 import Navbar from "./components/layout/navbar";
-
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import GenericErrorBoundary from "./components/ui/error-boundary";
 
 export const links: LinksFunction = () =>
   [
@@ -176,7 +168,7 @@ function App() {
         className="flex grow flex-col w-full mx-auto bg-background"
       >
         <Navbar></Navbar>
-        <main>
+        <main className="grow w-full mx-auto">
           <Outlet />
         </main>
         <Footer></Footer>
