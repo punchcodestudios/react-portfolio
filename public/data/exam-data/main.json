@@ -1,0 +1,1504 @@
+[
+  {
+    "learning_path_id": "AZ204_01",
+    "learning_path_name": "Implement Azure App Service Web Apps",
+    "learning_path_evaluation_items": [
+      {
+        "evaluation_item_id": "001",
+        "question": "What is Azure App Service?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/2-azure-app-service",
+        "options": [],
+        "answer": [
+          "An Azure App Service is an Http-based service for hosting web applications, REST APIs and mobile back ends developed using most major languages."
+        ]
+      },
+      {
+        "evaluation_item_id": "002",
+        "question": "What are five benefits of using an App Service?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/2-azure-app-service",
+        "options": [],
+        "answer": [
+          "Auto Scale support built in",
+          "Ability to Scale up/down - increase the number of cores or amount of RAM",
+          "Ability to Scale in/out- increase or decrease the number of machines that are running",
+          "Container support",
+          "CI/CD support"
+        ]
+      },
+      {
+        "evaluation_item_id": "003",
+        "question": "What is an App Service Environment used for?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/2-azure-app-service",
+        "options": [],
+        "answer": [
+          "An App Service Environment (ASE) is a premium service offering of Azure App Service that is fully isolated, runs on customer-managed virtual networks, and provides enhanced security and scalability."
+        ]
+      },
+      {
+        "evaluation_item_id": "004",
+        "question": "Every App runs in an App Service Plan. Each plan defines what 5 things?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/3-azure-app-service-plans",
+        "options": [],
+        "answer": [
+          "Operating System",
+          "Region",
+          "Number of VM instances",
+          "Size of VM instances",
+          "Pricing Tier"
+        ]
+      },
+      {
+        "evaluation_item_id": "005",
+        "question": "What are the three pricing tiers for an App Service Plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/3-azure-app-service-plans",
+        "options": [],
+        "answer": [
+          "Shared - Free/Shared",
+          "Dedicated - Basic, Standard, Premium, PremiumV2, PremiumV3",
+          "Isolated - Isolated, IsolatedV2"
+        ]
+      },
+      {
+        "evaluation_item_id": "006",
+        "question": "What is the difference between a Basic and a Standard App Service Plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/3-azure-app-service-plans",
+        "options": [],
+        "answer": [
+          "Basic App Service Plans provide fewer features and lower performance compared to Standard Plans.",
+          "Standard App Service Plans include additional features such as auto-scaling and more powerful VM sizes."
+        ]
+      },
+      {
+        "evaluation_item_id": "007",
+        "question": "What is used as the 'scale-unit' of all apps in a group",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/3-azure-app-service-plans",
+        "options": [],
+        "answer": ["App Service Plan"]
+      },
+      {
+        "evaluation_item_id": "008",
+        "question": "At what level does app scaling occur?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/3-azure-app-service-plans",
+        "options": [],
+        "answer": ["App Service Plan"]
+      },
+      {
+        "evaluation_item_id": "009",
+        "question": "True or False: Apps run on all VMs within their App Service Plan",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/3-azure-app-service-plans",
+        "options": [],
+        "answer": ["true"]
+      },
+      {
+        "evaluation_item_id": "010",
+        "question": "True or False: App can run on different VMs within their App Service Plan",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/3-azure-app-service-plans",
+        "options": [],
+        "answer": ["false"]
+      },
+      {
+        "evaluation_item_id": "011",
+        "question": "What are three ways in which you can implement Continuous Deployment?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/4-deploy-code-to-app-service",
+        "options": [],
+        "answer": ["DevOps", "GitHub", "BitBucket"]
+      },
+      {
+        "evaluation_item_id": "012",
+        "question": "What are four ways in which you can manually deploy an Azure Web App?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/4-deploy-code-to-app-service",
+        "options": [],
+        "answer": ["Git", "CLI", ".zip file", "(S)FTP"]
+      },
+      {
+        "evaluation_item_id": "013",
+        "question": "What are three additional steps that must be taken to implement Continuous Deployment for a Container App?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/4-deploy-code-to-app-service",
+        "options": [],
+        "answer": [
+          "Build and tag the image",
+          "Push the tagged image to a container registry",
+          "Update deployment slot with the new image tag"
+        ]
+      },
+      {
+        "evaluation_item_id": "014",
+        "question": "What are sidecar containers?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/4-deploy-code-to-app-service",
+        "options": [],
+        "answer": [
+          "Sidecar containers are a design pattern where a secondary container runs alongside the main application container.",
+          "They are typically used to provide additional functionality such as logging, monitoring, or proxying."
+        ]
+      },
+      {
+        "evaluation_item_id": "015",
+        "question": "What are five examples of a Sidecar Container?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/4-deploy-code-to-app-service",
+        "options": [],
+        "answer": [
+          "Logging agent",
+          "Monitoring agent",
+          "Proxy server",
+          "Data backup agent",
+          "Configuration server"
+        ]
+      },
+      {
+        "evaluation_item_id": "016",
+        "question": "What are six optional identity providers built into App Services?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/5-authentication-authorization-app-service",
+        "options": [],
+        "answer": [
+          "Microsoft Entra",
+          "Facebook",
+          "Google",
+          "X",
+          "OpenId connect",
+          "GitHub"
+        ]
+      },
+      {
+        "evaluation_item_id": "017",
+        "question": "Regarding App Service networking features, what is a ‘front-end’ role?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/6-network-features",
+        "options": [],
+        "answer": ["A front-end role handles incoming requests"]
+      },
+      {
+        "evaluation_item_id": "018",
+        "question": "Regarding App Service networking features, what is a ‘worker’ role?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/6-network-features",
+        "options": [],
+        "answer": ["A worker role hosts customer workloads"]
+      },
+      {
+        "evaluation_item_id": "019",
+        "question": "App Service networking features handle application communication. What are four examples of inbound features?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/6-network-features",
+        "options": [],
+        "answer": [
+          "App-assigned addresses",
+          "Access restrictions",
+          "Service endpoints",
+          "Private endpoints"
+        ]
+      },
+      {
+        "evaluation_item_id": "020",
+        "question": "App Service networking features handle application communication. What are three examples of outbound features?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/6-network-features",
+        "options": [],
+        "answer": [
+          "Hybrid connections",
+          "Gateway-required virtual network integration",
+          "Virtual network integration"
+        ]
+      },
+      {
+        "evaluation_item_id": "021",
+        "question": "Which App Service Plan provides the maximum scale-out capabilities?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/6-network-features",
+        "options": [],
+        "answer": ["Isolated"]
+      },
+      {
+        "evaluation_item_id": "022",
+        "question": "What are Application Settings",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/2-configure-application-settings",
+        "options": [],
+        "answer": [
+          "Application Settings are variables passed as environment variables to the application code"
+        ]
+      },
+      {
+        "evaluation_item_id": "023",
+        "question": "What are four types of settings you would find in the portal under Settings > Configuration > General Settings?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/3-configure-general-settings",
+        "options": [],
+        "answer": [
+          "Stack Settings",
+          "Platform Settings",
+          "Debugging",
+          "Incoming Client Certificates"
+        ]
+      },
+      {
+        "evaluation_item_id": "024",
+        "question": "Path Mappings are configured in the portal under Settings > Configuration > Path Mappings. What are three settings available for a Windows configuration?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/4-configure-path-mappings",
+        "options": [],
+        "answer": [
+          "Extension: ex *.php",
+          "Script processor",
+          "Optional arguments"
+        ]
+      },
+      {
+        "evaluation_item_id": "025",
+        "question": "Path Mappings are configured in the portal under Settings > Configuration > Path Mappings. What are the settings available for a Linux configuration?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/4-configure-path-mappings",
+        "options": [],
+        "answer": [
+          "Name",
+          "Configuration Options: Basic or Advanced",
+          "Storage Account to be used",
+          "Storage Type: Azure Blob or Azure File storage",
+          "Storage Container",
+          "Share Name: advanced configuration",
+          "Access Key: advanced configuration",
+          "Mount Path: absolute path to mount the custom storage",
+          "Optional Deployment Slot"
+        ]
+      },
+      {
+        "evaluation_item_id": "026",
+        "question": "What type of storage is used for short term logging?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/5-enable-diagnostic-logging",
+        "options": [],
+        "answer": ["Azure File System"]
+      },
+      {
+        "evaluation_item_id": "027",
+        "question": "What type of storage is used for long term logging?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/5-enable-diagnostic-logging",
+        "options": [],
+        "answer": ["Azure Blob Storage"]
+      },
+      {
+        "evaluation_item_id": "028",
+        "question": "What are five types of logging available?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/5-enable-diagnostic-logging",
+        "options": [],
+        "answer": [
+          "Application logging",
+          "Web Server logging",
+          "Detailed Error Message logging",
+          "Failed Request Tracing",
+          "Deployment Logging"
+        ]
+      },
+      {
+        "evaluation_item_id": "029",
+        "question": "What are the two types of logging available for the Linux platform?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/5-enable-diagnostic-logging",
+        "options": [],
+        "answer": ["Application logging", "Deployment logging"]
+      },
+      {
+        "evaluation_item_id": "030",
+        "question": "App File System supports all types of logging. What are the two types that support Azure Blob Storage?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/5-enable-diagnostic-logging",
+        "options": [],
+        "answer": ["Application logging", "Web Server logging"]
+      },
+      {
+        "evaluation_item_id": "031",
+        "question": "What are the five logging levels available?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/5-enable-diagnostic-logging",
+        "options": [],
+        "answer": [
+          "Disabled: none",
+          "Error: Error, Critical",
+          "Warning: Warning, Error, Critical",
+          "Information: Information, Warning, Error, Critical",
+          "Verbose: Trace, Debug, Info, Warning, Error, Critical (all)"
+        ]
+      },
+      {
+        "evaluation_item_id": "032",
+        "question": "What storage is available for logging in Linux/Container apps?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/5-enable-diagnostic-logging",
+        "options": [],
+        "answer": ["File System storage"]
+      },
+      {
+        "evaluation_item_id": "033",
+        "question": "What two values must be specified for setting up logging in a Linux/Container app?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/5-enable-diagnostic-logging",
+        "options": [],
+        "answer": ["Quota (MB)", "Retention Period (Days)"]
+      },
+      {
+        "evaluation_item_id": "034",
+        "question": "What are the four methods available to access logs?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/5-enable-diagnostic-logging",
+        "options": [],
+        "answer": [
+          "Stream to Azure Portal",
+          "Stream to Azure CLI",
+          "Stream to local console",
+          "Download .zip file"
+        ]
+      },
+      {
+        "evaluation_item_id": "035",
+        "question": "Certificates are bound to a ‘webspace’. What is a webspace?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/6-configure-security-certificates",
+        "options": [],
+        "answer": [
+          "A webspace is the combination of the app service plan’s resource group and its region"
+        ]
+      },
+      {
+        "evaluation_item_id": "036",
+        "question": "What are four options for adding a certificate to an App Service?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/configure-web-app-settings/6-configure-security-certificates",
+        "options": [],
+        "answer": [
+          "Free App Service managed certificates",
+          "--   A private certificate that's free of charge and easy to use if you just need to secure your custom domain in App Service.",
+          "Purchased App Service certificate",
+          "--  A private certificate managed by Azure. It combines the simplicity of automated certificate management and the flexibility of renewal and export options.",
+          "Import a certificate from Key Vault",
+          "--  Useful if you use Azure Key Vault to manage your certificates.",
+          "Upload a private certificate",
+          "--  existing from third party vendor",
+          "Upload a public certificate",
+          "--  not used to secure domains, but available for accessing remote services"
+        ]
+      },
+      {
+        "evaluation_item_id": "037",
+        "question": "What is the method which autoscaling makes its decisions?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["Autoscaling makes decisions based on rules that you define"]
+      },
+      {
+        "evaluation_item_id": "038",
+        "question": "True or False: Autoscaling scales in/out",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["true"]
+      },
+      {
+        "evaluation_item_id": "039",
+        "question": "True or False: Autoscaling scales up/down",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["false"]
+      },
+      {
+        "evaluation_item_id": "040",
+        "question": "When would you choose to use autoscaling?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": [
+          "useful when scaling for an expected (short term) spike in traffic that [will] occur during a known time period"
+        ]
+      },
+      {
+        "evaluation_item_id": "041",
+        "question": "When would you choose to use automatic scaling?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": [
+          "You dont want to set up rules",
+          "You need to scale apps in the same App Service Plan independently",
+          "You want to manually limit the number of instances to avoid overwhelming a resource that may not scale as fast as the web application"
+        ]
+      },
+      {
+        "evaluation_item_id": "042",
+        "question": "Does Autoscaling support rule-based scaling?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["Yes"]
+      },
+      {
+        "evaluation_item_id": "043",
+        "question": "Does automatic scaling support rule-based scaling?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["No"]
+      },
+      {
+        "evaluation_item_id": "044",
+        "question": "Does autoscaling support schedule-based scaling?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["Yes"]
+      },
+      {
+        "evaluation_item_id": "045",
+        "question": "Does automatic scaling support schedule-based scaling?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["No"]
+      },
+      {
+        "evaluation_item_id": "046",
+        "question": "Does autoscaling support always ready instances?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["No"]
+      },
+      {
+        "evaluation_item_id": "047",
+        "question": "Does automatic scaling support always ready instances?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["Yes – minimum of 1"]
+      },
+      {
+        "evaluation_item_id": "048",
+        "question": "Does autoscaling support pre-warmed instances?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["No"]
+      },
+      {
+        "evaluation_item_id": "049",
+        "question": "Does automatic scaling support pre-warmed instances?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["Yes - defaults to 1"]
+      },
+      {
+        "evaluation_item_id": "050",
+        "question": "Does auto scaling have a per-app maximum?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["No, but it is limited by the App Service Plan"]
+      },
+      {
+        "evaluation_item_id": "051",
+        "question": "Does automatic scaling have a per-app maximum?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["Yes"]
+      },
+      {
+        "evaluation_item_id": "052",
+        "question": "What are the pricing tiers that support auto scaling?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["S1 and up"]
+      },
+      {
+        "evaluation_item_id": "053",
+        "question": "What are the pricing tiers that support automatic scaling?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/2-autoscale-factors",
+        "options": [],
+        "answer": ["P-level and up"]
+      },
+      {
+        "evaluation_item_id": "054",
+        "question": "What are the two autoscale conditions available?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/3-app-service-autoscale-conditions-rules",
+        "options": [],
+        "answer": ["Metric-based", "Schedule-based"]
+      },
+      {
+        "evaluation_item_id": "055",
+        "question": "What are the six autoscaling metrics that are available?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/3-app-service-autoscale-conditions-rules",
+        "options": [],
+        "answer": [
+          "CPU Percentage",
+          "Memory Percentage",
+          "Disc Queue Length",
+          "Http Queue Length",
+          "Data In",
+          "Data Out"
+        ]
+      },
+      {
+        "evaluation_item_id": "056",
+        "question": "What is the auto scale ‘time-grain’?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/3-app-service-autoscale-conditions-rules",
+        "options": [],
+        "answer": [
+          "Time grain is the frequency at which the metric values are evaluated"
+        ]
+      },
+      {
+        "evaluation_item_id": "057",
+        "question": "What is the auto scale ‘time-grain-statistic’?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/3-app-service-autoscale-conditions-rules",
+        "options": [],
+        "answer": [
+          "Time grain statistic is the aggregating operation that is used to calculate the time-aggregation. "
+        ]
+      },
+      {
+        "evaluation_item_id": "058",
+        "question": "What are the six options available for the auto scaling time-grain-statistic?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/3-app-service-autoscale-conditions-rules",
+        "options": [],
+        "answer": ["Average", "Minimum", "Maximum", "Sum", "Last", "Count"]
+      },
+      {
+        "evaluation_item_id": "059",
+        "question": "What is the auto scale ‘duration’?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/3-app-service-autoscale-conditions-rules",
+        "options": [],
+        "answer": [
+          "The length of time that a metric is evaluated at the specified time-grain.",
+          "--    Minimum of 5 minutes"
+        ]
+      },
+      {
+        "evaluation_item_id": "060",
+        "question": "What is the auto scaling ‘time-aggregation’?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/3-app-service-autoscale-conditions-rules",
+        "options": [],
+        "answer": [
+          "The output value that is established to be used as the threshold"
+        ]
+      },
+      {
+        "evaluation_item_id": "061",
+        "question": "What are the two auto scale actions?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/3-app-service-autoscale-conditions-rules",
+        "options": [],
+        "answer": ["Scale-in", "Scale-out"]
+      },
+      {
+        "evaluation_item_id": "062",
+        "question": "True or False: Scale out actions apply if ANY rule evaluates to true",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/3-app-service-autoscale-conditions-rules",
+        "options": [],
+        "answer": ["true"]
+      },
+      {
+        "evaluation_item_id": "063",
+        "question": "True or False: Scale out actions apply ONLY IF ALL rules evaluate to true",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/3-app-service-autoscale-conditions-rules",
+        "options": [],
+        "answer": ["false"]
+      },
+      {
+        "evaluation_item_id": "064",
+        "question": "True or False: Scale in actions apply if ANY rule evaluates to true",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/3-app-service-autoscale-conditions-rules",
+        "options": [],
+        "answer": ["false"]
+      },
+      {
+        "evaluation_item_id": "065",
+        "question": "True or False: Scale in actions apply ONLY IF ALL rules evaluate to true",
+        "source": "https://learn.microsoft.com/en-us/training/modules/scale-apps-app-service/3-app-service-autoscale-conditions-rules",
+        "options": [],
+        "answer": ["true"]
+      },
+      {
+        "evaluation_item_id": "066",
+        "question": "For which pricing tier(s) are deployment slots available?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/2-app-service-staging-environments",
+        "options": [],
+        "answer": [
+          "Deployment slots are available for Standard Tier or greater"
+        ]
+      },
+      {
+        "evaluation_item_id": "067",
+        "question": "What are three benefits of using a deployment slot?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/2-app-service-staging-environments",
+        "options": [],
+        "answer": [
+          "Pre-production release validation",
+          "Mitigating downtime by swapping into pre-warmed slots",
+          "Allows easy reverting for catastrophic deployment failures"
+        ]
+      },
+      {
+        "evaluation_item_id": "068",
+        "question": "What determines the number of available deployment slots?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/2-app-service-staging-environments",
+        "options": [],
+        "answer": [
+          "The number of available deployment slots is dictated by the App Service Plan’s pricing tier"
+        ]
+      },
+      {
+        "evaluation_item_id": "069",
+        "question": "What are the six steps involved when initiating a slot-swap?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": [
+          "Apply applicable settings",
+          "Await restart of all instances",
+          "Trigger local cached initialization if applicable",
+          "Warm up each instance if ‘appilcationInitialization’ is set to true",
+          "Swap slots by switching routing rules",
+          "Apply settings to new source and restart"
+        ]
+      },
+      {
+        "evaluation_item_id": "070",
+        "question": "Are General Settings swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Swappable"]
+      },
+      {
+        "evaluation_item_id": "071",
+        "question": "Are App Settings swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Swappable"]
+      },
+      {
+        "evaluation_item_id": "072",
+        "question": "Are Handler Mappings swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Swappable"]
+      },
+      {
+        "evaluation_item_id": "073",
+        "question": "Are Connection Strings swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Swappable"]
+      },
+      {
+        "evaluation_item_id": "074",
+        "question": "Are Public certificates swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Swappable"]
+      },
+      {
+        "evaluation_item_id": "075",
+        "question": "Is WebJobs Content swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Swappable"]
+      },
+      {
+        "evaluation_item_id": "076",
+        "question": "Are Hybrid Connections swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Swappable"]
+      },
+      {
+        "evaluation_item_id": "077",
+        "question": "Is Azure Content Delivery Network swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Swappable"]
+      },
+      {
+        "evaluation_item_id": "078",
+        "question": "Are Service endpoints swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Swappable"]
+      },
+      {
+        "evaluation_item_id": "079",
+        "question": "Are Path Mappings swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Swappable"]
+      },
+      {
+        "evaluation_item_id": "080",
+        "question": "Are Publishing Endpoints swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Non-swappable"]
+      },
+      {
+        "evaluation_item_id": "081",
+        "question": "Are Custom domain names swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Non-swappable"]
+      },
+      {
+        "evaluation_item_id": "082",
+        "question": "Are Non-Public Certificates and TLS/SSL settings swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Non-swappable"]
+      },
+      {
+        "evaluation_item_id": "083",
+        "question": "Are Scale settings swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Non-swappable"]
+      },
+      {
+        "evaluation_item_id": "084",
+        "question": "Are WebJobs scheduler swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Non-swappable"]
+      },
+      {
+        "evaluation_item_id": "085",
+        "question": "Are IP restrictions swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Non-swappable"]
+      },
+      {
+        "evaluation_item_id": "086",
+        "question": "Are ‘Always On settings’ swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Non-swappable"]
+      },
+      {
+        "evaluation_item_id": "087",
+        "question": "Are Diagnostic Log Settings swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Non-swappable"]
+      },
+      {
+        "evaluation_item_id": "088",
+        "question": "Is CORS swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Non-swappable"]
+      },
+      {
+        "evaluation_item_id": "089",
+        "question": "Are Virtual network integrations swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Non-swappable"]
+      },
+      {
+        "evaluation_item_id": "090",
+        "question": "Are Managed Identities swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Non-swappable"]
+      },
+      {
+        "evaluation_item_id": "091",
+        "question": "Are Settings that end with the suffix _EXTENSION_VERSION swappable or non-swappable?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/understand-app-service-deployment-slots/3-app-service-slot-swapping",
+        "options": [],
+        "answer": ["Non-swappable"]
+      }
+    ]
+  },
+  {
+    "learning_path_id": "AZ204_02",
+    "learning_path_name": "Implement Azure Functions",
+    "learning_path_evaluation_items": [
+      {
+        "evaluation_item_id": "001",
+        "question": "What are Azure Functions",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Functions are a serverless compute service requiring less code and infrastructure maintenance while saving cost."
+        ]
+      },
+      {
+        "evaluation_item_id": "002",
+        "question": "What is the main purpose of an Azure Function",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "The main purpose of an Azure Function is to respond to events"
+        ]
+      },
+      {
+        "evaluation_item_id": "003",
+        "question": "",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [""]
+      },
+      {
+        "evaluation_item_id": "004",
+        "question": "What is the purpose of a trigger in an Azure Function",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["To begin execution of the code"]
+      },
+      {
+        "evaluation_item_id": "005",
+        "question": "What is the purpose of a binding in Azure Functions?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["To simplify the coding for input and output data"]
+      },
+      {
+        "evaluation_item_id": "006",
+        "question": "Regarding Azure Function Apps, what are Azure Logic Apps?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Logic Apps are a serverless workflow integration platform"
+        ]
+      },
+      {
+        "evaluation_item_id": "007",
+        "question": "Regarding Azure Function Apps, what is an orchestration?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "An orchestration is a collection of Azure Functions (known as steps in Logic Apps)"
+        ]
+      },
+      {
+        "evaluation_item_id": "008",
+        "question": "What is the method of development for an Azure Function?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure functions use the Durable Functions Extension for development"
+        ]
+      },
+      {
+        "evaluation_item_id": "009",
+        "question": "What is the method of development for Logic Apps?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Logic Apps use a GUI for development."]
+      },
+      {
+        "evaluation_item_id": "010",
+        "question": "Are Azure Functions considered 'code-first' (imperative) or 'designer-first' (declarative)?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Azure Functions are considered 'code-first' (imperative)."]
+      },
+      {
+        "evaluation_item_id": "011",
+        "question": "Are Logic Apps considered 'code-first' (imperative) or 'designer-first' (declarative)?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Logic Apps are considered 'designer-first'"]
+      },
+      {
+        "evaluation_item_id": "012",
+        "question": "How do Azure Functions connect?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Functions use bindings (built-in or custom) for connectivity"
+        ]
+      },
+      {
+        "evaluation_item_id": "013",
+        "question": "How to Logic Apps connect?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Logic Apps use connectors (built-in or custom) for connectivity."
+        ]
+      },
+      {
+        "evaluation_item_id": "014",
+        "question": "What is the primary purpose of Azure Functions?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          " Azure Functions are primarily used for event-driven programming, allowing developers to run code in response to events without managing infrastructure."
+        ]
+      },
+      {
+        "evaluation_item_id": "015",
+        "question": "What is the primary purpose of Logic Apps?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Logic Apps are primarily used for workflow automation, allowing developers to create workflows that integrate various services and systems."
+        ]
+      },
+      {
+        "evaluation_item_id": "016",
+        "question": "What do Azure Functions use for monitoring?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Functions use Azure Application Insights for monitoring"
+        ]
+      },
+      {
+        "evaluation_item_id": "017",
+        "question": "What do Azure Logic Apps use for monitoring?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Logic Apps can use the Azure Portal or Azure Monitor Logs for monitoring."
+        ]
+      },
+      {
+        "evaluation_item_id": "018",
+        "question": "How are Azure Functions managed?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Functions can be managed using a REST API or in Visual Studio"
+        ]
+      },
+      {
+        "evaluation_item_id": "019",
+        "question": "How are Azure Logic Apps managed?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Logic Apps can be managed using REST API, Powershell, the Azure Portal or Visual Studio"
+        ]
+      },
+      {
+        "evaluation_item_id": "020",
+        "question": "Where can you run an Azure Function? ",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Azure Functions can run either locally or in Azure"]
+      },
+      {
+        "evaluation_item_id": "021",
+        "question": "Where can you run Azure Logic Apps?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Logic Apps can run locally, in Azure, or on premises"]
+      },
+      {
+        "evaluation_item_id": "022",
+        "question": "Do Azure Functions support automatic scaling?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Yes, Azure Functions support automatic scaling."]
+      },
+      {
+        "evaluation_item_id": "023",
+        "question": "Do WebJobs support automatic scaling?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["No"]
+      },
+      {
+        "evaluation_item_id": "024",
+        "question": "Can you develop and test in a browser while using Azure Functions?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Yes, you can develop and test Azure Functions in a browser using the Azure Portal."
+        ]
+      },
+      {
+        "evaluation_item_id": "025",
+        "question": "Can you develop and test in a browser while using WebJobs?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["No, you cannot develop and test WebJobs in a browser."]
+      },
+      {
+        "evaluation_item_id": "026",
+        "question": "Do Azure Functions support pay-per-use pricing?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Yes, Azure Functions support pay-per-use pricing."]
+      },
+      {
+        "evaluation_item_id": "027",
+        "question": "Do WebJobs support pay-per-use pricing?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["No, WebJobs do not support pay-per-use pricing."]
+      },
+      {
+        "evaluation_item_id": "028",
+        "question": "Do Azure Functions integrate with Logic Apps?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Yes, Azure Functions can be integrated with Logic Apps."]
+      },
+      {
+        "evaluation_item_id": "029",
+        "question": "Do WebJobs integrate with Logic Apps?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["No"]
+      },
+      {
+        "evaluation_item_id": "030",
+        "question": "Azure Functions or WebJobs: Which supports Http/WebHook (GitHub Slack) trigger events?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Functions support Http/WebHook (GitHub Slack) trigger events."
+        ]
+      },
+      {
+        "evaluation_item_id": "031",
+        "question": "Azure Functions or WebJobs: Which supports Azure Event Grid trigger events?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Azure Functions support Azure Event Grid trigger events."]
+      },
+      {
+        "evaluation_item_id": "032",
+        "question": "Azure Functions or WebJobs: Which supports File System trigger events?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["WebJobs support File System trigger events."]
+      },
+      {
+        "evaluation_item_id": "033",
+        "question": "What are the five hosting options for Azure Functions?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": [
+          "Consumption Plan",
+          "Flex Consumption Plan",
+          "Premium Plan",
+          "Dedicated Plan",
+          "Container Apps"
+        ]
+      },
+      {
+        "evaluation_item_id": "034",
+        "question": "Which hosting option(s) for Azure Functions support(s) Linux Containers?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Premium Plan", "Dedicated Plan"]
+      },
+      {
+        "evaluation_item_id": "035",
+        "question": "True or False: Azure Functions can be hosted on both Linux and Windows virtual machines?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["true"]
+      },
+      {
+        "evaluation_item_id": "036",
+        "question": "The Azure Functions hosting plan affects which five factors?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": [
+          "How your app is scaled",
+          "The resources available to each instance",
+          "Support for advanced features, such as Azure Virtual Network connectivity",
+          "Linux Container support",
+          "Cost"
+        ]
+      },
+      {
+        "evaluation_item_id": "037",
+        "question": "What is the default Azure Functions hosting plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Consumption Plan"]
+      },
+      {
+        "evaluation_item_id": "038",
+        "question": "What Azure Functions hosting plan would you use for pay as you go hosting, with automatic scale?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Consumption Plan"]
+      },
+      {
+        "evaluation_item_id": "039",
+        "question": "Which Azure Functions hosting plan would you use to get high scalability with compute choices, pay as you go billing and 'always-ready' instances?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Flex-Consumption Plan"]
+      },
+      {
+        "evaluation_item_id": "040",
+        "question": "Which Azure Functions hosting plan offers powerful instances, connections to virtual networks, in-demand prewarmed workers?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Premium Plan"]
+      },
+      {
+        "evaluation_item_id": "041",
+        "question": "Which Azure Functions hosting plan would be the choice for a continuously running app?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Premium Plan"]
+      },
+      {
+        "evaluation_item_id": "042",
+        "question": "Which Azure Functions hosting plan allows multiple function apps on the same plan with event-driven scaling?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Premium Plan"]
+      },
+      {
+        "evaluation_item_id": "043",
+        "question": "Your Azure Functions app has a high number of small executions, but low GB seconds. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Premium Plan - find out why?"]
+      },
+      {
+        "evaluation_item_id": "044",
+        "question": "Your Azure Functions app is CPU or memory intensive. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Premium Plan"]
+      },
+      {
+        "evaluation_item_id": "045",
+        "question": "Your Azure Function requires virtual network connectivity. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Premium Plan"]
+      },
+      {
+        "evaluation_item_id": "046",
+        "question": "Which Azure Functions hosting plan would allow you to fun Azure Functions within an App Service Plan at regular plan rates?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Dedicated Plan"]
+      },
+      {
+        "evaluation_item_id": "047",
+        "question": "Which Azure Functions hosting plan is best for long running scenarios where durable functions cannot be used?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Dedicated Plan"]
+      },
+      {
+        "evaluation_item_id": "048",
+        "question": "Which Azure Functions hosting plan would provide predicable billing and the ability to manually scale instances?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Dedicated Plan"]
+      },
+      {
+        "evaluation_item_id": "049",
+        "question": "You want to run multiple web apps and Azure Function apps on the same plan. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Dedicated Plan"]
+      },
+      {
+        "evaluation_item_id": "050",
+        "question": "Your Azure Function needs access to a large compute size. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Dedicated Plan"]
+      },
+      {
+        "evaluation_item_id": "051",
+        "question": "Your Azure Function requires full compute isolation and a secure network provided by an App Service Environment (ASE). Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Dedicated Plan"]
+      },
+      {
+        "evaluation_item_id": "052",
+        "question": "Your Azure Function requires a lot of memory and needs High scalability. Which plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Dedicated Plan"]
+      },
+      {
+        "evaluation_item_id": "053",
+        "question": "Your Azure Function requires a fully managed hosting environment. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Container Apps"]
+      },
+      {
+        "evaluation_item_id": "054",
+        "question": "Your Azure Function needs to run along side of other microservices, APIs, Websites and workflows. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Container Apps"]
+      },
+      {
+        "evaluation_item_id": "055",
+        "question": "You want to package custom libraries with your Azure Function code. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Container Apps"]
+      },
+      {
+        "evaluation_item_id": "056",
+        "question": "You need high-end processing provided by dedicated CPU compute resources for your Azure Function?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Container Apps"]
+      },
+      {
+        "evaluation_item_id": "057",
+        "question": "You want to avoid the overhead and complexity of managing Kubernetes clusters and dedicated compute. Which Azure Functions hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Container Apps"]
+      },
+      {
+        "evaluation_item_id": "058",
+        "question": "You need to migrate code execution from on-premises or legacy apps to cloud native microservices running in containers. Which Azure Functions hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Container Apps"]
+      },
+      {
+        "evaluation_item_id": "059",
+        "question": "What is the default timeout duration for an Azure Function that IS running on the consumption plan? ",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["5 minutes"]
+      },
+      {
+        "evaluation_item_id": "060",
+        "question": "What is the maximum timeout duration for an Azure Function that IS running on the consumption plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["10 minutes"]
+      },
+      {
+        "evaluation_item_id": "061",
+        "question": "What is the default timeout duration for an Azure Function that IS NOT running on the consumption plan? ",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["30 minutes"]
+      },
+      {
+        "evaluation_item_id": "062",
+        "question": "What is the maximum timeout duration for an Azure Function NOT running on the consumption plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Unbounded with some restrictions"]
+      },
+      {
+        "evaluation_item_id": "063",
+        "question": "Which App Functions hosting plan can be described as: Event driven. Scales out automatically, even during periods of high load. Functions infrastructure scales CPU and memory resources by adding more instances based on the number of incoming events? ",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["Consumption Plan"]
+      },
+      {
+        "evaluation_item_id": "064",
+        "question": "Which App Functions hosting plan can be described as: Per-function scaling. Event-driven scaling decisions are calculated on a per-function basis, which provides a more deterministic way of scaling the functions in your app?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["Flex Consumption Plan"]
+      },
+      {
+        "evaluation_item_id": "065",
+        "question": "Which App Functions hosting plan can be described as: Event driven. Scale out automatically based on the number of events that its functions are triggered on?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["Premium Plan"]
+      },
+      {
+        "evaluation_item_id": "066",
+        "question": "Which App Functions hosting plan can be described as: Manual/autoscale?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["Dedicated Plan"]
+      },
+      {
+        "evaluation_item_id": "067",
+        "question": "Which App Function hosting plan can be described as: Event driven. Scale out automatically by adding more instances of the Functions host, based on the number of events that its functions are triggered on?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["Container Apps"]
+      },
+      {
+        "evaluation_item_id": "068",
+        "question": "For Azure Function Apps, what is the maximum number of instances allowed on the Consumption Plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["Windows: 200", "Linux: 100"]
+      },
+      {
+        "evaluation_item_id": "069",
+        "question": "For Azure Function Apps, what is the maximum number of instances allowed on the Flex Consumption Plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": [
+          "Limited only by total memory usage of all instances across a given region."
+        ]
+      },
+      {
+        "evaluation_item_id": "070",
+        "question": "For Azure Function Apps, what is the maximum number of instances allowed on the Premium Plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["Windows: 100", "Linux: 20-100"]
+      },
+      {
+        "evaluation_item_id": "071",
+        "question": "For Azure Function Apps, what is the maximum number of instances allowed on the Dedicated Plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["10-30", "100 (ASE)"]
+      },
+      {
+        "evaluation_item_id": "072",
+        "question": "For Azure Function Apps, what is the maximum number of instances allowed on the Container Plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["10-300"]
+      },
+      {
+        "evaluation_item_id": "073",
+        "question": "What is the primary purpose of a Function App?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": [
+          "A function app provides an execution context in Azure for your functions to run. It is basically the equivalent of an App Service Plan for Azure Functions, with regard to how they are managed, deployed and scaled. "
+        ]
+      },
+      {
+        "evaluation_item_id": "074",
+        "question": "At what level are the pricing plan, deployment method, and runtime version set for a group of Azure Functions?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["At the Function App level"]
+      },
+      {
+        "evaluation_item_id": "075",
+        "question": "What three files are location in the project root folder of a Function App, regardless of language?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["host.json", "local.settings.json"]
+      },
+      {
+        "evaluation_item_id": "076",
+        "question": "Where are the app configuration values stored when developing and testing Azure Functions locally?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["local.settings.json file"]
+      },
+      {
+        "evaluation_item_id": "077",
+        "question": "True or False: App Settings for a Function App are synced automatically regardless of the environment.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["false"]
+      },
+      {
+        "evaluation_item_id": "078",
+        "question": "True or False: App Settings for a Function App must be maintained independently for each environment.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["true"]
+      },
+      {
+        "evaluation_item_id": "079",
+        "question": "What is the purpose of a trigger in an Azure Function?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["A trigger defines how often a function is invoked."]
+      },
+      {
+        "evaluation_item_id": "080",
+        "question": "True or False: A function must have exactly one trigger.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["true"]
+      },
+      {
+        "evaluation_item_id": "081",
+        "question": "True or False: A function can have any number of triggers.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["false"]
+      },
+      {
+        "evaluation_item_id": "082",
+        "question": "What is binding in an Azure Function?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": [
+          "Binding is a way to declaratively connect another resource to the function."
+        ]
+      },
+      {
+        "evaluation_item_id": "083",
+        "question": "What are the two type of binding for an Azure Function?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["Inbound", "Outbound"]
+      },
+      {
+        "evaluation_item_id": "084",
+        "question": "True or False: An Azure Function can only have either an input or an output.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["false"]
+      },
+      {
+        "evaluation_item_id": "085",
+        "question": "True or False: An Azure can have both input and output bindings.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["true"]
+      },
+      {
+        "evaluation_item_id": "086",
+        "question": "True or False: An Azure Function can have multiple bindings with any combination of input and output.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["true"]
+      },
+      {
+        "evaluation_item_id": "087",
+        "question": "What are the advantages of triggers and bindings in Azure Functions?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": [
+          "They provide an agnostic way of communicating with other system resources."
+        ]
+      },
+      {
+        "evaluation_item_id": "088",
+        "question": "How do you define an Azure Functions trigger or binding using a C# library?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["By decorating methods and parameters using .NET Attributes"]
+      },
+      {
+        "evaluation_item_id": "089",
+        "question": "How do you define an Azure Function trigger or binding using Java?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": [
+          "By decorating methods and parameters with Java annotations."
+        ]
+      },
+      {
+        "evaluation_item_id": "090",
+        "question": "How do you define an Azure Function trigger or binding using Javascript/PowerShell/Python/TypeScript?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["By updating the function.json schema"]
+      },
+      {
+        "evaluation_item_id": "091",
+        "question": "When configuring Azure functions in the function.json file, which direction do we always specify for a trigger?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["For triggers, the direction is always IN"]
+      },
+      {
+        "evaluation_item_id": "092",
+        "question": "True or False: For Triggers or Bindings, you simply configure the binding directly with the connection string",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/4-connect-azure-services",
+        "options": [],
+        "answer": ["false"]
+      },
+      {
+        "evaluation_item_id": "093",
+        "question": "True or False: For Triggers or Bindings, you can only configure a binding with a named reference to a connection string.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/4-connect-azure-services",
+        "options": [],
+        "answer": ["true"]
+      },
+      {
+        "evaluation_item_id": "094",
+        "question": "What are two ways to allow an Identity to perform the intended functions of an Azure Function, depending on the service?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/4-connect-azure-services",
+        "options": [],
+        "answer": [
+          "RBAC (Role Based Access Control)",
+          "Specify the identity in an Access Policy"
+        ]
+      }
+    ]
+  }
+]

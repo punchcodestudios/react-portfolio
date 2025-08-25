@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
+import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(ScrollTrigger);
 
 const SummaryContent = () => {
@@ -14,66 +15,65 @@ const SummaryContent = () => {
 
   const containers = ["biography"];
 
-  useEffect(() => {
-    function animate() {
-      if (contentRef.current) {
-        console.log("contentRef.current: ", contentRef.current);
-        gsap.fromTo(
-          contentRef.current,
-          {
-            opacity: 0.25,
-          },
-          {
-            opacity: 1,
-            duration: 0.25,
-            ease: "power1.inOut",
-          }
-        );
-      }
-      containers.forEach((selector) => {
-        gsap.to(`.${selector}`, {
+  useGSAP(() => {
+    // function animate() {
+    if (contentRef.current) {
+      gsap.fromTo(
+        contentRef.current,
+        {
+          opacity: 0.25,
+        },
+        {
           opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.in",
-        });
-      });
-
-      containers.forEach((selector) => {
-        gsap.set(`.${selector}`, { scale: 1 });
-        gsap.to(`.${selector}`, {
-          scale: 1.05,
-          y: 0,
-          duration: 0.7,
-          ease: "power2.inOut",
-          boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
-          scrollTrigger: {
-            trigger: `.${selector}`,
-            start: "center 70%",
-            end: "center 50%",
-            markers: false, // set to true for debugging
-            scrub: true,
-          },
-          onComplete: () => {
-            gsap.to(`.${selector}`, {
-              scale: 1,
-              ease: "power2.inOut",
-              boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.0)",
-              duration: 0.7,
-            });
-          },
-        });
-      });
+          duration: 0.25,
+          ease: "power1.inOut",
+        }
+      );
     }
+    containers.forEach((selector) => {
+      gsap.to(`.${selector}`, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.in",
+      });
+    });
 
-    if (document.readyState === "complete") {
-      animate();
-    } else {
-      window.addEventListener("load", animate);
-    }
-    return () => {
-      window.removeEventListener("load", animate);
-    };
+    containers.forEach((selector) => {
+      gsap.set(`.${selector}`, { scale: 1 });
+      gsap.to(`.${selector}`, {
+        scale: 1.05,
+        y: 0,
+        duration: 0.7,
+        ease: "power2.inOut",
+        boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
+        scrollTrigger: {
+          trigger: `.${selector}`,
+          start: "center 70%",
+          end: "center 50%",
+          markers: false, // set to true for debugging
+          scrub: true,
+        },
+        onComplete: () => {
+          gsap.to(`.${selector}`, {
+            scale: 1,
+            ease: "power2.inOut",
+            boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.0)",
+            duration: 0.7,
+          });
+        },
+      });
+    });
+    // }
+
+    // if (document.readyState === "complete") {
+    //   animate();
+    // } else {
+    //   window.addEventListener("load", animate);
+    // }
+    // return () => {
+    //   window.removeEventListener("load", animate);
+    // };
   }, []);
 
   return (

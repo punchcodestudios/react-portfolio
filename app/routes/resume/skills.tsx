@@ -11,10 +11,20 @@ import Loader from "~/components/ui/loader";
 import type { Skill, SkillResponse } from "~/entities/resume";
 import IconService from "~/service/icon-service";
 import { SolidIcon } from "~/utils/enums";
-import { getSkillsByType, SkillTypes, type SkillList } from "~/utils/resume";
+import { getSkillsBySlugList, type SkillList } from "~/utils/resume";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(ScrollTrigger);
+
+export enum SkillTypes {
+  BACKEND = "backend",
+  FRONTEND = "frontend",
+  DATABASE = "database",
+  DESIGN = "design",
+  INFRASTRUCTURE = "infrastructure",
+  SOFTSKILLS = "softskills",
+}
 
 type SkillHeaderProps = {
   icon: SolidIcon;
@@ -36,12 +46,12 @@ const SkillHeader: React.FC<SkillHeaderProps> = ({ icon, title }) => {
   );
 };
 
-type SkillsAccordionProps = {
+export type SkillsAccordionProps = {
   skills: SkillResponse | undefined;
   wrapperName?: string;
 };
 
-const SkillsAccordion: React.FC<SkillsAccordionProps> = ({
+export const SkillsAccordion: React.FC<SkillsAccordionProps> = ({
   skills,
   wrapperName = "default",
 }) => {
@@ -55,7 +65,7 @@ const SkillsAccordion: React.FC<SkillsAccordionProps> = ({
   const gsapTargetClassName = `${wrapperName}-container-skills-wrapper`;
 
   return (
-    <div className={`${gsapTargetClassName} mt-2 px-4 xl:p-0`}>
+    <div className={`${gsapTargetClassName} px-4 xl:p-0`}>
       <details
         {...(closed && { ...(closed ? undefined : { open: true }) })}
         className="p-2 border border-transparent open:border-black/10 open:bg-gray-100"
@@ -90,106 +100,100 @@ const SkillsAccordion: React.FC<SkillsAccordionProps> = ({
 };
 
 const SkillContent = () => {
-  const response = use(getSkillsByType() as Promise<SkillList>);
+  const response = use(
+    getSkillsBySlugList(Object.values(SkillTypes)) as Promise<SkillList>
+  );
   const data: SkillList = response;
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const containers = [
-    "backend",
-    "frontend",
-    "database",
-    "design",
-    "infrastructure",
-    "softskills",
-  ];
+  const containers = Object.values(SkillTypes).map((type) => `${type}`);
 
-  useEffect(() => {
-    function animate() {
-      if (contentRef.current) {
-        console.log("contentRef.current: ", contentRef.current);
-        gsap.fromTo(
-          contentRef.current,
-          {
-            opacity: 0.25,
-          },
-          {
-            opacity: 1,
-            duration: 0.25,
-            ease: "power1.inOut",
-          }
-        );
-      }
-      containers.forEach((selector) => {
-        gsap.to(`.${selector}`, {
+  useGSAP(() => {
+    if (contentRef.current) {
+      gsap.fromTo(
+        contentRef.current,
+        {
+          opacity: 0.25,
+        },
+        {
           opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.in",
-        });
-      });
-
-      containers.forEach((selector) => {
-        gsap.set(`.${selector}`, { scale: 1 });
-        gsap.set(`.${selector}-container-skills-wrapper`, {
-          opacity: 0,
-          scale: 1.25,
-        });
-        gsap.to(`.${selector}`, {
-          scale: 1.05,
-          y: 0,
-          duration: 0.7,
-          ease: "power2.inOut",
-          boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
-          scrollTrigger: {
-            trigger: `.${selector}`,
-            start: "center 70%",
-            end: "center 50%",
-            markers: false, // set to true for debugging
-            scrub: true,
-          },
-          onComplete: () => {
-            gsap.to(`.${selector}`, {
-              scale: 1,
-              ease: "power2.inOut",
-              boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.0)",
-              duration: 0.7,
-            });
-            gsap.to(`.${selector}-container-skills-wrapper`, {
-              opacity: 1,
-              scale: 1,
-              duration: 0.75,
-              ease: "power2.inOut",
-            });
-          },
-        });
-      });
+          duration: 0.25,
+          ease: "power1.inOut",
+        }
+      );
     }
+    containers.forEach((selector) => {
+      gsap.to(`.${selector}`, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.in",
+      });
+    });
 
-    if (document.readyState === "complete") {
-      console.log("Document is already loaded, running animation");
-      animate();
-    } else {
-      window.addEventListener("load", animate);
-    }
-    return () => window.removeEventListener("load", animate);
-  }, []);
+    containers.forEach((selector) => {
+      gsap.set(`.${selector}`, { scale: 1 });
+      gsap.set(`.${selector}-container-skills-wrapper`, {
+        opacity: 0,
+        scale: 1.25,
+      });
+      gsap.to(`.${selector}`, {
+        scale: 1.05,
+        y: 0,
+        duration: 0.7,
+        ease: "power2.inOut",
+        boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
+        scrollTrigger: {
+          trigger: `.${selector}`,
+          start: "center 70%",
+          end: "center 50%",
+          markers: false, // set to true for debugging
+          scrub: true,
+        },
+        onComplete: () => {
+          gsap.to(`.${selector}`, {
+            scale: 1,
+            ease: "power2.inOut",
+            boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.0)",
+            duration: 0.7,
+          });
+          gsap.to(`.${selector}-container-skills-wrapper`, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.75,
+            ease: "power2.inOut",
+          });
+        },
+      });
+    });
+  });
+
+  // useEffect(() => {
+  //   if (document.readyState === "complete") {
+  //     console.log("Document is already loaded, running animation");
+  //     animate();
+  //   } else {
+  //     window.addEventListener("load", animate);
+  //   }
+  //   return () => window.removeEventListener("load", animate);
+  // }, []);
 
   return (
     <div ref={contentRef} className="opacity-25">
       <div className="flex flex-col mx-auto max-w-[90%] lg:max-w-[70%]">
         <section className="my-10">
           <p className="text-siteBlack text-center md:text-start">
-            In the continuously changing world of technology, it is important to
-            stay up to date with the skill-set that meets the demands of the
-            modern workplace. Punchcode Studios answers this call by
-            continuously evolving in its tech stack, while still recognizing the
-            need to support the established workflows still in existence.
+            In today’s rapidly evolving technology landscape, staying current
+            with in-demand skills is essential. Punchcode Studios meets this
+            challenge by continually advancing its technology stack, while also
+            maintaining support for established, proven workflows.
           </p>
         </section>
       </div>
 
       <div className="flex flex-col mx-auto xl:max-w-[90%]">
         <div className="flex flex-col mx-auto overflow:hidden xl:flex-row xl:flex-wrap xl:justify-between">
+          {/* Backend */}
           <div className="backend py-10 lg:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
             <CallToActionLeft
               title={<SkillHeader icon={SolidIcon.BACKEND} title="Back-end" />}
@@ -207,6 +211,7 @@ const SkillContent = () => {
             </CallToActionLeft>
           </div>
 
+          {/* Frontend */}
           <div className="frontend py-10 lg:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
             <CallToActionRight
               title={
@@ -226,6 +231,7 @@ const SkillContent = () => {
             </CallToActionRight>
           </div>
 
+          {/* Database */}
           <div className="database py-10 lg:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
             <CallToActionLeft
               title={<SkillHeader icon={SolidIcon.DATABASE} title="Database" />}
@@ -243,6 +249,7 @@ const SkillContent = () => {
             </CallToActionLeft>
           </div>
 
+          {/* Design */}
           <div className="design py-10 lg:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
             <CallToActionRight
               title={<SkillHeader icon={SolidIcon.DESIGN} title="Design" />}
@@ -260,6 +267,7 @@ const SkillContent = () => {
             </CallToActionRight>
           </div>
 
+          {/* Infrastructure */}
           <div className="infrastructure py-10 lg:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
             <CallToActionLeft
               title={
@@ -282,6 +290,7 @@ const SkillContent = () => {
             </CallToActionLeft>
           </div>
 
+          {/* Soft Skills */}
           <div className="softskills py-10 lg:px-10 mb-5 xl:w-full">
             <CallToActionRight
               title={
