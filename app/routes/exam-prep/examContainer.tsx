@@ -32,11 +32,9 @@ const ExamContent = () => {
     if (data[randomIndex]?.learning_path_evaluation_items) {
       setWorkingEvaluationItems((prevItems) => [
         ...prevItems,
-        ...data[randomIndex].learning_path_evaluation_items,
+        ...data[1].learning_path_evaluation_items,
       ]);
-      setNumberOfQuestions(
-        data[randomIndex].learning_path_evaluation_items.length
-      );
+      setNumberOfQuestions(data[1].learning_path_evaluation_items.length);
     }
   }, [data]);
 

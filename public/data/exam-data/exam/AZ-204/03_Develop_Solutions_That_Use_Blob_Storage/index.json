@@ -1,0 +1,107 @@
+[
+  {
+    "learning_path_id": "AZ204_02",
+    "learning_path_name": "Implement Azure Functions",
+    "learning_path_evaluation_items": [
+      {
+        "evaluation_item_id": "001",
+        "question": "What is a lifecycle management policy?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/3-blob-storage-lifecycle-policies",
+        "options": [],
+        "answer": [
+          "A lifecycle management policy is an array in JSON format containing between 1 and 100 defined rules."
+        ]
+      },
+      {
+        "evaluation_item_id": "002",
+        "question": "What are the four parameters of a rule as defined in a lifecycle management policy?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/3-blob-storage-lifecycle-policies",
+        "options": [],
+        "answer": [
+          "name: string",
+          "enabled: boolean",
+          "type: enum",
+          "definition: object"
+        ]
+      },
+      {
+        "evaluation_item_id": "003",
+        "question": "What are the two items that each lifecycle management policy rule must include?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/3-blob-storage-lifecycle-policies",
+        "options": [],
+        "answer": ["Filter set", "Action set"]
+      },
+      {
+        "evaluation_item_id": "004",
+        "question": "What is the purpose of a filter set in a lifecycle management rule?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/3-blob-storage-lifecycle-policies",
+        "options": [],
+        "answer": [
+          "The filter set limits rule actions to a certain set of objects within a container or objects names."
+        ]
+      },
+      {
+        "evaluation_item_id": "005",
+        "question": "What is the purpose of an action set in a lifecycle management rule?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/3-blob-storage-lifecycle-policies",
+        "options": [],
+        "answer": [
+          "The action set applies the tier or delete actions to the filtered set of objects."
+        ]
+      },
+      {
+        "evaluation_item_id": "006",
+        "question": "True or False: If more than one filter is defined in a lifecycle management rule, a logical AND is used for evaluation.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/3-blob-storage-lifecycle-policies",
+        "options": [],
+        "answer": ["True"]
+      },
+      {
+        "evaluation_item_id": "007",
+        "question": "True or False: If more than one filter is defined in a lifecycle management rule, a logical OR is used for evaluation.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/3-blob-storage-lifecycle-policies",
+        "options": [],
+        "answer": ["False"]
+      },
+      {
+        "evaluation_item_id": "008",
+        "question": "True or False: If you define more than one action on the same blob, lifecycle management applies the least expensive action to the blob.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/3-blob-storage-lifecycle-policies",
+        "options": [],
+        "answer": ["True"]
+      },
+      {
+        "evaluation_item_id": "009",
+        "question": "True or False: If you define more than one action on the same blob, lifecycle management uses a logical AND for evaluation.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/3-blob-storage-lifecycle-policies",
+        "options": [],
+        "answer": ["False"]
+      },
+      {
+        "evaluation_item_id": "010",
+        "question": "True or False: If you define more than one action on the same blob, lifecycle management uses a logical OR for evaluation.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/3-blob-storage-lifecycle-policies",
+        "options": [],
+        "answer": ["False"]
+      },
+      {
+        "evaluation_item_id": "011",
+        "question": "What are three ways to add a blob-storage policy through the Azure portal?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/4-add-policy-blob-storage",
+        "options": [],
+        "answer": [
+          "Azure Portal List View",
+          "Azure Portal Code View",
+          "Azure CLI"
+        ]
+      },
+      {
+        "evaluation_item_id": "012",
+        "question": "",
+        "source": "https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/5-rehydrate-blob-data",
+        "options": [],
+        "answer": [""]
+      }
+    ]
+  }
+]

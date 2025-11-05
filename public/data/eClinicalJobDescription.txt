@@ -1,0 +1,41 @@
+Company:   eClinical Solutions
+https://topworkplaces.com/company/eclinical-solutions/
+http://www.eclinicalsol.com/
+Team: 6 agile scrum teams in the US
+4-8 Devs on each team
+
+
+eClinical Solutions helps life sciences organizations around the world accelerate clinical development initiatives with expert data services and the elluminate Clinical Data Cloud – the foundation of digital trials. Together, the elluminate platform and digital data services give clients self-service access to all their data from one centralized location plus advanced analytics that help them make smarter, faster business decisions.
+
+The eClinical Solutions Engineering team has true greenfield opportunities for software engineers who want to develop innovative revenue-generating products that are revolutionizing the life sciences industry. You will work on a team that is developing enterprise-level clinical data software. At eClinical Solutions, you will be recognized and rewarded for your ideas and accomplishments, all while contributing to the latest disruptive technology incorporating modern software architectures, data science, and advanced analytics.
+
+Responsibilities: 
+As a Principal Backend Software Engineer, you will be a core member of the elluminate Product Development team. elluminate is a next generation data integration and analytics cloud platform that enables life sciences organizations to optimize the aggregation, standardization, and analysis of their data throughout the clinical development life cycle. You will be primarily responsible for the design and development of core modules for the platform and will be involved in all phases of the software development lifecycle, including reviewing functional specifications, design, development, unit testing, code reviews and release management.  
+Work with the Engineering team to design, develop, test, and deploy highly interactive and data driven web applications
+Apply good technical practices and contribute to the application architecture with a focus on scalability, maintainability, security, and performance
+Design and write unit tests and participate in code reviews
+Research and utilize new technologies on an ongoing basis
+Collaborate with the Software Quality Assurance team to test the system functionality
+Provide diagnostic support and fix defects as needed
+Provide technical support for existing elluminate product releases
+Provide technical guidance, training and support to other Engineers
+Ensure compliance with eClinical Solutions and industry quality standards, regulations, guidelines and procedures
+
+Qualifications:
+Bachelor’s degree or Master’s degree in Computer Science and/or equivalent work experience preferred 
+10+ years in software design and development using the Microsoft technology stack preferred 
+Master level expertise in C# and ASP.Net MVC  
+Good documentation skills and ability to contribute to relevant software documents such as features description, acceptance criteria, design documents, release notes, etc. 
+Strong technical project management experience. Must be able to estimate work effort and manage timelines effectively to meet deadlines 
+Experience working with Test Engineers in test driven design – where developers work in collaboration with Test Engineers to write test cases against new features before implementation 
+Proven ability to work independently as well as with other team members (Start-Up environment experience is a plus) 
+Must be a critical thinker and able to analyze and evaluate trade-offs in making design decisions 
+Proficiency in relational database concepts, including SQL queries, data modeling and design, preferably in Microsoft SQL Server 
+Strong experience working with SQL Stored Procedures and Functions, and database optimization 
+Thorough understanding of the fundamentals of software design principles, patterns, and practices 
+Strong Software Development Lifecycle experience (Agile methodology experience is preferred) 
+Ability to write optimized yet clean code that performs well and is also easy to maintain 
+Experience with secure development including knowledge of known vulnerabilities and countermeasures 
+Experience in the Life Science industry and/or working with clinical trial data is a plus 
+Experience with microservices, distributed systems, cloud AWS technologies is a plus 
+Angular or similar UI framework experience is a plus
