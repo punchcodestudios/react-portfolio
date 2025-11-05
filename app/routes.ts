@@ -13,6 +13,8 @@ export default [
   route("ui/index", "routes/ui/index.tsx"),
   route("ui/data-table", "routes/ui/dataTableContainer.tsx"),
   route("ui/data-gallery", "routes/ui/dataGalleryContainer.tsx"),
+  route("ui/suspense", "routes/ui/suspenseContainer.tsx"),
+  route("/exam-prep", "routes/exam-prep/examContainer.tsx"),
   layout("routes/form-layout.tsx", [route("contact", "routes/contact.tsx")]),
   layout("routes/resume/resume-layout.tsx", [
     route("resume", "routes/resume/summary.tsx"),

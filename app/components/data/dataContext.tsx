@@ -2,8 +2,6 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import type { Filter } from "./dataTableTypes";
 import { FilterAction, SortDirection } from "~/utils/enums";
 
-type TableRow = { [key: string]: any };
-
 export interface DataContextType<T> {
   data: T[];
   setData: React.Dispatch<React.SetStateAction<T[]>>;

@@ -165,20 +165,6 @@ export default {
         /** 12px size / 16px high / bold */
         button: ["0.75rem", { lineHeight: "1rem", fontWeight: "700" }],
       },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-      },
       backgroundImage: {
         "home-hero": "url('/images/home_hero_2.png')",
         "about-hero": "url('/images/about-this-site.png')",

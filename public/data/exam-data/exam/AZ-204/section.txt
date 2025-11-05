@@ -1,0 +1,95 @@
+Section_11_Notes
+------------------------------------------------------------------------------------------------------
+MODULE 01
+------------------------------------------------------------------------------------------------------
+-----------------------------
+Unit_02
+https://learn.microsoft.com/en-us/training/modules/monitor-app-performance/2-application-insights-overview
+-----------------------------
+What service would you use to collect metrics and application telemetry data to monitor application health as well as trace logging data?
+Application Insights
+
+Which Application Insights feature allows an administrator to observe activity from your deployed application in real time with no effect on the host environment?
+Live Metrics
+
+Which Application Insights feature allows an administrator to probe your applications external endpoints to test the overall availability and responsiveness over time?
+Availability 
+
+Which Application Insights feature allows an administrator to create GitHub or Azure DevOps work items in context of Application Insights data?
+Github or Azure DevOps integration
+
+Which Application Insights feature allows an administrator to understand which features are popular with users and how users interact and use your application?
+Usage
+
+Which Application Insights feature allows an administrator to automatically detect failures and other anomalies?
+Smart Detection
+
+Which Application Insights feature provides a high level top-down view of the application architecture and at-a-glance visual references to component health and responsiveness?
+Application Map
+
+Which Application Insights feature allows an administrator to search and visualize an end-to-end flow of a given execution or transaction?
+Distributed Tracing
+
+-----------------------------
+Unit_03
+https://learn.microsoft.com/en-us/training/modules/monitor-app-performance/3-logs-based-metrics
+-----------------------------
+What are the two types of metrics used in Application Insights?
+Log-based metrics
+Standard metrics
+
+Which type of Application Insights metrics would you use if you were concerned with performance at query time?
+Standard metrics
+
+Which type of Application Insights metrics would you use if you wanted a superior option for datat analysis and ad-hoc diagnostics?
+Log-based metrics
+
+-----------------------------
+Unit_04
+https://learn.microsoft.com/en-us/training/modules/monitor-app-performance/4-app-instrumentation
+-----------------------------
+
+How do we refer to the process of enabling an application to capture telemetry?
+That process is known as "Instrumenting"
+
+What are the two methods to instrument your application into Application Insights?
+Autoinstrumentation
+Manual instrumentation
+
+What are three circumstances in which you may need to use manual instrumenation by installing the Application Insights SDK into your application?
+You require custom events and metrics
+You require control over the flow of telemetry
+Auto-instrumentation is not available, typically due to language or platform limitations
+
+-----------------------------
+Unit_05
+https://learn.microsoft.com/en-us/training/modules/monitor-app-performance/5-availability-tests
+-----------------------------
+What is the maximum number of availability test allowed per Application Insights resource?
+100
+
+What type of Application Insights availability test would you use to check the availability of a site by sending a single request?
+Standard test
+
+What type of Application Insights availability test would you use to check validity of a certificate, HTTP request verb check or custom headers?
+Standard test
+
+What type of Application Insights availability test would you use if you decided to create a custom application to run availability tests?
+Custom TracAvailability test
+
+-----------------------------
+Unit_06
+https://learn.microsoft.com/en-us/training/modules/monitor-app-performance/6-application-map
+-----------------------------
+Which Application Insights feature allows you to spot performance bottlenecks or failure hotspots across all components of your distributed application?
+Application Map
+
+-----------------------------
+Unit_07
+https://learn.microsoft.com/en-us/training/modules/monitor-app-performance/7-knowledge-check
+-----------------------------
+Which availability test is recommended for authentication tests?
+Custom TrackAvailability 
+
+Which metric collection type provides near real-time querying and alerting on dimensions of metrics, and more responsive dashboards?
+Preaggregated

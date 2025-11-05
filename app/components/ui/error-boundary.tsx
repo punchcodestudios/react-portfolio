@@ -8,10 +8,6 @@ import {
 } from "react-router";
 import { getErrorMessage, getStackTrace } from "~/utils/site";
 import { CallToActionLeft } from "../cards/cta";
-//@ts-ignore
-import fatalErrorImage from "../../../public/images/error-500.png";
-//@ts-ignore
-import notFoundImage from "../../../public/images/error-404.png";
 
 type StatusHandler = (info: {
   error: ErrorResponse;
@@ -28,7 +24,7 @@ export function GenericErrorBoundary({
   statusHandlers,
   defaultStatusHandler = ({ error }) => (
     <CallToActionLeft
-      imageUrl={notFoundImage}
+      imageUrl="/images/error-404.png"
       imageAlt="image of a magnifying glass signifying a page not found"
       title={`Error-${error.status}`}
       text={error.data}
@@ -49,7 +45,7 @@ export function GenericErrorBoundary({
   unexpectedErrorHandler = (error) => (
     <div className="flex flex-col bg-background w-full items-center border-b-0">
       <CallToActionLeft
-        imageUrl={fatalErrorImage}
+        imageUrl="/images/error-500.png"
         imageAlt="server room in flames signifying a fatal server error"
         title="Error - 500"
         tagLine="something unexpected happened"

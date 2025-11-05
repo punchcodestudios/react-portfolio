@@ -2,10 +2,32 @@ import { useState } from "react";
 import { Link, NavLink, useMatches } from "react-router";
 import { useOptionalUser } from "~/utils/user";
 import logo from "/images/logo.png";
+import { useNavigation } from "react-router";
+import Loader, { NavLoader } from "../ui/loader";
+import { useSpinDelay } from "spin-delay";
+// This function can be used to show a loading spinner when navigating
+// to a new route. It can be called in the `useNavigation` hook or in
+// the `onClick` handler of a link.
+export const Spinner = () => <NavLoader />;
 
 const Navbar = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
   const user = useOptionalUser();
+  const navigation = useNavigation();
+
+  // Helper to check if a route is loading
+  const isLoading = (to: string) =>
+    navigation.state === "loading" && navigation.location?.pathname === to;
+
+  const showLoading = (to: string) =>
+    useSpinDelay(isLoading(to), {
+      delay: 500,
+      minDuration: 500,
+    });
+
+  const loadingResume = showLoading("/resume");
+  const loadingAbout = showLoading("/about");
+  const loadingContact = showLoading("/contact");
 
   return (
     <nav id="navbarWrapper">
@@ -29,16 +51,21 @@ const Navbar = () => {
               <NavLink
                 to="/resume"
                 onClick={() => setExpanded(false)}
-                className={({ isActive }) =>
+                className={({ isActive, isPending }) =>
                   `flex flex-row w-full p-2 h-14 font-navItem md:w-1/4 md:p-0 justify-center items-center
                       ${
                         isActive
                           ? "bg-secondary text-siteWhite"
                           : "bg-primary text-secondary"
-                      } 
+                      } ${isPending ? "opacity-60 pointer-events-none" : ""}
                       `
                 }
               >
+                {loadingResume && (
+                  <span className="me-5">
+                    <NavLoader />
+                  </span>
+                )}
                 Resume
               </NavLink>
               <NavLink
@@ -50,9 +77,14 @@ const Navbar = () => {
                       isActive
                         ? "bg-secondary text-siteWhite"
                         : "bg-primary text-secondary"
-                    }`
+                    } ${isPending ? "opacity-60 pointer-events-none" : ""}`
                 }
               >
+                {loadingAbout && (
+                  <span className="me-5">
+                    <NavLoader />
+                  </span>
+                )}
                 About
               </NavLink>
               <NavLink
@@ -60,12 +92,27 @@ const Navbar = () => {
                 onClick={() => setExpanded(false)}
                 className={({ isActive, isPending }) =>
                   `flex flex-row w-full p-2 h-14 font-navItem md:w-1/4 md:p-0 justify-center items-center
-                                        ${
-                                          isActive
-                                            ? "bg-secondary text-siteWhite"
-                                            : "bg-primary text-secondary"
-                                        } `
+                    ${
+                      isActive
+                        ? "bg-secondary text-siteWhite"
+                        : "bg-primary text-secondary"
+                    } ${isPending ? "opacity-60 pointer-events-none" : ""}`
                 }
+              >
+                {loadingContact && (
+                  <span className="me-5">
+                    <NavLoader />
+                  </span>
+                )}
+                Contact
+              </NavLink>
+              {/* {user && (
+                <Link to="/logout" className="me-3 font-navItem">
+                  <span className="font-navItem">
+                    Logout {`${user.username}`}
+                  </span>
+                </Link>
+              )}
               >
                 Contact
               </NavLink>
@@ -90,24 +137,24 @@ const Navbar = () => {
                 width="30px"
                 height="30px"
                 viewBox="0 0 20 20"
-                fill="currentColor"
+                fill="ffffff"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   d="M4 18L20 18"
-                  stroke="currentColor"
+                  stroke="#FFF"
                   strokeWidth="2"
                   strokeLinecap="round"
                 />
                 <path
                   d="M4 12L20 12"
-                  stroke="currentColor"
+                  stroke="#FFF"
                   strokeWidth="2"
                   strokeLinecap="round"
                 />
                 <path
                   d="M4 6L20 6"
-                  stroke="currentColor"
+                  stroke="#FFF"
                   strokeWidth="2"
                   strokeLinecap="round"
                 />
@@ -118,31 +165,80 @@ const Navbar = () => {
       </div>
       {expanded && (
         <div className="bg-primary flex flex-col gap-y-2 md:hidden px-4 sm:px-6 pb-2 justify-center">
-          <Link
+          <NavLink
             to="/resume"
-            className="me-3"
-            onClick={() => setExpanded(false)}
+            className={({ isActive, isPending }) =>
+              `me-3 p-2
+                    ${
+                      isActive
+                        ? "bg-secondary text-siteWhite"
+                        : "bg-primary text-secondary"
+                    }  ${isPending ? "opacity-60 pointer-events-none" : ""}`
+            }
           >
-            <span className="font-navItem">Resume</span>
-          </Link>
-          <Link to="/about" className="me-3" onClick={() => setExpanded(false)}>
-            <span className="font-navItem">About</span>
-          </Link>
-          <Link
+            <div className="font-navItem text-siteWhite flex flex-row justify-between h-8 items-center">
+              <div className="flex items-center">Resume</div>
+              {loadingResume ? (
+                <div className="flex items-center">
+                  <NavLoader />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          </NavLink>
+          <NavLink
+            to="/about"
+            className={({ isActive, isPending }) =>
+              `me-3 p-2
+                    ${
+                      isActive
+                        ? "bg-secondary text-siteWhite"
+                        : "bg-primary text-secondary"
+                    }  ${isPending ? "opacity-60 pointer-events-none" : ""}`
+            }
+          >
+            <div className="font-navItem text-siteWhite flex flex-row justify-between h-8 items-center">
+              <div className="flex items-center">About</div>
+              {loadingAbout ? (
+                <div className="flex items-center">
+                  <NavLoader />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          </NavLink>
+          <NavLink
             to="/contact"
-            className="me-3"
-            onClick={() => setExpanded(false)}
+            className={({ isActive, isPending }) =>
+              `me-3 p-2
+                    ${
+                      isActive
+                        ? "bg-secondary text-siteWhite"
+                        : "bg-primary text-secondary"
+                    } ${isPending ? "opacity-60 pointer-events-none" : ""}`
+            }
           >
-            <span className="font-nav">Contact</span>
-          </Link>
+            <div className="font-navItem text-siteWhite flex flex-row justify-between h-8 items-center">
+              <div className="flex items-center">Contact</div>
+              {loadingContact ? (
+                <div className="flex items-center">
+                  <NavLoader />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          </NavLink>
           {/* {!user && (
             <Link to="/login" className="me-3">
-              <span className="font-nav">Login</span>
+              <span className="font-navItem text-siteWhite">Login</span>
             </Link>
           )}
           {user && (
             <Link to="/logout" className="me-3">
-              <span className="font-nav">Logout</span>
+              <span className="font-navItem text-siteWhite">Logout</span>
             </Link>
           )} */}
         </div>

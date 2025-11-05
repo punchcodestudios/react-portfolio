@@ -1,0 +1,288 @@
+Section_03_Notes
+------------------------------------------------------------------------------------------------------
+MODULE 01
+------------------------------------------------------------------------------------------------------
+
+-----------------------------
+Unit_02
+https://learn.microsoft.com/en-us/training/modules/explore-azure-blob-storage/2-blob-storage-overview
+-----------------------------
+
+What type of storage is used for storing massive amounts of unstructured data that doesnt adhere to a particular model or definition such as text or binary data?
+Azure blob storage
+
+How can blob storage be accessed?
+Blog storage can be accessed via HTTP/HTTPS using Azure Storage REST API, Azure Powershell, Azure CLI or an Azure Storage client library.
+
+What is the top level container for Azure Blob Storage?
+An Azure Storage account is the top level container for Azure Blob Storage.
+
+What are the two types of Azure Blob Storage accounts?
+Standard - generally recommended for most cases
+Premium - includes three options Block blobs, Page blobs, File shares
+
+What type of Azure Storage account will support Blob Storage, Queue storage, Table Storage and Azure Files?
+Standard
+
+What type of Azure Storage account will support Network File System (NFS)?
+Premium File Share
+
+What type of Azure Storage account only supports Blob Storage?
+Premium Block Blob
+
+What are two types of Azure Storage Rundancy options?
+Locally Redundant Storage (LRS)
+Zone Redundant Storage (ZRS)
+
+What type of Azure Storage is recommended for scenarios with high transaction rates or that use smaller objects or require consistently low storage latency?
+Premium block blobs
+
+What type of Azure Storage is recommended for enterprise or high-performance scale applications?
+Premium File Share
+
+What type of Azure Storage account is used for page blobs only?
+Premium Page Blobs
+
+Which type of Azure Storage Account Access Tier is optimized for frequent access of objects?
+Hot
+
+Which type of Azure Storage Account Access Tier has the highest storage costs, but the lowest access costs?
+Hot
+
+Which type of Azure Storage Account Access Tier is optimized for storing large amounts of data that is infrequently accessed and stored for a minimum of 30 days?
+Cool
+
+Which type of Azure Storage Account Access Tier has lower storage costs and higher access costs compared to the Hot tier?
+Cool
+
+Which type of Azure Storage Account Access Tier is optimized for storing data that is infrequently accessed and stored for a minimum of 90 days?
+Cold
+
+Which type of Azure Storage Account Access Tier has lower storage costs and higher access costs compared to the cool tier?
+Cold
+
+Which type of Azure Storage Account Access Tier is available only for individual block blobs and is optimized for data that can tolerate several hours of retrieval latency and remains in its tier for a minimum 180 days?
+Archive
+
+Which type of Azure Storage Account Access Tier has the lowest storage cost, but the highest access cost?
+Archive
+
+-----------------------------
+Unit_03
+https://learn.microsoft.com/en-us/training/modules/explore-azure-blob-storage/3-blob-storage-resources
+-----------------------------
+
+What are two features of an Azure Storage account?
+Provides a unique namespace for your data
+Can contain unlimited number of containers
+
+What is the purpose of an Azure Storage Container?
+To organize any number of blobs
+
+What type of blobs are made up of blocks of data that can be managed individually and can store up to about 190.7 TiB?
+Block Blobs
+
+What type of blobs is ideal for scenarios such as logging data from virtual machines?
+Append Blobs
+
+What type of blob can store random access Virtual Hard Drive (VHD) files up to 8 TB and serve as disks for Azure virtual machines?
+Page blobs
+
+-----------------------------
+Unit_04
+https://learn.microsoft.com/en-us/training/modules/explore-azure-blob-storage/4-blob-storage-security
+-----------------------------
+
+Which version of client-side encryption uses Galois/Counter Mode (GCM) mode with AES and support Blob Storage and Queue Storage SDKs?
+Version 2
+
+Which version of client-side encryption uses Cipher Block Chaining (CBC) mode with AES and supports Blob Storage, Queue Storage, and Table Storage SDKs?
+Version 1
+
+
+------------------------------------------------------------------------------------------------------
+MODULE 02
+------------------------------------------------------------------------------------------------------
+
+-----------------------------
+Unit_02
+https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/2-blob-storage-lifecycle
+-----------------------------
+
+At what level are Data Storage limits set?
+Data storage limits are set at the account level and not per access tier.
+
+True or False: You can choose to use all of your data storage limit in one tier or across all three tiers.
+True
+
+True or False: You must use all of your data storage limit in one tier and cannot cross tiers.
+False
+
+Which feature of Azure Blob Storage would you use if you needed to set up a rule-based policy that you can use to transition blob data to the appropriate access tiers or to expire data at the end of the data lifecycle.
+Azure Blob Storage lifecyle management
+
+-----------------------------
+Unit_03
+https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/3-blob-storage-lifecycle-policies
+-----------------------------
+
+What is a lifecycle management policy?
+A lifecycle management policy is an array in JSON format containing between 1 and 100 defined rules.
+
+What are the four parameters of a rule as defined in a lifecycle management policy?
+name: string
+enabled: boolean
+type: enum
+definition: object
+
+What are the two items that each lifecycle managment policy rule must include?
+Filter set
+Action set
+
+What is the purpose of a filter set in a lifecycle management rule?
+The filter set limits rule actions to a certain set of objects within a container or objects names.
+
+What is the purpose of an action set in a lifecycle management rule?
+The action set applies the tier or delete actions to the filtered set of objects.
+
+True or False: If more than one filter is defined in a lifecycle management rule, a logical AND is used for evaluation.
+True
+
+True or False: If more than one filter is defined in a lifecycle management rule, a logical OR is used for evaluation.
+False
+
+True or False: If you define more than one action on the same blob, lifecycle management applies the least expensive action to the blob.
+True
+
+True or False: If you define more than one action on the same blob, lifecycle management uses a logical AND for evaluation.
+False
+
+True or False: If you define more than one action on the same blob, lifecycle management uses a logical OR for evaluation.
+False
+
+-----------------------------
+Unit_04
+https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/4-add-policy-blob-storage
+-----------------------------
+What are three ways to add a blob-storage policy through the Azure portal?
+Azure Portal List View
+Azure Portal Code View
+Azure CLI
+
+-----------------------------
+Unit_05
+https://learn.microsoft.com/en-us/training/modules/manage-azure-blob-storage-lifecycle/5-rehydrate-blob-data
+-----------------------------
+What extra step must be taken in order to read or modify a blob that is in the Archive access tier?
+In order to read or modify data in an archived blob, you must first rehydrate the blob to an online tier, either the hot or cool tier.
+
+What are two ways that you can rehydrate a blob that has been archived?
+Copy an archived blob to an online tier
+Change a blob's access tier to an online tier
+
+In which rehydration priority setting is the rehydration request is processed in the order it was received and might take up to 15 hours?
+Standard priority
+
+Which rehydration priority setting is the rehydration request is prioritized over standard priority requests and might complete in under one hour for objects under 10 GB in size?
+High Priority
+
+True or False: When you copy an archived blob to a new blob in an online tier, the source blob remains unmodified in the archive tier.
+True
+
+True or False: You are allowed to modify the blob in the archive tier, prior to copying it to an online tier.
+False
+
+What operation would you use to copy a blob to a hot or cold tier?
+You can use the Copy Blob operation to copy the blob
+
+Which operation is used to change a blobs access tier for rehydration from Archive?
+Set Blob Tier
+
+Which storage account type supports lifecycle policies?
+General Purpose v2
+
+
+------------------------------------------------------------------------------------------------------
+MODULE 03
+------------------------------------------------------------------------------------------------------
+
+-----------------------------
+Unit_02
+https://learn.microsoft.com/en-us/training/modules/work-azure-blob-storage/2-blob-storage-client-library-overview
+-----------------------------
+What are the five classes provided by the Azure Storage client libraries in .NET?
+BlobClient
+BlobClientOptions
+BlobContainerClient
+BlobServiceClient
+BlobUriBuilder
+
+What are the three packages that contain the classes needed to work with Blob Storage data resources using the client libraries in .NET?
+Azure.Storage.Blobs
+Azure.Storage.Blobs.Specialized
+Azure.Storage.Blobs.Models
+
+What is the purpose of a BlobServiceClient object?
+An authorized BlobServiceClient object allows your app to interact with resources at the storage account level.
+
+What is the purpose of a BlobContainerClient object?
+BlobContainerClient provides methods to create, delete, or configure a container, and includes methods to list, upload, and delete the blobs within it.
+
+True or False: You can choose to use a BlobContainerClient object directly without using a BlobServiceClient.
+True
+
+True or False: In order to use a BlobContainerClient object, you must first instantiate a BlobServiceClient object.
+False
+
+What is the purpose of the BlobClient object?
+A BlobClient object allows you to interact with a specific blob resource.
+
+True or False: You can create a BlobClient object from  BlobServiceClient or a BlobContainerClient.
+True
+
+True or False: To create a BlobClient you must instantiate a BlobServiceClient.
+False
+
+True or False: To create a BlobClient, you must instantiate a BlobContainerClient.
+False
+
+-----------------------------
+Unit_05
+https://learn.microsoft.com/en-us/training/modules/work-azure-blob-storage/5-manage-container-properties-metadata-dotnet
+-----------------------------
+True or False: Metadata name/value pairs for Blob Containers are valid HTTP headers, and so should adhere to all restrictions governing HTTP headers.
+True
+
+True or False: There are no restrictions on the name/value pairs that can be used for Blob Containers.
+False
+
+Which class is used to get the Blob Container properties?
+To retrieve container properties, call GetProperties() or GetPropertiesAsync() from the BlobContainerClient class
+
+Which class is used to set the Blob Container properties?
+To retrieve container properties, call SetMetaData() or SetMetaDataAsync() from the BlobContainerClient class
+
+-----------------------------
+Unit_06
+https://learn.microsoft.com/en-us/training/modules/work-azure-blob-storage/6-set-retrieve-properties-metadata-rest
+-----------------------------
+What is the size limit of all metadata key/value pairs for a Blob Container?
+8KB
+
+What happens if you call PUT without any headers while setting Metadata for a Blob Container?
+Calling PUT without any headers on the request clears all existing metadata on the resource.
+
+what is the header prefix for setting a meta data property on a Blob Container?
+Metadata headers are named with the header prefix x-ms-meta- and a custom name.
+
+
+-----------------------------
+Unit_07
+https://learn.microsoft.com/en-us/training/modules/work-azure-blob-storage/7-knowledge-check
+-----------------------------
+Which standard HTTP headers are supported for both containers and blobs when setting properties by using REST?
+ETag
+Last-Modified
+
+Which of the following classes of the Azure Storage client library for .NET allows you to manipulate both Azure Storage containers and their blobs?
+BlobContainerClient

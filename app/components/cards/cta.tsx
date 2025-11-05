@@ -3,31 +3,34 @@ import React from "react";
 export type ImageAlign = "right" | "left";
 
 type CallToActionProps = {
-  title: string;
-  tagLine?: string;
-  text?: string;
+  title: React.ReactNode;
+  tagLine?: React.ReactNode;
+  text?: React.ReactNode;
   imageUrl: string;
   imageAlt: string;
-  actions: React.ReactNode;
+  actions?: React.ReactNode | null;
   imageAlign: ImageAlign;
+  children?: React.ReactNode | null;
 };
 
 type CallToActionLeftProps = {
-  title: string;
-  tagLine?: string;
-  text?: string;
+  title: React.ReactNode;
+  tagLine?: React.ReactNode;
+  text?: React.ReactNode;
   imageUrl: string;
   imageAlt: string;
-  actions: React.ReactNode;
+  actions?: React.ReactNode | null;
+  children?: React.ReactNode | null;
 };
 
 type CallToActionRightProps = {
-  title: string;
-  tagLine?: string;
-  text?: string;
+  title: React.ReactNode;
+  tagLine?: React.ReactNode;
+  text?: React.ReactNode;
   imageUrl: string;
   imageAlt: string;
-  actions: React.ReactNode;
+  actions?: React.ReactNode | null;
+  children?: React.ReactNode | null;
 };
 
 export const CallToActionLeft: React.FC<CallToActionLeftProps> = ({
@@ -37,10 +40,14 @@ export const CallToActionLeft: React.FC<CallToActionLeftProps> = ({
   tagLine,
   text,
   actions,
+  children = null,
 }: CallToActionLeftProps) => {
   return (
-    <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
-      <div className="xl:flex">
+    <div
+      id="cta_container"
+      className="mx-auto w-full overflow-hidden md:w-[90%] 2xl:w-[70%]"
+    >
+      <div className="flex flex-col xl:flex-row">
         <div className="px-6 xl:p-0 xl:shrink-0">
           <img
             className="h-32 w-full object-cover xl:w-96 xl:h-full"
@@ -48,21 +55,35 @@ export const CallToActionLeft: React.FC<CallToActionLeftProps> = ({
             alt={imageAlt}
           />
         </div>
-        <div className="p-6 xl:p-0 mt-2 xl:px-5 xl:mt-0 xl:ms-10">
+        <div
+          id="cta_content-container"
+          className="p-6 xl:p-0 mt-2 xl:mt-0 xl:ms-10"
+        >
           <div className="mb-3 xl:w-120">
-            <h2 className="font-semibold tracking-wide text-primary font-header uppercase">
+            <h2
+              id="cta_title"
+              className="font-semibold tracking-wide text-primary font-header uppercase"
+            >
               {title}
             </h2>
             {tagLine && (
-              <p className="mt-1 block text-xl leading-tight font-medium">
+              <p
+                id="cta_tagline"
+                className="mt-1 block text-xl leading-tight font-medium"
+              >
                 {tagLine}
               </p>
             )}
-            {text && <p className="my-4">{text}</p>}
+            {text && (
+              <p id="cta_text" className="my-4">
+                {text}
+              </p>
+            )}
           </div>
-          {actions && actions}
+          <div id="cta_actions">{actions && actions}</div>
         </div>
       </div>
+      <div id="cta_children">{children && children}</div>
     </div>
   );
 };
@@ -74,11 +95,18 @@ export const CallToActionRight: React.FC<CallToActionRightProps> = ({
   tagLine,
   text,
   actions,
+  children = null,
 }: CallToActionRightProps) => {
   return (
-    <div className="mx-auto max-w-full overflow-hidden xl:max-w-[90%] 2xl-max-w-[70%]">
+    <div
+      id="cta_container"
+      className="mx-auto max-w-full overflow-hidden md:max-w-[90%] 2xl-max-w-[70%]"
+    >
       <div className="flex flex-col-reverse xl:flex-row">
-        <div className="p-6 xl:p-0 mt-2 xl:px-5 xl:mt-0 xl:me-10">
+        <div
+          id="cta_content-container"
+          className="p-6 xl:p-0 mt-2 xl:mt-0 xl:me-10"
+        >
           <div className="mb-3 xl:w-120">
             <h2 className="font-semibold tracking-wide text-primary font-header uppercase">
               {title}
@@ -88,7 +116,7 @@ export const CallToActionRight: React.FC<CallToActionRightProps> = ({
                 {tagLine}
               </p>
             )}
-            {text && <p className="my-4">{text}</p>}
+            {text && <p className=" my-2 lg:my-4">{text}</p>}
           </div>
           {actions && actions}
         </div>
@@ -100,6 +128,7 @@ export const CallToActionRight: React.FC<CallToActionRightProps> = ({
           />
         </div>
       </div>
+      <div id="cta_children">{children && children}</div>
     </div>
   );
 };
@@ -112,6 +141,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
   text,
   actions,
   imageAlign = "left",
+  children = null,
 }: CallToActionProps) => {
   switch (imageAlign) {
     case "left": {
@@ -123,6 +153,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
           tagLine={tagLine}
           text={text}
           actions={actions}
+          children={children}
         ></CallToActionLeft>
       );
     }
@@ -135,6 +166,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
           tagLine={tagLine}
           text={text}
           actions={actions}
+          children={children}
         ></CallToActionLeft>
       );
     }

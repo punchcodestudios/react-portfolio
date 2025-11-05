@@ -1,0 +1,920 @@
+[
+  {
+    "learning_path_id": "AZ_204",
+    "learning_path_name": "Microsoft Azure Developer",
+    "learning_path_evaluation_items": [
+      {
+        "evaluation_item_id": "AZ204_01_001",
+        "question": "What is Azure App Service?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/2-azure-app-service",
+        "options": [],
+        "answer": [
+          "An Azure App Service is an Http-based service for hosting web applications, REST APIs and mobile back ends developed using most major languages."
+        ],
+        "learning_path_name": "Implement Azure App Service Web Apps"
+      },
+      {
+        "evaluation_item_id": "AZ204_01_002",
+        "question": "What are five benefits of using an App Service?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/2-azure-app-service",
+        "options": [],
+        "answer": [
+          "Auto Scale support built in",
+          "Ability to Scale up/down - increase the number of cores or amount of RAM",
+          "Ability to Scale in/out- increase or decrease the number of machines that are running",
+          "Container support",
+          "CI/CD support"
+        ],
+        "learning_path_name": "Implement Azure App Service Web Apps"
+      },
+      {
+        "evaluation_item_id": "AZ204_01_003",
+        "question": "What is an App Service Environment used for?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/2-azure-app-service",
+        "options": [],
+        "answer": [
+          "An App Service Environment (ASE) is a premium service offering of Azure App Service that is fully isolated, runs on customer-managed virtual networks, and provides enhanced security and scalability."
+        ],
+        "learning_path_name": "Implement Azure App Service Web Apps"
+      },
+      {
+        "evaluation_item_id": "AZ204_01_004",
+        "question": "Every App runs in an App Service Plan. Each plan defines what 5 things?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/3-azure-app-service-plans",
+        "options": [],
+        "answer": [
+          "Operating System",
+          "Region",
+          "Number of VM instances",
+          "Size of VM instances",
+          "Pricing Tier"
+        ],
+        "learning_path_name": "Implement Azure App Service Web Apps"
+      },
+      {
+        "evaluation_item_id": "AZ204_01_005",
+        "question": "What are the three pricing tiers for an App Service Plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/3-azure-app-service-plans",
+        "options": [],
+        "answer": [
+          "Shared - Free/Shared",
+          "Dedicated - Basic, Standard, Premium, PremiumV2, PremiumV3",
+          "Isolated - Isolated, IsolatedV2"
+        ],
+        "learning_path_name": "Implement Azure App Service Web Apps"
+      },
+      {
+        "evaluation_item_id": "AZ204_01_006",
+        "question": "What is the difference between a Basic and a Standard App Service Plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/3-azure-app-service-plans",
+        "options": [],
+        "answer": [
+          "Basic App Service Plans provide fewer features and lower performance compared to Standard Plans.",
+          "Standard App Service Plans include additional features such as auto-scaling and more powerful VM sizes."
+        ],
+        "learning_path_name": "Implement Azure App Service Web Apps"
+      },
+      {
+        "evaluation_item_id": "AZ204_01_007",
+        "question": "What is used as the 'scale-unit' of all apps in a group",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/3-azure-app-service-plans",
+        "options": [],
+        "answer": ["App Service Plan"],
+        "learning_path_name": "Implement Azure App Service Web Apps"
+      },
+      {
+        "evaluation_item_id": "AZ204_01_008",
+        "question": "At what level does app scaling occur?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/3-azure-app-service-plans",
+        "options": [],
+        "answer": ["App Service Plan"],
+        "learning_path_name": "Implement Azure App Service Web Apps"
+      },
+      {
+        "evaluation_item_id": "AZ204_01_009",
+        "question": "True or False: Apps run on all VMs within their App Service Plan",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/3-azure-app-service-plans",
+        "options": [],
+        "answer": ["true"],
+        "learning_path_name": "Implement Azure App Service Web Apps"
+      },
+      {
+        "evaluation_item_id": "AZ204_01_010",
+        "question": "True or False: App can run on different VMs within their App Service Plan",
+        "source": "https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-app-service/3-azure-app-service-plans",
+        "options": [],
+        "answer": ["false"],
+        "learning_path_name": "Implement Azure App Service Web Apps"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_001",
+        "question": "What are Azure Functions",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Functions are a serverless compute service requiring less code and infrastructure maintenance while saving cost."
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_002",
+        "question": "What is the main purpose of an Azure Function",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "The main purpose of an Azure Function is to respond to events"
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_003",
+        "question": "What is the maximum number of instances for a function app on a Consumption plan in Windows?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["The maximum number of instances is 200"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_004",
+        "question": "What is the purpose of a trigger in an Azure Function",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["To begin execution of the code"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_005",
+        "question": "What is the purpose of a binding in Azure Functions?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["To simplify the coding for input and output data"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_006",
+        "question": "Regarding Azure Function Apps, what are Azure Logic Apps?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Logic Apps are a serverless workflow integration platform"
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_007",
+        "question": "Regarding Azure Function Apps, what is an orchestration?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "An orchestration is a collection of Azure Functions (known as steps in Logic Apps)"
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_008",
+        "question": "What is the method of development for an Azure Function?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure functions use the Durable Functions Extension for development"
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_009",
+        "question": "What is the method of development for Logic Apps?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Logic Apps use a GUI for development."],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_010",
+        "question": "Are Azure Functions considered 'code-first' (imperative) or 'designer-first' (declarative)?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Azure Functions are considered 'code-first' (imperative)."],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_011",
+        "question": "Are Logic Apps considered 'code-first' (imperative) or 'designer-first' (declarative)?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Logic Apps are considered 'designer-first'"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_012",
+        "question": "How do Azure Functions connect?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Functions use bindings (built-in or custom) for connectivity"
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_013",
+        "question": "How to Logic Apps connect?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Logic Apps use connectors (built-in or custom) for connectivity."
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_014",
+        "question": "What is the primary purpose of Azure Functions?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          " Azure Functions are primarily used for event-driven programming, allowing developers to run code in response to events without managing infrastructure."
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_015",
+        "question": "What is the primary purpose of Logic Apps?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Logic Apps are primarily used for workflow automation, allowing developers to create workflows that integrate various services and systems."
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_016",
+        "question": "What do Azure Functions use for monitoring?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Functions use Azure Application Insights for monitoring"
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_017",
+        "question": "What do Azure Logic Apps use for monitoring?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Logic Apps can use the Azure Portal or Azure Monitor Logs for monitoring."
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_018",
+        "question": "How are Azure Functions managed?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Functions can be managed using a REST API or in Visual Studio"
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_019",
+        "question": "How are Azure Logic Apps managed?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Logic Apps can be managed using REST API, Powershell, the Azure Portal or Visual Studio"
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_020",
+        "question": "Where can you run an Azure Function? ",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Azure Functions can run either locally or in Azure"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_021",
+        "question": "Where can you run Azure Logic Apps?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Logic Apps can run locally, in Azure, or on premises"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_022",
+        "question": "Do Azure Functions support automatic scaling?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Yes, Azure Functions support automatic scaling."],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_023",
+        "question": "Do WebJobs support automatic scaling?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["No"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_024",
+        "question": "Can you develop and test in a browser while using Azure Functions?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Yes, you can develop and test Azure Functions in a browser using the Azure Portal."
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_025",
+        "question": "Can you develop and test in a browser while using WebJobs?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["No, you cannot develop and test WebJobs in a browser."],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_026",
+        "question": "Do Azure Functions support pay-per-use pricing?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Yes, Azure Functions support pay-per-use pricing."],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_027",
+        "question": "Do WebJobs support pay-per-use pricing?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["No, WebJobs do not support pay-per-use pricing."],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_028",
+        "question": "Do Azure Functions integrate with Logic Apps?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Yes, Azure Functions can be integrated with Logic Apps."],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_029",
+        "question": "Do WebJobs integrate with Logic Apps?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["No"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_030",
+        "question": "Azure Functions or WebJobs: Which supports Http/WebHook (GitHub Slack) trigger events?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": [
+          "Azure Functions support Http/WebHook (GitHub Slack) trigger events."
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_031",
+        "question": "Azure Functions or WebJobs: Which supports Azure Event Grid trigger events?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["Azure Functions support Azure Event Grid trigger events."],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_032",
+        "question": "Azure Functions or WebJobs: Which supports File System trigger events?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/2-azure-functions-overview",
+        "options": [],
+        "answer": ["WebJobs support File System trigger events."],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_033",
+        "question": "What are the five hosting options for Azure Functions?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": [
+          "Consumption Plan",
+          "Flex Consumption Plan",
+          "Premium Plan",
+          "Dedicated Plan",
+          "Container Apps"
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_034",
+        "question": "Which hosting option(s) for Azure Functions support(s) Linux Containers?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Premium Plan", "Dedicated Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_035",
+        "question": "True or False: Azure Functions can be hosted on both Linux and Windows virtual machines?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["true"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_036",
+        "question": "The Azure Functions hosting plan affects which five factors?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": [
+          "How your app is scaled",
+          "The resources available to each instance",
+          "Support for advanced features, such as Azure Virtual Network connectivity",
+          "Linux Container support",
+          "Cost"
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_037",
+        "question": "What is the default Azure Functions hosting plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Consumption Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_038",
+        "question": "What Azure Functions hosting plan would you use for pay as you go hosting, with automatic scale?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Consumption Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_039",
+        "question": "Which Azure Functions hosting plan would you use to get high scalability with compute choices, pay as you go billing and 'always-ready' instances?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Flex-Consumption Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_040",
+        "question": "Which Azure Functions hosting plan offers powerful instances, connections to virtual networks, in-demand prewarmed workers?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Premium Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_041",
+        "question": "Which Azure Functions hosting plan would be the choice for a continuously running app?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Premium Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_042",
+        "question": "Which Azure Functions hosting plan allows multiple function apps on the same plan with event-driven scaling?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Premium Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_043",
+        "question": "Your Azure Functions app has a high number of small executions, but low GB seconds. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Premium Plan - find out why?"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_044",
+        "question": "Your Azure Functions app is CPU or memory intensive. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Premium Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_045",
+        "question": "Your Azure Function requires virtual network connectivity. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Premium Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_046",
+        "question": "Which Azure Functions hosting plan would allow you to fun Azure Functions within an App Service Plan at regular plan rates?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Dedicated Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_047",
+        "question": "Which Azure Functions hosting plan is best for long running scenarios where durable functions cannot be used?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Dedicated Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_048",
+        "question": "Which Azure Functions hosting plan would provide predicable billing and the ability to manually scale instances?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Dedicated Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_049",
+        "question": "You want to run multiple web apps and Azure Function apps on the same plan. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Dedicated Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_050",
+        "question": "Your Azure Function needs access to a large compute size. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Dedicated Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_051",
+        "question": "Your Azure Function requires full compute isolation and a secure network provided by an App Service Environment (ASE). Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Dedicated Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_052",
+        "question": "Your Azure Function requires a lot of memory and needs High scalability. Which plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Dedicated Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_053",
+        "question": "Your Azure Function requires a fully managed hosting environment. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Container Apps"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_054",
+        "question": "Your Azure Function needs to run along side of other microservices, APIs, Websites and workflows. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Container Apps"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_055",
+        "question": "You want to package custom libraries with your Azure Function code. Which hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Container Apps"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_056",
+        "question": "You need high-end processing provided by dedicated CPU compute resources for your Azure Function?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Container Apps"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_057",
+        "question": "You want to avoid the overhead and complexity of managing Kubernetes clusters and dedicated compute. Which Azure Functions hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Container Apps"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_058",
+        "question": "You need to migrate code execution from on-premises or legacy apps to cloud native microservices running in containers. Which Azure Functions hosting plan would you choose?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Container Apps"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_059",
+        "question": "What is the default timeout duration for an Azure Function that IS running on the consumption plan? ",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["5 minutes"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_060",
+        "question": "What is the maximum timeout duration for an Azure Function that IS running on the consumption plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["10 minutes"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_061",
+        "question": "What is the default timeout duration for an Azure Function that IS NOT running on the consumption plan? ",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["30 minutes"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_062",
+        "question": "What is the maximum timeout duration for an Azure Function NOT running on the consumption plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/3-compare-azure-functions-hosting-options",
+        "options": [],
+        "answer": ["Unbounded with some restrictions"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_063",
+        "question": "Which App Functions hosting plan can be described as: Event driven. Scales out automatically, even during periods of high load. Functions infrastructure scales CPU and memory resources by adding more instances based on the number of incoming events? ",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["Consumption Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_064",
+        "question": "Which App Functions hosting plan can be described as: Per-function scaling. Event-driven scaling decisions are calculated on a per-function basis, which provides a more deterministic way of scaling the functions in your app?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["Flex Consumption Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_065",
+        "question": "Which App Functions hosting plan can be described as: Event driven. Scale out automatically based on the number of events that its functions are triggered on?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["Premium Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_066",
+        "question": "Which App Functions hosting plan can be described as: Manual/autoscale?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["Dedicated Plan"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_067",
+        "question": "Which App Function hosting plan can be described as: Event driven. Scale out automatically by adding more instances of the Functions host, based on the number of events that its functions are triggered on?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["Container Apps"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_068",
+        "question": "For Azure Function Apps, what is the maximum number of instances allowed on the Consumption Plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["Windows: 200", "Linux: 100"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_069",
+        "question": "For Azure Function Apps, what is the maximum number of instances allowed on the Flex Consumption Plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": [
+          "Limited only by total memory usage of all instances across a given region."
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_070",
+        "question": "For Azure Function Apps, what is the maximum number of instances allowed on the Premium Plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["Windows: 100", "Linux: 20-100"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_071",
+        "question": "For Azure Function Apps, what is the maximum number of instances allowed on the Dedicated Plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["10-30", "100 (ASE)"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_072",
+        "question": "For Azure Function Apps, what is the maximum number of instances allowed on the Container Plan?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["10-300"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_073",
+        "question": "What is the primary purpose of a Function App?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": [
+          "A function app provides an execution context in Azure for your functions to run. It is basically the equivalent of an App Service Plan for Azure Functions, with regard to how they are managed, deployed and scaled. "
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_074",
+        "question": "At what level are the pricing plan, deployment method, and runtime version set for a group of Azure Functions?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["At the Function App level"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_075",
+        "question": "What three files are location in the project root folder of a Function App, regardless of language?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["host.json", "local.settings.json"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_076",
+        "question": "Where are the app configuration values stored when developing and testing Azure Functions locally?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["local.settings.json file"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_077",
+        "question": "True or False: App Settings for a Function App are synced automatically regardless of the environment.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["false"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_078",
+        "question": "True or False: App Settings for a Function App must be maintained independently for each environment.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/explore-azure-functions/4-scale-azure-functions",
+        "options": [],
+        "answer": ["true"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_079",
+        "question": "What is the purpose of a trigger in an Azure Function?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["A trigger defines how often a function is invoked."],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_080",
+        "question": "True or False: A function must have exactly one trigger.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["true"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_081",
+        "question": "True or False: A function can have any number of triggers.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["false"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_082",
+        "question": "What is binding in an Azure Function?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": [
+          "Binding is a way to declaratively connect another resource to the function."
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_083",
+        "question": "What are the two type of binding for an Azure Function?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["Inbound", "Outbound"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_084",
+        "question": "True or False: An Azure Function can only have either an input or an output.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["false"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_085",
+        "question": "True or False: An Azure can have both input and output bindings.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["true"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_086",
+        "question": "True or False: An Azure Function can have multiple bindings with any combination of input and output.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["true"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_087",
+        "question": "What are the advantages of triggers and bindings in Azure Functions?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": [
+          "They provide an agnostic way of communicating with other system resources."
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_088",
+        "question": "How do you define an Azure Functions trigger or binding using a C# library?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": [
+          "By decorating methods and parameters using .NET Attributes"
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_089",
+        "question": "How do you define an Azure Function trigger or binding using Java?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": [
+          "By decorating methods and parameters with Java annotations."
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_090",
+        "question": "How do you define an Azure Function trigger or binding using Javascript/PowerShell/Python/TypeScript?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["By updating the function.json schema"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_091",
+        "question": "When configuring Azure functions in the function.json file, which direction do we always specify for a trigger?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/3-create-triggers-bindings",
+        "options": [],
+        "answer": ["For triggers, the direction is always IN"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_092",
+        "question": "True or False: For Triggers or Bindings, you simply configure the binding directly with the connection string",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/4-connect-azure-services",
+        "options": [],
+        "answer": ["false"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_093",
+        "question": "True or False: For Triggers or Bindings, you can only configure a binding with a named reference to a connection string.",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/4-connect-azure-services",
+        "options": [],
+        "answer": ["true"],
+        "learning_path_name": "Implement Azure Functions"
+      },
+      {
+        "evaluation_item_id": "AZ204_02_094",
+        "question": "What are two ways to allow an Identity to perform the intended functions of an Azure Function, depending on the service?",
+        "source": "https://learn.microsoft.com/en-us/training/modules/develop-azure-functions/4-connect-azure-services",
+        "options": [],
+        "answer": [
+          "RBAC (Role Based Access Control)",
+          "Specify the identity in an Access Policy"
+        ],
+        "learning_path_name": "Implement Azure Functions"
+      }
+    ]
+  }
+]

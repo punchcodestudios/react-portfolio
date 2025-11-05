@@ -1,0 +1,103 @@
+Biography
+Results-driven software engineer with 15+ years of experience in Microsoft .NET development across Windows and web platforms. Skilled in VB.NET, C#.NET backend architecture, and modern JavaScript frontend frameworks. Known for optimizing performance, delivering scalable solutions, and rapidly mastering new technologies. Blends technical expertise with creativity through 3D and visual tools like Blender, THREE.js, and Adobe Creative Suite. Proven success in both solo and team-based development.
+
+Transferrable Skills
+
+•	ReactJS
+•	Javascript | JQuery
+•	NodeJs | Express
+•	TypeScript
+•	HTML 5 | CSS | SCSS
+•	Tailwind
+•	C# .NET / .NET Core
+•	Azure DevOps
+•	Redux | MobX
+•	MS SQL Manager | SQL Express | MongoDb
+•	nHibernate | EntityFramework	•	Photoshop | Illustrator
+•	Blender 3.0
+•	ThreeJS
+•	WebForms
+•	Verbal and written communication
+•	Leadership / mentoring
+•	Independent motivation
+•	Creative problem solving
+•	Client-First methodology
+•	Flexibility and Adaptation
+•	Time Management
+•	Documentation
+
+
+
+
+
+
+
+Qualifications and Experience
+eImagine Technology Group
+ 02/2023 – present 
+Software Engineer | Indianapolis, IN
+
+.NET4 | .NET6 | .NET 8 | MVC Razor | Javascript | jQuery | ReactJs v18 | Typescript | MobX | Axios | SQL | EntityFramework7 | HTML5 | CSS | Azure DevOps | JIRA | SCRUM
+
+Act as primary developer to refactor legacy Application Management System into a modern tech-stack. Application serves as the entry point for individuals applying for services eventually managed by the primary Case Management System.
+•	Legacy Application Management System utilizes .NET4 Framework with C#.NET backend and leverages JavaScript/jQuery with HTML5, MVC Razor and CSS for the front-end.
+•	Refactored Application Management System is a React/Typescript front end consuming a .NET8 WebAPI with EntityFramework. Front end utilizes JSX/HTML, React-Bootstrap, Mobx for state management and Axios for communication with the back end. This defines the standard architecture for future development of similar applications within the organization, currently in the planning phases.
+•	As the primary developer, collaborate with Business Analysts, Project Managers and Lead Architect while analyzing, translating and communicating specific details of the legacy system to identify potential areas of improvement.
+•	Provide proof of concepts for suggested enhancements focusing on performance, accessibility and user experience.
+•	Work with external vendors to facilitate data transfers between systems and incorporate global authentication and authorization (OIDC) workflow into refactored application.
+•	Collaborate with both internal and external Quality Assurance teams to troubleshoot and remediate issues and enhancements found during development sprints.
+•	Present a demonstration of functionality for each development sprint to both internal and external stakeholders, providing transparency during the development lifecycle and establishing relationships focused on the core value of a client-first methodology.
+•	This milestone project was delivered two months ahead of schedule, carrying zero defects across all development and testing sprints, with only one defect found during the post-release stabilization period.
+•	The application was unique in receiving a 100% scorecard from an internal team of stakeholders evaluating compliance with internal processes and procedures.
+•	Additionally, the application was unique in achieving a 100% rating by an external organization representing the end user for accomplishments in delivering a final product that met or exceeded standards for usability, performance, timeliness and overall client satisfaction.
+As a member of a development team working in an Agile environment, analyze and solve issues for the primary Case Management System as reported by stakeholders and end users through JIRA ticketing
+•	The primary system utilizes .NET 4 Framework with C#.NET backend and leverages JavaScript/jQuery with HTML5, Kendo UI Controls, MVC Razor and CSS for the front end. 
+•	Interact with managers and peers by participating in code reviews, discussions on best practices as well as periodic meetings to evaluate opportunities for process improvements.
+•	Actively participate in daily standups in accordance with SCRUM methodologies and attend regular sprint planning meetings to determine development scope and provide level of effort estimates for upcoming sprint tasks. 
+•	Lead the initiative to streamline naming conventions, branching policies and check-in procedures using Git repositories, managed by Microsoft Azure, resulting in consistency between code bases, and transparency during code reviews prompted by pull requests.
+•	Provide a proof-of-concept that led the initiative to incorporate Continuous Integration / Deployment via Azure DevOps services ensuring integrity and consistency throughout deployment lifecycle.
+
+As a member of the eImagine organization, promote the core value of continuous improvement by leading initiatives that facilitate personal growth and provide opportunities for awareness to individuals outside of my immediate team.
+•	Research and analyze relevant third-party tools to provide proof-of-concept for .pdf generation utility to be used across multiple applications within the organization. Utility is being integrated into current and future systems to aid in streamlining the processes relevant to .pdf generation. Proof of concept was accepted by stakeholders and development of full-featured utility led to increased revenue for the organization.
+•	Create “lunch-and-learn” content demonstrating the details of the React ecosystem and present to all company team members via Microsoft Teams. This created awareness of my specific role and allowed others to gain an understanding of how this role contributes to the overall benefit of the organization.
+•	Promote personal improvement by setting and accomplishing quarterly and annual goals, including obtaining certifications relevant to my professional development, transferring knowledge to other team members and adopting best practices as defined by company standards.
+•	Maintain 100% regulatory compliance with training modules as required by eImagine as well as the state of Indiana.
+ 
+Eversana / Intouch Solutions
+10/2012 – 02/2023
+Senior Software Developer | Overland Park, KS
+C#.NET | MVC | ReactJs v16 | Javascript | SQL | nHibernate | EntityFramework | Azure DevOps
+Assumed principal role for new development of high-profile applications utilizing multiple technologies, including C#.NET, MVC/Razor, Javascript, ReactJs and ORMs nHibernate and EntityFramework, adhering to the strict regulatory standards of the pharmaceutical industry. As a subject matter expert for these applications, I contributed to the overall efficiencies within the Software Development Lifecycle, including project planning, design, implementation, testing and deployment.
+Utilized time-management skills to facilitate maintenance and enhancements for legacy applications while consistently meeting client-first deadlines set by Account and Project Management teams for multiple C#.NET and ReactJS projects simultaneously. 
+Demonstrated leadership by mentoring Junior Developers and encouraging their professional growth while training them on the specifics of each system. Delegated tasks appropriately based on individual strengths and knowledge levels, which directly contributed to their ability to serve as a backup for the project. Additionally, this contributed to the successful delivery of a high-quality final product.
+Demonstrated teamwork abilities by coordinating and implementing JavaScript and HTML code as required by Analytics, Search Engine Optimization and User Experience teams to ultimately deliver a powerful marketing and analytical tool to the client. 
+With a client-first methodology, analyzed and implemented practical solutions efficiently and effectively, providing deliverables that consistently met or exceeded budgetary expectations.
+Used effective verbal and written communication with Business Analyst to ensure application conformed to a proper balance between client needs and developmental efforts. Participated in the later stages of the requirements gathering process to proactively identify and remedy potential technical pitfalls that could negatively affect the project timeline or overall budget.
+Managed code migrations throughout project development lifecycle utilizing various third-party tools including Azure DevOps and FileZilla and other proprietary (s)ftp clients. Worked closely with Project Management and Quality Assurance teams to ensure deployments met or exceeded client expectation for both timing and quality.
+Demonstrated flexibility by quickly adapting to unfamiliar technologies falling outside my standard role to bring added revenue generation to my immediate team. Examples would include using various CMS tools such as Drupal and Gatsby as well as other proprietary solutions as required. 
+
+
+
+Quest Diagnostics
+10/2011 - 10/2012
+Senior Developer / Level V Support | Lenexa, Ks
+C#.NET | HTML | CSS | WebForms | Javascript | SQL 
+Used creative problem-solving skills to act as the highest level of support for a multi-faceted C#.NET system used by medical professionals. Web based applications leveraged .NET Web Forms technologies, adhering to relevant HTML/CSS, JavaScript and SQL development standards to ensure data security and HIPPA compliance.
+Implemented solutions to inefficiencies and errors found, enhanced user experience through optimizations to existing C#.NET code and SQL Queries.
+Through effective verbal and written communication, provided analytical support to other team members responsible for maintaining external applications with dependencies.
+
+Unified Life Insurance
+05/2009- 10/2011
+Junior Developer | Overland Park, KS
+VB.NET | Windows Forms | SQL 
+With teamwork and cooperation, accomplished the parallel conversion of a legacy COBOL application to a highly specialized and continuously evolving VB.NET Windows application.
+Organically incorporated actuarial algorithms, billing cycles, claims management processes and notification standards into a single system using SQL and Windows Forms in compliance with each newly acquired company’s original agreements.
+
+Personal Growth and Development
+Model Context Protocol | AI Driven Development | SQL Express | NodeJS / Express | ThreeJS
+
+ Education and Certifications
+DeVry University, Kansas City 2009 – Suma Cum Laude
+Microsoft Certified: Azure Fundamentals (AZ-900) – achieved 08-08-2025
+Microsoft Certified: Azure Developer (AZ-204) – expected completion 10/24/2025
+EpicAI Certified: Master the Model Context Protocol (MCP) – expected completion 10/31/2025

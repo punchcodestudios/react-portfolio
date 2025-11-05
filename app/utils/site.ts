@@ -199,3 +199,10 @@ export function combineResponseInits(
   }
   return combined;
 }
+
+/**
+ * get random number with specified upper bound
+ */
+export function getRandomNumber(upperBound: number): number {
+  return Math.floor(Math.random() * upperBound);
+}
