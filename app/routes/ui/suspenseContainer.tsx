@@ -46,8 +46,8 @@ const SuspenseContainer = () => {
   );
 };
 
-const contentPromise: Promise<SkillResponse> = resumeService.getAllSkills({
-  params: { skillsExclude: [], slug: "all" },
+const contentPromise: Promise<SkillResponse> = resumeService.getSkills({
+  params: { skillsExclude: [], slug: [] },
 });
 
 const SuspenseContent = () => {

@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Outlet, type MetaFunction } from "react-router";
 import PageNav from "~/components/layout/page-nav";
 import HeaderImage from "~/components/layout/header-image";
-import useImage from "~/hooks/useImage";
+import useImage from "~/hooks/image";
 
 export async function loader() {
   // throw new Response("made up this error", { status: 500 });

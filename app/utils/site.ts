@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { useFormAction, useNavigation } from "react-router";
 import { twMerge } from "tailwind-merge";
-import useScreenSize from "../hooks/useScreenSize";
+import useScreenSize from "../hooks/screenSize";
 import type { ScreenSize } from "../entities/site";
 
 /**
@@ -205,4 +205,17 @@ export function combineResponseInits(
  */
 export function getRandomNumber(upperBound: number): number {
   return Math.floor(Math.random() * upperBound);
+}
+
+export function delayRequest(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function filterBySlug<T>(slug: string[], data: T[]): T[] {
+  // console.log("data from filter: ", data);
+  return data.filter((item) => {
+    const itemSlug = (item as any).slug.split("|");
+    // console.log("itemSlug: ", itemSlug);
+    return slug.some((paramSlug) => itemSlug.includes(paramSlug));
+  });
 }

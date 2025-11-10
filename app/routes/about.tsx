@@ -5,16 +5,20 @@ import HeaderImage from "~/components/layout/header-image";
 import { Button } from "~/components/ui/button";
 import GenericErrorBoundary from "~/components/ui/error-boundary";
 import Loader from "~/components/ui/loader";
-import useImage from "~/hooks/useImage";
+import useImage from "~/hooks/image";
 import { ErrorBoundary } from "react-error-boundary";
 
-import { getSkillsBySlugList, type SkillList } from "~/utils/resume";
+// import { getSkillsBySlugList, type SkillList } from "~/utils/resume";
 import type { Route } from "./+types/about";
 import { SkillsAccordion } from "./resume/skills";
 
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import resumeService from "~/service/resume-service";
+import type { Skill, SkillResponse } from "~/entities/resume";
+import { filterBySlug } from "~/utils/site";
+import { useSkills } from "~/hooks/resume";
 gsap.registerPlugin(ScrollTrigger);
 
 export enum SkillGroups {
@@ -28,8 +32,8 @@ export enum SkillGroups {
 }
 
 const AboutContent: React.FC = () => {
-  const dataPromise = getSkillsBySlugList(Object.values(SkillGroups));
-  const data = use(dataPromise) as SkillList;
+  const skillData = useSkills();
+  console.log("Skill Data in AboutContent:", skillData);
   const location = useLocation();
   const headerImage = useImage({ path: location.pathname });
 
@@ -118,7 +122,10 @@ const AboutContent: React.FC = () => {
             >
               {
                 <SkillsAccordion
-                  skills={data[SkillGroups.PLANNING]}
+                  skills={filterBySlug<Skill>(
+                    [SkillGroups.PLANNING],
+                    skillData.target
+                  )}
                   wrapperName={SkillGroups.PLANNING.toLowerCase()}
                 />
               }
@@ -140,7 +147,10 @@ const AboutContent: React.FC = () => {
             >
               {
                 <SkillsAccordion
-                  skills={data[SkillGroups.REQUIREMENTS]}
+                  skills={filterBySlug<Skill>(
+                    [SkillGroups.REQUIREMENTS],
+                    skillData.target
+                  )}
                   wrapperName={SkillGroups.REQUIREMENTS.toLowerCase()}
                 />
               }
@@ -164,7 +174,10 @@ const AboutContent: React.FC = () => {
             >
               {
                 <SkillsAccordion
-                  skills={data[SkillGroups.DESIGN]}
+                  skills={filterBySlug<Skill>(
+                    [SkillGroups.DESIGN],
+                    skillData.target
+                  )}
                   wrapperName={SkillGroups.DESIGN.toLowerCase()}
                 />
               }
@@ -189,7 +202,10 @@ const AboutContent: React.FC = () => {
             >
               {
                 <SkillsAccordion
-                  skills={data[SkillGroups.CODING]}
+                  skills={filterBySlug<Skill>(
+                    [SkillGroups.CODING],
+                    skillData.target
+                  )}
                   wrapperName={SkillGroups.CODING.toLowerCase()}
                 />
               }
@@ -216,7 +232,10 @@ const AboutContent: React.FC = () => {
             >
               {
                 <SkillsAccordion
-                  skills={data[SkillGroups.TESTING]}
+                  skills={filterBySlug<Skill>(
+                    [SkillGroups.TESTING],
+                    skillData.target
+                  )}
                   wrapperName={SkillGroups.TESTING.toLowerCase()}
                 />
               }
@@ -240,7 +259,10 @@ const AboutContent: React.FC = () => {
             >
               {
                 <SkillsAccordion
-                  skills={data[SkillGroups.DEPLOYMENT]}
+                  skills={filterBySlug<Skill>(
+                    [SkillGroups.DEPLOYMENT],
+                    skillData.target
+                  )}
                   wrapperName={SkillGroups.DEPLOYMENT.toLowerCase()}
                 />
               }
@@ -269,7 +291,10 @@ const AboutContent: React.FC = () => {
             >
               {
                 <SkillsAccordion
-                  skills={data[SkillGroups.MAINTENANCE]}
+                  skills={filterBySlug<Skill>(
+                    [SkillGroups.MAINTENANCE],
+                    skillData.target
+                  )}
                   wrapperName={SkillGroups.MAINTENANCE.toLowerCase()}
                 />
               }

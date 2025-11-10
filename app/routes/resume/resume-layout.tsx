@@ -1,7 +1,7 @@
 import { Outlet, useMatches, type MetaFunction } from "react-router";
 import HeaderImage from "~/components/layout/header-image";
 import PageNav from "~/components/layout/page-nav";
-import useImage from "~/hooks/useImage";
+import useImage from "~/hooks/image";
 
 export async function loader() {
   // throw new Response("made up this error", { status: 500 });

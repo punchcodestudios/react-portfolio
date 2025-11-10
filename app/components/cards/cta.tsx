@@ -9,31 +9,11 @@ type CallToActionProps = {
   imageUrl: string;
   imageAlt: string;
   actions?: React.ReactNode | null;
-  imageAlign: ImageAlign;
   children?: React.ReactNode | null;
+  imageAlign?: ImageAlign;
 };
 
-type CallToActionLeftProps = {
-  title: React.ReactNode;
-  tagLine?: React.ReactNode;
-  text?: React.ReactNode;
-  imageUrl: string;
-  imageAlt: string;
-  actions?: React.ReactNode | null;
-  children?: React.ReactNode | null;
-};
-
-type CallToActionRightProps = {
-  title: React.ReactNode;
-  tagLine?: React.ReactNode;
-  text?: React.ReactNode;
-  imageUrl: string;
-  imageAlt: string;
-  actions?: React.ReactNode | null;
-  children?: React.ReactNode | null;
-};
-
-export const CallToActionLeft: React.FC<CallToActionLeftProps> = ({
+export const CallToActionLeft: React.FC<CallToActionProps> = ({
   imageUrl,
   imageAlt,
   title,
@@ -41,11 +21,11 @@ export const CallToActionLeft: React.FC<CallToActionLeftProps> = ({
   text,
   actions,
   children = null,
-}: CallToActionLeftProps) => {
+}: CallToActionProps) => {
   return (
     <div
       id="cta_container"
-      className="mx-auto w-full overflow-hidden md:w-[90%] 2xl:w-[70%]"
+      className="mx-auto w-full overflow-hidden md:w-[90%]"
     >
       <div className="flex flex-col xl:flex-row">
         <div className="px-6 xl:p-0 xl:shrink-0">
@@ -88,7 +68,7 @@ export const CallToActionLeft: React.FC<CallToActionLeftProps> = ({
   );
 };
 
-export const CallToActionRight: React.FC<CallToActionRightProps> = ({
+export const CallToActionRight: React.FC<CallToActionProps> = ({
   imageUrl,
   imageAlt,
   title,
@@ -96,7 +76,7 @@ export const CallToActionRight: React.FC<CallToActionRightProps> = ({
   text,
   actions,
   children = null,
-}: CallToActionRightProps) => {
+}: CallToActionProps) => {
   return (
     <div
       id="cta_container"
@@ -159,7 +139,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
     }
     case "right": {
       return (
-        <CallToActionLeft
+        <CallToActionRight
           imageUrl={imageUrl}
           imageAlt={imageAlt}
           title={title}
@@ -167,7 +147,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
           text={text}
           actions={actions}
           children={children}
-        ></CallToActionLeft>
+        ></CallToActionRight>
       );
     }
   }
