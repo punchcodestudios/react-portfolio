@@ -11,10 +11,12 @@ import Loader from "~/components/ui/loader";
 import type { Skill, SkillResponse } from "~/entities/resume";
 import IconService from "~/service/icon-service";
 import { SolidIcon } from "~/utils/enums";
-import { getSkillsBySlugList, type SkillList } from "~/utils/resume";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import resumeService from "~/service/resume-service";
+import { filterBySlug } from "~/utils/site";
+import { useSkills } from "~/hooks/resume";
 gsap.registerPlugin(ScrollTrigger);
 
 export enum SkillTypes {
@@ -47,7 +49,7 @@ const SkillHeader: React.FC<SkillHeaderProps> = ({ icon, title }) => {
 };
 
 export type SkillsAccordionProps = {
-  skills: SkillResponse | undefined;
+  skills: Skill[] | undefined;
   wrapperName?: string;
 };
 
@@ -80,8 +82,8 @@ export const SkillsAccordion: React.FC<SkillsAccordionProps> = ({
         </summary>
         <div className="flex flex-wrap">
           {skills &&
-            skills?.meta.total > 0 &&
-            skills.target.map((skill: Skill) => {
+            skills.length > 0 &&
+            skills.map((skill: Skill) => {
               return (
                 <Badge
                   key={skill.refid}
@@ -100,10 +102,11 @@ export const SkillsAccordion: React.FC<SkillsAccordionProps> = ({
 };
 
 const SkillContent = () => {
-  const response = use(
-    getSkillsBySlugList(Object.values(SkillTypes)) as Promise<SkillList>
-  );
-  const data: SkillList = response;
+  // const dataPromise = resumeService.getSkills({
+  //   params: { id: "", slug: [], skillsExclude: [] },
+  // });
+  // const data = use(dataPromise) as SkillResponse;
+  const data = useSkills();
   const contentRef = useRef<HTMLDivElement>(null);
 
   const containers = Object.values(SkillTypes).map((type) => `${type}`);
@@ -204,7 +207,10 @@ const SkillContent = () => {
             >
               {
                 <SkillsAccordion
-                  skills={data[SkillTypes.BACKEND]}
+                  skills={filterBySlug<Skill>(
+                    [SkillTypes.BACKEND],
+                    data.target
+                  )}
                   wrapperName={containers[0]}
                 />
               }
@@ -224,7 +230,10 @@ const SkillContent = () => {
             >
               {
                 <SkillsAccordion
-                  skills={data[SkillTypes.FRONTEND]}
+                  skills={filterBySlug<Skill>(
+                    [SkillTypes.FRONTEND],
+                    data.target
+                  )}
                   wrapperName={containers[1]}
                 />
               }
@@ -242,7 +251,10 @@ const SkillContent = () => {
             >
               {
                 <SkillsAccordion
-                  skills={data[SkillTypes.DATABASE]}
+                  skills={filterBySlug<Skill>(
+                    [SkillTypes.DATABASE],
+                    data.target
+                  )}
                   wrapperName={containers[2]}
                 />
               }
@@ -260,7 +272,7 @@ const SkillContent = () => {
             >
               {
                 <SkillsAccordion
-                  skills={data[SkillTypes.DESIGN]}
+                  skills={filterBySlug<Skill>([SkillTypes.DESIGN], data.target)}
                   wrapperName={containers[3]}
                 />
               }
@@ -283,7 +295,10 @@ const SkillContent = () => {
             >
               {
                 <SkillsAccordion
-                  skills={data[SkillTypes.INFRASTRUCTURE]}
+                  skills={filterBySlug<Skill>(
+                    [SkillTypes.INFRASTRUCTURE],
+                    data.target
+                  )}
                   wrapperName={containers[4]}
                 />
               }
@@ -303,7 +318,10 @@ const SkillContent = () => {
             >
               {
                 <SkillsAccordion
-                  skills={data[SkillTypes.SOFTSKILLS]}
+                  skills={filterBySlug<Skill>(
+                    [SkillTypes.SOFTSKILLS],
+                    data.target
+                  )}
                   wrapperName={containers[5]}
                 />
               }

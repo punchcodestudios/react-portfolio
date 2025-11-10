@@ -14,12 +14,6 @@ export interface Skill {
   skill_types: SkillType[];
 }
 
-export interface SkillType {
-  name: string;
-  description: string;
-  refid: string;
-}
-
 export interface Skills {
   all: Skill[];
   frontend: Skill[];
@@ -43,6 +37,22 @@ export interface Experience {
   slug: string;
 }
 
+export interface Education {
+  institution_name: string;
+  refid: string;
+  start_date: string;
+  end_date: string;
+  degree: string;
+  field_of_study: string;
+  location: string;
+  slug: string;
+}
+export interface SkillType {
+  name: string;
+  description: string;
+  refid: string;
+}
+
 export interface ExperienceLineItem {
   text: string;
   refid: string;
@@ -52,22 +62,37 @@ export interface ExperienceLineItem {
 
 export interface ResumeRequest {
   params: {
+    id?: string | number;
     skillsExclude: SkillType[];
+    slug?: string[];
   };
 }
 export interface SkillRequest {
   params: {
+    id?: string | number;
     skillsExclude: SkillType[];
-    slug?: string;
+    slug?: string[];
   };
 }
 export interface ExperienceRequest {
-  params: {};
+  params: {
+    id?: string | number;
+    experienceExclude?: string[];
+    slug?: string[];
+  };
+}
+export interface EducationRequest {
+  params: {
+    id?: string | number;
+    educationExclude?: string[];
+    slug?: string[];
+  };
 }
 
 export interface ResumeMeta extends MetaResponse {}
 export interface ExperienceMeta extends MetaResponse {}
 export interface SkillMeta extends MetaResponse {}
+export interface EducationMeta extends MetaResponse {}
 
 export interface ResumeResponse {
   target: Resume[];
@@ -84,5 +109,11 @@ export interface ExperienceResponse {
 export interface SkillResponse {
   target: Skill[];
   meta: SkillMeta;
+  error: ApiErrorResponse;
+}
+
+export interface EducationResponse {
+  target: Education[];
+  meta: EducationMeta;
   error: ApiErrorResponse;
 }

@@ -44,20 +44,21 @@ class ApiClient<T> {
 
   getAll = async (): Promise<ApiResponse<T>> => {
     try {
-      // console.log("headers: ", this.headers);
+      // console.log("Headers: ", this.headers);
+      // console.log("Params: ", this.params);
       const response = await axiosInstance.get(this.endpoint, {
         headers: { ...this.headers },
         params: { ...this.params },
       });
       return Promise.resolve({ ...response.data });
     } catch (error: any) {
-      console.log("apiClient.getAll: error", { error });
+      // console.log("apiClient.getAll: error", { error });
       if (typeof error == "string") {
         return Promise.reject(error);
       }
       if (error instanceof AxiosError) {
         // console.log("axios error: ", error);
-        return Promise.reject(error);
+        return Promise.reject({ ...error } as AxiosError);
       }
       return Promise.reject({ ...error } as ApiErrorResponse);
     }
@@ -74,12 +75,35 @@ class ApiClient<T> {
     }
   };
 
+  put = async (id: number | string, entity: T): Promise<ApiResponse<T>> => {
+    try {
+      const response = await axiosInstance.put(
+        this.endpoint + "/" + id,
+        entity
+      );
+      return Promise.resolve({ ...response.data });
+    } catch (error: any) {
+      // console.log("apiClient.put: error", error);
+      return Promise.reject({ ...error } as ApiErrorResponse);
+    }
+  };
+
   post = async (entity: T | {}): Promise<ApiResponse<T>> => {
     try {
       const response = await axiosInstance.post(this.endpoint, entity);
       return Promise.resolve({ ...response.data });
     } catch (error: any) {
       // console.log("apiClient.post: error", error);
+      return Promise.reject({ ...error } as ApiErrorResponse);
+    }
+  };
+
+  delete = async (id: number | string): Promise<ApiResponse<T>> => {
+    try {
+      const response = await axiosInstance.delete(this.endpoint + "/" + id);
+      return Promise.resolve({ ...response.data });
+    } catch (error: any) {
+      // console.log("apiClient.delete: error", error);
       return Promise.reject({ ...error } as ApiErrorResponse);
     }
   };
