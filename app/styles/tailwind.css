@@ -112,35 +112,35 @@ a {
     --foreground: 210 40% 98%;
 
     /* prefixed with foreground because it should look good on the background */
-    --foreground-destructive: -4 84% 60%;
+    /* --foreground-destructive: -4 84% 60%; */
 
-    --muted: 217.2 32.6% 12%;
-    --muted-foreground: 215 20.2% 65.1%;
+    /* --muted: 217.2 32.6% 12%;
+    --muted-foreground: 215 20.2% 65.1%; */
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    /* --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%; */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    /* --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%; */
 
-    --border: 217.2 32.6% 17.5%;
+    /* --border: 217.2 32.6% 17.5%; */
 
-    --input: 217.2 32.6% 17.5%;
-    --input-invalid: 0 62.8% 30.6%;
+    /* --input: 217.2 32.6% 17.5%;
+    --input-invalid: 0 62.8% 30.6%; */
 
-    --primary: 210 40% 98%;
-    --foreground-primary: 222.2 47.4% 11.2%;
+    /* --primary: 210 40% 98%;
+    --foreground-primary: 222.2 47.4% 11.2%; */
 
-    --secondary: 217.2 20% 24%;
-    --secondary-foreground: 210 40% 98%;
+    /* --secondary: 217.2 20% 24%;
+    --secondary-foreground: 210 40% 98%; */
 
-    --accent: 217.2 32.6% 10%;
-    --accent-foreground: 210 40% 98%;
+    /* --accent: 217.2 32.6% 10%;
+    --accent-foreground: 210 40% 98%; */
 
-    --destructive: 0 60% 40%;
-    --destructive-foreground: 0 85.7% 97.3%;
+    /* --destructive: 0 60% 40%;
+    --destructive-foreground: 0 85.7% 97.3%; */
 
-    --ring: 217.2 32.6% 60%;
+    /* --ring: 217.2 32.6% 60%; */
   }
 }
 
@@ -157,12 +157,12 @@ a {
   h1 {
     font-weight: 100;
     letter-spacing: 0.025rem;
-    @apply mb-4 text-4xl font-bold leading-none tracking-tight md:text-5xl lg:text-6xl text-siteBlack;
+    @apply mb-4 text-4xl font-bold leading-none tracking-tight md:text-5xl lg:text-6xl;
   }
   h2 {
     font-weight: 100;
     letter-spacing: 0.025rem;
-    @apply mb-4 text-xs leading-none md:text-3xl lg:text-4xl text-siteBlack;
+    @apply mb-4 text-xs leading-none md:text-3xl lg:text-4xl font-semibold tracking-wide font-header uppercase;
   }
   h3 {
     @apply mb-4 text-sm leading-none tracking-tight md:text-2xl lg:text-3xl text-siteBlack;

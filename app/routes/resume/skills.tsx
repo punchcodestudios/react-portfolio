@@ -70,12 +70,12 @@ export const SkillsAccordion: React.FC<SkillsAccordionProps> = ({
     <div className={`${gsapTargetClassName} px-4 xl:p-0`}>
       <details
         {...(closed && { ...(closed ? undefined : { open: true }) })}
-        className="p-2 border border-transparent open:border-black/10 open:bg-gray-100"
+        className="p-2 border border-transparent open:border-black/10"
       >
         <summary
           id="5"
           ref={summaryRef}
-          className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
+          className="font-header text-md leading-6 font-semibold select-none mb-4"
           onClick={(event) => toggleSkillSet(event)}
         >
           {`${closed ? "show" : "hide"} relevant skills`}
@@ -185,7 +185,7 @@ const SkillContent = () => {
     <div ref={contentRef} className="opacity-25">
       <div className="flex flex-col mx-auto max-w-[90%] lg:max-w-[70%]">
         <section className="my-10">
-          <p className="text-siteBlack text-center md:text-start">
+          <p className="text-center md:text-start">
             In today’s rapidly evolving technology landscape, staying current
             with in-demand skills is essential. Punchcode Studios meets this
             challenge by continually advancing its technology stack, while also

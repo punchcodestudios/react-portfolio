@@ -21,7 +21,7 @@ export const ExperienceContent: React.FC = () => {
 
   return (
     <div className="w-full flex flex-col mx-auto xl:max-w-[90%]">
-      <div className="flex flex-col w-full mx-auto overflow:hidden  xl:flex-row xl:flex-wrap xl:justify-between">
+      <div className="flex flex-col w-full mx-auto overflow:hidden xl:flex-row xl:flex-wrap xl:justify-between">
         <div className="eimagine px-6 py-10 md:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
           <ExperienceCard
             title={eImagineTitle()}
@@ -30,12 +30,10 @@ export const ExperienceContent: React.FC = () => {
             tagLine="Software Engineer"
             text="January 2022 - Present"
           >
-            <div className="bg-slate-100">
-              {/* <div className="mx-0 lg:mx-6">
-                <SkillsAccordion skills={undefined}></SkillsAccordion>
-              </div> */}
-              <EImagineDetails />
+            <div className="mx-0 lg:mx-6">
+              <SkillsAccordion skills={undefined}></SkillsAccordion>
             </div>
+            <EImagineDetails />
           </ExperienceCard>
         </div>
         <div className="eimagine px-6 py-10 md:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
