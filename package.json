@@ -2,6 +2,9 @@
   "name": "c-users-19132-reactportfolioprojects-react-portfolio",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
