@@ -54,78 +54,89 @@ const ThemeFormSchema = z.object({
 
 export async function loader({ request }: LoaderFunctionArgs) {
   console.log("loader function called from root");
-  const [csrfToken, csrfCookieHeader] = await csrf.commitToken(request);
-  const honeyProps = await honeypot.getInputProps();
-  const { toast, headers: toastHeaders } = await getToast(request);
+  try {
+    const [csrfToken, csrfCookieHeader] = await csrf.commitToken(request);
+    const honeyProps = await honeypot.getInputProps();
+    const { toast, headers: toastHeaders } = await getToast(request);
 
-  // console.log("toast: ", toast);
-  const cookieSession = await sessionStorage.getSession(
-    request.headers.get("cookie")
-  );
+    // console.log("toast: ", toast);
+    const cookieSession = await sessionStorage.getSession(
+      request.headers.get("cookie")
+    );
 
-  const userId = cookieSession?.get("userId");
-  // const response = userId ? await UserService.getById(userId) : null;
-  let user = null;
-  // if (response !== null) {
-  //   user = response?.meta.success ? response?.target[0] : null;
-  // }
-  return data(
-    {
-      userId,
-      user,
-      honeyProps,
-      csrfToken,
-      theme: getTheme(request),
-      toast: toast,
-      ENV: getEnv(),
-    },
-    {
-      headers: combineHeaders(
-        csrfCookieHeader ? { "set-cookie": csrfCookieHeader } : null,
-        toastHeaders
-      ),
-    }
-  );
+    const userId = cookieSession?.get("userId");
+    // const response = userId ? await UserService.getById(userId) : null;
+    let user = null;
+    // if (response !== null) {
+    //   user = response?.meta.success ? response?.target[0] : null;
+    // }
+    return data(
+      {
+        userId,
+        user,
+        honeyProps,
+        csrfToken,
+        theme: getTheme(request),
+        toast: toast,
+        ENV: getEnv(),
+      },
+      {
+        headers: combineHeaders(
+          csrfCookieHeader ? { "set-cookie": csrfCookieHeader } : null,
+          toastHeaders
+        ),
+      }
+    );
+  } catch (error) {
+    console.error("Error in root loader:", error);
+    // Return a fallback response or re-throw with proper handling
+    throw new Response("Internal Server Error", { status: 500 });
+  }
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  const formData = await request.formData();
-  console.log("call from action");
+  try {
+    const formData = await request.formData();
+    console.log("call from action");
 
-  // console.log("action: ", formData);
-  invariantResponse(
-    formData.get("intent") === "update-theme",
-    "Invalid intent",
-    { status: 400 }
-  );
+    // console.log("action: ", formData);
+    invariantResponse(
+      formData.get("intent") === "update-theme",
+      "Invalid intent",
+      { status: 400 }
+    );
 
-  // parse comes from conform/to-zod
-  const submission = parse(formData, {
-    schema: ThemeFormSchema,
-  });
-  console.log("submission.error: ", submission.error);
-  console.log("submission.intent: ", submission.intent);
-  console.log("submission.value: ", submission.value);
-  if (submission.intent !== "submit") {
-    return { status: "success", submission: submission };
+    // parse comes from conform/to-zod
+    const submission = parse(formData, {
+      schema: ThemeFormSchema,
+    });
+    console.log("submission.error: ", submission.error);
+    console.log("submission.intent: ", submission.intent);
+    console.log("submission.value: ", submission.value);
+    if (submission.intent !== "submit") {
+      return { status: "success", submission: submission };
+    }
+    if (!submission.value) {
+      return { status: "error", submission } as const;
+    }
+
+    const { theme } = submission.value;
+    // console.log("theme: ", theme);
+
+    const response = new Response(formData, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Set-Cookie": setTheme(theme),
+      },
+    });
+
+    // console.log("response: ", response);
+    return data({ submission }, response);
+  } catch (error) {
+    console.error("Error in root action:", error);
+    throw new Response("Internal Server Error", { status: 500 });
   }
-  if (!submission.value) {
-    return { status: "error", submission } as const;
-  }
-
-  const { theme } = submission.value;
-  // console.log("theme: ", theme);
-
-  const response = new Response(formData, {
-    status: 200,
-    headers: {
-      "Content-Type": "application/json",
-      "Set-Cookie": setTheme(theme),
-    },
-  });
-
-  // console.log("response: ", response);
-  return data({ submission }, response);
 }
 
 function Layout({
