@@ -36,7 +36,9 @@ const resumeService = {
     resumeService.experienceCache.set(JSON.stringify(request), promise);
     return promise;
   },
-  getEducation: async (request: EducationRequest) => {
+  getEducation: async (
+    request: EducationRequest
+  ): Promise<EducationResponse> => {
     const cached = resumeService.educationCache.get(JSON.stringify(request));
     if (cached) return cached;
 

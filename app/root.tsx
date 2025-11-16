@@ -258,18 +258,24 @@ function ThemeSwitch({ userPreference }: { userPreference?: Theme }) {
 
   const modeLabel = {
     light: (
-      <FontAwesomeIcon
-        icon={IconService.getSolid(SolidIcon.LIGHT_THEME)}
-        fontSize={12}
-        className="text-siteWhite"
-      ></FontAwesomeIcon>
+      <div className="w-full flex flex-row items-center">
+        <FontAwesomeIcon
+          icon={IconService.getSolid(SolidIcon.DARK_THEME)}
+          fontSize={12}
+          className="text-siteWhite"
+        ></FontAwesomeIcon>
+        <span className="text-siteWhite ms-5">Switch to Dark Mode</span>
+      </div>
     ),
     dark: (
-      <FontAwesomeIcon
-        icon={IconService.getSolid(SolidIcon.DARK_THEME)}
-        fontSize={12}
-        className="text-siteWhite"
-      ></FontAwesomeIcon>
+      <div className="w-full flex flex-row items-center">
+        <FontAwesomeIcon
+          icon={IconService.getSolid(SolidIcon.LIGHT_THEME)}
+          fontSize={12}
+          className="text-siteWhite"
+        ></FontAwesomeIcon>
+        <span className="text-siteWhite ms-5">Switch to Light Mode</span>
+      </div>
     ),
   };
 
@@ -281,7 +287,7 @@ function ThemeSwitch({ userPreference }: { userPreference?: Theme }) {
           name="intent"
           value="update-theme"
           type="submit"
-          className="flex h-[50px] w-[50px] cursor-pointer items-center justify-center"
+          className="flex h-[50px] w-[300px] cursor-pointer items-center justify-center"
         >
           {modeLabel[mode]}
         </button>

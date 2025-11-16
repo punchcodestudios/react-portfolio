@@ -25,7 +25,7 @@ export const CallToActionLeft: React.FC<CallToActionProps> = ({
   return (
     <div
       id="cta_container"
-      className="mx-auto w-full overflow-hidden md:w-[90%]"
+      className="mx-auto w-full overflow-hidden md:w-[90%] lg:py-20"
     >
       <div className="flex flex-col xl:flex-row">
         <div className="px-6 xl:p-0 xl:shrink-0">
@@ -74,7 +74,7 @@ export const CallToActionRight: React.FC<CallToActionProps> = ({
   return (
     <div
       id="cta_container"
-      className="mx-auto max-w-full overflow-hidden md:max-w-[90%] 2xl-max-w-[70%]"
+      className="mx-auto max-w-full overflow-hidden md:max-w-[90%] 2xl-max-w-[70%] lg:py-20"
     >
       <div className="flex flex-col-reverse xl:flex-row">
         <div
