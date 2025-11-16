@@ -55,16 +55,26 @@ const ThemeFormSchema = z.object({
 export async function loader({ request }: LoaderFunctionArgs) {
   console.log("loader function called from root");
   try {
+    console.log("Getting CSRF token");
     const [csrfToken, csrfCookieHeader] = await csrf.commitToken(request);
+    console.log("CSRF token obtained:", csrfToken);
+    console.log("Getting honeypot input props");
     const honeyProps = await honeypot.getInputProps();
+    console.log("Honeypot input props obtained:", honeyProps);
+    console.log("Getting toast props");
     const { toast, headers: toastHeaders } = await getToast(request);
+    console.log("Toast props obtained:", toast);
 
     // console.log("toast: ", toast);
+    console.log("Getting session from cookies");
     const cookieSession = await sessionStorage.getSession(
       request.headers.get("cookie")
     );
+    console.log("Session obtained:", cookieSession);
 
+    console.log("Getting user ID from session");
     const userId = cookieSession?.get("userId");
+    console.log("User ID obtained:", userId);
     // const response = userId ? await UserService.getById(userId) : null;
     let user = null;
     // if (response !== null) {
@@ -87,8 +97,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
         ),
       }
     );
-  } catch (error) {
-    console.error("Error in root loader:", error);
+  } catch (error: any) {
+    console.error("💥 Error in root loader:", error);
+    console.error("💥 Error stack:", error?.stack);
+    console.error("💥 Error message:", error?.message);
     // Return a fallback response or re-throw with proper handling
     throw new Response("Internal Server Error", { status: 500 });
   }
