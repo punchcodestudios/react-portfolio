@@ -70,12 +70,12 @@ export const SkillsAccordion: React.FC<SkillsAccordionProps> = ({
     <div className={`${gsapTargetClassName} px-4 xl:p-0`}>
       <details
         {...(closed && { ...(closed ? undefined : { open: true }) })}
-        className="p-2 border border-transparent open:border-black/10 open:bg-gray-100"
+        className="p-2 border border-transparent open:border-black/10"
       >
         <summary
           id="5"
           ref={summaryRef}
-          className="font-header text-md leading-6 font-semibold text-primary select-none mb-4"
+          className="font-header text-md leading-6 font-semibold select-none mb-4"
           onClick={(event) => toggleSkillSet(event)}
         >
           {`${closed ? "show" : "hide"} relevant skills`}
@@ -102,10 +102,6 @@ export const SkillsAccordion: React.FC<SkillsAccordionProps> = ({
 };
 
 const SkillContent = () => {
-  // const dataPromise = resumeService.getSkills({
-  //   params: { id: "", slug: [], skillsExclude: [] },
-  // });
-  // const data = use(dataPromise) as SkillResponse;
   const data = useSkills();
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -185,11 +181,13 @@ const SkillContent = () => {
     <div ref={contentRef} className="opacity-25">
       <div className="flex flex-col mx-auto max-w-[90%] lg:max-w-[70%]">
         <section className="my-10">
-          <p className="text-siteBlack text-center md:text-start">
-            In today’s rapidly evolving technology landscape, staying current
-            with in-demand skills is essential. Punchcode Studios meets this
-            challenge by continually advancing its technology stack, while also
-            maintaining support for established, proven workflows.
+          <p className="text-center md:text-start">
+            Navigating today's complex technology ecosystem requires expert
+            guidance and strategic planning. Punchcode Studios maintains deep
+            expertise across both emerging technologies and established
+            platforms, enabling us to recommend the optimal stack for your
+            specific requirements. We deliver innovation without sacrificing
+            reliability or performance.
           </p>
         </section>
       </div>
@@ -197,7 +195,7 @@ const SkillContent = () => {
       <div className="flex flex-col mx-auto xl:max-w-[90%]">
         <div className="flex flex-col mx-auto overflow:hidden xl:flex-row xl:flex-wrap xl:justify-between">
           {/* Backend */}
-          <div className="backend py-10 lg:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
+          <section className="backend py-10 lg:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">
             <CallToActionLeft
               title={<SkillHeader icon={SolidIcon.BACKEND} title="Back-end" />}
               imageUrl="/images/skills_backend.png"
@@ -215,7 +213,7 @@ const SkillContent = () => {
                 />
               }
             </CallToActionLeft>
-          </div>
+          </section>
 
           {/* Frontend */}
           <div className="frontend py-10 lg:px-10 border-b-2 border-gray-400 mb-5 xl:w-full">

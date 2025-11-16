@@ -206,15 +206,12 @@ export default function Home() {
         <div className="mx-auto mt-10 min-h-[50px] max-w-[90%] lg:max-w-[70%]">
           <div className="xl:flex">
             <p className="text-center md:text-start">
-              Punchcode Studios is a full service software development company,
-              providing robust solutions tailored to your individual needs with
-              development packages that will fit any budget. At Punchcode
-              Studios, we believe that clear, concise communication is as
-              essential to delivering an exceptional product as the code we
-              write. Our attention to detail in every step of the process is
-              what sets us apart and makes Punchcode Studios the clear choice
-              when deciding on how to best fulfill your software development
-              needs.
+              Punchcode Studios specializes in delivering robust software
+              solutions that solve complex business challenges. With over 15
+              years of experience in Microsoft technologies and modern
+              development frameworks, we provide end-to-end services from
+              concept to deployment. Our client-focused approach ensures on-time
+              delivery, clear communication, and measurable business impact.
             </p>
           </div>
         </div>
@@ -226,10 +223,7 @@ export default function Home() {
           imageUrl="/images/home_innovation.png"
           imageAlt="image of a lighbulb emitting visible signs of energy signifying ideas and innovative thinking"
           tagLine="Adding value to your team"
-          text="As a fully dedicated member of your team, or as an independent
-                  contractor solving a specific problem, Punchcode Studios
-                  brings more than fifteen years of expertice and passion for
-                  web development to your organization or personal project."
+          text="Inspiring digital transformation through expert craftsmanship and strategic innovation. Whether as an integrated team member or specialized consultant, Punchcode Studios leverages fifteen years of proven expertise to empower your organization with software solutions that exceed expectations and unlock new possibilities."
           actions={inspriationCtaActions()}
         ></CallToActionLeft>
       </section>
@@ -240,11 +234,7 @@ export default function Home() {
           imageUrl="/images/home_information.png"
           imageAlt="blue and orange geometric image illustrating concept of central processing unit and related circuits"
           tagLine="Keeping up with industry standards"
-          text="Continuous growth is a challenge that every business faces in
-                  today's marketplace. Punchcode Studios is passionate about
-                  adapting to the constantly evoloving landscape of this modern
-                  age, and is commited to providing reliable software solutions
-                  that will scale with your growing needs."
+          text="Innovation is the cornerstone of sustainable business growth. Punchcode Studios embraces emerging technologies and modern development practices to deliver forward-thinking solutions that scale with your ambitions. Our innovative mindset ensures your software investment drives competitive advantage in an ever-evolving digital landscape."
           actions={innovationCtaActions()}
         ></CallToActionRight>
       </section>
@@ -255,12 +245,7 @@ export default function Home() {
           imageUrl="/images/home_communication.png"
           imageAlt="image of people gathered together to interact with each other"
           tagLine="Communication is key to success"
-          text="Effective communication is at the heart of uncovering the
-                  specific requirements that a well-designed software should
-                  meet. Punchcode Studios listens first, then is dedicated to
-                  clear and consice communication for collaboration with
-                  stakeholders at each phase of the Software Development Life
-                  Cycle."
+          text="True collaboration begins with active listening and mutual understanding. Punchcode Studios partners closely with stakeholders throughout every phase of development, ensuring transparent communication and shared ownership of project success. Our collaborative approach transforms requirements into solutions that truly reflect your vision and business objectives."
           actions={collaborationCtaActions()}
         ></CallToActionLeft>
       </section>

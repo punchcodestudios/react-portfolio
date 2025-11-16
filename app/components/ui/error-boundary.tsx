@@ -79,7 +79,7 @@ export function GenericErrorBoundary({
   }
 
   return (
-    <div className="mx-auto flex flex-col h-full w-full items-center justify-center bg-siteWhite p-20 text-h2">
+    <div className="mx-auto flex flex-col h-full w-full items-center justify-center p-20 text-h2">
       {isRouteErrorResponse(error)
         ? (statusHandlers?.[error.status] ?? defaultStatusHandler)({
             error,

@@ -61,7 +61,7 @@ const ExamContent = () => {
   return (
     <div className="flex flex-col justify-center items-center w-full mt-8">
       <h1>Az-204 Exam Prep</h1>
-      <select className="bg-siteWhite text-siteBlack">
+      <select className="text-siteBlack">
         <option value={0}>Choose a section</option>
         {data &&
           data.map((exam, index) => (

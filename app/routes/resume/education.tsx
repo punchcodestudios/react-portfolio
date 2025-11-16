@@ -86,7 +86,7 @@ const EducationContent = () => {
     <div ref={contentRef} className="opacity-25">
       <div className="flex flex-col mx-auto max-w-[90%] lg:max-w-[70%]">
         <section className="my-10">
-          <p className="text-siteBlack text-center md:text-start">
+          <p className="text-center md:text-start">
             Education is the passport to the future, for tomorrow belongs to
             those who prepare for it today.
           </p>

@@ -25,7 +25,7 @@ export const CallToActionLeft: React.FC<CallToActionProps> = ({
   return (
     <div
       id="cta_container"
-      className="mx-auto w-full overflow-hidden md:w-[90%]"
+      className="mx-auto w-full overflow-hidden md:w-[90%] lg:py-20"
     >
       <div className="flex flex-col xl:flex-row">
         <div className="px-6 xl:p-0 xl:shrink-0">
@@ -40,17 +40,11 @@ export const CallToActionLeft: React.FC<CallToActionProps> = ({
           className="p-6 xl:p-0 mt-2 xl:mt-0 xl:ms-10"
         >
           <div className="mb-3 xl:w-120">
-            <h2
-              id="cta_title"
-              className="font-semibold tracking-wide text-primary font-header uppercase"
-            >
+            <h2 id="cta_title" className="">
               {title}
             </h2>
             {tagLine && (
-              <p
-                id="cta_tagline"
-                className="mt-1 block text-xl leading-tight font-medium"
-              >
+              <p id="cta_tagline" className="mt-1 block text-xl leading-tight">
                 {tagLine}
               </p>
             )}
@@ -80,7 +74,7 @@ export const CallToActionRight: React.FC<CallToActionProps> = ({
   return (
     <div
       id="cta_container"
-      className="mx-auto max-w-full overflow-hidden md:max-w-[90%] 2xl-max-w-[70%]"
+      className="mx-auto max-w-full overflow-hidden md:max-w-[90%] 2xl-max-w-[70%] lg:py-20"
     >
       <div className="flex flex-col-reverse xl:flex-row">
         <div
@@ -88,11 +82,9 @@ export const CallToActionRight: React.FC<CallToActionProps> = ({
           className="p-6 xl:p-0 mt-2 xl:mt-0 xl:me-10"
         >
           <div className="mb-3 xl:w-120">
-            <h2 className="font-semibold tracking-wide text-primary font-header uppercase">
-              {title}
-            </h2>
+            <h2 className="">{title}</h2>
             {tagLine && (
-              <p className="mt-1 block text-xl leading-tight font-medium text-black">
+              <p id="cta_tagline" className="mt-1 block text-xl leading-tight">
                 {tagLine}
               </p>
             )}

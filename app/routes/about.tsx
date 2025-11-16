@@ -93,12 +93,12 @@ const AboutContent: React.FC = () => {
       {headerImage && <HeaderImage headerImage={headerImage}></HeaderImage>}
       <div className="flex flex-col mx-auto max-w-[90%] lg:max-w-[70%]">
         <section className="my-10">
-          <p className="text-siteBlack text-center md:text-start">
-            Punchcode Studios is a software development company that specializes
-            in delivering high-quality, reliable software solutions. With a
-            focus on the Systems Development Lifecycle (SDLC), Punchcode Studios
-            ensures that every project is executed with precision and attention
-            to detail.
+          <p className="text-center md:text-start">
+            Punchcode Studios transforms business requirements into
+            enterprise-grade software solutions through rigorous SDLC
+            methodology and technical expertise. Our precision-driven approach
+            delivers scalable applications that exceed performance expectations
+            while maintaining the highest standards of reliability and security.
           </p>
         </section>
       </div>

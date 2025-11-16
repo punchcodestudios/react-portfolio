@@ -21,32 +21,35 @@ import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/text-area";
 import type { ContactRequest } from "~/entities/email";
-import { emailService } from "~/service/email-service";
-import { validateCSRF } from "~/utils/csrf.server";
-import { checkForHoneypot } from "~/utils/honeypot.server";
+import EmailService from "~/service/email-service";
+// import { validateCSRF } from "~/utils/csrf.server";
+// import { checkForHoneypot } from "~/utils/honeypot.server";
 import { redirectWithToast } from "~/utils/toast.server";
 import { Select } from "../components/ui/select";
 import { Input } from "~/components/ui/input";
 import GenericErrorBoundary from "~/components/ui/error-boundary";
-
-export async function loader({ params }: LoaderFunctionArgs) {
-  const note = {
-    subject: "",
-    content: "",
-    name: "",
-    formOfContact: "",
-    emailAddress: "",
-    phoneNumber: "",
-  };
-  if (!note) {
-    throw new Response("Note not found", { status: 404 });
-  }
-  return note;
-}
+import Choice from "~/components/ui/choiceInput";
+import useUniqueArray from "~/hooks/uniqueArray";
 
 const subjectMaxLength = 100;
 const messageMaxLength = 1000;
 const phoneRegex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // TODO: improve regex for email validation
+
+export async function loader({ params }: LoaderFunctionArgs) {
+  const contact = {
+    subject: "",
+    content: "",
+    name: "",
+    formOfContact: [],
+    emailAddress: "",
+    phoneNumber: "",
+  };
+  if (!contact) {
+    throw new Response("Contact not found", { status: 404 });
+  }
+  return contact;
+}
 
 const ContactSchema = z.object({
   subject: z
@@ -73,10 +76,8 @@ const ContactSchema = z.object({
     .string()
     .max(50, { message: "Last Name is restricted to 50 characters." })
     .optional(),
-  formOfContact: z.string({
-    message: "Please indicate a preferred method of contact.",
-  }),
-  phoneNumber: z
+  formOfContact: z.array(z.string().min(1).max(50)),
+  telephone: z
     .string()
     .regex(phoneRegex, { message: "Please enter a valid phone number." })
     .optional(),
@@ -85,9 +86,9 @@ const ContactSchema = z.object({
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const formData = await request.formData();
-  // console.log("formData: ", formData);
-  await validateCSRF(formData, request.headers);
-  checkForHoneypot(formData);
+  console.log("formData: ", formData);
+  //await validateCSRF(formData, request.headers);
+  //checkForHoneypot(formData);
 
   const submission = await parse(formData, {
     schema: (intent) =>
@@ -97,7 +98,10 @@ export async function action({ request, params }: ActionFunctionArgs) {
           return { ...data };
         }
 
-        if (data.formOfContact == "email" && !data.emailAddress) {
+        if (
+          data.formOfContact.find((contact) => contact === "email") &&
+          !data.emailAddress
+        ) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message:
@@ -107,25 +111,19 @@ export async function action({ request, params }: ActionFunctionArgs) {
           return z.NEVER;
         }
 
-        if (data.formOfContact == "telephone" && !data.phoneNumber) {
+        if (
+          data.formOfContact.find((contact) => contact === "telephone") &&
+          !data.telephone
+        ) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message:
               "A valid phone number is required when contact method is 'telephone'",
-            path: ["phoneNumber"],
+            path: ["telephone"],
           });
           return z.NEVER;
         }
 
-        // if (data.phoneNumber && !phoneRegex.test(data.phoneNumber)) {
-        //   ctx.addIssue({
-        //     code: z.ZodIssueCode.custom,
-        //     message:
-        //       "A valid phone number is required when contact method is 'telephone'",
-        //     path: ["phoneNumber"],
-        //   });
-        //   return z.NEVER;
-        // }
         return data;
       }),
   });
@@ -145,7 +143,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
       message: submission.value.message,
       formOfContact: submission.value.formOfContact,
       emailAddress: submission.value.emailAddress || "",
-      phoneNumber: submission.value.phoneNumber || "",
+      phoneNumber: submission.value.telephone || "",
       firstName: submission.value.firstName,
       lastName: submission.value.lastName,
       organization: submission.value.organization || "",
@@ -153,7 +151,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   };
 
   // console.log("contact request: ", contactRequest);
-  const response = await emailService.sendContactEmail(contactRequest);
+  const response = await EmailService.sendContactEmail(contactRequest);
   // console.log("emailService sendContactEmail.response: ", response);
 
   throw await redirectWithToast("/", {
@@ -184,14 +182,79 @@ function ErrorList({
 export default function Contact() {
   const data = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
+  const availableContactMethods = [
+    { id: "0", value: "no contact" },
+    { id: "1", value: "email" },
+    { id: "2", value: "telephone" },
+  ];
 
-  const [selectedContactMethod, setSelectedContactMethod] =
-    useState<string>("");
   const [selectedSubject, setSelectedSubject] = useState<string>("");
 
+  const {
+    array: selectedContactMethod,
+    addUnique,
+    clear,
+    remove,
+    setArray,
+  } = useUniqueArray(["no contact"]);
+
+  // Function to clear contact field values
+  const clearContactFields = () => {
+    // Clear email field
+    const emailField = document.querySelector(
+      `input[name="${fields.emailAddress.name}"]`
+    ) as HTMLInputElement;
+    if (emailField) emailField.value = "";
+
+    // Clear phone field
+    const phoneField = document.querySelector(
+      `input[name="${fields.telephone.name}"]`
+    ) as HTMLInputElement;
+    if (phoneField) phoneField.value = "";
+  };
+
+  // Helper function to check if a method is selected
+  const isMethodSelected = (method: string) => {
+    return selectedContactMethod.includes(method);
+  };
+
   const handleContactMethod = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log("handleContactMethod: ", event);
-    setSelectedContactMethod(event.target.value);
+    const currentChecked = event.target.checked;
+    const currentSelected = event.target.value;
+
+    // console.log("currentSelected: ", currentSelected);
+    // console.log("currentChecked: ", currentChecked);
+
+    if (currentSelected === "no contact") {
+      if (currentChecked) {
+        // Clear all other selections and set only "no contact"
+        setArray(["no contact"]);
+        // Clear the form fields for email and phone
+        clearContactFields();
+      } else {
+        // If unchecking "no contact", remove it from array
+        remove(currentSelected);
+      }
+    } else {
+      // For email or telephone selections
+      if (currentChecked) {
+        // Remove "no contact" if present and add the new method
+        const newArray = selectedContactMethod.filter(
+          (method) => method !== "no contact"
+        );
+        setArray([...newArray, currentSelected]);
+      } else {
+        // Remove the unchecked method
+        remove(currentSelected);
+        // If no methods are selected, default back to "no contact"
+        if (
+          selectedContactMethod.length === 1 &&
+          selectedContactMethod.includes(currentSelected)
+        ) {
+          setArray(["no contact"]);
+        }
+      }
+    }
   };
 
   const [form, fields] = useForm({
@@ -210,13 +273,18 @@ export default function Contact() {
       name: data.name,
       mailAddress: data.emailAddress,
       phoneNumber: data.phoneNumber,
-      contactMethod: data.formOfContact,
+      contactMethod: "no contact",
     },
     shouldRevalidate: "onBlur",
   });
   return (
     <div className="flex min-h-full flex-col justify-center pb-32 pt-20">
-      <div className="mx-auto w-full  bg-white pt-20 rounded-xl">
+      <div
+        className={`mx-auto pt-20 rounded-xl 
+        border border-slate-700 dark:border-slate-200 dark:bg-slate-500/40
+        dark:ring dark:ring-offset-2 dark:ring-offset-secondary
+        `}
+      >
         <div className="flex flex-col gap-3 text-center">
           <h1 className="text-h2 md:text-h1 font-header lowercase text-secondary">
             Send a message
@@ -227,11 +295,21 @@ export default function Contact() {
         </div>
         <Form
           method="post"
-          className="flex h-full w-full flex-col px-4 gap-y-4 overflow-y-auto overflow-x-hidden md:px-10 pb-28 pt-12"
+          className="flex h-full flex-col px-4 gap-y-4 overflow-y-auto overflow-x-hidden md:px-10 pb-28 pt-12"
           {...form.props}
         >
           <HoneypotInputs></HoneypotInputs>
           <AuthenticityTokenInput />
+
+          {/* Hidden input to submit the selected contact methods array */}
+          {selectedContactMethod.map((method, index) => (
+            <input
+              key={index}
+              type="hidden"
+              name={fields.formOfContact.name}
+              value={method}
+            />
+          ))}
 
           <div className="flex flex-col gap-1">
             {/* Subject */}
@@ -343,57 +421,29 @@ export default function Contact() {
 
             {/* Preferred Method of Contact */}
             <div className="flex w-full">
-              <fieldset className="bg-slate-100 flex w-full flex-col md:flex-row md:flex-wrap">
-                <legend className="font-navItem text-md mb-3 bg-background p-3">
+              <fieldset className="flex w-full flex-col lg:flex-row lg:flex-wrap">
+                <legend className="font-navItem text-md mb-3 p-3">
                   Preferred method of contact:
                 </legend>
-                <div className="flex flex-col w-full md:flex-row">
-                  {selectedSubject != "request_demo" && (
-                    <div key={0} className="flex items-center ms-4">
-                      <label
-                        className="relative flex items-center cursor-pointer"
-                        html-for={fields.formOfContact.id}
-                      >
-                        <input
-                          id="contact_method_0"
-                          type="radio"
-                          name={fields.formOfContact.name}
-                          value={"do not contact"}
-                          defaultChecked={
-                            fields.formOfContact.defaultValue ===
-                            "do not contact"
-                          }
-                          className="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
-                          onChange={(event) => handleContactMethod(event)}
-                        ></input>
-                        <span className="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
-                      </label>
-                      <Label htmlFor={fields.formOfContact.id} className="m-3">
-                        {"do not contact"}
-                      </Label>
-                    </div>
-                  )}
-                  {[
-                    { id: "1", value: "email" },
-                    { id: "2", value: "telephone" },
-                  ].map((item) => (
+
+                <div className="flex flex-col w-full lg:flex-row">
+                  {availableContactMethods.map((item) => (
                     <div key={item.id} className="flex items-center ms-4">
                       <label
                         className="relative flex items-center cursor-pointer"
                         html-for={fields.formOfContact.id}
                       >
-                        <input
+                        <Choice
                           id={`contact_method_${item.id}`}
-                          type="radio"
                           name={fields.formOfContact.name}
                           value={item.value}
-                          defaultChecked={
-                            fields.formOfContact.defaultValue === item.value
+                          onCheckedChange={(event: any) =>
+                            handleContactMethod(event)
                           }
-                          className="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
-                          onChange={(event) => handleContactMethod(event)}
-                        ></input>
-                        <span className="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
+                          type="checkbox"
+                          selected={isMethodSelected(item.value)}
+                        ></Choice>
+                        {/* <span className="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></span> */}
                       </label>
                       <Label htmlFor={fields.formOfContact.id} className="m-3">
                         {item.value}
@@ -401,10 +451,11 @@ export default function Contact() {
                     </div>
                   ))}
                 </div>
-                <div className="flex flex-col md:flex-row w-full">
+
+                <div className="flex flex-col lg:flex-row w-full">
                   <div
                     className={`flex mx-4 mt-3 md:w-full ${
-                      selectedContactMethod == "telephone" ? "block" : "hidden"
+                      isMethodSelected("telephone") ? "block" : "hidden"
                     }`}
                   >
                     <Field
@@ -412,18 +463,18 @@ export default function Contact() {
                         children: "Phone Number",
                       }}
                       inputProps={{
-                        ...conform.input(fields.phoneNumber),
+                        ...conform.input(fields.telephone),
                         autoFocus: true,
                         className: "lowercase flex w-full mt-4",
                         placeholder: "(XXX)-XXX-XXXX",
                       }}
                       className="w-full"
-                      errors={fields.phoneNumber.errors}
+                      errors={fields.telephone.errors}
                     />
                   </div>
                   <div
                     className={`flex mx-4 mt-3 md:w-full ${
-                      selectedContactMethod == "email" ? "block" : "hidden"
+                      isMethodSelected("email") ? "block" : "hidden"
                     }`}
                   >
                     <Field

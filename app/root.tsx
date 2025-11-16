@@ -53,6 +53,7 @@ const ThemeFormSchema = z.object({
 });
 
 export async function loader({ request }: LoaderFunctionArgs) {
+  console.log("loader function called from root");
   const [csrfToken, csrfCookieHeader] = await csrf.commitToken(request);
   const honeyProps = await honeypot.getInputProps();
   const { toast, headers: toastHeaders } = await getToast(request);
@@ -89,6 +90,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
+  console.log("call from action");
 
   // console.log("action: ", formData);
   invariantResponse(
@@ -101,9 +103,9 @@ export async function action({ request }: ActionFunctionArgs) {
   const submission = parse(formData, {
     schema: ThemeFormSchema,
   });
-  // console.log("submission.error: ", submission.error);
-  // console.log("submission.intent: ", submission.intent);
-  // console.log("submission.value: ", submission.value);
+  console.log("submission.error: ", submission.error);
+  console.log("submission.intent: ", submission.intent);
+  console.log("submission.value: ", submission.value);
   if (submission.intent !== "submit") {
     return { status: "success", submission: submission };
   }
@@ -159,10 +161,9 @@ function Layout({
 function App() {
   const data = useLoaderData<typeof loader>();
   const theme = useTheme();
-
   return (
-    <Layout>
-      {/* <ThemeSwitch userPreference={theme} /> */}
+    <Layout theme={theme}>
+      <ThemeSwitch userPreference={theme} />
       <div
         id="siteContainer"
         className="flex grow flex-col w-full mx-auto bg-background"
@@ -228,6 +229,7 @@ function ShowToast({ toast }: { toast: Toast }) {
 function useTheme() {
   // console.log("inside useTheme");
   const data = useLoaderData<typeof loader>();
+  console.log("data", data);
   const fetchers = useFetchers();
   const fetcher = fetchers.find(
     (f) => f.formData?.get("intent") === "update-theme"
@@ -256,18 +258,24 @@ function ThemeSwitch({ userPreference }: { userPreference?: Theme }) {
 
   const modeLabel = {
     light: (
-      <FontAwesomeIcon
-        icon={IconService.getSolid(SolidIcon.LIGHT_THEME)}
-        fontSize={12}
-        className="text-siteWhite"
-      ></FontAwesomeIcon>
+      <div className="w-full flex flex-row items-center">
+        <FontAwesomeIcon
+          icon={IconService.getSolid(SolidIcon.DARK_THEME)}
+          fontSize={12}
+          className="text-siteWhite"
+        ></FontAwesomeIcon>
+        <span className="text-siteWhite ms-5">Switch to Dark Mode</span>
+      </div>
     ),
     dark: (
-      <FontAwesomeIcon
-        icon={IconService.getSolid(SolidIcon.DARK_THEME)}
-        fontSize={12}
-        className="text-siteWhite"
-      ></FontAwesomeIcon>
+      <div className="w-full flex flex-row items-center">
+        <FontAwesomeIcon
+          icon={IconService.getSolid(SolidIcon.LIGHT_THEME)}
+          fontSize={12}
+          className="text-siteWhite"
+        ></FontAwesomeIcon>
+        <span className="text-siteWhite ms-5">Switch to Light Mode</span>
+      </div>
     ),
   };
 
@@ -279,7 +287,7 @@ function ThemeSwitch({ userPreference }: { userPreference?: Theme }) {
           name="intent"
           value="update-theme"
           type="submit"
-          className="flex h-[50px] w-[50px] cursor-pointer items-center justify-center"
+          className="flex h-[50px] w-[300px] cursor-pointer items-center justify-center"
         >
           {modeLabel[mode]}
         </button>

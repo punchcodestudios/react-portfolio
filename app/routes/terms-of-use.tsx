@@ -17,7 +17,7 @@ const TermsOfUse = () => {
         <div className="flex flex-col mx-auto p-6 pb-0">
           <div className="mx-auto min-h-[50px] max-w-[90%] lg:max-w-[70%]">
             <div className="xl:flex">
-              <p className="text-siteBlack text-center md:text-start">
+              <p className="text-center md:text-start">
                 Agreement between User and https://www.punchcodestudios.com
               </p>
             </div>

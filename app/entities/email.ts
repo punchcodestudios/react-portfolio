@@ -3,7 +3,7 @@ import type { ApiErrorResponse, MetaResponse } from "./api";
 export interface Contact {
   subject: string;
   message: string;
-  formOfContact: string;
+  formOfContact: string[];
   emailAddress: string;
   phoneNumber: string;
   firstName: string;
