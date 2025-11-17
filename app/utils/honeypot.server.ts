@@ -7,6 +7,11 @@ export const honeypot = new Honeypot({
   // encryptionSeed: process.env.HONEYPOT_SECRET,
 });
 
+process.on("unhandledRejection", (reason, p) => {
+  console.log("Unhandled Rejection at: Promise", p, "reason:", reason);
+  // application specific logging, throwing an error, or other logic here
+});
+
 export async function checkForHoneypot(formData: FormData) {
   console.log("honeypot form data: ", formData);
   try {
@@ -16,6 +21,6 @@ export async function checkForHoneypot(formData: FormData) {
     if (error instanceof SpamError) {
       throw new Response("Form not submitted properly", { status: 400 });
     }
-    // throw new Response("Something went wrong", { status: 500 });
+    throw new Response("Something went wrong", { status: 500 });
   }
 }
