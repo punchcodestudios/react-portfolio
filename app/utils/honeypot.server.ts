@@ -16,6 +16,6 @@ export async function checkForHoneypot(formData: FormData) {
     if (error instanceof SpamError) {
       throw new Response("Form not submitted properly", { status: 400 });
     }
-    throw new Response("Something went wrong", { status: 500 });
+    // throw new Response("Something went wrong", { status: 500 });
   }
 }
