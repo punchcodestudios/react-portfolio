@@ -27,8 +27,8 @@ import EmailService from "~/service/email-service";
 import { redirectWithToast } from "~/utils/toast.server";
 import { Select } from "../components/ui/select";
 import { Input } from "~/components/ui/input";
-import GenericErrorBoundary from "~/components/ui/error-boundary";
-import Choice from "~/components/ui/choiceInput";
+import { GenericErrorBoundary } from "~/components/error/generic-error-boundary";
+import { ChoiceInput } from "~/components/ui/choice-input";
 import useUniqueArray from "~/hooks/uniqueArray";
 
 const subjectMaxLength = 100;
@@ -433,7 +433,7 @@ export default function Contact() {
                         className="relative flex items-center cursor-pointer"
                         html-for={fields.formOfContact.id}
                       >
-                        <Choice
+                        <ChoiceInput
                           id={`contact_method_${item.id}`}
                           name={fields.formOfContact.name}
                           value={item.value}
@@ -442,7 +442,7 @@ export default function Contact() {
                           }
                           type="checkbox"
                           selected={isMethodSelected(item.value)}
-                        ></Choice>
+                        ></ChoiceInput>
                         {/* <span className="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></span> */}
                       </label>
                       <Label htmlFor={fields.formOfContact.id} className="m-3">

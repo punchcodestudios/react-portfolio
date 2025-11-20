@@ -1,7 +1,7 @@
 import { useInputEvent } from "@conform-to/react";
 import React, { useId, useRef } from "react";
 
-import Checkbox, { type CheckboxProps } from "./ui/choiceInput";
+import { ChoiceInput, type CheckboxProps } from "./ui/choice-input";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/text-area";
@@ -115,7 +115,7 @@ export function CheckboxField({
   return (
     <div className={className}>
       <div className="flex gap-2">
-        <Checkbox
+        <ChoiceInput
           id={id}
           ref={buttonRef}
           aria-invalid={errorId ? true : undefined}

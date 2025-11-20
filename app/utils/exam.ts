@@ -23,14 +23,14 @@ const examCache = new Map<string, Promise<ExamResponse>>();
 export const getAllExams = (): Promise<ExamResponse> => {
   const cached = examCache.get("all") ?? getAllExamsImplementation();
   if (!cached) {
-    console.error(`No cached exam sections found for exam: all`);
+    // console.error(`No cached exam sections found for exam: all`);
   }
   examCache.set("all", cached);
   return cached;
 };
 
 async function getAllExamsImplementation(): Promise<ExamResponse> {
-  console.log("getAllExamsImplementation called");
+  // console.log("getAllExamsImplementation called");
   const response = await examService.getAllExams({
     params: { learning_path_id: "all" },
   });

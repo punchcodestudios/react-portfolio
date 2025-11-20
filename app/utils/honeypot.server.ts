@@ -7,13 +7,8 @@ export const honeypot = new Honeypot({
   encryptionSeed: process.env.HONEYPOT_SECRET,
 });
 
-process.on("unhandledRejection", (reason, p) => {
-  console.log("Unhandled Rejection at: Promise", p, "reason:", reason);
-  // application specific logging, throwing an error, or other logic here
-});
-
 export async function checkForHoneypot(formData: FormData) {
-  console.log("honeypot form data: ", formData);
+  // console.log("honeypot form data: ", formData);
   try {
     // honeypot.check(formData);
     await honeypot.check(formData);

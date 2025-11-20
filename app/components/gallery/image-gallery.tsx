@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-import { useDataContext } from "../data/dataContext";
+import { useDataContext } from "../data/data-context";
 import { Button } from "../ui/button";
 import type { GalleryItem } from "~/routes/ui/dataGalleryContainer";
 

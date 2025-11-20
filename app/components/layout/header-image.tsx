@@ -1,4 +1,4 @@
-import type { PunchcodeImage } from "~/entities/punchcode-image";
+import type { PunchcodeImage } from "~/entities/punchcodeImage";
 
 interface Props {
   headerImage: PunchcodeImage;

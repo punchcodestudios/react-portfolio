@@ -6,7 +6,7 @@ import type {
   ContactResponse,
 } from "~/entities/email";
 
-const EmailService = {
+const EmailService = () => ({
   sendContactEmail: async (request: ContactRequest) => {
     // console.log("emailservice. send contact email", request);
     try {
@@ -16,7 +16,7 @@ const EmailService = {
       throw error;
     }
   },
-};
+});
 
 function mapContact(item: ApiResponse<Contact>): ContactResponse {
   const res = {
@@ -28,4 +28,5 @@ function mapContact(item: ApiResponse<Contact>): ContactResponse {
   return res;
 }
 
-export default EmailService;
+EmailService.displayName = "EmailService";
+export { EmailService };

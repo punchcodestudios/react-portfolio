@@ -1,9 +1,9 @@
 import React from "react";
-import { DataContextProvider } from "~/components/data/dataContext";
-import type { DataItemProps } from "~/components/data/dataTableTypes";
+import { DataContextProvider } from "~/components/data/data-context";
+import type { DataItemProps } from "~/components/data/data-table-types";
 import { Button } from "~/components/ui/button";
 import { useLoaderData, type LoaderFunctionArgs } from "react-router";
-import ResponsiveDataTable from "~/components/data/responsiveDataTable";
+import ResponsiveDataTable from "~/components/data/responsive-data-table";
 
 export const initColumns: DataItemProps[] = [
   { key: "ID", label: "ID", hidden: true },
@@ -83,7 +83,7 @@ const DataTableContainer: React.FC<{}> = () => {
       <Button
         variant="primary"
         onClick={() => {
-          console.log("row:, value: ", { row: row, value: value });
+          // console.log("row:, value: ", { row: row, value: value });
           return alert(`Edit row with ID: ${row.Name}`);
         }}
       >
@@ -92,7 +92,7 @@ const DataTableContainer: React.FC<{}> = () => {
       <Button
         variant="primary"
         onClick={() => {
-          console.log("row:, value: ", { row: row, value: value });
+          // console.log("row:, value: ", { row: row, value: value });
           return alert(`Delete row with ID: ${row.ID}`);
         }}
       >

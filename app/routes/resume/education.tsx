@@ -1,7 +1,7 @@
-import GenericErrorBoundary from "~/components/ui/error-boundary";
+import { GenericErrorBoundary } from "~/components/error/generic-error-boundary";
 import gradImage from "/images/graduation-logo.png";
 import { Suspense } from "react";
-import Loader from "~/components/ui/loader";
+import { Loader } from "~/components/ui/loader";
 import React, { useRef } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { CallToActionLeft } from "~/components/cards/cta";
@@ -20,7 +20,7 @@ const EducationContent = () => {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const containers = Object.values(EducationSections).map((type) => `${type}`);
-  console.log("%cFormatted: ", "color: #00f; font-weight: bold;", containers);
+  // console.log("%cFormatted: ", "color: #00f; font-weight: bold;", containers);
 
   useGSAP(() => {
     if (contentRef.current) {

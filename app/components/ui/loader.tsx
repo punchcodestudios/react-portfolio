@@ -46,46 +46,5 @@ const Loader = () => {
   );
 };
 
-export default Loader;
-
-const NavLoader = () => {
-  const dotRefs = Array.from({ length: 3 }, () => useRef<HTMLDivElement>(null));
-
-  // useEffect(() => {
-  //   console.log("Loader effect running");
-  //   dotRefs.forEach((ref, i) => {
-  //     gsap.set(ref.current, {
-  //       height: "10px",
-  //       width: "10px",
-  //       margin: "0 2px",
-  //       transformOrigin: "center",
-  //       borderRadius: "50%",
-  //       backgroundColor: "#fff",
-  //       color: "#fff",
-  //     });
-  //     if (ref.current) {
-  //       gsap.fromTo(
-  //         ref.current,
-  //         { opacity: 0.25, scale: 1 },
-  //         {
-  //           opacity: 1,
-  //           scale: 1,
-  //           duration: 0.3,
-  //           ease: "sine.InOut",
-  //           repeat: -1,
-  //           yoyo: true,
-  //           delay: i * 0.2,
-  //         }
-  //       );
-  //     }
-  //   });
-  // }, [dotRefs]);
-
-  return (
-    // <div className="flex items-center justify-center">
-    <div className="w-5 h-5 border-4 border-dashed rounded-full animate-spin border-siteWhite"></div>
-    // </div>
-  );
-};
-
-export { NavLoader };
+Loader.displayName = "Loader";
+export { Loader };

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { CallToActionLeft } from "~/components/cards/cta";
-import GenericErrorBoundary from "~/components/ui/error-boundary";
-import Loader from "~/components/ui/loader";
+import { GenericErrorBoundary } from "~/components/error/generic-error-boundary";
+import { Loader } from "~/components/ui/loader";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "react-router";

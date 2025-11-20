@@ -14,7 +14,7 @@ import { SolidIcon } from "~/utils/enums";
 import { getDateStampForFilename } from "~/utils/date";
 import { getResumeDoc } from "~/utils/fileDownload";
 import { CallToActionLeft, CallToActionRight } from "~/components/cards/cta";
-import GenericErrorBoundary from "~/components/ui/error-boundary";
+import { GenericErrorBoundary } from "~/components/error/generic-error-boundary";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -98,7 +98,7 @@ export default function Home() {
   }, []);
 
   const downloadResume = () => {
-    return console.log("get resume");
+    // return console.log("get resume");
   };
 
   const inspriationCtaActions = () => {

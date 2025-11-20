@@ -36,6 +36,16 @@ a {
   @apply font-anchor cursor-pointer;
 }
 
+/* Add to your global CSS when debug panel is present */
+@media (min-width: 768px) {
+  .development-mode body {
+    padding-top: 60px; /* Account for collapsed debug panel */
+  }
+
+  .development-mode.debug-expanded body {
+    padding-top: 200px; /* Account for expanded debug panel */
+  }
+}
 @layer base {
   :root {
     --spacing: 1px;

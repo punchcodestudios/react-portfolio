@@ -6,8 +6,8 @@ import {
   useExamContext,
 } from "~/components/exam/examContext";
 import { Button } from "~/components/ui/button";
-import GenericErrorBoundary from "~/components/ui/error-boundary";
-import Loader from "~/components/ui/loader";
+import { GenericErrorBoundary } from "~/components/error/generic-error-boundary";
+import { Loader } from "~/components/ui/loader";
 // this is a problem. there are multiple interfaces exported. Please make a decision on where these things live
 import type { EvaluationItem, Exam } from "~/entities/exam";
 import { getAllExams } from "~/utils/exam";
@@ -25,7 +25,7 @@ const ExamContent = () => {
     numberOfQuestions,
     setNumberOfQuestions,
   } = useExamContext();
-  console.log("data from context: ", data);
+  // console.log("data from context: ", data);
 
   // Set workingItems only once when response loads
   useEffect(() => {

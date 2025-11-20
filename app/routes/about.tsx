@@ -1,61 +1,213 @@
-import React, { use, useState } from "react";
+import React, {
+  Suspense,
+  use,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Link, useLocation } from "react-router";
 import { CallToActionLeft, CallToActionRight } from "~/components/cards/cta";
 import HeaderImage from "~/components/layout/header-image";
 import { Button } from "~/components/ui/button";
-import GenericErrorBoundary from "~/components/ui/error-boundary";
-import Loader from "~/components/ui/loader";
+import { GenericErrorBoundary } from "~/components/error/generic-error-boundary";
 import useImage from "~/hooks/image";
 import { ErrorBoundary } from "react-error-boundary";
 
-// import { getSkillsBySlugList, type SkillList } from "~/utils/resume";
+import { CacheControl } from "~/components/cacheControl";
+
 import type { Route } from "./+types/about";
-import { SkillsAccordion } from "./resume/skills";
 
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import resumeService from "~/service/resume-service";
-import type { Skill, SkillResponse } from "~/entities/resume";
-import { filterBySlug } from "~/utils/site";
-import { useSkills } from "~/hooks/resume";
+import SkillsSection from "~/components/skillsSection";
+import ErrorFallback from "~/components/errorFallback";
+import { LoadingSpinner } from "~/components/loading-spinner";
+
+import { createErrorDetails, createGlobalError } from "~/utils/error";
+// import SkillsDebugPanel from "~/components/skillsDebugPanel";
+import { loggerService } from "~/service/logging";
+
 gsap.registerPlugin(ScrollTrigger);
 
 export enum SkillGroups {
-  PLANNING = "Planning",
-  REQUIREMENTS = "Requirements",
-  DESIGN = "Design",
-  CODING = "Coding",
-  TESTING = "Testing",
-  DEPLOYMENT = "Deployment",
-  MAINTENANCE = "Maintenance",
+  PLANNING = "planning",
+  REQUIREMENTS = "requirements",
+  DESIGN = "design",
+  CODING = "coding",
+  TESTING = "testing",
+  DEPLOYMENT = "deployment",
+  MAINTENANCE = "maintenance",
 }
 
 const AboutContent: React.FC = () => {
-  const skillData = useSkills();
-  console.log("Skill Data in AboutContent:", skillData);
+  const pageLoadStartTime = useMemo(() => performance.now(), []);
+
   const location = useLocation();
   const headerImage = useImage({ path: location.pathname });
-
+  const [isClient, setIsClient] = useState(false);
   const [skillSetClosed, setSkillSetClosed] = useState<boolean[]>(
     Object.keys(SkillGroups).map(() => true)
   );
 
-  const toggleSkillSet = (event: React.MouseEvent<HTMLElement>) => {
-    const updated = [...skillSetClosed];
-    updated[+event.currentTarget?.id] =
-      !skillSetClosed[+event.currentTarget?.id];
-    setSkillSetClosed(updated);
-  };
+  // ✅ Enhanced logging for page initialization
+  useEffect(() => {
+    loggerService.info("About page: Initializing", undefined, {
+      page: "about",
+      route: location.pathname,
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      viewport: `${window.innerWidth}x${window.innerHeight}`,
+      referrer: document.referrer || "direct",
+    });
 
+    // ✅ Track page view with business metrics
+    loggerService
+      .trackFeatureUsage("AboutPage", "page-view", {
+        route: location.pathname,
+        hasHeaderImage: (!!headerImage).toString(),
+        timestamp: new Date().toISOString(),
+      })
+      .catch((error) => {
+        console.warn("Failed to track About page view:", error);
+      });
+  }, [location.pathname, headerImage]);
+
+  // ✅ Enhanced client-side initialization with performance tracking
+  useEffect(() => {
+    const clientInitStartTime = performance.now();
+
+    setIsClient(true);
+
+    const clientInitDuration = performance.now() - clientInitStartTime;
+
+    loggerService.success(
+      "About page: Client-side initialization complete",
+      undefined,
+      {
+        page: "about",
+        clientInitDuration: clientInitDuration.toString(),
+        isClient: "true",
+        timestamp: new Date().toISOString(),
+      }
+    );
+
+    // ✅ Track client initialization performance
+    loggerService
+      .trackComponentPerformance(
+        "AboutPage",
+        "client-init",
+        clientInitDuration,
+        true,
+        {
+          page: "about",
+          route: location.pathname,
+        }
+      )
+      .catch((error) => {
+        console.warn("Failed to track client initialization:", error);
+      });
+  }, [location.pathname]);
+
+  // ✅ Enhanced skill set toggle with interaction tracking
+  const toggleSkillSet = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      const skillSetId = +event.currentTarget?.id;
+      const skillGroupName =
+        Object.values(SkillGroups)[skillSetId] || "unknown";
+      const wasOpen = !skillSetClosed[skillSetId];
+
+      loggerService.debug(
+        "About page: Skill set toggle interaction",
+        undefined,
+        {
+          page: "about",
+          skillGroup: skillGroupName,
+          skillSetId: skillSetId.toString(),
+          action: wasOpen ? "close" : "open",
+          timestamp: new Date().toISOString(),
+        }
+      );
+
+      // ✅ Track skill set interactions for UX insights
+      loggerService
+        .trackFeatureUsage(
+          "SkillSetToggle",
+          wasOpen ? "skill-set-closed" : "skill-set-opened",
+          {
+            skillGroup: skillGroupName,
+            skillSetId: skillSetId.toString(),
+            page: "about",
+          }
+        )
+        .catch((error) => {
+          console.warn("Failed to track skill set toggle:", error);
+        });
+
+      const updated = [...skillSetClosed];
+      updated[skillSetId] = !skillSetClosed[skillSetId];
+      setSkillSetClosed(updated);
+    },
+    [skillSetClosed]
+  );
+
+  // ✅ Enhanced GSAP animations with comprehensive telemetry
   useGSAP(() => {
+    if (!isClient) return;
+
+    const animationStartTime = performance.now();
+
+    loggerService.debug(
+      "🎬 About page: Initializing GSAP animations",
+      undefined,
+      {
+        page: "about",
+        animationType: "scroll-trigger",
+        skillGroupsCount: Object.keys(SkillGroups).length.toString(),
+        timestamp: new Date().toISOString(),
+      }
+    );
+
     const containers = Object.values(SkillGroups).map((value) => {
       return `.${value.toLowerCase()}-container`;
     });
 
-    containers.forEach((selector) => {
+    let successfulAnimations = 0;
+    let failedAnimations = 0;
+
+    containers.forEach((selector, index) => {
+      const element = document.querySelector(selector);
+      const skillGroupName = Object.values(SkillGroups)[index];
+
+      if (!element) {
+        failedAnimations++;
+        loggerService.warn(
+          `About page: GSAP animation skipped, element not found for selector: ${selector}`,
+          undefined,
+          {
+            page: "about",
+            selector,
+            skillGroup: skillGroupName,
+            animationStatus: "failed",
+            reason: "element-not-found",
+          }
+        );
+        return;
+      }
+
+      successfulAnimations++;
+
+      const skillsWrapper = document.querySelector(
+        `${selector}-skills-wrapper`
+      );
+
       gsap.set(selector, { scale: 1 });
-      gsap.set(`${selector}-skills-wrapper`, { opacity: 0, scale: 1.25 });
+
+      if (skillsWrapper) {
+        gsap.set(`${selector}-skills-wrapper`, { opacity: 0, scale: 1.25 });
+      }
+
       gsap.to(selector, {
         opacity: 1,
         scale: 1.05,
@@ -67,8 +219,20 @@ const AboutContent: React.FC = () => {
           trigger: selector,
           start: "center 70%",
           end: "center 40%",
-          markers: false, // set to true for debugging
+          markers: false,
           scrub: true,
+          onEnter: () => {
+            // ✅ Track when animations come into view
+            loggerService
+              .trackFeatureUsage("GSAPAnimation", "section-entered-viewport", {
+                skillGroup: skillGroupName,
+                selector,
+                page: "about",
+              })
+              .catch((error) => {
+                console.warn("Failed to track GSAP section enter:", error);
+              });
+          },
         },
         onComplete: () => {
           gsap.to(selector, {
@@ -77,28 +241,256 @@ const AboutContent: React.FC = () => {
             boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.0)",
             duration: 0.7,
           });
-          gsap.to(`${selector}-skills-wrapper`, {
-            opacity: 1,
-            scale: 1,
-            duration: 0.75,
-            ease: "power2.inOut",
-          });
+
+          if (skillsWrapper && skillsWrapper.children.length > 0) {
+            gsap.to(`${selector}-skills-wrapper`, {
+              opacity: 1,
+              scale: 1,
+              duration: 0.75,
+              ease: "power2.inOut",
+            });
+          }
+
+          // ✅ Track animation completion
+          loggerService.debug(
+            "About page: GSAP animation completed",
+            undefined,
+            {
+              page: "about",
+              skillGroup: skillGroupName,
+              selector,
+              animationStatus: "completed",
+            }
+          );
         },
       });
     });
+
+    const animationDuration = performance.now() - animationStartTime;
+
+    // ✅ Comprehensive animation performance tracking
+    loggerService.performance(
+      "AboutPage.GSAPAnimations",
+      animationDuration,
+      successfulAnimations > 0,
+      undefined,
+      {
+        page: "about",
+        totalContainers: containers.length.toString(),
+        successfulAnimations: successfulAnimations.toString(),
+        failedAnimations: failedAnimations.toString(),
+        successRate: ((successfulAnimations / containers.length) * 100).toFixed(
+          2
+        ),
+      }
+    );
+
+    // ✅ Track animation performance as component performance
+    loggerService
+      .trackComponentPerformance(
+        "AboutPage",
+        "gsap-animations-init",
+        animationDuration,
+        successfulAnimations > 0,
+        {
+          successfulAnimations: successfulAnimations.toString(),
+          failedAnimations: failedAnimations.toString(),
+          totalContainers: containers.length.toString(),
+        }
+      )
+      .catch((error) => {
+        console.warn("Failed to track GSAP animation performance:", error);
+      });
+  }, [isClient]);
+
+  // ✅ Enhanced loading fallback with telemetry
+  const SkillsLoadingFallback = useCallback(() => {
+    loggerService.debug(
+      "About page: Skills loading fallback displayed",
+      undefined,
+      {
+        page: "about",
+        component: "SkillsLoadingFallback",
+        timestamp: new Date().toISOString(),
+      }
+    );
+
+    // ✅ Track loading state display
+    loggerService
+      .trackFeatureUsage("SkillsLoading", "fallback-displayed", {
+        page: "about",
+        component: "SkillsLoadingFallback",
+      })
+      .catch((error) => {
+        console.warn("Failed to track skills loading fallback:", error);
+      });
+
+    return (
+      <div className="flex justify-center items-center p-6">
+        <LoadingSpinner />
+        <span className="ml-3 text-gray-600">Loading technical skills...</span>
+      </div>
+    );
   }, []);
+
+  // ✅ Enhanced error fallback with comprehensive error tracking
+  const SkillsErrorFallback = useCallback(
+    ({
+      error,
+      resetErrorBoundary,
+    }: {
+      error: Error;
+      resetErrorBoundary: () => void;
+    }) => {
+      loggerService.error(
+        "About page: Skills error fallback triggered",
+        error,
+        {
+          page: "about",
+          component: "SkillsErrorFallback",
+          errorMessage: error.message,
+          errorName: error.name,
+          timestamp: new Date().toISOString(),
+        }
+      );
+
+      // ✅ Track error fallback display
+      loggerService
+        .trackFeatureUsage("SkillsError", "fallback-displayed", {
+          page: "about",
+          component: "SkillsErrorFallback",
+          errorType: error.name,
+          errorMessage: error.message,
+        })
+        .catch((trackingError) => {
+          console.warn("Failed to track skills error fallback:", trackingError);
+        });
+
+      return (
+        <ErrorFallback
+          error={error}
+          resetErrorBoundary={resetErrorBoundary}
+          cacheKey="skills-data-v1"
+        />
+      );
+    },
+    []
+  );
+
+  // ✅ Enhanced Suspense Skills Section with comprehensive error tracking
+  const SuspenseSkillsSection = useCallback(
+    () => (
+      <ErrorBoundary
+        FallbackComponent={SkillsErrorFallback}
+        onError={(error, errorInfo) => {
+          const errorDetails = createErrorDetails({
+            component: "About.SkillsErrorBoundary",
+            route: "/about",
+            section: "skills-suspense",
+            errorInfo,
+            originalError: error,
+            cacheKey: "skills-data-v1",
+          });
+
+          const globalError = createGlobalError(
+            `Skills Error Boundary caught error: ${error.message}`,
+            "BOUNDARY_ERROR",
+            errorDetails,
+            error.stack
+          );
+
+          // ✅ Use the updated loggerService error method
+          loggerService.error(
+            `About page: Skills Error Boundary triggered - ${error.message}`,
+            error,
+            {
+              page: "about",
+              component: "SkillsErrorBoundary",
+              errorId: globalError.id,
+              componentStack: errorInfo.componentStack || "",
+              timestamp: new Date().toISOString(),
+            }
+          );
+
+          // ✅ Track the global error
+          loggerService.trackGlobalError(globalError).catch((trackingError) => {
+            console.warn("Failed to track global error:", trackingError);
+          });
+        }}
+      >
+        <Suspense fallback={<SkillsLoadingFallback />}>
+          <SkillsSection />
+        </Suspense>
+      </ErrorBoundary>
+    ),
+    [SkillsLoadingFallback, SkillsErrorFallback]
+  );
+
+  // ✅ Enhanced footer interaction tracking
+  const handleFooterNavigation = useCallback(() => {
+    loggerService.info("About page: Footer navigation clicked", undefined, {
+      page: "about",
+      destination: "/contact",
+      action: "footer-cta-click",
+      timestamp: new Date().toISOString(),
+    });
+
+    // ✅ Track footer CTA usage
+    loggerService
+      .trackFeatureUsage("AboutPageNavigation", "footer-cta-clicked", {
+        page: "about",
+        destination: "/contact",
+        ctaText: "Whats next",
+      })
+      .catch((error) => {
+        console.warn("Failed to track footer navigation:", error);
+      });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  // ✅ Track page completion when component unmounts
+  useEffect(() => {
+    return () => {
+      const totalPageTime = performance.now() - pageLoadStartTime;
+
+      loggerService.info("About page: User session completed", undefined, {
+        page: "about",
+        totalPageTime: totalPageTime.toString(),
+        completedSession: "true",
+        timestamp: new Date().toISOString(),
+      });
+
+      // ✅ Track page session metrics
+      loggerService
+        .trackComponentPerformance(
+          "AboutPage",
+          "session-complete",
+          totalPageTime,
+          true,
+          {
+            page: "about",
+            sessionType: "complete",
+          }
+        )
+        .catch((error) => {
+          console.warn("Failed to track page session completion:", error);
+        });
+    };
+  }, [pageLoadStartTime]);
 
   return (
     <>
-      {headerImage && <HeaderImage headerImage={headerImage}></HeaderImage>}
+      {headerImage && <HeaderImage headerImage={headerImage} />}
+
       <div className="flex flex-col mx-auto max-w-[90%] lg:max-w-[70%]">
         <section className="my-10">
-          <p className="text-center md:text-start">
-            Punchcode Studios transforms business requirements into
-            enterprise-grade software solutions through rigorous SDLC
-            methodology and technical expertise. Our precision-driven approach
-            delivers scalable applications that exceed performance expectations
-            while maintaining the highest standards of reliability and security.
+          <p className="text-siteBlack text-center md:text-start">
+            Punchcode Studios is a software development company that specializes
+            in delivering high-quality, reliable software solutions. With a
+            focus on the Systems Development Lifecycle (SDLC), Punchcode Studios
+            ensures that every project is executed with precision and attention
+            to detail.
           </p>
         </section>
       </div>
@@ -120,15 +512,11 @@ const AboutContent: React.FC = () => {
                   stage to ensure a realistic plan for the execution of the
                   following phases in the cycle."
             >
-              {
-                <SkillsAccordion
-                  skills={filterBySlug<Skill>(
-                    [SkillGroups.PLANNING],
-                    skillData.target
-                  )}
-                  wrapperName={SkillGroups.PLANNING.toLowerCase()}
-                />
-              }
+              {isClient && (
+                <div className="planning-container-skills-wrapper">
+                  <SuspenseSkillsSection />
+                </div>
+              )}
             </CallToActionLeft>
           </div>
 
@@ -144,17 +532,7 @@ const AboutContent: React.FC = () => {
                   any additional users. The deliverable for this phase is a set
                   of functional and non-functional documents that clearly
                   illustrate the expecations of the software."
-            >
-              {
-                <SkillsAccordion
-                  skills={filterBySlug<Skill>(
-                    [SkillGroups.REQUIREMENTS],
-                    skillData.target
-                  )}
-                  wrapperName={SkillGroups.REQUIREMENTS.toLowerCase()}
-                />
-              }
-            </CallToActionRight>
+            />
           </div>
 
           {/* Design */}
@@ -171,17 +549,7 @@ const AboutContent: React.FC = () => {
                   creating and adhering to the deliverables from this phase
                   which include comprehensive design documents such as style
                   guides, flowcharts and story boards."
-            >
-              {
-                <SkillsAccordion
-                  skills={filterBySlug<Skill>(
-                    [SkillGroups.DESIGN],
-                    skillData.target
-                  )}
-                  wrapperName={SkillGroups.DESIGN.toLowerCase()}
-                />
-              }
-            </CallToActionLeft>
+            />
           </div>
 
           {/* Coding */}
@@ -199,17 +567,7 @@ const AboutContent: React.FC = () => {
                   software solutions. Punchcode Studios has a proven track
                   record of providing tangible solutions that meet or exceed
                   timeline, budget and end-user experience expectations."
-            >
-              {
-                <SkillsAccordion
-                  skills={filterBySlug<Skill>(
-                    [SkillGroups.CODING],
-                    skillData.target
-                  )}
-                  wrapperName={SkillGroups.CODING.toLowerCase()}
-                />
-              }
-            </CallToActionRight>
+            />
           </div>
 
           {/* Testing */}
@@ -229,17 +587,7 @@ const AboutContent: React.FC = () => {
                   Punchcode Studios efficiently provides solutions to issues
                   found during third-party QA testing with minimal amounts of
                   rework."
-            >
-              {
-                <SkillsAccordion
-                  skills={filterBySlug<Skill>(
-                    [SkillGroups.TESTING],
-                    skillData.target
-                  )}
-                  wrapperName={SkillGroups.TESTING.toLowerCase()}
-                />
-              }
-            </CallToActionLeft>
+            />
           </div>
 
           {/* Deployment */}
@@ -256,17 +604,7 @@ const AboutContent: React.FC = () => {
                   deployment, Punchcode Studios has reliably and consistently
                   deployed applications to production environments with little
                   to no downtime."
-            >
-              {
-                <SkillsAccordion
-                  skills={filterBySlug<Skill>(
-                    [SkillGroups.DEPLOYMENT],
-                    skillData.target
-                  )}
-                  wrapperName={SkillGroups.DEPLOYMENT.toLowerCase()}
-                />
-              }
-            </CallToActionRight>
+            />
           </div>
 
           {/* Maintenance */}
@@ -288,17 +626,7 @@ const AboutContent: React.FC = () => {
                   remediate any adverse side effects, as well as implement
                   preventative measures to ensure a comprehensive solution is
                   achieved."
-            >
-              {
-                <SkillsAccordion
-                  skills={filterBySlug<Skill>(
-                    [SkillGroups.MAINTENANCE],
-                    skillData.target
-                  )}
-                  wrapperName={SkillGroups.MAINTENANCE.toLowerCase()}
-                />
-              }
-            </CallToActionLeft>
+            />
           </div>
         </div>
 
@@ -309,7 +637,7 @@ const AboutContent: React.FC = () => {
                 variant="primary"
                 size="wide"
                 className="mx-auto block"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                onClick={handleFooterNavigation}
               >
                 Whats next
               </Button>
@@ -317,6 +645,37 @@ const AboutContent: React.FC = () => {
           </article>
         </div>
       </div>
+
+      {/* ✅ Development-only performance summary */}
+      {process.env.NODE_ENV === "development" && (
+        <details className="fixed bottom-4 right-4 bg-white border border-gray-300 rounded-lg shadow-lg p-2 text-xs max-w-xs z-50">
+          <summary className="cursor-pointer font-medium">
+            📊 About Page Performance
+          </summary>
+          <div className="mt-2 space-y-1">
+            <p>
+              <strong>Page Load Time:</strong>{" "}
+              {(performance.now() - pageLoadStartTime).toFixed(2)}ms
+            </p>
+            <p>
+              <strong>Client Status:</strong>{" "}
+              {isClient ? "✅ Ready" : "⏳ Loading"}
+            </p>
+            <p>
+              <strong>Logger Status:</strong>{" "}
+              {loggerService.isInitialized() ? "✅ Active" : "⚠️ Initializing"}
+            </p>
+            <p>
+              <strong>GSAP Containers:</strong>{" "}
+              {Object.keys(SkillGroups).length}
+            </p>
+            <p>
+              <strong>Header Image:</strong>{" "}
+              {headerImage ? "✅ Loaded" : "❌ None"}
+            </p>
+          </div>
+        </details>
+      )}
     </>
   );
 };
@@ -324,9 +683,7 @@ const AboutContent: React.FC = () => {
 const AboutContainer = () => {
   return (
     <ErrorBoundary fallback={<GenericErrorBoundary />}>
-      <React.Suspense fallback={<Loader />}>
-        <AboutContent />
-      </React.Suspense>
+      <AboutContent />
     </ErrorBoundary>
   );
 };
@@ -343,10 +700,3 @@ export function meta({}: Route.MetaArgs) {
     },
   ];
 }
-
-// this seems to be causing the error:
-// DOM Exception Node.removeChild: the node to be removed is not a child of this node. The above error occurred in the <link> component
-
-// export function links() {
-//   return [{ rel: "preload", href: "/assets/img_fullpng/about-this-site.png" }];
-// }

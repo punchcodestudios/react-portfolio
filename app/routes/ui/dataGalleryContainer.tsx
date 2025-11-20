@@ -3,11 +3,11 @@ import { Link, type LoaderFunctionArgs, useLoaderData } from "react-router";
 import {
   DataContextProvider,
   useDataContext,
-} from "~/components/data/dataContext";
-import DataFilterContainer from "~/components/data/dataFilterContainer";
-import DataPager from "~/components/data/dataPager";
-import DataSortContainer from "~/components/data/dataSortContainer";
-import type { DataItemProps } from "~/components/data/dataTableTypes";
+} from "~/components/data/data-context";
+import DataFilterContainer from "~/components/data/data-filter-container";
+import DataPager from "~/components/data/data-pager";
+import DataSortContainer from "~/components/data/data-sort-container";
+import type { DataItemProps } from "~/components/data/data-table-types";
 import ImageGallery from "~/components/gallery/image-gallery";
 import { Button } from "~/components/ui/button";
 

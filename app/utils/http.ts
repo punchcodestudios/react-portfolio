@@ -7,10 +7,10 @@ export const getHttp = async (): Promise<ApiResponse<Experience>> => {
   const client = new ApiClient<Experience>("/resume/get-all-experience");
   try {
     const response = await client.getAll();
-    console.log("gettHttp.response: ", response);
+    // console.log("gettHttp.response: ", response);
     return Promise.resolve(response);
   } catch (error) {
-    console.log("getHttp.error: ", error);
+    // console.log("getHttp.error: ", error);
     return Promise.reject({ data: { message: "error" } });
   }
 };

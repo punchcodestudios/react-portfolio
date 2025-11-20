@@ -6,8 +6,8 @@ import { Link } from "react-router";
 import { CallToActionLeft, CallToActionRight } from "~/components/cards/cta";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import GenericErrorBoundary from "~/components/ui/error-boundary";
-import Loader from "~/components/ui/loader";
+import { GenericErrorBoundary } from "~/components/error/generic-error-boundary";
+import { Loader } from "~/components/ui/loader";
 import type { Skill, SkillResponse } from "~/entities/resume";
 import IconService from "~/service/icon-service";
 import { SolidIcon } from "~/utils/enums";
@@ -102,7 +102,9 @@ export const SkillsAccordion: React.FC<SkillsAccordionProps> = ({
 };
 
 const SkillContent = () => {
+  // console.log("skills content rendering");
   const data = useSkills();
+  // console.log("skill data: ", data);
   const contentRef = useRef<HTMLDivElement>(null);
 
   const containers = Object.values(SkillTypes).map((type) => `${type}`);

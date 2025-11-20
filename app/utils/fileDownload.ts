@@ -31,6 +31,6 @@ export const getResumePdf = () => {
       });
     });
   } catch (error) {
-    console.log("error: ", error);
+    // console.log("error: ", error);
   }
 };

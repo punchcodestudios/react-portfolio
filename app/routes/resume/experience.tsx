@@ -1,8 +1,8 @@
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import ExperienceCard from "~/components/cards/experience-card";
-import GenericErrorBoundary from "~/components/ui/error-boundary";
-import Loader from "~/components/ui/loader";
+import { GenericErrorBoundary } from "~/components/error/generic-error-boundary";
+import { Loader } from "~/components/ui/loader";
 import { SkillsAccordion } from "./skills";
 
 // i like this idea = for later

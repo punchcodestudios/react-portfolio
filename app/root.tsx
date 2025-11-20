@@ -1,7 +1,7 @@
 import { useForm } from "@conform-to/react";
 import { parse } from "@conform-to/zod";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   data,
   Links,
@@ -16,8 +16,8 @@ import {
   type LinksFunction,
   type LoaderFunctionArgs,
 } from "react-router";
-import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
-import { HoneypotProvider } from "remix-utils/honeypot/react";
+// import { AuthenticityTokenInput } from "remix-utils/react/authenticity-token";
+// import { HoneypotInputs } from "remix-utils/react/honeypot";
 import { toast as showToast, Toaster } from "sonner";
 import { z } from "zod";
 import type { Route } from "./+types/root";
@@ -26,10 +26,10 @@ import tailwindStylesheetUrl from "./styles/tailwind.css?url";
 import IconService from "./service/icon-service";
 // import UserService from "./service/user-service";
 
-import { csrf } from "./utils/csrf.server";
+// import { csrf } from "./utils/csrf.server";
+// import { honeypot } from "./utils/honeypot.server";
 import { SolidIcon } from "./utils/enums";
 import { getEnv } from "./utils/env.server";
-import { honeypot } from "./utils/honeypot.server";
 import { sessionStorage } from "./utils/session.server";
 import { combineHeaders, invariantResponse } from "./utils/site";
 import { getTheme, setTheme, type Theme } from "./utils/theme.server";
@@ -38,7 +38,12 @@ import { getToast, type Toast } from "./utils/toast.server";
 import { ErrorList } from "./components/forms";
 import Footer from "./components/layout/footer";
 import Navbar from "./components/layout/navbar";
-import GenericErrorBoundary from "./components/ui/error-boundary";
+import { clientErrorHandler } from "~/utils/clientErrorHandler";
+import { GlobalErrorBoundary } from "~/components/error/global-error-boundary";
+
+import { getTelemetryConfig } from "./config/telemetry";
+import loggerService from "./service/logging";
+import DevelopmentDebugPanel from "./__tests__/components/developmentDebugPanel";
 
 export const links: LinksFunction = () =>
   [
@@ -56,10 +61,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
   console.log("loader function called from root");
   try {
     // console.log("Getting CSRF token");
-    const [csrfToken, csrfCookieHeader] = await csrf.commitToken(request);
+    //const [csrfToken, csrfCookieHeader] = await csrf.commitToken(request);
     // console.log("CSRF token obtained:", csrfToken);
     // console.log("Getting honeypot input props");
-    const honeyProps = await honeypot.getInputProps();
+    // const honeyProps = await honeypot.getInputProps();
     // console.log("Honeypot input props obtained:", honeyProps);
     // console.log("Getting toast props");
     const { toast, headers: toastHeaders } = await getToast(request);
@@ -84,15 +89,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
       {
         userId,
         user,
-        honeyProps,
-        csrfToken,
+        // honeyProps,
+        // csrfToken,
         theme: getTheme(request),
         toast: toast,
         ENV: getEnv(),
       },
       {
         headers: combineHeaders(
-          csrfCookieHeader ? { "set-cookie": csrfCookieHeader } : null,
+          // csrfCookieHeader ? { "set-cookie": csrfCookieHeader } : null,
           toastHeaders
         ),
       }
@@ -109,9 +114,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export async function action({ request }: ActionFunctionArgs) {
   try {
     const formData = await request.formData();
-    console.log("call from action");
-
-    // console.log("action: ", formData);
     invariantResponse(
       formData.get("intent") === "update-theme",
       "Invalid intent",
@@ -122,9 +124,7 @@ export async function action({ request }: ActionFunctionArgs) {
     const submission = parse(formData, {
       schema: ThemeFormSchema,
     });
-    console.log("submission.error: ", submission.error);
-    console.log("submission.intent: ", submission.intent);
-    console.log("submission.value: ", submission.value);
+
     if (submission.intent !== "submit") {
       return { status: "success", submission: submission };
     }
@@ -133,7 +133,6 @@ export async function action({ request }: ActionFunctionArgs) {
     }
 
     const { theme } = submission.value;
-    // console.log("theme: ", theme);
 
     const response = new Response(formData, {
       status: 200,
@@ -143,7 +142,6 @@ export async function action({ request }: ActionFunctionArgs) {
       },
     });
 
-    // console.log("response: ", response);
     return data({ submission }, response);
   } catch (error) {
     console.error("Error in root action:", error);
@@ -174,6 +172,7 @@ function Layout({
           {children}
         </div>
         <Toaster closeButton position="top-center" />
+        <DevelopmentDebugPanel />
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -181,24 +180,326 @@ function Layout({
   );
 }
 
+function useLoggerService() {
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [initializationError, setInitializationError] = useState<Error | null>(
+    null
+  );
+  const { ENV } = useLoaderData<typeof loader>();
+
+  const initializeLogger = useCallback(async () => {
+    const maxRetries = 3;
+    let attempt = 0;
+
+    while (attempt < maxRetries) {
+      try {
+        attempt++;
+
+        if (ENV.MODE === "development") {
+          console.log(
+            `🚀 [useLoggerService] Initializing (attempt ${attempt}/${maxRetries})`
+          );
+        }
+
+        // ✅ Service initialization SHOULD use try/catch
+        await loggerService.initialize();
+
+        if (!loggerService.isInitialized()) {
+          throw new Error("Logger service initialization failed silently");
+        }
+
+        const config = getTelemetryConfig();
+
+        loggerService.success("✅ Logger service initialized successfully", {
+          version: config.version,
+          environment: config.environment,
+          telemetryEnabled: config.enabled.toString(),
+          attempt: attempt.toString(),
+        });
+
+        // ✅ Business logic operations SHOULD use try/catch for AI tracing
+        await loggerService.trackFeatureUsage(
+          "LoggerService",
+          "initialization-success",
+          {
+            attempt: attempt.toString(),
+            maxRetries: maxRetries.toString(),
+            environment: config.environment,
+          }
+        );
+
+        setIsInitialized(true);
+        setInitializationError(null);
+        return;
+      } catch (error) {
+        const errorObj =
+          error instanceof Error ? error : new Error(String(error));
+
+        if (ENV.MODE === "development") {
+          console.error(
+            `❌ [useLoggerService] Attempt ${attempt} failed:`,
+            errorObj
+          );
+        }
+
+        if (attempt >= maxRetries) {
+          setInitializationError(errorObj);
+          setIsInitialized(false);
+          console.error(
+            `❌ [useLoggerService] Failed after ${maxRetries} attempts:`,
+            errorObj
+          );
+          return;
+        }
+
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      }
+    }
+  }, [ENV.MODE]);
+
+  useEffect(() => {
+    // ✅ Async initialization should be wrapped in try/catch
+    initializeLogger().catch((error) => {
+      console.error(
+        "❌ [useLoggerService] Unhandled initialization error:",
+        error
+      );
+      setInitializationError(
+        error instanceof Error ? error : new Error(String(error))
+      );
+    });
+
+    return () => {
+      // ✅ Cleanup operations SHOULD use try/catch
+      if (isInitialized) {
+        try {
+          loggerService.info("🧹 Logger service cleanup");
+          loggerService.flush();
+        } catch (error) {
+          console.error("❌ [useLoggerService] Cleanup error:", error);
+        }
+      }
+    };
+  }, [initializeLogger, isInitialized]);
+
+  return { isInitialized, initializationError };
+}
+
+function usePerformanceTracking(isLoggerInitialized: boolean) {
+  useEffect(() => {
+    if (!isLoggerInitialized) return;
+
+    // ✅ Browser API calls SHOULD use try/catch
+    try {
+      if (typeof window !== "undefined" && window.performance) {
+        const navigation = performance.getEntriesByType(
+          "navigation"
+        )[0] as PerformanceNavigationTiming;
+
+        if (navigation) {
+          const loadTime = navigation.loadEventEnd - navigation.fetchStart;
+          const domContentLoadedTime =
+            navigation.domContentLoadedEventEnd - navigation.fetchStart;
+
+          // Business logic wrapped in try/catch for AI tracing best practices
+          loggerService
+            .trackComponentPerformance(
+              "ApplicationRoot",
+              "InitialPageLoad",
+              loadTime,
+              true,
+              {
+                fetchStart: navigation.fetchStart.toString(),
+                domContentLoaded: domContentLoadedTime.toString(),
+                loadComplete: loadTime.toString(),
+                navigationTiming: "measured",
+              }
+            )
+            .catch((error) => {
+              console.error(
+                "❌ [usePerformanceTracking] Failed to track performance:",
+                error
+              );
+            });
+        }
+      }
+    } catch (error) {
+      console.error("❌ [usePerformanceTracking] Browser API error:", error);
+    }
+  }, [isLoggerInitialized]);
+}
+
+function useBrowserLifecycle(isLoggerInitialized: boolean) {
+  useEffect(() => {
+    if (!isLoggerInitialized) return;
+
+    // ✅ Event handlers SHOULD use try/catch for browser API reliability
+    const handleVisibilityChange = () => {
+      try {
+        if (document.visibilityState === "hidden") {
+          loggerService.debug("📱 Page hidden - flushing telemetry");
+          loggerService.flush();
+        } else if (document.visibilityState === "visible") {
+          loggerService.debug("📱 Page visible - user returned");
+          // Async operations should handle their own errors
+          loggerService
+            .trackFeatureUsage("ApplicationRoot", "visibility-visible", {
+              timestamp: new Date().toISOString(),
+            })
+            .catch((error) => {
+              console.error(
+                "❌ [useBrowserLifecycle] Failed to track visibility:",
+                error
+              );
+            });
+        }
+      } catch (error) {
+        console.error(
+          "❌ [useBrowserLifecycle] Visibility change error:",
+          error
+        );
+      }
+    };
+
+    const handleBeforeUnload = () => {
+      try {
+        loggerService.info("🚪 Application unloading");
+        loggerService.flush();
+      } catch (error) {
+        console.error("❌ [useBrowserLifecycle] Unload error:", error);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isLoggerInitialized]);
+}
+
 function App() {
   const data = useLoaderData<typeof loader>();
   const theme = useTheme();
-  return (
-    <Layout theme={theme}>
-      <ThemeSwitch userPreference={theme} />
+
+  const { isInitialized: isLoggerInitialized, initializationError } =
+    useLoggerService();
+
+  useEffect(() => {
+    try {
+      clientErrorHandler.init();
+      return () => {
+        try {
+          clientErrorHandler.cleanup();
+        } catch (error) {
+          console.error("❌ [App] Client error handler cleanup failed:", error);
+        }
+      };
+    } catch (error) {
+      console.error(
+        "❌ [App] Client error handler initialization failed:",
+        error
+      );
+    }
+  }, []);
+
+  // ✅ Use custom hooks for complex operations
+  usePerformanceTracking(isLoggerInitialized);
+  useBrowserLifecycle(isLoggerInitialized);
+
+  const handleGlobalError = useCallback(
+    async (error: Error, errorInfo: React.ErrorInfo) => {
+      // ❌ DON'T wrap this in try/catch - let the error boundary handle failures
+      if (isLoggerInitialized) {
+        await loggerService.trackGlobalError({
+          id: `root_error_${Date.now()}_${Math.random()
+            .toString(36)
+            .slice(2, 9)}`,
+          message: error.message,
+          stack: error.stack || "",
+          details: errorInfo.componentStack || "",
+          timestamp: new Date().toISOString(),
+          url: typeof window !== "undefined" ? window.location?.href ?? "" : "",
+          userAgent:
+            typeof navigator !== "undefined" ? navigator?.userAgent ?? "" : "",
+          retryCount: 0,
+        });
+      }
+    },
+    [isLoggerInitialized]
+  );
+
+  // ✅ Memoize development indicator to prevent unnecessary re-renders
+  const loggerStatusIndicator = useMemo(() => {
+    if (data.ENV.MODE !== "development") return null;
+
+    return (
       <div
-        id="siteContainer"
-        className="flex grow flex-col w-full mx-auto bg-background"
+        style={{
+          position: "fixed",
+          top: "10px",
+          right: "10px",
+          padding: "8px 12px",
+          borderRadius: "4px",
+          fontSize: "12px",
+          fontFamily: "monospace",
+          zIndex: 9999,
+          backgroundColor: isLoggerInitialized
+            ? "rgba(34, 197, 94, 0.1)"
+            : initializationError
+            ? "rgba(239, 68, 68, 0.1)"
+            : "rgba(251, 191, 36, 0.1)",
+          border: `1px solid ${
+            isLoggerInitialized
+              ? "rgb(34, 197, 94)"
+              : initializationError
+              ? "rgb(239, 68, 68)"
+              : "rgb(251, 191, 36)"
+          }`,
+          color: isLoggerInitialized
+            ? "rgb(34, 197, 94)"
+            : initializationError
+            ? "rgb(239, 68, 68)"
+            : "rgb(251, 191, 36)",
+        }}
       >
-        <Navbar></Navbar>
-        <main className="grow w-full mx-auto">
-          <Outlet />
-        </main>
-        <Footer></Footer>
+        Logger:{" "}
+        {isLoggerInitialized
+          ? "✅ Ready"
+          : initializationError
+          ? "❌ Failed"
+          : "⏳ Initializing..."}
+        {initializationError && (
+          <div style={{ fontSize: "10px", marginTop: "4px" }}>
+            {initializationError.message}
+          </div>
+        )}
       </div>
-      {data.toast ? <ShowToast toast={data.toast} /> : null}
-    </Layout>
+    );
+  }, [data.ENV.MODE, isLoggerInitialized, initializationError]);
+
+  return (
+    <GlobalErrorBoundary onError={handleGlobalError}>
+      {/* {loggerStatusIndicator} */}
+
+      <Layout theme={theme}>
+        <ThemeSwitch userPreference={theme} />
+        <div
+          id="siteContainer"
+          className="flex grow flex-col w-full mx-auto bg-background"
+        >
+          <Navbar />
+          <main className="grow w-full mx-auto">
+            <Outlet />
+          </main>
+          <Footer />
+        </div>
+        {data.toast ? <ShowToast toast={data.toast} /> : null}
+      </Layout>
+    </GlobalErrorBoundary>
   );
 }
 
@@ -206,23 +507,97 @@ export default function Root() {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <AuthenticityTokenProvider token={data.csrfToken}>
-      <HoneypotProvider {...data.honeyProps}>
-        <App></App>
-      </HoneypotProvider>
-    </AuthenticityTokenProvider>
+    // <AuthenticityTokenProvider token={data.csrfToken}>
+    //   <HoneypotProvider {...data.honeyProps}>
+    <App></App>
+    //   </HoneypotProvider>
+    // </AuthenticityTokenProvider>
   );
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
-  // console.log("error boundary in root: ");
+  // Fallback logging - simple console, no complex try/catch needed
+  console.error("❌ [Root ErrorBoundary] Application error:", error);
+
+  // ✅ Simple attempt to log - if it fails, that's okay
+  if (loggerService.isInitialized()) {
+    loggerService
+      .trackGlobalError({
+        id: `root_error_boundary_${Date.now()}_${Math.random()
+          .toString(36)
+          .slice(2, 9)}`,
+        message: error.message,
+        stack: error.stack || "",
+        details: "Root Error Boundary",
+        timestamp: new Date().toISOString(),
+        url: typeof window !== "undefined" ? window.location.href : "",
+        userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
+        retryCount: 0,
+      })
+      .catch((loggerError) => {
+        // Simple fallback - don't over-complicate error boundary
+        console.error("❌ [Root ErrorBoundary] Logger error:", loggerError);
+      });
+  }
+
   return (
     <Layout>
-      <Navbar></Navbar>
-      <main>
-        <GenericErrorBoundary></GenericErrorBoundary>
-      </main>
-      <Footer></Footer>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+          padding: "2rem",
+          fontFamily: "system-ui, sans-serif",
+        }}
+      >
+        <h1 style={{ color: "#ef4444", marginBottom: "1rem" }}>
+          ❌ Application Error
+        </h1>
+        <p
+          style={{
+            textAlign: "center",
+            marginBottom: "2rem",
+            maxWidth: "600px",
+          }}
+        >
+          Something went wrong. The error has been logged and will be
+          investigated.
+        </p>
+        <details style={{ marginTop: "1rem" }}>
+          <summary style={{ cursor: "pointer", marginBottom: "1rem" }}>
+            Technical Details
+          </summary>
+          <pre
+            style={{
+              backgroundColor: "#f3f4f6",
+              padding: "1rem",
+              borderRadius: "4px",
+              overflow: "auto",
+              fontSize: "0.875rem",
+            }}
+          >
+            {error.stack || error.message}
+          </pre>
+        </details>
+        <button
+          onClick={() => window.location.reload()}
+          style={{
+            marginTop: "2rem",
+            padding: "0.75rem 1.5rem",
+            backgroundColor: "#3b82f6",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+        >
+          🔄 Reload Application
+        </button>
+      </div>
     </Layout>
   );
 }
@@ -252,7 +627,7 @@ function ShowToast({ toast }: { toast: Toast }) {
 function useTheme() {
   // console.log("inside useTheme");
   const data = useLoaderData<typeof loader>();
-  console.log("data", data);
+  // console.log("data", data);
   const fetchers = useFetchers();
   const fetcher = fetchers.find(
     (f) => f.formData?.get("intent") === "update-theme"
