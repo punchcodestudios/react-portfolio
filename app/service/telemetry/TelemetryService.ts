@@ -8,33 +8,12 @@ import {
   type TelemetryConfig,
 } from "~/config/telemetry";
 
-export interface ITelemetryEvent {
-  name: string;
-  properties?: Record<string, string>;
-  measurements?: Record<string, number>;
-}
-
-export interface ITelemetryMetric {
-  name: string;
-  value: number;
-  properties?: Record<string, string>;
-}
-
-export interface ITelemetryException {
-  error: Error;
-  properties?: Record<string, string>;
-  severityLevel?: SeverityLevel;
-}
-
-export interface ITelemetryDependency {
-  name: string;
-  duration: number;
-  success: boolean;
-  responseCode: number;
-  type?: string;
-  data?: string;
-  properties?: Record<string, string>;
-}
+import {
+  type ITelemetryDependency,
+  type ITelemetryEvent,
+  type ITelemetryException,
+  type ITelemetryMetric,
+} from "./interfaces";
 
 /**
  * Core telemetry service following Azure Application Insights best practices

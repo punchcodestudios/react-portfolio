@@ -23,7 +23,7 @@ import { z } from "zod";
 import type { Route } from "./+types/root";
 import tailwindStylesheetUrl from "./styles/tailwind.css?url";
 
-import IconService from "./service/icon-service";
+import { IconService } from "./service/icon-service";
 // import UserService from "./service/user-service";
 
 // import { csrf } from "./utils/csrf.server";

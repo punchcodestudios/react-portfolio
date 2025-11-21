@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import IconService from "~/service/icon-service";
+import { IconService } from "~/service/icon-service";
 import { SolidIcon } from "~/utils/enums";
 import { useDataContext } from "./data-context";
 

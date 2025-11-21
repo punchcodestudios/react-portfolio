@@ -8,7 +8,7 @@ import type {
 
 import { getAllExams, seedExams } from "~/api/examApi";
 
-const examService = {
+const ExamService = {
   getAllExams: async (request: ExamRequest) => {
     try {
       const response = await getAllExams(request);
@@ -27,7 +27,7 @@ const examService = {
   },
 };
 
-export default examService;
+export { ExamService };
 
 const mapExams = (item: ApiResponse<Exam>): ExamResponse => {
   const res = {

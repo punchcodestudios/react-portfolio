@@ -21,7 +21,7 @@ import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/text-area";
 import type { ContactRequest } from "~/entities/email";
-import EmailService from "~/service/email-service";
+import { EmailService } from "~/service/email-service";
 // import { validateCSRF } from "~/utils/csrf.server";
 // import { checkForHoneypot } from "~/utils/honeypot.server";
 import { redirectWithToast } from "~/utils/toast.server";
@@ -151,7 +151,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   };
 
   // console.log("contact request: ", contactRequest);
-  const response = await EmailService.sendContactEmail(contactRequest);
+  // const response = await EmailService.sendContactEmail(contactRequest);
   // console.log("emailService sendContactEmail.response: ", response);
 
   throw await redirectWithToast("/", {

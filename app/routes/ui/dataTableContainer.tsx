@@ -3,7 +3,7 @@ import { DataContextProvider } from "~/components/data/data-context";
 import type { DataItemProps } from "~/components/data/data-table-types";
 import { Button } from "~/components/ui/button";
 import { useLoaderData, type LoaderFunctionArgs } from "react-router";
-import ResponsiveDataTable from "~/components/data/responsive-data-table";
+import { ResponsiveDataTable } from "~/components/data/responsive-data-table";
 
 export const initColumns: DataItemProps[] = [
   { key: "ID", label: "ID", hidden: true },

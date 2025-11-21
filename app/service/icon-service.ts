@@ -90,4 +90,4 @@ const IconService = {
   },
 };
 
-export default IconService;
+export { IconService };

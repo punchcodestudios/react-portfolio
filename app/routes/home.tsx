@@ -1,6 +1,6 @@
 import { Button } from "~/components/ui/button";
 import type { Route } from "./+types/home";
-import IconService from "~/service/icon-service";
+import { IconService } from "~/service/icon-service";
 import {
   isRouteErrorResponse,
   Link,

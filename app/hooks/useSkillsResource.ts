@@ -1,5 +1,5 @@
 import { suspenseCache } from "~/utils/suspense-fetcher";
-import resumeService from "~/service/resume-service";
+import resumeService from "~/service/resume/resume-service";
 import { type SkillResponse } from "~/entities/resume";
 import { createErrorDetails, createGlobalError } from "~/utils/error";
 import loggerService from "~/service/logging";

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Universal API Service Architecture Overview</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+      }
+      .container {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #2c3e50;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 10px;
+      }
+      h2 {
+        color: #34495e;
+        margin-top: 30px;
+        border-left: 4px solid #3498db;
+        padding-left: 15px;
+      }
+      h3 {
+        color: #2980b9;
+        margin-top: 25px;
+      }
+      .summary-box {
+        background: #ebf3fd;
+        padding: 20px;
+        border-radius: 5px;
+        border-left: 5px solid #3498db;
+        margin: 20px 0;
+      }
+      .code-block {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: "Courier New", monospace;
+        margin: 15px 0;
+      }
+      .log-example {
+        background: #1e1e1e;
+        color: #d4d4d4;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: "Courier New", monospace;
+        margin: 15px 0;
+        border-left: 4px solid #3498db;
+      }
+      .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+      }
+      .benefit-card {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #dee2e6;
+      }
+      .benefit-card h4 {
+        color: #2980b9;
+        margin-top: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background: white;
+      }
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #dee2e6;
+      }
+      th {
+        background-color: #3498db;
+        color: white;
+      }
+      tr:nth-child(even) {
+        background-color: #f8f9fa;
+      }
+      .icon-demo {
+        font-size: 1.5em;
+        margin-right: 10px;
+      }
+      .flow-diagram {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        font-family: monospace;
+        margin: 20px 0;
+        border: 1px solid #dee2e6;
+      }
+      .highlight-box {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 15px 0;
+      }
+      ul li {
+        margin: 5px 0;
+      }
+      .new-feature {
+        background: #e8f5e8;
+        border-left: 4px solid #28a745;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+      }
+      .enhancement-badge {
+        background: #3498db;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 10px;
+        font-size: 0.75em;
+        font-weight: bold;
+      }
+      .architecture-layer {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 10px 0;
+      }
+      .pattern-example {
+        background: #f1f3f4;
+        border: 1px solid #dadce0;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 15px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        Universal API Service Architecture Overview
+        <span class="enhancement-badge">v1.0</span>
+      </h1>
+
+      <div class="summary-box">
+        <h2>Executive Summary</h2>
+        <p>
+          A production-grade, enterprise-scale universal API service
+          architecture featuring generic type-safe data handling, comprehensive
+          telemetry integration, advanced caching strategies, and seamless React
+          Suspense compatibility. This architecture provides consistent patterns
+          across all data services while maintaining Azure Application Insights
+          integration and sophisticated correlation tracking throughout the
+          React portfolio application.
+        </p>
+      </div>
+
+      <div class="new-feature">
+        <h2>🚀 Core Architecture Features</h2>
+        <ul>
+          <li>
+            <strong>Universal Response Types:</strong> Generic API response
+            interfaces for consistent data handling
+          </li>
+          <li>
+            <strong>BaseDataService Foundation:</strong> Concrete base class
+            with enterprise-grade caching and telemetry
+          </li>
+          <li>
+            <strong>Correlation Tracking:</strong> Request tracing across
+            service boundaries with Azure integration
+          </li>
+          <li>
+            <strong>React Suspense Compatible:</strong> Seamless integration
+            with React concurrent features
+          </li>
+          <li>
+            <strong>Type-Safe Generics:</strong> Full TypeScript support with
+            flexible generic constraints
+          </li>
+          <li>
+            <strong>Performance Monitoring:</strong> Built-in metrics and
+            performance tracking
+          </li>
+        </ul>
+      </div>
+
+      <h2>Universal API Response Architecture</h2>
+
+      <h3>Generic Response Interface Foundation</h3>
+      <div class="code-block">
+        /** * Universal API data response interface * Used across all API
+        services for consistent response handling * @template T - The data type
+        being returned * @template M - The metadata type (defaults to flexible
+        record) */ export interface ApiDataResponse&lt;T, M = Record&lt;string,
+        any&gt;&gt; { target: T[]; meta: M; error: string | null; } /** * Single
+        item API response interface * For endpoints that return a single item
+        instead of an array */ export interface ApiItemResponse&lt;T, M =
+        Record&lt;string, any&gt;&gt; { target: T; meta: M; error: string |
+        null; } /** * Paginated API response interface * Extends the base
+        response with pagination metadata */ export interface
+        ApiPaginatedResponse&lt;T&gt; extends ApiDataResponse&lt;T,
+        PaginationMeta&gt; {} /** * Standard pagination metadata structure */
+        export interface PaginationMeta { page: number; pageSize: number;
+        totalItems: number; totalPages: number; hasNextPage: boolean;
+        hasPreviousPage: boolean; }
+      </div>
+
+      <div class="architecture-layer">
+        <h3>🏗️ Layered Architecture Benefits</h3>
+        <p>
+          <strong>Type Safety:</strong> Generic constraints ensure compile-time
+          validation across all services
+        </p>
+        <p>
+          <strong>Consistency:</strong> Universal response shape eliminates
+          integration complexity
+        </p>
+        <p>
+          <strong>Extensibility:</strong> Easy to add new metadata types and
+          response patterns
+        </p>
+      </div>
+
+      <h2>BaseDataService Implementation</h2>
+
+      <h3>Enterprise-Grade Service Foundation</h3>
+      <div class="code-block">
+        /** * Concrete base service class for consistent API data handling * Can
+        be instantiated directly or extended by specific services * Provides
+        caching, logging, and telemetry for all data services */ export class
+        BaseDataService&lt;TEntity, TRequest = any, TMeta = Record&lt;string,
+        any&gt;&gt; { protected cache = new Map&lt;string,
+        CacheEntry&lt;ApiDataResponse&lt;TEntity, TMeta&gt;&gt;&gt;(); protected
+        readonly config: Required&lt;ServiceConfig&gt;; protected readonly
+        instanceId: string; constructor(config: ServiceConfig) { this.config = {
+        cacheTimeout: 5 * 60 * 1000, // 5 minutes maxCacheSize: 100,
+        enableDelaySimulation: process.env.NODE_ENV === 'development', delayMs:
+        2000, enableMetrics: true, ...config }; this.instanceId =
+        `${this.config.serviceName}-${Date.now()}-${Math.random().toString(36).substr(2,
+        9)}`; loggerService.debug(`${this.config.serviceName} initialized`,
+        undefined, { component: this.config.serviceName, operation:
+        'constructor', instanceId: this.instanceId, config:
+        this.sanitizeConfig(this.config), timestamp: new Date().toISOString()
+        }); } /** * Generic fetch method with caching and telemetry * Implements
+        correlation tracking and performance monitoring */ async fetchData(
+        request: TRequest, operation: string, fetchImplementation: (request:
+        TRequest, correlationId: string) =>
+        Promise&lt;ApiDataResponse&lt;TEntity, TMeta&gt;&gt; ):
+        Promise&lt;ApiDataResponse&lt;TEntity, TMeta&gt;&gt; { const startTime =
+        performance.now(); const correlationId =
+        this.generateCorrelationId(operation); const cacheKey =
+        JSON.stringify(request); // Enhanced telemetry with correlation tracking
+        loggerService.debug(`${this.config.serviceName}: ${operation} called`,
+        undefined, { component: this.config.serviceName, operation,
+        correlationId, cacheKey, request: this.sanitizeRequest(request),
+        instanceId: this.instanceId, timestamp: new Date().toISOString() }); try
+        { // Advanced cache management with telemetry const cached =
+        this.getCachedData(cacheKey, correlationId); if (cached) { const
+        duration = performance.now() - startTime; // Cache hit performance
+        tracking if (this.config.enableMetrics) {
+        loggerService.performance(`${this.config.serviceName}.${operation}.CacheHit`,
+        duration, true, undefined, { component: this.config.serviceName,
+        operation: `${operation}-cache-hit`, correlationId, cacheUtilization:
+        this.cache.size / this.config.maxCacheSize }); } return cached; } //
+        Execute fetch with correlation context const promise =
+        fetchImplementation(request, correlationId);
+        this.setCachedData(cacheKey, promise, correlationId); const result =
+        await promise; const duration = performance.now() - startTime; //
+        Success telemetry with comprehensive metadata
+        loggerService.success(`${operation} completed successfully`, undefined,
+        { component: this.config.serviceName, operation: `${operation}-success`,
+        correlationId, cacheKey, duration: Math.round(duration), resultCount:
+        result.target?.length || 0, dataSize: this.estimateDataSize(result),
+        cacheStats: this.getCacheStats() }); // Performance metrics for Azure
+        Application Insights if (this.config.enableMetrics) {
+        loggerService.performance(`${this.config.serviceName}.${operation}`,
+        duration, true, undefined, { component: this.config.serviceName,
+        operation: `${operation}-success`, correlationId, resultCount:
+        result.target?.length || 0, performanceCategory: 'api-fetch' }); }
+        return result; } catch (error) { const duration = performance.now() -
+        startTime; // Enhanced error telemetry with context
+        loggerService.error(`${this.config.serviceName}: ${operation} failed`,
+        error, { component: this.config.serviceName, operation:
+        `${operation}-failed`, correlationId, cacheKey, duration:
+        Math.round(duration), request: this.sanitizeRequest(request),
+        errorCategory: 'data-fetch-error', instanceId: this.instanceId,
+        cacheStats: this.getCacheStats(), retryable:
+        this.isRetryableError(error) }); // Remove failed promise from cache
+        this.cache.delete(cacheKey); // Error performance tracking if
+        (this.config.enableMetrics) {
+        loggerService.performance(`${this.config.serviceName}.${operation}.Error`,
+        duration, false, undefined, { component: this.config.serviceName,
+        operation: `${operation}-error`, correlationId, errorType: error
+        instanceof Error ? error.constructor.name : 'Unknown',
+        performanceCategory: 'api-error' }); } throw error; // Maintain Suspense
+        error propagation } } }
+      </div>
+
+      <h2>Resume Service Implementation</h2>
+
+      <h3>Composition Pattern with Universal Services</h3>
+      <div class="code-block">
+        /** * Enhanced Resume Service extending universal BaseDataService *
+        Demonstrates composition pattern with multiple typed service instances
+        */ class ResumeService extends BaseDataService&lt;Skill | Experience |
+        Education&gt; { // Individual service instances for different data types
+        private skillsService = new BaseDataService&lt;Skill&gt;({ serviceName:
+        "SkillsService", }); private experienceService = new
+        BaseDataService&lt;Experience&gt;({ serviceName: "ExperienceService",
+        }); private educationService = new BaseDataService&lt;Education&gt;({
+        serviceName: "EducationService", }); constructor() { super({
+        serviceName: "ResumeService" }); } /** * Get skills data - uses the
+        universal fetch pattern * Maintains perfect React Suspense compatibility
+        */ async getSkills(request: SkillRequest): Promise&lt;SkillResponse&gt;
+        { return this.skillsService.fetchData( request, "getSkills", (req,
+        correlationId) => this.getSkillsImplementation(req, correlationId) ); }
+        /** * Implementation method with correlation tracking */ private async
+        getSkillsImplementation( request: SkillRequest, correlationId: string ):
+        Promise&lt;SkillResponse&gt; { const client = new
+        ApiClient&lt;Skill&gt;("resume/get-all-skills", request); // Development
+        delay simulation with telemetry if (this.config.enableDelaySimulation) {
+        loggerService.debug('Simulating API delay for development', undefined, {
+        component: 'ResumeService', operation: 'delay-simulation',
+        correlationId, delayMs: this.config.delayMs }); await
+        delayRequest(this.config.delayMs); } const response = await
+        client.getAll(); return this.mapResponse(response, correlationId,
+        "skills") as SkillResponse; } /** * Unified cache management across all
+        resume data types */ clearAllCaches(): void {
+        this.skillsService.clearCache(); this.experienceService.clearCache();
+        this.educationService.clearCache(); loggerService.info("All resume
+        service caches cleared", undefined, { component: "ResumeService",
+        operation: "cache-clear-all", instanceId: this.instanceId,
+        userInitiated: true, timestamp: new Date().toISOString(),
+        affectedServices: ['skills', 'experience', 'education'] }); } }
+      </div>
+
+      <h2>Correlation Tracking & Telemetry</h2>
+
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <h4><span class="icon-demo">🔗</span>Request Correlation</h4>
+          <ul>
+            <li>
+              <strong>Unique IDs:</strong> Each request gets a unique
+              correlation identifier
+            </li>
+            <li>
+              <strong>Cross-Service Tracking:</strong> Follow requests across
+              service boundaries
+            </li>
+            <li>
+              <strong>Error Context:</strong> Link errors to specific request
+              flows
+            </li>
+            <li>
+              <strong>Performance Analysis:</strong> Track end-to-end request
+              performance
+            </li>
+          </ul>
+        </div>
+
+        <div class="benefit-card">
+          <h4><span class="icon-demo">📊</span>Azure Integration</h4>
+          <ul>
+            <li>
+              <strong>Application Insights:</strong> Production telemetry with
+              custom properties
+            </li>
+            <li>
+              <strong>Custom Metrics:</strong> Business KPIs and performance
+              counters
+            </li>
+            <li>
+              <strong>Dependency Tracking:</strong> External service call
+              monitoring
+            </li>
+            <li>
+              <strong>Live Metrics:</strong> Real-time performance monitoring
+            </li>
+          </ul>
+        </div>
+
+        <div class="benefit-card">
+          <h4><span class="icon-demo">⚡</span>Performance Monitoring</h4>
+          <ul>
+            <li>
+              <strong>Cache Analytics:</strong> Hit rates, utilization, and
+              efficiency metrics
+            </li>
+            <li>
+              <strong>API Timings:</strong> Request duration and success rate
+              tracking
+            </li>
+            <li>
+              <strong>Error Recovery:</strong> Retry patterns and failure
+              analysis
+            </li>
+            <li>
+              <strong>Resource Usage:</strong> Memory and processing overhead
+              monitoring
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>React Suspense Compatibility</h2>
+
+      <h3>Seamless Integration Patterns</h3>
+      <div class="pattern-example">
+        <h4>Perfect Promise Compatibility</h4>
+        <p>
+          The universal service architecture maintains identical Promise return
+          types, ensuring seamless React Suspense integration:
+        </p>
+      </div>
+
+      <div class="code-block">
+        // Existing Suspense hook - no changes required export const
+        useSkillsResource = (): SkillResponse => { const skills =
+        suspenseCache.get&lt;SkillResponse&gt;("skills-data-v1", async () => {
+        // This call remains exactly the same with enhanced telemetry const
+        response = await resumeService.getSkills({ params: { id: "", slug: [],
+        skillsExclude: [] }, }); return response; // Same return type, enhanced
+        logging }); return skills; // Same return pattern }; // Enhanced error
+        boundary integration class SkillsErrorBoundary extends Component {
+        componentDidCatch(error: Error, errorInfo: ErrorInfo) { // Enhanced
+        error context from universal service loggerService.error('Skills
+        Suspense boundary caught error', error, { component:
+        'SkillsErrorBoundary', operation: 'suspense-error-boundary',
+        errorBoundary: true, suspenseContext: true, errorInfo: { componentStack:
+        errorInfo.componentStack, errorBoundaryStack: errorInfo.errorBoundary }
+        }); } }
+      </div>
+
+      <h2>Advanced Cache Management</h2>
+
+      <h3>Enterprise-Grade Caching Strategy</h3>
+      <div class="code-block">
+        // Advanced cache management with telemetry class EnhancedCacheManager {
+        private evictOldestCacheEntry(correlationId: string): void { let
+        oldestKey: string | null = null; let oldestTime = Date.now(); for (const
+        [key, entry] of this.cache.entries()) { if (entry.timestamp <
+        oldestTime) { oldestTime = entry.timestamp; oldestKey = key; } } if
+        (oldestKey) { const evictedEntry = this.cache.get(oldestKey);
+        this.cache.delete(oldestKey); loggerService.debug('Cache entry evicted
+        due to size limit', undefined, { component: this.config.serviceName,
+        operation: 'cache-eviction', evictedKey: oldestKey, correlationId,
+        evictedCorrelationId: evictedEntry?.correlationId, cacheSize:
+        this.cache.size, maxCacheSize: this.config.maxCacheSize, reason:
+        'size-limit', evictedAge: Date.now() - (evictedEntry?.timestamp || 0)
+        }); // Track cache eviction metrics for Azure if
+        (this.config.enableMetrics) {
+        loggerService.performance(`${this.config.serviceName}.CacheEviction`,
+        Date.now() - (evictedEntry?.timestamp || 0), true, undefined, {
+        component: this.config.serviceName, operation: 'cache-eviction', reason:
+        'size-limit', cacheUtilization: this.cache.size /
+        this.config.maxCacheSize } ); } } } getCacheStats() { const now =
+        Date.now(); let validEntries = 0; let expiredEntries = 0; for (const
+        [key, entry] of this.cache.entries()) { if (now - entry.timestamp <
+        this.config.cacheTimeout) { validEntries++; } else { expiredEntries++; }
+        } const stats = { totalSize: this.cache.size, validEntries,
+        expiredEntries, maxSize: this.config.maxCacheSize, utilizationPercent:
+        Math.round((this.cache.size / this.config.maxCacheSize) * 100),
+        hitRatio: this.calculateHitRatio(), instanceId: this.instanceId,
+        serviceName: this.config.serviceName };
+        loggerService.debug(`${this.config.serviceName} cache statistics`,
+        undefined, { component: this.config.serviceName, operation:
+        'cache-stats', stats, timestamp: new Date().toISOString() }); return
+        stats; } }
+      </div>
+
+      <h2>Enhanced Console Output Examples</h2>
+
+      <h3>Development Flow with Correlation Tracking</h3>
+      <div class="log-example">
+        # Service initialization with instance tracking 📊 SkillsService:
+        SkillsService-1732123456789-abc123def initialized 📊 ExperienceService:
+        ExperienceService-1732123456790-def456ghi initialized 📊
+        EducationService: EducationService-1732123456791-ghi789jkl initialized
+        📊 ResumeService: ResumeService-1732123456792-jkl012mno initialized #
+        Correlated request flow 🔍 ResumeService: getSkills called
+        (correlationId: getSkills-1732123456800-nop345qrs) 🔍 SkillsService:
+        getSkills cache miss - initiating request (correlationId:
+        getSkills-1732123456800-nop345qrs) 🔗 ApiClient: resume/get-all-skills
+        request initiated (correlationId: getSkills-1732123456800-nop345qrs) ⚡
+        Performance: SkillsService.getSkills: 287ms (success: true, resultCount:
+        44) ✅ SkillsService: getSkills completed successfully (correlationId:
+        getSkills-1732123456800-nop345qrs) # Cache performance tracking 📊 Cache
+        Stats: SkillsService (size: 1/100, utilization: 1%, hitRatio: 0%) 🔍
+        SkillsService: getSkills cache hit - returning cached data
+        (correlationId: getSkills-1732123456850-qrs678tuv) ⚡ Performance:
+        SkillsService.getSkills.CacheHit: 2ms (success: true, cacheUtilization:
+        0.01)
+      </div>
+
+      <h3>Production Azure Integration Flow</h3>
+      <div class="log-example">
+        # Azure Application Insights integration 🔗 Azure: Custom event tracked
+        - Feature.Skills.loaded 📊 Azure: Custom metric -
+        SkillsService.CacheHitRatio: 0.85 📊 Azure: Performance counter -
+        SkillsService.getSkills: 287ms 🔗 Azure: Dependency tracked -
+        API.resume/get-all-skills: 245ms (success) ⚠️ Azure: Exception tracked -
+        SkillsService.getSkills.Error (correlationId: abc123)
+      </div>
+
+      <h2>Service Extension Patterns</h2>
+
+      <h3>Adding New Services</h3>
+      <div class="code-block">
+        // Easy extension pattern for new data types export type ProjectResponse
+        = ApiDataResponse&lt;Project&gt;; export type CertificationResponse =
+        ApiDataResponse&lt;Certification&gt;; class PortfolioService extends
+        BaseDataService&lt;Project | Certification&gt; { private projectsService
+        = new BaseDataService&lt;Project&gt;({ serviceName: "ProjectsService",
+        }); private certificationsService = new
+        BaseDataService&lt;Certification&gt;({ serviceName:
+        "CertificationsService", }); // Same patterns as ResumeService... async
+        getProjects(request: ProjectRequest): Promise&lt;ProjectResponse&gt; {
+        return this.projectsService.fetchData( request, "getProjects", (req,
+        correlationId) => this.getProjectsImplementation(req, correlationId) );
+        } } // Maintain same export pattern export const portfolioService = new
+        PortfolioService();
+      </div>
+
+      <h2>Architecture Benefits Summary</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Implementation</th>
+            <th>Benefits</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Universal Types</strong></td>
+            <td>Generic ApiDataResponse interfaces</td>
+            <td>Type safety, consistency, reduced duplication</td>
+          </tr>
+          <tr>
+            <td><strong>BaseDataService</strong></td>
+            <td>Concrete base class with caching</td>
+            <td>Code reuse, consistent patterns, enterprise features</td>
+          </tr>
+          <tr>
+            <td><strong>Correlation Tracking</strong></td>
+            <td>Unique IDs across service calls</td>
+            <td>Enhanced debugging, performance analysis, error tracking</td>
+          </tr>
+          <tr>
+            <td><strong>Azure Integration</strong></td>
+            <td>Application Insights telemetry</td>
+            <td>Production monitoring, custom metrics, live analytics</td>
+          </tr>
+          <tr>
+            <td><strong>Suspense Compatibility</strong></td>
+            <td>Promise-based interface</td>
+            <td>Modern React patterns, concurrent features support</td>
+          </tr>
+          <tr>
+            <td><strong>Cache Management</strong></td>
+            <td>TTL, LRU eviction, metrics</td>
+            <td>Performance optimization, resource efficiency, monitoring</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="highlight-box">
+        <h3>🎯 Migration Impact</h3>
+        <p>
+          <strong>Zero Breaking Changes:</strong> Existing components, hooks,
+          and Suspense boundaries continue working unchanged while gaining
+          enhanced telemetry and performance monitoring capabilities.
+        </p>
+      </div>
+
+      <div class="summary-box">
+        <p>
+          <strong>Conclusion:</strong> This Universal API Service Architecture
+          represents a significant advancement in enterprise-grade data service
+          patterns. By combining generic type safety, comprehensive telemetry
+          integration, advanced caching strategies, and seamless React Suspense
+          compatibility, this architecture provides a robust foundation for
+          scalable, maintainable, and observable data services. The correlation
+          tracking and Azure Application Insights integration ensure
+          production-ready monitoring while maintaining exceptional developer
+          experience and code reusability across the entire application.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

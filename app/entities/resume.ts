@@ -1,119 +1,113 @@
-import type { ApiErrorResponse } from "~/entities/api";
-import type { MetaResponse } from "./api";
+// import type { ApiErrorResponse } from "~/entities/api";
+// import type { MetaResponse } from "./api";
 
-export interface Resume {
-  skillResponse: SkillResponse;
-  experienceResponse: ExperienceResponse;
-}
+// export type Resume = {
+//   skillResponse: SkillResponse;
+//   experienceResponse: ExperienceResponse;
+// }
 
-export interface Skill {
-  name: string;
-  description: string;
-  refid: string;
-  slug: string;
-  skill_types: SkillType[];
-}
+// export type Skill = {
+//   name: string;
+//   description: string;
+//   refid: string;
+//   slug: string;
+//   skill_types: SkillType[];
+// }
 
-export interface Skills {
-  all: Skill[];
-  frontend: Skill[];
-  backend: Skill[];
-  database: Skill[];
-  infrastructure: Skill[];
-  design: Skill[];
-  softskills: Skill[];
-}
+// export type Experience = {
+//   company_name: string;
+//   refid: string;
+//   start_date: string;
+//   end_date: string;
+//   position: string;
+//   location: string;
+//   skills: Skill[];
+//   sort_order: string;
+//   experience_line_items: ExperienceLineItem[];
+//   slug: string;
+// }
 
-export interface Experience {
-  company_name: string;
-  refid: string;
-  start_date: string;
-  end_date: string;
-  position: string;
-  location: string;
-  skills: Skill[];
-  sort_order: string;
-  experience_line_items: ExperienceLineItem[];
-  slug: string;
-}
+// export type Education = {
+//   institution_name: string;
+//   refid: string;
+//   start_date: string;
+//   end_date: string;
+//   degree: string;
+//   field_of_study: string;
+//   location: string;
+//   slug: string;
+// }
 
-export interface Education {
-  institution_name: string;
-  refid: string;
-  start_date: string;
-  end_date: string;
-  degree: string;
-  field_of_study: string;
-  location: string;
-  slug: string;
-}
-export interface SkillType {
-  name: string;
-  description: string;
-  refid: string;
-}
+// export type SkillType = {
+//   name: string;
+//   description: string;
+//   refid: string;
+// }
 
-export interface ExperienceLineItem {
-  text: string;
-  refid: string;
-  parent_ref_id: string;
-  sort_order: string;
-}
+// // export interface ExperienceLineItem {
+// //   text: string;
+// //   refid: string;
+// //   parent_ref_id: string;
+// //   sort_order: string;
+// // }
 
-export interface ResumeRequest {
-  params: {
-    id?: string | number;
-    skillsExclude: SkillType[];
-    slug?: string[];
-  };
-}
-export interface SkillRequest {
-  params: {
-    id?: string | number;
-    skillsExclude: SkillType[];
-    slug?: string[];
-  };
-}
-export interface ExperienceRequest {
-  params: {
-    id?: string | number;
-    experienceExclude?: string[];
-    slug?: string[];
-  };
-}
-export interface EducationRequest {
-  params: {
-    id?: string | number;
-    educationExclude?: string[];
-    slug?: string[];
-  };
-}
+// export type ResumeRequest = {
+//   params: {
+//     id?: string | number;
+//     skillsExclude: SkillType[];
+//     slug?: string[];
+//   };
+// }
 
-export interface ResumeMeta extends MetaResponse {}
-export interface ExperienceMeta extends MetaResponse {}
-export interface SkillMeta extends MetaResponse {}
-export interface EducationMeta extends MetaResponse {}
+// export type SkillRequest = {
+//   params: {
+//     id?: string | number;
+//     skillsExclude: SkillType[];
+//     slug?: string[];
+//   };
+// }
 
-export interface ResumeResponse {
-  target: Resume[];
-  meta: ResumeMeta;
-  error: ApiErrorResponse;
-}
+// export type ExperienceRequest = {
+//   params: {
+//     id?: string | number;
+//     experienceExclude?: string[];
+//     slug?: string[];
+//   };
+// }
 
-export interface ExperienceResponse {
-  target: Experience[];
-  meta: ExperienceMeta;
-  error: ApiErrorResponse;
-}
+// export interface EducationRequest {
+//   params: {
+//     id?: string | number;
+//     educationExclude?: string[];
+//     slug?: string[];
+//   };
+// }
 
-export interface SkillResponse {
-  target: Skill[];
-  meta: SkillMeta;
-  error: ApiErrorResponse;
-}
+// export interface ResumeMeta extends MetaResponse {}
+// export interface ExperienceMeta extends MetaResponse {}
+// export interface SkillMeta extends MetaResponse {}
+// export interface EducationMeta extends MetaResponse {}
 
-export interface EducationResponse {
-  target: Education[];
-  meta: EducationMeta;
-  error: ApiErrorResponse;
-}
+// export interface ResumeResponse {
+//   target: Resume[];
+//   meta: ResumeMeta;
+//   error: ApiErrorResponse;
+// }
+
+// export interface ExperienceResponse {
+//   target: Experience[];
+//   meta: ExperienceMeta;
+//   error: ApiErrorResponse;
+// }
+
+// export interface SkillResponse {
+//   target: Skill[];
+//   meta: SkillMeta;
+//   error: ApiErrorResponse;
+// }
+
+// export interface EducationResponse {
+//   target: Education[];
+//   meta: EducationMeta;
+//   error: ApiErrorResponse;
+// }

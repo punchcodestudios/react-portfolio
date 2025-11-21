@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import type resumeService from "~/service/resume-service";
+import type resumeService from "~/service/resume/resume-service";
 import type ApiClient from "~/api/apiClient";
 import { getAllExperience } from "~/api/resumeApi";
 import axios from "axios";

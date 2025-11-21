@@ -4,7 +4,7 @@ import type {
   ExperienceResponse,
   SkillResponse,
 } from "~/entities/resume";
-import resumeService from "~/service/resume-service";
+import resumeService from "~/service/resume/resume-service";
 
 const skillsPromise = resumeService.getSkills({
   params: { id: "", slug: [], skillsExclude: [] },

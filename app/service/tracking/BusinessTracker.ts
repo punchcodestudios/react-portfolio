@@ -1,30 +1,11 @@
 import type { GlobalError } from "~/entities/error";
 import { consoleLogger } from "../logging/ConsoleLogger";
 import { telemetryService } from "../telemetry/TelemetryService";
-
-export interface ISkillsLoadMetrics {
-  count: number;
-  cacheHit: boolean;
-  duration?: number;
-  source?: string;
-}
-
-export interface IPerformanceMetrics {
-  componentName: string;
-  operation: string;
-  duration: number;
-  success: boolean;
-  metadata?: Record<string, any>;
-}
-
-export interface IApiCallMetrics {
-  endpoint: string;
-  method: string;
-  duration: number;
-  success: boolean;
-  statusCode?: number;
-  error?: Error;
-}
+import type {
+  SkillsLoadMetrics,
+  PerformanceMetrics,
+  ApiCallMetrics,
+} from "./types";
 
 /**
  * Business-specific tracking following AI tracing best practices
@@ -34,7 +15,7 @@ export class BusinessTracker {
   /**
    * Track skills data loading with comprehensive metrics
    */
-  async trackSkillsLoaded(metrics: ISkillsLoadMetrics): Promise<void> {
+  async trackSkillsLoaded(metrics: SkillsLoadMetrics): Promise<void> {
     const { count, cacheHit, duration, source = "unknown" } = metrics;
 
     consoleLogger.success(
@@ -160,7 +141,7 @@ export class BusinessTracker {
   /**
    * Track component performance with lifecycle context
    */
-  async trackComponentPerformance(metrics: IPerformanceMetrics): Promise<void> {
+  async trackComponentPerformance(metrics: PerformanceMetrics): Promise<void> {
     const { componentName, operation, duration, success, metadata } = metrics;
 
     consoleLogger.performance(
@@ -202,7 +183,7 @@ export class BusinessTracker {
   /**
    * Track API calls with comprehensive dependency tracking
    */
-  async trackApiCall(metrics: IApiCallMetrics): Promise<void> {
+  async trackApiCall(metrics: ApiCallMetrics): Promise<void> {
     const { endpoint, method, duration, success, statusCode, error } = metrics;
 
     consoleLogger.performance(`API ${method} ${endpoint}`, duration, success, {

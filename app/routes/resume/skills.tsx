@@ -8,15 +8,16 @@ import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { GenericErrorBoundary } from "~/components/error/generic-error-boundary";
 import { Loader } from "~/components/ui/loader";
-import type { Skill, SkillResponse } from "~/entities/resume";
-import IconService from "~/service/icon-service";
+// import type { Skill, SkillResponse } from "~/entities/resume";
+import { IconService } from "~/service/icon-service";
 import { SolidIcon } from "~/utils/enums";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import resumeService from "~/service/resume-service";
+import resumeService from "~/service/resume/resume-service";
 import { filterBySlug } from "~/utils/site";
 import { useSkills } from "~/hooks/resume";
+import type { Skill } from "~/service/resume/types";
 gsap.registerPlugin(ScrollTrigger);
 
 export enum SkillTypes {

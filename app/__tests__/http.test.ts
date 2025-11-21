@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
 import ApiClient from "~/api/apiClient";
 import type { Experience, Resume } from "~/entities/resume";
-import resumeService from "~/service/resume-service";
+import resumeService from "~/service/resume/resume-service";
 import { getHttp, getAllExperience, getHttpFailure } from "~/utils/http";
 import apiClient from "~/api/apiClient";
 
