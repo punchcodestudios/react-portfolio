@@ -107,7 +107,7 @@ const ExamContent = () => {
 
 export async function loader() {
   const initData: Exam[] = await getAllExams().then((response) => {
-    if (!response || !response.meta.success) {
+    if (!response) {
       throw new Error("Failed to fetch exam data");
     }
 

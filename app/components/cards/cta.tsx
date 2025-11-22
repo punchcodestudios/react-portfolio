@@ -1,5 +1,3 @@
-import React from "react";
-
 export type ImageAlign = "right" | "left";
 
 type CallToActionProps = {

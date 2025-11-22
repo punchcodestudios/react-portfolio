@@ -1,66 +1,163 @@
-import type { ApiResponse } from "~/entities/api";
+import type { MetaResponse, BaseRequestParams } from "~/api/interfaces";
 
-/**
- * Universal API data response interface
- * Used across all API services for consistent response handling
- * @template T - The data type being returned
- * @template M - The metadata type (defaults to flexible record)
- */
-export interface ApiDataResponse<T, M = Record<string, any>> {
-  target: T[];
-  meta: M;
-  error: string | null;
+export interface ResumeMeta extends MetaResponse {
+  /** Resume processing specific metrics */
+  resumeMetrics?: {
+    sectionsProcessed: number;
+    validationErrors: string[];
+    contentScore: number;
+  };
 }
 
-/**
- * Single item API response interface
- * For endpoints that return a single item instead of an array
- * @template T - The data type being returned
- * @template M - The metadata type (defaults to flexible record)
- */
-export interface ApiItemResponse<T, M = Record<string, any>> {
-  target: T;
-  meta: M;
-  error: string | null;
+export interface ExperienceMeta extends MetaResponse {
+  /** Experience processing specific metrics */
+  experienceMetrics?: {
+    companiesCount: number;
+    positionsCount: number;
+    yearsCovered: number;
+    skillsExtracted: number;
+  };
+
+  /** Experience filtering information */
+  filters?: {
+    appliedFilters: string[];
+    excludedItems: number;
+    dateRange?: {
+      start: string;
+      end: string;
+    };
+  };
 }
 
-/**
- * Paginated API response interface
- * Extends the base response with pagination metadata
- * @template T - The data type being returned
- */
-export interface ApiPaginatedResponse<T>
-  extends ApiDataResponse<T, PaginationMeta> {}
+export interface SkillMeta extends MetaResponse {
+  /** Skills processing specific metrics */
+  skillMetrics?: {
+    categoriesCount: number;
+    levelsDistribution: Record<string, number>;
+    technicalSkillsCount: number;
+    softSkillsCount: number;
+  };
 
-/**
- * Standard pagination metadata structure
- */
-export interface PaginationMeta {
-  page: number;
-  pageSize: number;
-  totalItems: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
+  /** Skills grouping information */
+  grouping?: {
+    byCategory: Record<string, number>;
+    byLevel: Record<string, number>;
+    byType: Record<string, number>;
+  };
+
+  /** Skills recommendation data */
+  recommendations?: {
+    suggestedSkills: string[];
+    trendingSkills: string[];
+    skillGaps: string[];
+  };
 }
 
-/**
- * Search result metadata structure
- */
-export interface SearchMeta extends PaginationMeta {
-  query: string;
-  searchTime: number;
-  filters?: Record<string, any>;
-  sortBy?: string;
-  sortOrder?: "asc" | "desc";
+export interface EducationMeta extends MetaResponse {
+  /** Education processing specific metrics */
+  educationMetrics?: {
+    institutionsCount: number;
+    degreesCount: number;
+    certificationsCount: number;
+    yearsOfEducation: number;
+  };
+
+  /** Education validation information */
+  validation?: {
+    verifiedInstitutions: number;
+    pendingVerification: number;
+    accreditationStatus: Record<string, string>;
+  };
+
+  /** Education timeline data */
+  timeline?: {
+    earliestDate: string;
+    latestDate: string;
+    gaps: Array<{
+      start: string;
+      end: string;
+      duration: number;
+    }>;
+  };
 }
 
-/**
- * Cache metadata structure
- */
-export interface CacheMeta {
-  cached: boolean;
-  cacheKey?: string;
-  cacheTimestamp?: number;
-  cacheTTL?: number;
+export interface SkillRequestParams extends BaseRequestParams {
+  /** Skills to exclude from results */
+  skillsExclude?: string[];
+
+  /** Filter by skill categories */
+  categories?: string[];
+
+  /** Filter by skill levels */
+  levels?: string[];
+
+  /** Filter by skill types */
+  types?: string[];
+
+  /** Include related skills */
+  includeRelated?: boolean;
+
+  /** Minimum proficiency level */
+  minLevel?: string;
+
+  /** Group skills by category */
+  groupByCategory?: boolean;
+}
+
+export interface ExperienceRequestParams extends BaseRequestParams {
+  /** Experience items to exclude */
+  experienceExclude?: string[];
+
+  /** Filter by company names */
+  companies?: string[];
+
+  /** Filter by job positions */
+  positions?: string[];
+
+  /** Date range filter */
+  dateRange?: {
+    start?: string;
+    end?: string;
+  };
+
+  /** Filter by employment type */
+  employmentType?: string[];
+
+  /** Filter by location */
+  location?: string[];
+
+  /** Include current positions only */
+  currentOnly?: boolean;
+
+  /** Minimum duration in months */
+  minDuration?: number;
+}
+
+export interface EducationRequestParams extends BaseRequestParams {
+  /** Education items to exclude */
+  educationExclude?: string[];
+
+  /** Filter by institution names */
+  institutions?: string[];
+
+  /** Filter by degree types */
+  degreeTypes?: string[];
+
+  /** Filter by fields of study */
+  fieldsOfStudy?: string[];
+
+  /** Filter by graduation year range */
+  graduationYearRange?: {
+    start?: number;
+    end?: number;
+  };
+
+  /** Include certifications */
+  includeCertifications?: boolean;
+
+  /** Filter by education level */
+  educationLevel?: string[];
+
+  /** Include incomplete degrees */
+  includeIncomplete?: boolean;
 }

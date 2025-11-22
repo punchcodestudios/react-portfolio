@@ -219,3 +219,16 @@ export function filterBySlug<T>(slug: string[], data: T[]): T[] {
     return slug.some((paramSlug) => itemSlug.includes(paramSlug));
   });
 }
+
+/**
+ * Correlation ID generator for AI tracing
+ * @param prefix - Service prefix for the correlation ID
+ * @returns Generated correlation ID with timestamp and random suffix
+ */
+export function generateCorrelationId(
+  prefix: string = "generic-prefix"
+): string {
+  const timestamp = Date.now();
+  const random = Math.random().toString(36).substring(2, 8);
+  return `${prefix}-${timestamp}-${random}`;
+}

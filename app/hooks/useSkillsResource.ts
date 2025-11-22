@@ -1,8 +1,7 @@
-import { suspenseCache } from "~/utils/suspense-fetcher";
-import resumeService from "~/service/resume/resume-service";
-import { type SkillResponse } from "~/entities/resume";
-import { createErrorDetails, createGlobalError } from "~/utils/error";
 import loggerService from "~/service/logging";
+import { type SkillResponse } from "~/service/resume";
+import resumeService from "~/service/resume/resume-service";
+import { suspenseCache } from "~/utils/suspense-fetcher";
 
 export const useSkillsResource = () => {
   const cacheKey = "skills-data-v1";

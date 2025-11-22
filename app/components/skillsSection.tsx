@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useSkillsResource } from "~/hooks/useSkillsResource";
-import { type Skill } from "~/entities/resume";
+import type { Skill } from "~/service/resume";
 import loggerService from "~/service/logging";
 
 const SkillsSection: React.FC = () => {

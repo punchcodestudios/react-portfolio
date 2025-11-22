@@ -26,8 +26,7 @@ import ErrorFallback from "~/components/errorFallback";
 import { LoadingSpinner } from "~/components/loading-spinner";
 
 import { createErrorDetails, createGlobalError } from "~/utils/error";
-// import SkillsDebugPanel from "~/components/skillsDebugPanel";
-import { loggerService } from "~/service/logging";
+import { loggerService, resumeService } from "~/service";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,6 +42,10 @@ export enum SkillGroups {
 
 const AboutContent: React.FC = () => {
   const pageLoadStartTime = useMemo(() => performance.now(), []);
+  const correlationId = useMemo(
+    () => `about-page-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    []
+  );
 
   const location = useLocation();
   const headerImage = useImage({ path: location.pathname });
@@ -51,28 +54,78 @@ const AboutContent: React.FC = () => {
     Object.keys(SkillGroups).map(() => true)
   );
 
-  // ✅ Enhanced logging for page initialization
+  // ✅ Enhanced logging for page initialization with correlation tracking
   useEffect(() => {
     loggerService.info("About page: Initializing", undefined, {
       page: "about",
       route: location.pathname,
+      correlationId,
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
       viewport: `${window.innerWidth}x${window.innerHeight}`,
       referrer: document.referrer || "direct",
+      component: "AboutContent",
+      operation: "page-init",
     });
 
-    // ✅ Track page view with business metrics
+    // ✅ Track page view with business metrics and correlation
     loggerService
       .trackFeatureUsage("AboutPage", "page-view", {
         route: location.pathname,
+        correlationId,
         hasHeaderImage: (!!headerImage).toString(),
         timestamp: new Date().toISOString(),
+        pageLoadContext: "about-page-view",
       })
       .catch((error) => {
-        console.warn("Failed to track About page view:", error);
+        loggerService.warn("Failed to track About page view", error, {
+          correlationId,
+          component: "AboutContent",
+          operation: "track-page-view-failed",
+        });
       });
-  }, [location.pathname, headerImage]);
+
+    // ✅ Pre-warm the resume service cache for better performance
+    const preWarmCache = async () => {
+      try {
+        loggerService.debug(
+          "About page: Pre-warming resume service cache",
+          undefined,
+          {
+            correlationId,
+            component: "AboutContent",
+            operation: "cache-pre-warm",
+            cacheStrategy: "proactive-loading",
+          }
+        );
+
+        // This will populate the cache without blocking the UI
+        resumeService
+          .getSkills({
+            params: { id: "", slug: [], skillsExclude: [] },
+          })
+          .catch(() => {
+            // Silently fail - this is just cache pre-warming
+            loggerService.debug(
+              "Cache pre-warm failed (expected in some cases)",
+              undefined,
+              {
+                correlationId,
+                operation: "cache-pre-warm-failed",
+              }
+            );
+          });
+      } catch (error) {
+        // Non-blocking cache pre-warming
+        loggerService.debug("Cache pre-warm error (non-critical)", error, {
+          correlationId,
+          operation: "cache-pre-warm-error",
+        });
+      }
+    };
+
+    preWarmCache();
+  }, [location.pathname, headerImage, correlationId]);
 
   // ✅ Enhanced client-side initialization with performance tracking
   useEffect(() => {
@@ -87,13 +140,16 @@ const AboutContent: React.FC = () => {
       undefined,
       {
         page: "about",
+        correlationId,
         clientInitDuration: clientInitDuration.toString(),
         isClient: "true",
         timestamp: new Date().toISOString(),
+        component: "AboutContent",
+        operation: "client-init-complete",
       }
     );
 
-    // ✅ Track client initialization performance
+    // ✅ Track client initialization performance with correlation tracking
     loggerService
       .trackComponentPerformance(
         "AboutPage",
@@ -103,16 +159,40 @@ const AboutContent: React.FC = () => {
         {
           page: "about",
           route: location.pathname,
+          correlationId,
+          initializationType: "client-side",
         }
       )
       .catch((error) => {
-        console.warn("Failed to track client initialization:", error);
+        loggerService.warn(
+          "Failed to track client initialization performance",
+          error,
+          {
+            correlationId,
+            operation: "track-client-init-failed",
+          }
+        );
       });
-  }, [location.pathname]);
 
-  // ✅ Enhanced skill set toggle with interaction tracking
+    // ✅ Log resume service status
+    const cacheStats = resumeService.getAllCacheStats();
+    loggerService.debug("Resume service cache status", undefined, {
+      correlationId,
+      component: "AboutContent",
+      operation: "resume-service-status",
+      cacheStats: {
+        totalServices: Object.keys(cacheStats).length - 1, // -1 for total object
+        skillsCacheSize: cacheStats.skills?.size || 0,
+        experienceCacheSize: cacheStats.experience?.size || 0,
+        educationCacheSize: cacheStats.education?.size || 0,
+      },
+    });
+  }, [location.pathname, correlationId]);
+
+  // ✅ Enhanced skill set toggle with interaction tracking and correlation
   const toggleSkillSet = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
+      const interactionId = `${correlationId}-skillset-${Date.now()}`;
       const skillSetId = +event.currentTarget?.id;
       const skillGroupName =
         Object.values(SkillGroups)[skillSetId] || "unknown";
@@ -123,14 +203,18 @@ const AboutContent: React.FC = () => {
         undefined,
         {
           page: "about",
+          correlationId,
+          interactionId,
           skillGroup: skillGroupName,
           skillSetId: skillSetId.toString(),
           action: wasOpen ? "close" : "open",
           timestamp: new Date().toISOString(),
+          component: "AboutContent",
+          operation: "skillset-toggle",
         }
       );
 
-      // ✅ Track skill set interactions for UX insights
+      // ✅ Track skill set interactions for UX insights with correlation
       loggerService
         .trackFeatureUsage(
           "SkillSetToggle",
@@ -139,33 +223,45 @@ const AboutContent: React.FC = () => {
             skillGroup: skillGroupName,
             skillSetId: skillSetId.toString(),
             page: "about",
+            correlationId,
+            interactionId,
+            userInteraction: "toggle-skillset",
           }
         )
         .catch((error) => {
-          console.warn("Failed to track skill set toggle:", error);
+          loggerService.warn("Failed to track skill set toggle", error, {
+            correlationId,
+            interactionId,
+            operation: "track-skillset-toggle-failed",
+          });
         });
 
       const updated = [...skillSetClosed];
       updated[skillSetId] = !skillSetClosed[skillSetId];
       setSkillSetClosed(updated);
     },
-    [skillSetClosed]
+    [skillSetClosed, correlationId]
   );
 
-  // ✅ Enhanced GSAP animations with comprehensive telemetry
+  // ✅ Enhanced GSAP animations with comprehensive telemetry and correlation tracking
   useGSAP(() => {
     if (!isClient) return;
 
     const animationStartTime = performance.now();
+    const animationCorrelationId = `${correlationId}-gsap-${Date.now()}`;
 
     loggerService.debug(
       "🎬 About page: Initializing GSAP animations",
       undefined,
       {
         page: "about",
+        correlationId,
+        animationCorrelationId,
         animationType: "scroll-trigger",
         skillGroupsCount: Object.keys(SkillGroups).length.toString(),
         timestamp: new Date().toISOString(),
+        component: "AboutContent",
+        operation: "gsap-init",
       }
     );
 
@@ -179,6 +275,7 @@ const AboutContent: React.FC = () => {
     containers.forEach((selector, index) => {
       const element = document.querySelector(selector);
       const skillGroupName = Object.values(SkillGroups)[index];
+      const elementCorrelationId = `${animationCorrelationId}-${skillGroupName}`;
 
       if (!element) {
         failedAnimations++;
@@ -187,10 +284,15 @@ const AboutContent: React.FC = () => {
           undefined,
           {
             page: "about",
+            correlationId,
+            animationCorrelationId,
+            elementCorrelationId,
             selector,
             skillGroup: skillGroupName,
             animationStatus: "failed",
             reason: "element-not-found",
+            component: "AboutContent",
+            operation: "gsap-element-not-found",
           }
         );
         return;
@@ -222,15 +324,27 @@ const AboutContent: React.FC = () => {
           markers: false,
           scrub: true,
           onEnter: () => {
-            // ✅ Track when animations come into view
+            // ✅ Track when animations come into view with correlation
             loggerService
               .trackFeatureUsage("GSAPAnimation", "section-entered-viewport", {
                 skillGroup: skillGroupName,
                 selector,
                 page: "about",
+                correlationId,
+                animationCorrelationId,
+                elementCorrelationId,
+                scrollTriggerEvent: "onEnter",
               })
               .catch((error) => {
-                console.warn("Failed to track GSAP section enter:", error);
+                loggerService.warn(
+                  "Failed to track GSAP section enter",
+                  error,
+                  {
+                    correlationId,
+                    elementCorrelationId,
+                    operation: "track-gsap-enter-failed",
+                  }
+                );
               });
           },
         },
@@ -251,15 +365,20 @@ const AboutContent: React.FC = () => {
             });
           }
 
-          // ✅ Track animation completion
+          // ✅ Track animation completion with correlation
           loggerService.debug(
             "About page: GSAP animation completed",
             undefined,
             {
               page: "about",
+              correlationId,
+              animationCorrelationId,
+              elementCorrelationId,
               skillGroup: skillGroupName,
               selector,
               animationStatus: "completed",
+              component: "AboutContent",
+              operation: "gsap-animation-complete",
             }
           );
         },
@@ -268,7 +387,7 @@ const AboutContent: React.FC = () => {
 
     const animationDuration = performance.now() - animationStartTime;
 
-    // ✅ Comprehensive animation performance tracking
+    // ✅ Comprehensive animation performance tracking with correlation
     loggerService.performance(
       "AboutPage.GSAPAnimations",
       animationDuration,
@@ -276,16 +395,20 @@ const AboutContent: React.FC = () => {
       undefined,
       {
         page: "about",
+        correlationId,
+        animationCorrelationId,
         totalContainers: containers.length.toString(),
         successfulAnimations: successfulAnimations.toString(),
         failedAnimations: failedAnimations.toString(),
         successRate: ((successfulAnimations / containers.length) * 100).toFixed(
           2
         ),
+        component: "AboutContent",
+        operation: "gsap-performance-summary",
       }
     );
 
-    // ✅ Track animation performance as component performance
+    // ✅ Track animation performance as component performance with correlation
     loggerService
       .trackComponentPerformance(
         "AboutPage",
@@ -296,33 +419,56 @@ const AboutContent: React.FC = () => {
           successfulAnimations: successfulAnimations.toString(),
           failedAnimations: failedAnimations.toString(),
           totalContainers: containers.length.toString(),
+          correlationId,
+          animationCorrelationId,
+          performanceCategory: "animation-initialization",
         }
       )
       .catch((error) => {
-        console.warn("Failed to track GSAP animation performance:", error);
+        loggerService.warn(
+          "Failed to track GSAP animation performance",
+          error,
+          {
+            correlationId,
+            animationCorrelationId,
+            operation: "track-gsap-performance-failed",
+          }
+        );
       });
-  }, [isClient]);
+  }, [isClient, correlationId]);
 
-  // ✅ Enhanced loading fallback with telemetry
+  // ✅ Enhanced loading fallback with telemetry and correlation tracking
   const SkillsLoadingFallback = useCallback(() => {
+    const loadingCorrelationId = `${correlationId}-loading-${Date.now()}`;
+
     loggerService.debug(
       "About page: Skills loading fallback displayed",
       undefined,
       {
         page: "about",
+        correlationId,
+        loadingCorrelationId,
         component: "SkillsLoadingFallback",
         timestamp: new Date().toISOString(),
+        operation: "skills-loading-fallback-display",
       }
     );
 
-    // ✅ Track loading state display
+    // ✅ Track loading state display with correlation
     loggerService
       .trackFeatureUsage("SkillsLoading", "fallback-displayed", {
         page: "about",
         component: "SkillsLoadingFallback",
+        correlationId,
+        loadingCorrelationId,
+        suspenseState: "loading",
       })
       .catch((error) => {
-        console.warn("Failed to track skills loading fallback:", error);
+        loggerService.warn("Failed to track skills loading fallback", error, {
+          correlationId,
+          loadingCorrelationId,
+          operation: "track-loading-fallback-failed",
+        });
       });
 
     return (
@@ -331,9 +477,9 @@ const AboutContent: React.FC = () => {
         <span className="ml-3 text-gray-600">Loading technical skills...</span>
       </div>
     );
-  }, []);
+  }, [correlationId]);
 
-  // ✅ Enhanced error fallback with comprehensive error tracking
+  // ✅ Enhanced error fallback with comprehensive error tracking and correlation
   const SkillsErrorFallback = useCallback(
     ({
       error,
@@ -342,28 +488,44 @@ const AboutContent: React.FC = () => {
       error: Error;
       resetErrorBoundary: () => void;
     }) => {
+      const errorCorrelationId = `${correlationId}-error-${Date.now()}`;
+
       loggerService.error(
         "About page: Skills error fallback triggered",
         error,
         {
           page: "about",
+          correlationId,
+          errorCorrelationId,
           component: "SkillsErrorFallback",
           errorMessage: error.message,
           errorName: error.name,
           timestamp: new Date().toISOString(),
+          operation: "skills-error-fallback-trigger",
         }
       );
 
-      // ✅ Track error fallback display
+      // ✅ Track error fallback display with correlation
       loggerService
         .trackFeatureUsage("SkillsError", "fallback-displayed", {
           page: "about",
           component: "SkillsErrorFallback",
           errorType: error.name,
           errorMessage: error.message,
+          correlationId,
+          errorCorrelationId,
+          suspenseState: "error",
         })
         .catch((trackingError) => {
-          console.warn("Failed to track skills error fallback:", trackingError);
+          loggerService.warn(
+            "Failed to track skills error fallback",
+            trackingError,
+            {
+              correlationId,
+              errorCorrelationId,
+              operation: "track-error-fallback-failed",
+            }
+          );
         });
 
       return (
@@ -374,15 +536,17 @@ const AboutContent: React.FC = () => {
         />
       );
     },
-    []
+    [correlationId]
   );
 
-  // ✅ Enhanced Suspense Skills Section with comprehensive error tracking
+  // ✅ Enhanced Suspense Skills Section with comprehensive error tracking and correlation
   const SuspenseSkillsSection = useCallback(
     () => (
       <ErrorBoundary
         FallbackComponent={SkillsErrorFallback}
         onError={(error, errorInfo) => {
+          const boundaryCorrelationId = `${correlationId}-boundary-${Date.now()}`;
+
           const errorDetails = createErrorDetails({
             component: "About.SkillsErrorBoundary",
             route: "/about",
@@ -390,6 +554,7 @@ const AboutContent: React.FC = () => {
             errorInfo,
             originalError: error,
             cacheKey: "skills-data-v1",
+            correlationId: boundaryCorrelationId,
           });
 
           const globalError = createGlobalError(
@@ -399,22 +564,30 @@ const AboutContent: React.FC = () => {
             error.stack
           );
 
-          // ✅ Use the updated loggerService error method
+          // ✅ Use the updated loggerService error method with correlation
           loggerService.error(
             `About page: Skills Error Boundary triggered - ${error.message}`,
             error,
             {
               page: "about",
+              correlationId,
+              boundaryCorrelationId,
               component: "SkillsErrorBoundary",
               errorId: globalError.id,
               componentStack: errorInfo.componentStack || "",
               timestamp: new Date().toISOString(),
+              operation: "skills-error-boundary-triggered",
             }
           );
 
-          // ✅ Track the global error
+          // ✅ Track the global error with correlation
           loggerService.trackGlobalError(globalError).catch((trackingError) => {
-            console.warn("Failed to track global error:", trackingError);
+            loggerService.warn("Failed to track global error", trackingError, {
+              correlationId,
+              boundaryCorrelationId,
+              errorId: globalError.id,
+              operation: "track-global-error-failed",
+            });
           });
         }}
       >
@@ -423,45 +596,63 @@ const AboutContent: React.FC = () => {
         </Suspense>
       </ErrorBoundary>
     ),
-    [SkillsLoadingFallback, SkillsErrorFallback]
+    [SkillsLoadingFallback, SkillsErrorFallback, correlationId]
   );
 
-  // ✅ Enhanced footer interaction tracking
+  // ✅ Enhanced footer interaction tracking with correlation
   const handleFooterNavigation = useCallback(() => {
+    const navigationCorrelationId = `${correlationId}-footer-nav-${Date.now()}`;
+
     loggerService.info("About page: Footer navigation clicked", undefined, {
       page: "about",
+      correlationId,
+      navigationCorrelationId,
       destination: "/contact",
       action: "footer-cta-click",
       timestamp: new Date().toISOString(),
+      component: "AboutContent",
+      operation: "footer-navigation-clicked",
     });
 
-    // ✅ Track footer CTA usage
+    // ✅ Track footer CTA usage with correlation
     loggerService
       .trackFeatureUsage("AboutPageNavigation", "footer-cta-clicked", {
         page: "about",
         destination: "/contact",
         ctaText: "Whats next",
+        correlationId,
+        navigationCorrelationId,
+        navigationFlow: "about-to-contact",
       })
       .catch((error) => {
-        console.warn("Failed to track footer navigation:", error);
+        loggerService.warn("Failed to track footer navigation", error, {
+          correlationId,
+          navigationCorrelationId,
+          operation: "track-footer-navigation-failed",
+        });
       });
 
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  }, [correlationId]);
 
-  // ✅ Track page completion when component unmounts
+  // ✅ Track page completion when component unmounts with correlation
   useEffect(() => {
     return () => {
       const totalPageTime = performance.now() - pageLoadStartTime;
+      const sessionCorrelationId = `${correlationId}-session-complete`;
 
       loggerService.info("About page: User session completed", undefined, {
         page: "about",
+        correlationId,
+        sessionCorrelationId,
         totalPageTime: totalPageTime.toString(),
         completedSession: "true",
         timestamp: new Date().toISOString(),
+        component: "AboutContent",
+        operation: "session-complete",
       });
 
-      // ✅ Track page session metrics
+      // ✅ Track page session metrics with correlation
       loggerService
         .trackComponentPerformance(
           "AboutPage",
@@ -471,13 +662,42 @@ const AboutContent: React.FC = () => {
           {
             page: "about",
             sessionType: "complete",
+            correlationId,
+            sessionCorrelationId,
+            sessionDuration: totalPageTime.toString(),
           }
         )
         .catch((error) => {
-          console.warn("Failed to track page session completion:", error);
+          loggerService.warn("Failed to track page session completion", error, {
+            correlationId,
+            sessionCorrelationId,
+            operation: "track-session-complete-failed",
+          });
         });
+
+      // ✅ Log final resume service cache statistics
+      try {
+        const finalCacheStats = resumeService.getAllCacheStats();
+        loggerService.debug(
+          "Final resume service cache statistics",
+          undefined,
+          {
+            correlationId,
+            sessionCorrelationId,
+            component: "AboutContent",
+            operation: "final-cache-stats",
+            cacheStats: finalCacheStats,
+          }
+        );
+      } catch (error) {
+        loggerService.warn("Failed to get final cache stats", error, {
+          correlationId,
+          sessionCorrelationId,
+          operation: "final-cache-stats-failed",
+        });
+      }
     };
-  }, [pageLoadStartTime]);
+  }, [pageLoadStartTime, correlationId]);
 
   return (
     <>
@@ -646,7 +866,7 @@ const AboutContent: React.FC = () => {
         </div>
       </div>
 
-      {/* ✅ Development-only performance summary */}
+      {/* ✅ Enhanced development-only performance summary with correlation tracking */}
       {process.env.NODE_ENV === "development" && (
         <details className="fixed bottom-4 right-4 bg-white border border-gray-300 rounded-lg shadow-lg p-2 text-xs max-w-xs z-50">
           <summary className="cursor-pointer font-medium">
@@ -672,6 +892,22 @@ const AboutContent: React.FC = () => {
             <p>
               <strong>Header Image:</strong>{" "}
               {headerImage ? "✅ Loaded" : "❌ None"}
+            </p>
+            <p>
+              <strong>Correlation ID:</strong>{" "}
+              <code className="text-xs bg-gray-100 px-1 rounded">
+                {correlationId.split("-").slice(-1)[0]}
+              </code>
+            </p>
+            <p>
+              <strong>Resume Service:</strong>{" "}
+              {resumeService ? "✅ Active" : "❌ Not Available"}
+            </p>
+            <p>
+              <strong>Cache Stats:</strong>{" "}
+              <span className="text-xs">
+                Skills: {resumeService?.getAllCacheStats()?.skills?.size || 0}
+              </span>
             </p>
           </div>
         </details>

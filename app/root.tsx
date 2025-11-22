@@ -1,7 +1,7 @@
 import { useForm } from "@conform-to/react";
 import { parse } from "@conform-to/zod";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   data,
   Links,
@@ -422,9 +422,12 @@ function App() {
           stack: error.stack || "",
           details: errorInfo.componentStack || "",
           timestamp: new Date().toISOString(),
-          url: typeof window !== "undefined" ? window.location?.href ?? "" : "",
+          url:
+            typeof window !== "undefined" ? (window.location?.href ?? "") : "",
           userAgent:
-            typeof navigator !== "undefined" ? navigator?.userAgent ?? "" : "",
+            typeof navigator !== "undefined"
+              ? (navigator?.userAgent ?? "")
+              : "",
           retryCount: 0,
         });
       }
@@ -450,28 +453,28 @@ function App() {
           backgroundColor: isLoggerInitialized
             ? "rgba(34, 197, 94, 0.1)"
             : initializationError
-            ? "rgba(239, 68, 68, 0.1)"
-            : "rgba(251, 191, 36, 0.1)",
+              ? "rgba(239, 68, 68, 0.1)"
+              : "rgba(251, 191, 36, 0.1)",
           border: `1px solid ${
             isLoggerInitialized
               ? "rgb(34, 197, 94)"
               : initializationError
-              ? "rgb(239, 68, 68)"
-              : "rgb(251, 191, 36)"
+                ? "rgb(239, 68, 68)"
+                : "rgb(251, 191, 36)"
           }`,
           color: isLoggerInitialized
             ? "rgb(34, 197, 94)"
             : initializationError
-            ? "rgb(239, 68, 68)"
-            : "rgb(251, 191, 36)",
+              ? "rgb(239, 68, 68)"
+              : "rgb(251, 191, 36)",
         }}
       >
         Logger:{" "}
         {isLoggerInitialized
           ? "✅ Ready"
           : initializationError
-          ? "❌ Failed"
-          : "⏳ Initializing..."}
+            ? "❌ Failed"
+            : "⏳ Initializing..."}
         {initializationError && (
           <div style={{ fontSize: "10px", marginTop: "4px" }}>
             {initializationError.message}

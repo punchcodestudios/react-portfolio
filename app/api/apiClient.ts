@@ -1,6 +1,5 @@
 import axios, { AxiosError, type AxiosResponse } from "axios";
-import type { ApiErrorResponse, ApiResponse } from "~/entities/api";
-import type { GlobalError } from "~/entities/error";
+import type { ApiDataResponse } from "./";
 
 const axiosInstance = axios.create({
   baseURL: "https://punchcodestudios-api-2cbe706bb11a.herokuapp.com/api", // "http://localhost:3000/api",
@@ -78,7 +77,7 @@ class ApiClient<T> {
     this.headers = headers || {};
   }
 
-  getAll = async (): Promise<ApiResponse<T>> => {
+  getAll = async (): Promise<ApiDataResponse<T>> => {
     try {
       // console.log("🔍 ApiClient.getAll:", this.endpoint);
       // console.log("🔍 Params:", this.params);
@@ -94,18 +93,18 @@ class ApiClient<T> {
     }
   };
 
-  get = async (id: number | string): Promise<ApiResponse<T>> => {
+  get = async (id: number | string): Promise<ApiDataResponse<T>> => {
     try {
       // console.log("endpoint: ", this.endpoint + "/" + id);
       const response = await axiosInstance.get(this.endpoint + "/" + id);
       return Promise.resolve({ ...response.data });
     } catch (error: any) {
       //console.log("apiClient.get: error", error);
-      return Promise.reject({ ...error } as ApiErrorResponse);
+      return Promise.reject({ ...error } as any);
     }
   };
 
-  put = async (id: number | string, entity: T): Promise<ApiResponse<T>> => {
+  put = async (id: number | string, entity: T): Promise<ApiDataResponse<T>> => {
     try {
       const response = await axiosInstance.put(
         this.endpoint + "/" + id,
@@ -114,27 +113,27 @@ class ApiClient<T> {
       return Promise.resolve({ ...response.data });
     } catch (error: any) {
       // console.log("apiClient.put: error", error);
-      return Promise.reject({ ...error } as ApiErrorResponse);
+      return Promise.reject({ ...error } as any);
     }
   };
 
-  post = async (entity: T | {}): Promise<ApiResponse<T>> => {
+  post = async (entity: T | {}): Promise<ApiDataResponse<T>> => {
     try {
       const response = await axiosInstance.post(this.endpoint, entity);
       return Promise.resolve({ ...response.data });
     } catch (error: any) {
       // console.log("apiClient.post: error", error);
-      return Promise.reject({ ...error } as ApiErrorResponse);
+      return Promise.reject({ ...error } as any);
     }
   };
 
-  delete = async (id: number | string): Promise<ApiResponse<T>> => {
+  delete = async (id: number | string): Promise<ApiDataResponse<T>> => {
     try {
       const response = await axiosInstance.delete(this.endpoint + "/" + id);
       return Promise.resolve({ ...response.data });
     } catch (error: any) {
       // console.log("apiClient.delete: error", error);
-      return Promise.reject({ ...error } as ApiErrorResponse);
+      return Promise.reject({ ...error } as any);
     }
   };
 }

@@ -3,35 +3,38 @@ import type {
   ApiItemResponse,
   SearchMeta,
   CacheMeta,
-} from "~/entities/api";
-
-// export type Resume = {
-//   skillResponse: SkillResponse;
-//   experienceResponse: ExperienceResponse;
-// };
+} from "~/api";
+import type {
+  SkillRequestParams,
+  ExperienceRequestParams,
+  EducationRequestParams,
+} from "./interfaces";
 
 export type Skill = {
+  id: string | number;
   name: string;
   description: string;
   refid: string;
-  slug: string;
+  slug: string[];
   skill_types: SkillType[];
+  level?: string;
+  category?: string;
 };
 
 export type Experience = {
-  company_name: string;
+  id: string | number;
   refid: string;
+  company_name: string;
   start_date: string;
   end_date: string;
   position: string;
   location: string;
-  skills: Skill[];
-  sort_order: string;
   experience_line_items: ExperienceLineItem[];
   slug: string;
 };
 
 export type Education = {
+  id: string | number;
   institution_name: string;
   refid: string;
   start_date: string;
@@ -56,22 +59,6 @@ export type ResumeRequest = {
   };
 };
 
-export type SkillRequest = {
-  params: {
-    id?: string | number;
-    skillsExclude: SkillType[];
-    slug?: string[];
-  };
-};
-
-export type ExperienceRequest = {
-  params: {
-    id?: string | number;
-    experienceExclude?: string[];
-    slug?: string[];
-  };
-};
-
 export interface ExperienceLineItem {
   text: string;
   refid: string;
@@ -79,11 +66,33 @@ export interface ExperienceLineItem {
   sort_order: string;
 }
 
+export type SkillRequest = {
+  params: SkillRequestParams;
+  metadata?: {
+    requestId?: string;
+    userId?: string;
+    clientVersion?: string;
+    timestamp?: string;
+  };
+};
+
+export type ExperienceRequest = {
+  params: ExperienceRequestParams;
+  metadata?: {
+    requestId?: string;
+    userId?: string;
+    clientVersion?: string;
+    timestamp?: string;
+  };
+};
+
 export type EducationRequest = {
-  params: {
-    id?: string | number;
-    educationExclude?: string[];
-    slug?: string[];
+  params: EducationRequestParams;
+  metadata?: {
+    requestId?: string;
+    userId?: string;
+    clientVersion?: string;
+    timestamp?: string;
   };
 };
 

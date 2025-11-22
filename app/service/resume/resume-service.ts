@@ -9,29 +9,36 @@ import type {
   EducationRequest,
   EducationResponse,
 } from "./types";
-import { BaseDataService } from "../_BaseDataService";
+import { BaseDataService } from "../_base/BaseDataService";
 import ApiClient from "~/api/apiClient";
 import { delayRequest } from "~/utils/site";
 import { loggerService } from "~/service/logging"; // Add this import
+import type { ApiDataResponse } from "~/api/interfaces";
 
 /**
  * Enhanced Resume Service extending universal BaseDataService
  * Provides skills, experience, and education data with enterprise-grade caching and telemetry
  */
-class ResumeService extends BaseDataService<Skill | Experience | Education> {
-  // Individual service methods for different data types
-  private skillsService = new BaseDataService<Skill>({
-    serviceName: "SkillsService",
-  });
-  private experienceService = new BaseDataService<Experience>({
-    serviceName: "ExperienceService",
-  });
-  private educationService = new BaseDataService<Education>({
-    serviceName: "EducationService",
-  });
+export class ResumeService extends BaseDataService<
+  Skill | Experience | Education
+> {
+  private skillsService: BaseDataService<Skill>;
+  private experienceService: BaseDataService<Experience>;
+  private educationService: BaseDataService<Education>;
 
   constructor() {
     super({ serviceName: "ResumeService" });
+
+    // Initialize individual services with proper configurations
+    this.skillsService = new BaseDataService<Skill>({
+      serviceName: "SkillsService",
+    });
+    this.experienceService = new BaseDataService<Experience>({
+      serviceName: "ExperienceService",
+    });
+    this.educationService = new BaseDataService<Education>({
+      serviceName: "EducationService",
+    });
   }
 
   /**
@@ -77,7 +84,7 @@ class ResumeService extends BaseDataService<Skill | Experience | Education> {
     const client = new ApiClient<Skill>("resume/get-all-skills", request);
 
     if (this.config.enableDelaySimulation) {
-      await delayRequest(this.config.delayMs);
+      await delayRequest(this.config.delayMs || 1000);
     }
 
     const response = await client.getAll();
@@ -94,7 +101,7 @@ class ResumeService extends BaseDataService<Skill | Experience | Education> {
     );
 
     if (this.config.enableDelaySimulation) {
-      await delayRequest(this.config.delayMs);
+      await delayRequest(this.config.delayMs || 1000);
     }
 
     const response = await client.getAll();
@@ -115,7 +122,7 @@ class ResumeService extends BaseDataService<Skill | Experience | Education> {
     );
 
     if (this.config.enableDelaySimulation) {
-      await delayRequest(this.config.delayMs);
+      await delayRequest(this.config.delayMs || 1000);
     }
 
     const response = await client.getAll();
@@ -126,6 +133,27 @@ class ResumeService extends BaseDataService<Skill | Experience | Education> {
     ) as EducationResponse;
   }
 
+  protected mapResponse(
+    response: any,
+    correlationId: string,
+    entityType: string
+  ): ApiDataResponse<any, any> {
+    // Handle different response formats from ApiClient
+    const responseData = response.content || response.data || response;
+
+    return {
+      target: responseData.target || responseData || [],
+      meta: {
+        ...responseData.meta,
+        correlationId,
+        entityType,
+        source: "api",
+        cacheHit: false,
+        requestTimestamp: new Date().toISOString(),
+      },
+      error: responseData.error || null,
+    };
+  }
   // Override sanitization for resume-specific data
   protected sanitizeRequest(request: any): any {
     // Remove potentially sensitive fields from logs
@@ -156,6 +184,11 @@ class ResumeService extends BaseDataService<Skill | Experience | Education> {
       total: {
         serviceName: "ResumeService",
         instanceId: this.instanceId,
+        totalSize:
+          this.skillsService.getCacheStats().size +
+          this.experienceService.getCacheStats().size +
+          this.educationService.getCacheStats().size,
+        totalMaxSize: (this.skillsService.getCacheStats().maxSize || 100) * 3,
       },
     };
   }
