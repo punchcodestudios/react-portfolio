@@ -1,4 +1,13 @@
 declare global {
+  interface ImportMetaEnv {
+    MODE?: string;
+    [key: string]: any;
+  }
+
+  interface ImportMeta {
+    env: ImportMetaEnv;
+  }
+
   function createMockCorrelationId(
     serviceName: string,
     operation: string

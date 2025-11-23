@@ -23,7 +23,7 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({
     resetErrorBoundary();
   };
 
-  // TODO: use punchcodestudio styled components for buttons and layout
+  // TODO: Add to future sprint: UI use punchcodestudio styled components for buttons and layout
   return (
     <div className="text-red-500 p-6 border border-red-300 rounded-lg bg-red-50">
       <h2 className="text-xl font-bold mb-2">Something went wrong</h2>

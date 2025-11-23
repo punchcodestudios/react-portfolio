@@ -66,7 +66,7 @@ const SkillsDebugPanel: React.FC = () => {
   // Only show in development
   if (process.env.NODE_ENV !== "development") return null;
 
-  // TODO: use styled components and convert to tailwind css architecture
+  // TODO: Add to future sprint: UI: use styled components and convert to tailwind css architecture
   return (
     <div className="fixed bottom-4 left-4 bg-gray-900 text-white rounded-lg shadow-xl z-50 border border-gray-600">
       <div

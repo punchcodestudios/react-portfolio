@@ -155,6 +155,7 @@ class GlobalErrorBoundary extends Component<Props, State> {
     }, 100);
   };
 
+  // TODO: URGENT - should figure the .env issue out asap - property .env does not exist on meta
   private isDevelopment(): boolean {
     return (
       (typeof process !== "undefined" &&
@@ -164,7 +165,7 @@ class GlobalErrorBoundary extends Component<Props, State> {
     );
   }
 
-  // TODO: use punchcodestudios styled components for buttons
+  // TODO: Add to future sprint: UI - use punchcodestudios styled components for buttons
   render() {
     if (this.state.hasError) {
       return (

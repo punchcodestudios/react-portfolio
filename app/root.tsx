@@ -21,7 +21,11 @@ import {
 import { toast as showToast, Toaster } from "sonner";
 import { z } from "zod";
 import type { Route } from "./+types/root";
-import tailwindStylesheetUrl from "./styles/tailwind.css?url";
+
+// TODO: add to future sprint: root.tsx::font and tailwind stylesheets - fix vite configuration for ?url import syntax
+// import fontStylestylesheetUrl from "./styles/fonts.css?url";
+// import appStylesheetUrl from "./styles/app.css?url";
+// import tailwindStylesheetUrl from "./styles/tailwind.css?url";
 
 import { IconService } from "./service/icon-service";
 // import UserService from "./service/user-service";
@@ -45,13 +49,16 @@ import { getTelemetryConfig } from "./config/telemetry";
 import loggerService from "./service/logging";
 import DevelopmentDebugPanel from "./__tests__/components/developmentDebugPanel";
 
-export const links: LinksFunction = () =>
-  [
-    { rel: "stylesheet", href: "https://use.typekit.net/utp7gyp.css" },
-    // { rel: "stylesheet", href: fontStylestylesheetUrl },
-    { rel: "stylesheet", href: tailwindStylesheetUrl },
-    // { rel: "stylesheet", href: appStylesheetUrl },
-  ].filter(Boolean);
+// export const links: LinksFunction = () =>
+//   [
+//     { rel: "stylesheet", href: "https://use.typekit.net/utp7gyp.css" },
+//     // { rel: "stylesheet", href: fontStylestylesheetUrl },
+//     // { rel: "stylesheet", href: tailwindStylesheetUrl },
+//     // { rel: "stylesheet", href: appStylesheetUrl },
+//     // TODO: add to future sprint - root.tsx::font and tailwind stylesheets - fix vite configuration for ?url import syntax
+//     //Importing directtly for now
+//     { rel: "stylesheet", href: "/styles/tailwind.css" },
+//   ].filter(Boolean);
 
 const ThemeFormSchema = z.object({
   theme: z.enum(["light", "dark"]),
@@ -159,10 +166,12 @@ function Layout({
   return (
     <html lang="en" className={`${theme}`}>
       <head>
-        <Meta />
+        {/* <Meta /> */}
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Links />
+        {/* <Links /> */}
+        <link rel="stylesheet" href="https://use.typekit.net/utp7gyp.css" />
+        <link rel="stylesheet" href="/styles/tailwind.build.css" />
       </head>
       <body
         suppressHydrationWarning={true}
@@ -211,8 +220,8 @@ function useLoggerService() {
         const config = getTelemetryConfig();
 
         loggerService.success("✅ Logger service initialized successfully", {
-          version: config.version,
           environment: config.environment,
+          enabled: config.enabled,
           telemetryEnabled: config.enabled.toString(),
           attempt: attempt.toString(),
         });

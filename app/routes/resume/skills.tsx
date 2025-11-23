@@ -64,7 +64,7 @@ export const SkillsAccordion: React.FC<SkillsAccordionProps> = ({
     setClosed(!closed);
   };
 
-  // TODO: use a more generic class name for the gsap target
+  // TODO: Add to future sprint: UI - use a more generic class name for the gsap target
   const gsapTargetClassName = `${wrapperName}-container-skills-wrapper`;
 
   return (

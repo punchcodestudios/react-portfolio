@@ -189,6 +189,7 @@ describe("ResumeService", () => {
       expect(mockGetAll).toHaveBeenCalled();
 
       // TODO: add these back in once the testing is working at this level
+      // TODO: add to future sprint Backend Features
       // // Verify telemetry tracking
       // expect(mockBusinessTracker.trackSkillsLoaded).toHaveBeenCalledWith(
       //   expect.objectContaining({

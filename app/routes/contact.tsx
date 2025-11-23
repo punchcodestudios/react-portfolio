@@ -13,8 +13,9 @@ import {
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from "react-router";
-import { AuthenticityTokenInput } from "remix-utils/csrf/react";
-import { HoneypotInputs } from "remix-utils/honeypot/react";
+// TODO: add to futre sprint - Forms and Accesibility anti forgery and spam bots
+// import { AuthenticityTokenInput } from "remix-utils/csrf/react";
+// import { HoneypotInputs } from "remix-utils/honeypot/react";
 import { z } from "zod";
 import { Field } from "~/components/forms";
 import { Button } from "~/components/ui/button";
@@ -34,7 +35,7 @@ import useUniqueArray from "~/hooks/uniqueArray";
 const subjectMaxLength = 100;
 const messageMaxLength = 1000;
 const phoneRegex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i;
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // TODO: improve regex for email validation
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // TODO: add to future sprint - Forms and Accessibility improve regex for email validation
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const contact = {
@@ -298,9 +299,10 @@ export default function Contact() {
           className="flex h-full flex-col px-4 gap-y-4 overflow-y-auto overflow-x-hidden md:px-10 pb-28 pt-12"
           {...form.props}
         >
-          <HoneypotInputs></HoneypotInputs>
-          <AuthenticityTokenInput />
-
+          //TODO: Add to future sprint - Forms and Accessibility honeypot and
+          csrf
+          {/* <HoneypotInputs></HoneypotInputs>
+          <AuthenticityTokenInput /> */}
           {/* Hidden input to submit the selected contact methods array */}
           {selectedContactMethod.map((method, index) => (
             <input
@@ -310,7 +312,6 @@ export default function Contact() {
               value={method}
             />
           ))}
-
           <div className="flex flex-col gap-1">
             {/* Subject */}
             <div className="flex flex-row">
@@ -499,7 +500,6 @@ export default function Contact() {
             </div>
           </div>
           <ErrorList id={form.errorId} errors={form.errors} />
-
           <div className="w-full p-3 mt-3">
             <Button
               form={form.id}

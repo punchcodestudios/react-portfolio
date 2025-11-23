@@ -1,5 +1,5 @@
 import type { ExamResponse } from "~/entities/exam";
-import examService from "~/service/exam-service";
+import { ExamService } from "~/service/exam-service";
 
 export type LearningPathEvaluationItem = {
   evaluation_item_id: string;
@@ -31,12 +31,12 @@ export const getAllExams = (): Promise<ExamResponse> => {
 
 async function getAllExamsImplementation(): Promise<ExamResponse> {
   // console.log("getAllExamsImplementation called");
-  const response = await examService.getAllExams({
+  const response = await ExamService.getAllExams({
     params: { learning_path_id: "all" },
   });
   const examList: ExamResponse = response;
 
-  if (!response.meta.success) {
+  if (!response.meta) {
     throw new Error("Failed to fetch all exams");
   }
   return examList;

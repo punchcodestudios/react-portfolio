@@ -1,0 +1,1 @@
+Get-ChildItem -Recurse -Directory | Where-Object {$_.FullName -notmatch "node_modules|\.git|\.vscode|build\\|dist\\|coverage\\" -and $_.Name -ne ".react-router"} | Select-Object FullName | Sort-Object FullName

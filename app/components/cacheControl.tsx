@@ -43,7 +43,7 @@ export const CacheControl: React.FC<CacheControlProps> = ({
     console.log("Cache Status:", status);
   };
 
-  // TODO : use punchcodestudio buttons in place of basic HTML
+  // TODO : Add to future sprint UI use punchcodestudio buttons in place of basic HTML
   return (
     <div className="flex flex-wrap gap-2 p-4 bg-gray-100 rounded-lg">
       <h3 className="w-full text-sm font-bold mb-2">Cache Controls</h3>

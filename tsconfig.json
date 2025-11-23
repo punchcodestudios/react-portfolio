@@ -28,7 +28,21 @@
     "baseUrl": ".",
     "rootDirs": [".", ".react-router/types"],
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./app/*"],
+      "~/components": ["./app/components/index"],
+      "~/components/*": ["./app/components/*"],
+      "~/hooks": ["./app/hooks/index"],
+      "~/hooks/*": ["./app/hooks/*"],
+      "~/utils": ["./app/utils/index"],
+      "~/utils/*": ["./app/utils/*"],
+      "~/service": ["./app/service/index"],
+      "~/service/*": ["./app/service/*"],
+      "~/entities": ["./app/entities/index"],
+      "~/entities/*": ["./app/entities/*"],
+      "~/api": ["./app/api/index"],
+      "~/api/*": ["./app/api/*"],
+      "~/config": ["./app/config/index"],
+      "~/config/*": ["./app/config/*"]
     },
 
     // ✅ Type checking configuration
