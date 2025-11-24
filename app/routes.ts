@@ -3,7 +3,7 @@ import {
   index,
   layout,
   route,
-} from "@react-router/dev/routes";
+} from "../node_modules/@react-router/dev/dist/routes";
 
 export default [
   // ✅ Main routes with absolute paths for consistency
@@ -16,6 +16,7 @@ export default [
   route("/ui/index", "routes/ui/index.tsx"),
   route("/ui/data-table", "routes/ui/dataTableContainer.tsx"),
   route("/ui/data-gallery", "routes/ui/dataGalleryContainer.tsx"),
+  route("/ui/style-guide", "routes/ui/styleGuideContainer.tsx"),
 
   // ✅ Testing and health check routes
   route("/test/health", "routes/health-checks.tsx"),

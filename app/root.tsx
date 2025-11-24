@@ -22,11 +22,6 @@ import { toast as showToast, Toaster } from "sonner";
 import { z } from "zod";
 import type { Route } from "./+types/root";
 
-// TODO: add to future sprint: root.tsx::font and tailwind stylesheets - fix vite configuration for ?url import syntax
-// import fontStylestylesheetUrl from "./styles/fonts.css?url";
-// import appStylesheetUrl from "./styles/app.css?url";
-// import tailwindStylesheetUrl from "./styles/tailwind.css?url";
-
 import { IconService } from "./service/icon-service";
 // import UserService from "./service/user-service";
 
@@ -48,6 +43,7 @@ import { GlobalErrorBoundary } from "~/components/error/global-error-boundary";
 import { getTelemetryConfig } from "./config/telemetry";
 import loggerService from "./service/logging";
 import DevelopmentDebugPanel from "./__tests__/components/developmentDebugPanel";
+import { ThemeProvider } from "./components/style-guide/ThemeProvider";
 
 // export const links: LinksFunction = () =>
 //   [
@@ -73,20 +69,20 @@ export async function loader({ request }: LoaderFunctionArgs) {
     // console.log("Getting honeypot input props");
     // const honeyProps = await honeypot.getInputProps();
     // console.log("Honeypot input props obtained:", honeyProps);
-    // console.log("Getting toast props");
+    console.log("Getting toast props");
     const { toast, headers: toastHeaders } = await getToast(request);
-    // console.log("Toast props obtained:", toast);
+    console.log("Toast props obtained:", toast);
 
     // console.log("toast: ", toast);
-    // console.log("Getting session from cookies");
+    console.log("Getting session from cookies");
     const cookieSession = await sessionStorage.getSession(
       request.headers.get("cookie")
     );
-    // console.log("Session obtained:", cookieSession);
+    console.log("Session obtained:", cookieSession);
 
-    // console.log("Getting user ID from session");
+    console.log("Getting user ID from session");
     const userId = cookieSession?.get("userId");
-    // console.log("User ID obtained:", userId);
+    console.log("User ID obtained:", userId);
     // const response = userId ? await UserService.getById(userId) : null;
     let user = null;
     // if (response !== null) {
@@ -164,7 +160,7 @@ function Layout({
   theme?: Theme;
 }) {
   return (
-    <html lang="en" className={`${theme}`}>
+    <html lang="en" className={`light`}>
       <head>
         {/* <Meta /> */}
         <meta charSet="utf-8" />
@@ -494,24 +490,26 @@ function App() {
   }, [data.ENV.MODE, isLoggerInitialized, initializationError]);
 
   return (
-    <GlobalErrorBoundary onError={handleGlobalError}>
-      {/* {loggerStatusIndicator} */}
+    <ThemeProvider>
+      <GlobalErrorBoundary onError={handleGlobalError}>
+        {/* {loggerStatusIndicator} */}
 
-      <Layout theme={theme}>
-        <ThemeSwitch userPreference={theme} />
-        <div
-          id="siteContainer"
-          className="flex grow flex-col w-full mx-auto bg-background"
-        >
-          <Navbar />
-          <main className="grow w-full mx-auto">
-            <Outlet />
-          </main>
-          <Footer />
-        </div>
-        {data.toast ? <ShowToast toast={data.toast} /> : null}
-      </Layout>
-    </GlobalErrorBoundary>
+        <Layout theme={theme}>
+          <ThemeSwitch userPreference={theme} />
+          <div
+            id="siteContainer"
+            className="flex grow flex-col w-full mx-auto bg-background"
+          >
+            <Navbar />
+            <main className="grow w-full mx-auto">
+              <Outlet />
+            </main>
+            <Footer />
+          </div>
+          {data.toast ? <ShowToast toast={data.toast} /> : null}
+        </Layout>
+      </GlobalErrorBoundary>
+    </ThemeProvider>
   );
 }
 

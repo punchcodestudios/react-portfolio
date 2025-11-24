@@ -17,7 +17,7 @@
 
     // ✅ Module system for AI Agent architecture
     "module": "ES2022",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
 

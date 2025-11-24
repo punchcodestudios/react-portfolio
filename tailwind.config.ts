@@ -25,8 +25,8 @@ export default {
         serif: [],
       },
       colors: {
-        siteBlack: "hsl(var(--black))",
-        siteWhite: "hsl(var(--white))",
+        siteBlack: "hsl(var(--foreground))",
+        siteWhite: "hsl(var(--background))",
 
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -172,6 +172,6 @@ export default {
         "resume-skills": "url('/images/home_hero_2.png')",
       },
     },
-    plugins: [animatePlugin],
+    // plugins: [animatePlugin],
   },
 } satisfies Config;
