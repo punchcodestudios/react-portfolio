@@ -131,7 +131,7 @@ const Navbar = () => {
             onClick={handleLogoClick}
             className="flex flex-row w-[1/5] h-[100%] items-center"
           >
-            <img className="h-[100%]" src={logo} alt="Punchcode Studios Logo" />
+            <img className="h-full" src={logo} alt="Punchcode Studios Logo" />
             <span className="font-brand text-secondary uppercase ms-3">
               Punchcode Studios
             </span>
