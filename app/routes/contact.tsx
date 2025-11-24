@@ -316,10 +316,7 @@ export default function Contact() {
             {/* Subject */}
             <div className="flex flex-row">
               <div className="w-full">
-                <Label
-                  htmlFor={fields.subject.id}
-                  className="font-navItem text-md"
-                >
+                <Label htmlFor={fields.subject.id} className="font-nav text-md">
                   Subject:
                 </Label>
                 <Select
@@ -344,7 +341,7 @@ export default function Contact() {
               <div className="w-full lg:w-1/3 lg:pe-2">
                 <Label
                   htmlFor={fields.firstName.id}
-                  className="font-navItem text-md"
+                  className="font-nav text-md"
                 >
                   First Name:
                 </Label>
@@ -363,7 +360,7 @@ export default function Contact() {
               <div className="w-full lg:w-1/3 lg:pe-2">
                 <Label
                   htmlFor={fields.lastName.id}
-                  className="font-navItem text-md"
+                  className="font-nav text-md"
                 >
                   Last Name:
                 </Label>
@@ -382,7 +379,7 @@ export default function Contact() {
               <div className="w-full lg:w-1/3">
                 <Label
                   htmlFor={fields.organization.id}
-                  className="font-navItem text-md"
+                  className="font-nav text-md"
                 >
                   Organization:
                 </Label>
@@ -402,10 +399,7 @@ export default function Contact() {
 
             {/* Message */}
             <div>
-              <Label
-                htmlFor={fields.message.id}
-                className="font-navItem text-md"
-              >
+              <Label htmlFor={fields.message.id} className="font-nav text-md">
                 Message
               </Label>
               <Textarea
@@ -423,7 +417,7 @@ export default function Contact() {
             {/* Preferred Method of Contact */}
             <div className="flex w-full">
               <fieldset className="flex w-full flex-col lg:flex-row lg:flex-wrap">
-                <legend className="font-navItem text-md mb-3 p-3">
+                <legend className="font-nav text-md mb-3 p-3">
                   Preferred method of contact:
                 </legend>
 

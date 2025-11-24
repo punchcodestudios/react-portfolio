@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Link, NavLink, useMatches, useLocation } from "react-router";
 import { useOptionalUser } from "~/utils/user";
-import logo from "/images/logo.png";
 import { useNavigation } from "react-router";
 import { Loader } from "../ui/loader";
 import { useSpinDelay } from "spin-delay";
@@ -123,30 +122,34 @@ const Navbar = () => {
   }, [location.pathname]);
 
   return (
-    <nav id="navbarWrapper">
+    <nav id="navbarWrapper" className="font-nav">
       <div className="bg-primary w-full flex flex-row">
         <div className="flex items-center justify-between h-[60px] w-full px-4 py-2 sm:px-6 lg:px-8">
           <Link
             to="/"
             onClick={handleLogoClick}
-            className="flex flex-row w-[1/5] h-[100%] items-center"
+            className="flex flex-row w-1/5 h-full items-center"
           >
-            <img className="h-full" src={logo} alt="Punchcode Studios Logo" />
+            <img
+              className="h-full"
+              src="/images/logo.png"
+              alt="Punchcode Studios Logo"
+            />
             <span className="font-brand text-secondary uppercase ms-3">
               Punchcode Studios
             </span>
           </Link>
 
-          <div className="hidden md:flex md:flex-row md:flex-grow">
+          <div className="hidden md:flex md:flex-row md:grow">
             <div
               id="navItems"
-              className="flex items-center flex-grow md:justify-around"
+              className="flex items-center grow md:justify-around"
             >
               <NavLink
                 to="/resume"
                 onClick={() => handleNavClick("/resume", "Resume")}
                 className={({ isActive, isPending }) =>
-                  `flex flex-row w-full p-2 h-14 font-navItem md:w-1/4 md:p-0 justify-center items-center
+                  `flex flex-row w-full p-2 h-14 font-nav md:w-1/4 md:p-0 justify-center items-center
                       ${
                         isActive
                           ? "bg-secondary text-siteWhite"
@@ -167,7 +170,7 @@ const Navbar = () => {
                 to="/about"
                 onClick={() => handleNavClick("/about", "About")}
                 className={({ isActive, isPending }) =>
-                  `flex flex-row w-full p-2 h-14 font-navItem md:w-1/4 md:p-0 justify-center items-center
+                  `flex flex-row w-full p-2 h-14 font-nav md:w-1/4 md:p-0 justify-center items-center
                     ${
                       isActive
                         ? "bg-secondary text-siteWhite"
@@ -187,7 +190,7 @@ const Navbar = () => {
                 to="/contact"
                 onClick={() => handleNavClick("/contact", "Contact")}
                 className={({ isActive, isPending }) =>
-                  `flex flex-row w-full p-2 h-14 font-navItem md:w-1/4 md:p-0 justify-center items-center
+                  `flex flex-row w-full p-2 h-14 font-nav md:w-1/4 md:p-0 justify-center items-center
                     ${
                       isActive
                         ? "bg-secondary text-siteWhite"
@@ -204,15 +207,15 @@ const Navbar = () => {
               </NavLink>
 
               {/* {user && (
-                <Link to="/logout" className="me-3 font-navItem">
-                  <span className="font-navItem">
+                <Link to="/logout" className="me-3 font-nav">
+                  <span className="font-nav">
                     Logout {`${user.username}`}
                   </span>
                 </Link>
               )}
               {!user && (
-                <Link to="/login" className="me-3 ffont-navItem">
-                  <span className="font-navItem">Login</span>
+                <Link to="/login" className="me-3 ffont-nav">
+                  <span className="font-nav">Login</span>
                 </Link>
               )} */}
             </div>
@@ -270,7 +273,7 @@ const Navbar = () => {
                     }  ${isPending ? "opacity-60 pointer-events-none" : ""}`
             }
           >
-            <div className="font-navItem text-siteWhite flex flex-row justify-between h-8 items-center">
+            <div className="font-nav text-siteWhite flex flex-row justify-between h-8 items-center">
               <div className="flex items-center">Resume</div>
               {loadingResume ? (
                 <div className="flex items-center">
@@ -294,7 +297,7 @@ const Navbar = () => {
                     }  ${isPending ? "opacity-60 pointer-events-none" : ""}`
             }
           >
-            <div className="font-navItem text-siteWhite flex flex-row justify-between h-8 items-center">
+            <div className="font-nav text-siteWhite flex flex-row justify-between h-8 items-center">
               <div className="flex items-center">About</div>
               {loadingAbout ? (
                 <div className="flex items-center">
@@ -318,7 +321,7 @@ const Navbar = () => {
                     } ${isPending ? "opacity-60 pointer-events-none" : ""}`
             }
           >
-            <div className="font-navItem text-siteWhite flex flex-row justify-between h-8 items-center">
+            <div className="font-nav text-siteWhite flex flex-row justify-between h-8 items-center">
               <div className="flex items-center">Contact</div>
               {loadingContact ? (
                 <div className="flex items-center">
@@ -332,12 +335,12 @@ const Navbar = () => {
 
           {/* {!user && (
             <Link to="/login" className="me-3">
-              <span className="font-navItem text-siteWhite">Login</span>
+              <span className="font-nav text-siteWhite">Login</span>
             </Link>
           )}
           {user && (
             <Link to="/logout" className="me-3">
-              <span className="font-navItem text-siteWhite">Logout</span>
+              <span className="font-nav text-siteWhite">Logout</span>
             </Link>
           )} */}
         </div>

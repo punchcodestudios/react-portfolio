@@ -13,13 +13,13 @@ const Navbar = () => {
 
   return (
     <nav id="navbarWrapper">
-      <div className="bg-primary text-siteWhite font-navItem h-10 flex items-center">
+      <div className="bg-primary text-siteWhite font-nav h-10 flex items-center">
         <div className="hidden md:inline-flex w-full justify-center items-center">
           <NavLink
             to="resume"
             onClick={() => setExpanded(false)}
             className={({ isPending }) =>
-              `flex flex-row w-full font-navItem p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+              `flex flex-row w-full font-nav p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
         ${
           matches.find((m: any) => m.id === "routes/resume/summary")
             ? "bg-secondary text-siteWhite"
@@ -33,7 +33,7 @@ const Navbar = () => {
             to="resume/skills"
             onClick={() => setExpanded(false)}
             className={({ isActive, isPending }) =>
-              `flex flex-row w-full font-navItem p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+              `flex flex-row w-full font-nav p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
         ${
           isActive ? "bg-secondary text-siteWhite" : "bg-primary text-secondary"
         }`
@@ -46,7 +46,7 @@ const Navbar = () => {
             to="/resume/experience"
             onClick={() => setExpanded(false)}
             className={({ isActive, isPending }) =>
-              `flex flex-row w-full font-navItem p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+              `flex flex-row w-full font-nav p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
         ${
           isActive ? "bg-secondary text-siteWhite" : "bg-primary text-secondary"
         }`
@@ -58,7 +58,7 @@ const Navbar = () => {
             to="resume/education"
             onClick={() => setExpanded(false)}
             className={({ isActive, isPending }) =>
-              `flex flex-row w-full font-navItem p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+              `flex flex-row w-full font-nav p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
         ${
           isActive ? "bg-secondary text-siteWhite" : "bg-primary text-secondary"
         }`
@@ -100,12 +100,12 @@ const Navbar = () => {
         </div>
       </div>
       {expanded && (
-        <div className="bg-primary text-siteWhite font-navItem flex flex-col gap-y-2 md:hidden px-4 sm:px-6 pb-2 w-full justify-center">
+        <div className="bg-primary text-siteWhite font-nav flex flex-col gap-y-2 md:hidden px-4 sm:px-6 pb-2 w-full justify-center">
           <NavLink
             to="resume"
             onClick={() => setExpanded(false)}
             className={({ isPending }) =>
-              `flex flex-row w-full font-navItem p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+              `flex flex-row w-full font-nav p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
         ${
           matches.find((m: any) => m.id === "routes/resume/summary")
             ? "bg-secondary text-siteWhite"
@@ -119,7 +119,7 @@ const Navbar = () => {
             to="resume/skills"
             onClick={() => setExpanded(false)}
             className={({ isActive, isPending }) =>
-              `flex flex-row w-full font-navItem p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+              `flex flex-row w-full font-nav p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
         ${
           isActive ? "bg-secondary text-siteWhite" : "bg-primary text-secondary"
         }`
@@ -132,7 +132,7 @@ const Navbar = () => {
             to="/resume/experience"
             onClick={() => setExpanded(false)}
             className={({ isActive, isPending }) =>
-              `flex flex-row w-full font-navItem p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+              `flex flex-row w-full font-nav p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
         ${
           isActive ? "bg-secondary text-siteWhite" : "bg-primary text-secondary"
         }`
@@ -144,7 +144,7 @@ const Navbar = () => {
             to="resume/education"
             onClick={() => setExpanded(false)}
             className={({ isActive, isPending }) =>
-              `flex flex-row w-full font-navItem p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
+              `flex flex-row w-full font-nav p-1 h-8 md:w-1/4 md:p-0 justify-center items-center hover:bg-secondaryLight
         ${
           isActive ? "bg-secondary text-siteWhite" : "bg-primary text-secondary"
         }`

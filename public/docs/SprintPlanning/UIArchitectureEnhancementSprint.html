@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UI Architecture Enhancements Sprint</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+      }
+      .container {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #2c3e50;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 10px;
+      }
+      h2 {
+        color: #34495e;
+        margin-top: 30px;
+        border-left: 4px solid #3498db;
+        padding-left: 15px;
+      }
+      h3 {
+        color: #2980b9;
+        margin-top: 25px;
+      }
+      h4 {
+        color: #2c3e50;
+        margin-top: 20px;
+      }
+      .summary-box {
+        background: #e8f4f8;
+        padding: 20px;
+        border-radius: 5px;
+        border-left: 5px solid #3498db;
+        margin: 20px 0;
+      }
+      .initiative-card {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #dee2e6;
+        margin-bottom: 20px;
+      }
+      .initiative-card h4 {
+        color: #2980b9;
+        margin-top: 0;
+      }
+      .code-block {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: "Courier New", monospace;
+        margin: 15px 0;
+      }
+      .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+      }
+      .benefit-card {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #dee2e6;
+      }
+      .benefit-card h4 {
+        color: #2980b9;
+        margin-top: 0;
+      }
+      .priority-high {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+      }
+      .priority-medium {
+        background: #e3f2fd;
+        border-left: 4px solid #2196f3;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+      }
+      .priority-low {
+        background: #e8f5e8;
+        border-left: 4px solid #28a745;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+      }
+      .enhancement-badge {
+        background: #3498db;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 10px;
+        font-size: 0.75em;
+        font-weight: bold;
+      }
+      ul li {
+        margin: 5px 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background: white;
+      }
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #dee2e6;
+      }
+      th {
+        background-color: #3498db;
+        color: white;
+      }
+      tr:nth-child(even) {
+        background-color: #f8f9fa;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        UI Architecture Enhancements Sprint
+        <span class="enhancement-badge">v1.0</span>
+      </h1>
+
+      <div class="summary-box">
+        <h2>Executive Summary</h2>
+        <p>
+          This sprint focuses on modernizing and optimizing the UI architecture
+          by upgrading to Tailwind CSS v4, implementing Vite-native CSS
+          processing, and establishing comprehensive design systems. These
+          enhancements will improve build performance, developer experience, and
+          design consistency across the application.
+        </p>
+      </div>
+
+      <h2>Sprint Objectives</h2>
+
+      <div class="initiative-card">
+        <h3>1. Tailwind CSS v4 Migration & Optimization</h3>
+        <div class="priority-high">
+          <strong>Priority:</strong> High | <strong>Estimated Effort:</strong> 2-3 days
+        </div>
+        
+        <h4>Current State</h4>
+        <ul>
+          <li>Project upgraded to Tailwind CSS v4.1.17</li>
+          <li>New dependencies installed: <code>@tailwindcss/cli</code>, <code>@tailwindcss/postcss</code>, <code>@tailwindcss/vite</code></li>
+          <li>Using separate CLI build process alongside Vite</li>
+          <li>CSS files still using legacy Tailwind v3 syntax (<code>@tailwind</code> directives)</li>
+        </ul>
+
+        <h4>Objectives</h4>
+        <ul>
+          <li>Update <code>app/styles/app.css</code> to use Tailwind v4 CSS-first syntax</li>
+          <li>Migrate from <code>@tailwind base/components/utilities</code> to <code>@import "tailwindcss"</code></li>
+          <li>Review and update <code>tailwind.config.ts</code> for v4 compatibility</li>
+          <li>Consolidate CSS variable definitions with v4's CSS-based configuration</li>
+          <li>Test all Tailwind utility classes and custom styles for compatibility</li>
+        </ul>
+
+        <h4>Implementation Details</h4>
+        <div class="code-block">
+// Current app/styles/app.css (v3 syntax)
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    // ... other variables
+  }
+}
+
+// Target app/styles/app.css (v4 syntax)
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    // ... other variables
+  }
+}
+        </div>
+
+        <h4>Success Criteria</h4>
+        <ul>
+          <li>All pages render correctly with v4 syntax</li>
+          <li>CSS bundle size remains optimized</li>
+          <li>No console errors or warnings related to Tailwind</li>
+          <li>Build process completes without deprecation warnings</li>
+        </ul>
+      </div>
+
+      <div class="initiative-card">
+        <h3>2. Vite-Native CSS Processing Integration</h3>
+        <div class="priority-high">
+          <strong>Priority:</strong> High | <strong>Estimated Effort:</strong> 1-2 days
+        </div>
+
+        <h4>Current State</h4>
+        <ul>
+          <li>Using separate <code>@tailwindcss/cli</code> for CSS compilation</li>
+          <li>Build script: <code>npx @tailwindcss/cli -i ./app/styles/app.css -o ./public/styles/tailwind.build.css</code></li>
+          <li><code>@tailwindcss/vite</code> plugin installed but not actively used</li>
+          <li>Vite config has PostCSS setup with <code>tailwindcss()</code> and <code>autoprefixer</code></li>
+        </ul>
+
+        <h4>Objectives</h4>
+        <ul>
+          <li>Migrate from CLI-based builds to Vite-native CSS processing</li>
+          <li>Configure <code>@tailwindcss/vite</code> plugin for automatic CSS compilation</li>
+          <li>Eliminate redundant build steps and improve hot module replacement (HMR)</li>
+          <li>Streamline development workflow with single build process</li>
+        </ul>
+
+        <h4>Implementation Plan</h4>
+        
+        <div class="code-block">
+// vite.config.ts - Enhanced Configuration
+import { defineConfig } from "vite";
+import { reactRouter } from "@react-router/dev/vite";
+import tailwindcss from "@tailwindcss/vite";
+import autoprefixer from "autoprefixer";
+
+export default defineConfig({
+  plugins: [
+    reactRouter(),
+    tailwindcss(), // ← Use Vite plugin for Tailwind
+  ],
+  css: {
+    postcss: {
+      plugins: [autoprefixer],
+    },
+  },
+  // ...other config
+});
+        </div>
+
+        <div class="code-block">
+// package.json - Simplified Scripts
+{
+  "scripts": {
+    "dev": "concurrently \"react-router dev\"",
+    "build": "react-router build",
+    "build:css": "vite build --mode production",
+    // Remove: "watch:css" - Handled by Vite HMR
+  }
+}
+        </div>
+
+        <h4>Benefits</h4>
+        <ul>
+          <li>Faster development builds with integrated HMR</li>
+          <li>Single build process reduces complexity</li>
+          <li>Better source maps and debugging experience</li>
+          <li>Automatic CSS optimization in production builds</li>
+        </ul>
+
+        <h4>Success Criteria</h4>
+        <ul>
+          <li>CSS changes reflect instantly in dev mode without manual rebuild</li>
+          <li>Production build generates optimized CSS bundle</li>
+          <li>No need for separate <code>watch:css</code> or <code>build:css</code> commands</li>
+          <li>Build time improves by at least 20%</li>
+        </ul>
+      </div>
+
+      <div class="initiative-card">
+        <h3>3. Design System & Figma Integration</h3>
+        <div class="priority-medium">
+          <strong>Priority:</strong> Medium | <strong>Estimated Effort:</strong> 3-5 days
+        </div>
+
+        <h4>Current State</h4>
+        <ul>
+          <li>CSS variables defined in <code>app.css</code></li>
+          <li>Custom color palette in <code>tailwind.config.ts</code></li>
+          <li>Font families using CSS variables</li>
+          <li>No centralized design token management</li>
+          <li>Style guide components exist but not formalized</li>
+        </ul>
+
+        <h4>Objectives</h4>
+        <ul>
+          <li>Create comprehensive Figma design system with design tokens</li>
+          <li>Document color palettes, typography, spacing, and component styles</li>
+          <li>Export design tokens to sync with Tailwind configuration</li>
+          <li>Establish design-to-development workflow</li>
+          <li>Create living style guide documentation</li>
+        </ul>
+
+        <h4>Figma Design System Structure</h4>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <h4>🎨 Color System</h4>
+            <ul>
+              <li>Primary, secondary, accent colors</li>
+              <li>Semantic colors (success, warning, error, info)</li>
+              <li>Neutral grays and blacks</li>
+              <li>Dark mode variants</li>
+            </ul>
+          </div>
+
+          <div class="benefit-card">
+            <h4>📝 Typography</h4>
+            <ul>
+              <li>Font families (brand, header, text, nav, control)</li>
+              <li>Font sizes and line heights</li>
+              <li>Font weights and letter spacing</li>
+              <li>Responsive text scales</li>
+            </ul>
+          </div>
+
+          <div class="benefit-card">
+            <h4>📐 Spacing & Layout</h4>
+            <ul>
+              <li>Spacing scale (xs, sm, md, lg, xl, 2xl)</li>
+              <li>Grid system and container widths</li>
+              <li>Border radius values</li>
+              <li>Breakpoint definitions</li>
+            </ul>
+          </div>
+
+          <div class="benefit-card">
+            <h4>🧩 Component Library</h4>
+            <ul>
+              <li>Buttons and form controls</li>
+              <li>Cards and containers</li>
+              <li>Navigation components</li>
+              <li>Modal and overlay patterns</li>
+            </ul>
+          </div>
+        </div>
+
+        <h4>Design Token Export Integration</h4>
+        <div class="code-block">
+// design-tokens.json (exported from Figma)
+{
+  "colors": {
+    "primary": {
+      "default": "hsl(210, 40%, 98%)",
+      "foreground": "hsl(222.2, 84%, 4.9%)",
+      "muted": "hsl(210, 40%, 90%)",
+      "accented": "hsl(210, 100%, 56%)"
+    }
+  },
+  "typography": {
+    "fontFamily": {
+      "brand": ["ivymode", "sans-serif"],
+      "header": ["zekton", "mono"]
+    },
+    "fontSize": {
+      "h1": ["3.5rem", { "lineHeight": "3.875rem" }]
+    }
+  }
+}
+
+// token-sync.js - Automated sync script
+import tokens from './design-tokens.json';
+import fs from 'fs';
+
+// Generate Tailwind config from Figma tokens
+const tailwindConfig = generateTailwindConfig(tokens);
+fs.writeFileSync('./tailwind.config.generated.ts', tailwindConfig);
+        </div>
+
+        <h4>Documentation & Style Guide</h4>
+        <ul>
+          <li>Create interactive component showcase page</li>
+          <li>Document usage guidelines for each component</li>
+          <li>Provide code snippets and live examples</li>
+          <li>Establish accessibility standards</li>
+          <li>Define contribution guidelines for new components</li>
+        </ul>
+
+        <h4>Success Criteria</h4>
+        <ul>
+          <li>Figma design system created with all tokens documented</li>
+          <li>Design tokens exportable and syncable with codebase</li>
+          <li>Style guide page accessible at <code>/style-guide</code></li>
+          <li>Development team can reference Figma for design decisions</li>
+          <li>Onboarding time for new developers reduced</li>
+        </ul>
+      </div>
+
+      <h2>Implementation Timeline</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Phase</th>
+            <th>Initiative</th>
+            <th>Duration</th>
+            <th>Dependencies</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Week 1</strong></td>
+            <td>Tailwind CSS v4 Migration</td>
+            <td>2-3 days</td>
+            <td>None</td>
+          </tr>
+          <tr>
+            <td><strong>Week 1</strong></td>
+            <td>Vite-Native CSS Processing</td>
+            <td>1-2 days</td>
+            <td>Tailwind v4 Migration Complete</td>
+          </tr>
+          <tr>
+            <td><strong>Week 2</strong></td>
+            <td>Design System (Figma Setup)</td>
+            <td>2 days</td>
+            <td>None (can run parallel)</td>
+          </tr>
+          <tr>
+            <td><strong>Week 2-3</strong></td>
+            <td>Design System (Token Export & Sync)</td>
+            <td>2-3 days</td>
+            <td>Figma Setup Complete</td>
+          </tr>
+          <tr>
+            <td><strong>Week 3</strong></td>
+            <td>Style Guide Documentation</td>
+            <td>2 days</td>
+            <td>Design Tokens Synced</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Risk Assessment & Mitigation</h2>
+
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <h4>⚠️ Risk: Breaking Changes in v4</h4>
+          <p>
+            <strong>Mitigation:</strong> Thorough testing of all pages and
+            components after migration. Maintain v3 branch as fallback.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <h4>⚠️ Risk: Build Process Complexity</h4>
+          <p>
+            <strong>Mitigation:</strong> Document new build process clearly.
+            Provide team training on Vite-native workflow.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <h4>⚠️ Risk: Design Token Sync Overhead</h4>
+          <p>
+            <strong>Mitigation:</strong> Automate token export and sync with CI/CD
+            pipeline. Use Figma API for seamless integration.
+          </p>
+        </div>
+      </div>
+
+      <h2>Testing Strategy</h2>
+
+      <div class="priority-high">
+        <h4>Critical Testing Areas</h4>
+        <ul>
+          <li>Visual regression testing for all pages and components</li>
+          <li>Responsive design validation across breakpoints</li>
+          <li>Dark mode compatibility verification</li>
+          <li>Build performance benchmarking (before vs after)</li>
+          <li>HMR functionality in development mode</li>
+          <li>Production bundle size analysis</li>
+        </ul>
+      </div>
+
+      <h2>Success Metrics</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Current</th>
+            <th>Target</th>
+            <th>Measurement Method</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CSS Build Time</td>
+            <td>~1000ms</td>
+            <td>&lt;800ms</td>
+            <td>Build script timing logs</td>
+          </tr>
+          <tr>
+            <td>HMR Update Speed</td>
+            <td>N/A (manual rebuild)</td>
+            <td>&lt;100ms</td>
+            <td>DevTools performance panel</td>
+          </tr>
+          <tr>
+            <td>CSS Bundle Size</td>
+            <td>TBD</td>
+            <td>-10% reduction</td>
+            <td>Production build output</td>
+          </tr>
+          <tr>
+            <td>Design Token Updates</td>
+            <td>Manual sync</td>
+            <td>Automated</td>
+            <td>CI/CD pipeline logs</td>
+          </tr>
+          <tr>
+            <td>Developer Onboarding Time</td>
+            <td>TBD</td>
+            <td>-30% reduction</td>
+            <td>Team feedback surveys</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Next Steps & Action Items</h2>
+
+      <div class="summary-box">
+        <ol>
+          <li>
+            <strong>Review & Approval:</strong> Get stakeholder sign-off on sprint
+            plan and priorities
+          </li>
+          <li>
+            <strong>Environment Setup:</strong> Create feature branch for UI
+            architecture work
+          </li>
+          <li>
+            <strong>Kickoff Meeting:</strong> Align team on objectives, timeline,
+            and responsibilities
+          </li>
+          <li>
+            <strong>Phase 1 Start:</strong> Begin Tailwind CSS v4 migration with
+            comprehensive testing
+          </li>
+          <li>
+            <strong>Continuous Monitoring:</strong> Track progress daily, adjust
+            timeline as needed
+          </li>
+          <li>
+            <strong>Documentation:</strong> Update technical docs throughout the
+            sprint
+          </li>
+          <li>
+            <strong>Sprint Retrospective:</strong> Review outcomes, lessons
+            learned, and plan next sprint
+          </li>
+        </ol>
+      </div>
+
+      <div class="summary-box">
+        <h2>Conclusion</h2>
+        <p>
+          This UI Architecture Enhancements sprint establishes a modern,
+          scalable foundation for the application's visual layer. By upgrading
+          to Tailwind CSS v4, integrating Vite-native processing, and creating a
+          comprehensive design system, we'll improve developer experience, build
+          performance, and design consistency. The investment in proper tooling
+          and documentation will pay dividends in faster feature development and
+          easier maintenance going forward.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

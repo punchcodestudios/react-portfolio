@@ -1,0 +1,29 @@
+I would like to focus on Sprint: Form Accessibility and Security
+Milestones for this sprint include: 
+Phase 1:
+	Implement Radix control library
+		Currently, there are two sets of components in this site.
+			A: those found under the ~/app/component/* section (with the exception on the directory '/style-guide'), containing all of the controls currently used
+			B: those found under the ~/app/component/style-guide/* section, containing radix controls downloaded from Figma
+		Where applicable, form controls found outside of the style-guide directory should be replaced with those under the style-guide directory.
+
+	Implement best practices for spam-bot and anti-forgery protection
+		There was previously a honeypot and csrf token implementation, however, that was developed using Remix libraries. I would like to remove any dependency on Remix and keep with native React patterns, wherever possible
+	Implement service that will accommodate the secure transfer of data to an external system for processing information such as Azure Application Insights and Azure Function Apps
+		This service should allow for decoupling the front-end application from whatever implementation handles the processing of the data
+Phase 2:
+	Implement Back End system to process form data
+		This will need more investigation, but my initial thoughts are:
+		OnSubmit: Notify ApplicationInsights by utilizing the current architecture
+		>> ApplicationInsights listens for event and alerts message queue of new entry
+		>> Function app processes queue and sends email to specified administrator accounts
+	* Please add suggestions here for any improvements or alterative approaches that you find applicable
+
+Key Points of interest:
+Newly developed form controls should be styled following the current pattern of using cva where appropriate (cn() found in the utilities)
+Form implementation should follow the pattern set by Conform, already implemented in the site.
+Form field validation should follow existing pattern using Zod 
+ForwardRef functionality will need to be added to the new form controls (those found under '/components/style-guide') in compliance with Conform guidelines
+
+After reviewing this information, please provide a document to outline these details.
+Document should follow the standard site documentation format as illustrated in attached example file

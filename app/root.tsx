@@ -45,17 +45,6 @@ import loggerService from "./service/logging";
 import DevelopmentDebugPanel from "./__tests__/components/developmentDebugPanel";
 import { ThemeProvider } from "./components/style-guide/ThemeProvider";
 
-// export const links: LinksFunction = () =>
-//   [
-//     { rel: "stylesheet", href: "https://use.typekit.net/utp7gyp.css" },
-//     // { rel: "stylesheet", href: fontStylestylesheetUrl },
-//     // { rel: "stylesheet", href: tailwindStylesheetUrl },
-//     // { rel: "stylesheet", href: appStylesheetUrl },
-//     // TODO: add to future sprint - root.tsx::font and tailwind stylesheets - fix vite configuration for ?url import syntax
-//     //Importing directtly for now
-//     { rel: "stylesheet", href: "/styles/tailwind.css" },
-//   ].filter(Boolean);
-
 const ThemeFormSchema = z.object({
   theme: z.enum(["light", "dark"]),
 });
@@ -173,7 +162,7 @@ function Layout({
         suppressHydrationWarning={true}
         className="flex justify-center w-full"
       >
-        <div className="flex flex-col align-center flex-grow-1 min-h-[100vh] w-[95%] max-w-[2100px]">
+        <div className="flex flex-col align-center grow min-h-screen w-[95%] max-w-[2100px]">
           {children}
         </div>
         <Toaster closeButton position="top-center" />
@@ -496,10 +485,7 @@ function App() {
 
         <Layout theme={theme}>
           <ThemeSwitch userPreference={theme} />
-          <div
-            id="siteContainer"
-            className="flex grow flex-col w-full mx-auto bg-background"
-          >
+          <div id="siteContainer" className="flex grow flex-col w-full mx-auto">
             <Navbar />
             <main className="grow w-full mx-auto">
               <Outlet />

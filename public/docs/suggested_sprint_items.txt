@@ -1,0 +1,6 @@
+Main nav bar should be sticky
+Add cookie policy banner
+develop theme switch
+update forms with new control library
+implement azure function app to handle form events
+implement azure blob storage for images

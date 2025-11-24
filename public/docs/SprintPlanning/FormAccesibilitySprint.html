@@ -1,0 +1,1136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Accessibility & Security Sprint</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+      }
+      .container {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #2c3e50;
+        border-bottom: 3px solid #28a745;
+        padding-bottom: 10px;
+      }
+      h2 {
+        color: #34495e;
+        margin-top: 30px;
+        border-left: 4px solid #28a745;
+        padding-left: 15px;
+      }
+      h3 {
+        color: #218838;
+        margin-top: 25px;
+      }
+      h4 {
+        color: #2c3e50;
+        margin-top: 20px;
+      }
+      .summary-box {
+        background: #e8f8ed;
+        padding: 20px;
+        border-radius: 5px;
+        border-left: 5px solid #28a745;
+        margin: 20px 0;
+      }
+      .initiative-card {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #dee2e6;
+        margin-bottom: 20px;
+      }
+      .initiative-card h4 {
+        color: #218838;
+        margin-top: 0;
+      }
+      .code-block {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: "Courier New", monospace;
+        margin: 15px 0;
+      }
+      .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+      }
+      .benefit-card {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        border: 1px solid #dee2e6;
+      }
+      .benefit-card h4 {
+        color: #218838;
+        margin-top: 0;
+      }
+      .priority-high {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+      }
+      .priority-medium {
+        background: #e3f2fd;
+        border-left: 4px solid #2196f3;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+      }
+      .priority-low {
+        background: #e8f5e8;
+        border-left: 4px solid #28a745;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+      }
+      .enhancement-badge {
+        background: #28a745;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 10px;
+        font-size: 0.75em;
+        font-weight: bold;
+      }
+      .security-badge {
+        background: #dc3545;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 10px;
+        font-size: 0.75em;
+        font-weight: bold;
+      }
+      ul li {
+        margin: 5px 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background: white;
+      }
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #dee2e6;
+      }
+      th {
+        background-color: #28a745;
+        color: white;
+      }
+      tr:nth-child(even) {
+        background-color: #f8f9fa;
+      }
+      .warning-box {
+        background: #fff3cd;
+        padding: 15px;
+        border-radius: 5px;
+        border-left: 5px solid #ffc107;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        Form Accessibility & Security Sprint
+        <span class="enhancement-badge">Accessibility</span>
+        <span class="security-badge">Security</span>
+      </h1>
+
+      <div class="summary-box">
+        <h2>Executive Summary</h2>
+        <p>
+          This sprint focuses on implementing robust, accessible, and secure
+          form controls throughout the application. The initiative includes
+          migrating to Radix UI component library, implementing modern security
+          measures using native React patterns, and establishing a decoupled
+          architecture for form data processing via Azure services. This work
+          ensures compliance with WCAG accessibility standards and modern
+          security best practices while maintaining excellent developer
+          experience.
+        </p>
+      </div>
+
+      <h2>Sprint Phases Overview</h2>
+
+      <div class="initiative-card">
+        <h3>Phase 1: Frontend Form Infrastructure</h3>
+        <div class="priority-high">
+          <strong>Priority:</strong> High |
+          <strong>Estimated Effort:</strong> 5-7 days
+        </div>
+
+        <h4>Component Architecture Analysis</h4>
+        <p>Current state of form components:</p>
+        <ul>
+          <li>
+            <strong>Set A:</strong> Legacy components in
+            <code>~/app/components/*</code> (excluding style-guide directory)
+          </li>
+          <li>
+            <strong>Set B:</strong> Radix-based components in
+            <code>~/app/components/style-guide/*</code> from Figma export
+          </li>
+        </ul>
+
+        <h4>Objectives</h4>
+        <ol>
+          <li>
+            Implement Radix UI control library with accessibility features
+          </li>
+          <li>
+            Migrate legacy form controls to Radix-based style-guide components
+          </li>
+          <li>
+            Implement spam-bot and anti-forgery protection using native React
+          </li>
+          <li>Create secure data transfer service for external processing</li>
+        </ol>
+      </div>
+
+      <div class="initiative-card">
+        <h3>Phase 2: Backend Processing Architecture</h3>
+        <div class="priority-medium">
+          <strong>Priority:</strong> Medium |
+          <strong>Estimated Effort:</strong> 4-6 days
+        </div>
+
+        <h4>Objectives</h4>
+        <ol>
+          <li>
+            Implement Azure Application Insights integration for form
+            submissions
+          </li>
+          <li>Create Azure Queue Storage message queue system</li>
+          <li>Develop Azure Function App for email notification processing</li>
+          <li>
+            Establish monitoring and alerting for form submission pipeline
+          </li>
+        </ol>
+      </div>
+
+      <h2>Phase 1: Detailed Implementation Plan</h2>
+
+      <div class="initiative-card">
+        <h3>1.1 Radix UI Component Migration</h3>
+        <div class="priority-high">
+          <strong>Priority:</strong> High |
+          <strong>Estimated Effort:</strong> 3-4 days
+        </div>
+
+        <h4>Current Component Inventory</h4>
+        <p>Components requiring migration from Set A to Set B:</p>
+        <ul>
+          <li>Form inputs (text, email, tel, textarea)</li>
+          <li>Select dropdowns</li>
+          <li>Checkboxes and radio buttons</li>
+          <li>Date pickers</li>
+          <li>File upload controls</li>
+        </ul>
+
+        <h4>Radix UI Benefits</h4>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <h4>♿ Accessibility First</h4>
+            <ul>
+              <li>WCAG 2.1 AA compliant out of the box</li>
+              <li>Screen reader support with ARIA attributes</li>
+              <li>Keyboard navigation included</li>
+              <li>Focus management handled automatically</li>
+            </ul>
+          </div>
+
+          <div class="benefit-card">
+            <h4>🎨 Styling Flexibility</h4>
+            <ul>
+              <li>Headless components for custom styling</li>
+              <li>CVA (Class Variance Authority) integration</li>
+              <li>Tailwind CSS compatibility</li>
+              <li>CSS variable support</li>
+            </ul>
+          </div>
+
+          <div class="benefit-card">
+            <h4>⚙️ Developer Experience</h4>
+            <ul>
+              <li>TypeScript support with full type safety</li>
+              <li>Composable component API</li>
+              <li>Consistent prop naming conventions</li>
+              <li>Extensive documentation</li>
+            </ul>
+          </div>
+
+          <div class="benefit-card">
+            <h4>🔧 Framework Integration</h4>
+            <ul>
+              <li>Works seamlessly with Conform</li>
+              <li>ForwardRef compatible</li>
+              <li>Controlled/uncontrolled modes</li>
+              <li>Form validation ready</li>
+            </ul>
+          </div>
+        </div>
+
+        <h4>Migration Strategy</h4>
+        <ol>
+          <li>
+            <strong>Audit existing components:</strong> Create inventory of all
+            form controls in use
+          </li>
+          <li>
+            <strong>Enhance Radix components:</strong> Add ForwardRef, CVA
+            styling, and Conform integration
+          </li>
+          <li>
+            <strong>Create wrapper components:</strong> Build abstraction layer
+            for consistent API
+          </li>
+          <li>
+            <strong>Migrate page by page:</strong> Replace legacy components
+            systematically
+          </li>
+          <li>
+            <strong>Test accessibility:</strong> Run automated and manual
+            accessibility audits
+          </li>
+        </ol>
+
+        <h4>Example: Enhanced Radix Input Component</h4>
+        <div class="code-block">
+          // filepath: app/components/style-guide/input.tsx import * as React
+          from "react"; import { cva, type VariantProps } from
+          "class-variance-authority"; import { cn } from "~/utils"; const
+          inputVariants = cva( "flex w-full rounded-md border bg-background px-3
+          py-2 text-sm ring-offset-background file:border-0 file:bg-transparent
+          file:text-sm file:font-medium placeholder:text-muted-foreground
+          focus-visible:outline-none focus-visible:ring-2
+          focus-visible:ring-ring focus-visible:ring-offset-2
+          disabled:cursor-not-allowed disabled:opacity-50", { variants: {
+          variant: { default: "border-input", error: "border-destructive
+          focus-visible:ring-destructive", success: "border-success
+          focus-visible:ring-success", }, size: { default: "h-10", sm: "h-8
+          text-xs", lg: "h-12 text-base", }, }, defaultVariants: { variant:
+          "default", size: "default", }, } ); export interface InputProps
+          extends React.InputHTMLAttributes&lt;HTMLInputElement&gt;,
+          VariantProps&lt;typeof inputVariants&gt; { error?: string; } const
+          Input = React.forwardRef&lt;HTMLInputElement, InputProps&gt;( ({
+          className, variant, size, error, ...props }, ref) => { return (
+          &lt;div className="flex flex-col gap-1"&gt; &lt;input className={cn(
+          inputVariants({ variant: error ? "error" : variant, size }), className
+          )} ref={ref} aria-invalid={error ? "true" : "false"}
+          aria-describedby={error ? `${props.id}-error` : undefined} {...props}
+          /&gt; {error && ( &lt;span id={`${props.id}-error`} className="text-sm
+          text-destructive" role="alert" &gt; {error} &lt;/span&gt; )}
+          &lt;/div&gt; ); } ); Input.displayName = "Input"; export { Input,
+          inputVariants };
+        </div>
+
+        <h4>Conform Integration Pattern</h4>
+        <div class="code-block">
+          // filepath: app/routes/contact.tsx import { useForm, getInputProps }
+          from "@conform-to/react"; import { parseWithZod } from
+          "@conform-to/zod"; import { z } from "zod"; import { Input } from
+          "~/components/style-guide/input"; const contactSchema = z.object({
+          name: z.string().min(2, "Name must be at least 2 characters"), email:
+          z.string().email("Invalid email address"), message: z.string().min(10,
+          "Message must be at least 10 characters"), }); export default function
+          ContactRoute() { const [form, fields] = useForm({ onValidate({
+          formData }) { return parseWithZod(formData, { schema: contactSchema
+          }); }, shouldValidate: "onBlur", }); return ( &lt;form id={form.id}
+          onSubmit={form.onSubmit}&gt; &lt;Input {...getInputProps(fields.name,
+          { type: "text" })} placeholder="Your name"
+          error={fields.name.errors?.[0]} /&gt; &lt;Input
+          {...getInputProps(fields.email, { type: "email" })}
+          placeholder="your@email.com" error={fields.email.errors?.[0]} /&gt;
+          &lt;button type="submit"&gt;Submit&lt;/button&gt; &lt;/form&gt; ); }
+        </div>
+
+        <h4>Success Criteria</h4>
+        <ul>
+          <li>
+            All form components support ForwardRef for Conform compatibility
+          </li>
+          <li>
+            Components pass automated accessibility testing (axe, Lighthouse)
+          </li>
+          <li>Keyboard navigation works for all interactive elements</li>
+          <li>Error messages are properly announced to screen readers</li>
+          <li>Focus indicators meet WCAG contrast requirements</li>
+          <li>
+            CVA variants maintain consistent styling across the application
+          </li>
+        </ul>
+      </div>
+
+      <div class="initiative-card">
+        <h3>1.2 Security Implementation (Native React)</h3>
+        <div class="priority-high">
+          <strong>Priority:</strong> High |
+          <strong>Estimated Effort:</strong> 2-3 days
+        </div>
+
+        <div class="warning-box">
+          <strong>⚠️ Migration Note:</strong> Remove all Remix-specific security
+          implementations (honeypot.server.ts, csrf.server.ts) and replace with
+          native React patterns that work with React Router v7.
+        </div>
+
+        <h4>Security Measures to Implement</h4>
+
+        <h5>A. Honeypot Field (Spam Bot Protection)</h5>
+        <div class="code-block">
+          // filepath: app/utils/security/honeypot.ts import { useEffect,
+          useState } from "react"; export function generateHoneypotField() {
+          const timestamp = Date.now(); const fieldName =
+          `field_${btoa(String(timestamp)).slice(0, 8)}`; return { fieldName,
+          timestamp }; } export function useHoneypot() { const [honeypot] =
+          useState(generateHoneypotField); return { fieldName:
+          honeypot.fieldName, component: ( &lt;input type="text"
+          name={honeypot.fieldName} style={{ position: "absolute", left:
+          "-9999px", width: "1px", height: "1px", }} tabIndex={-1}
+          autoComplete="off" aria-hidden="true" /&gt; ), }; } export function
+          validateHoneypot(formData: FormData, fieldName: string): boolean {
+          const honeypotValue = formData.get(fieldName); return honeypotValue
+          === "" || honeypotValue === null; }
+        </div>
+
+        <h5>B. CSRF Protection (Token-Based)</h5>
+        <div class="code-block">
+          // filepath: app/utils/security/csrf.ts import { useEffect, useState }
+          from "react"; const CSRF_TOKEN_KEY = "csrf_token"; const
+          CSRF_TOKEN_HEADER = "X-CSRF-Token"; export function
+          generateCSRFToken(): string { const array = new Uint8Array(32);
+          crypto.getRandomValues(array); return Array.from(array, (byte) =>
+          byte.toString(16).padStart(2, "0")).join(""); } export function
+          useCSRFToken() { const [token, setToken] = useState&lt;string&gt;("");
+          useEffect(() => { // Get existing token or generate new one let
+          csrfToken = sessionStorage.getItem(CSRF_TOKEN_KEY); if (!csrfToken) {
+          csrfToken = generateCSRFToken();
+          sessionStorage.setItem(CSRF_TOKEN_KEY, csrfToken); }
+          setToken(csrfToken); }, []); return token; } export function
+          validateCSRFToken(submittedToken: string): boolean { const storedToken
+          = sessionStorage.getItem(CSRF_TOKEN_KEY); return storedToken ===
+          submittedToken && submittedToken.length === 64; } export function
+          getCSRFHeaders(): HeadersInit { const token =
+          sessionStorage.getItem(CSRF_TOKEN_KEY); return { [CSRF_TOKEN_HEADER]:
+          token || "", }; }
+        </div>
+
+        <h5>C. Rate Limiting (Client-Side)</h5>
+        <div class="code-block">
+          // filepath: app/utils/security/rate-limit.ts const RATE_LIMIT_KEY =
+          "form_submissions"; const MAX_SUBMISSIONS = 5; const TIME_WINDOW = 60
+          * 60 * 1000; // 1 hour interface SubmissionRecord { timestamp: number;
+          count: number; } export function useRateLimit() { const checkRateLimit
+          = (): boolean => { const record = JSON.parse(
+          localStorage.getItem(RATE_LIMIT_KEY) || '{"timestamp": 0, "count": 0}'
+          ) as SubmissionRecord; const now = Date.now(); // Reset if time window
+          has passed if (now - record.timestamp > TIME_WINDOW) {
+          localStorage.setItem( RATE_LIMIT_KEY, JSON.stringify({ timestamp: now,
+          count: 1 }) ); return true; } // Check if limit exceeded if
+          (record.count >= MAX_SUBMISSIONS) { return false; } // Increment count
+          localStorage.setItem( RATE_LIMIT_KEY, JSON.stringify({ timestamp:
+          record.timestamp, count: record.count + 1 }) ); return true; }; return
+          { checkRateLimit }; }
+        </div>
+
+        <h4>Integrated Secure Form Example</h4>
+        <div class="code-block">
+          // filepath: app/routes/contact.tsx import { useActionData, Form }
+          from "react-router"; import { useHoneypot, validateHoneypot } from
+          "~/utils/security/honeypot"; import { useCSRFToken, validateCSRFToken,
+          getCSRFHeaders } from "~/utils/security/csrf"; import { useRateLimit }
+          from "~/utils/security/rate-limit"; import { Input } from
+          "~/components/style-guide/input"; export async function action({
+          request }: ActionFunctionArgs) { const formData = await
+          request.formData(); // Validate honeypot const honeypotField =
+          formData.get("honeypot_field_name") as string; if
+          (!validateHoneypot(formData, honeypotField)) { return json({ error:
+          "Invalid submission" }, { status: 400 }); } // Validate CSRF token
+          const csrfToken = formData.get("csrf_token") as string; if
+          (!validateCSRFToken(csrfToken)) { return json({ error: "Invalid
+          request" }, { status: 403 }); } // Process form data... const data = {
+          name: formData.get("name"), email: formData.get("email"), message:
+          formData.get("message"), }; // Send to processing service await
+          formProcessingService.submit(data); return json({ success: true }); }
+          export default function ContactRoute() { const actionData =
+          useActionData&lt;typeof action&gt;(); const honeypot = useHoneypot();
+          const csrfToken = useCSRFToken(); const { checkRateLimit } =
+          useRateLimit(); const handleSubmit = (event: React.FormEvent) => { if
+          (!checkRateLimit()) { event.preventDefault(); alert("Too many
+          submissions. Please try again later."); return; } }; return ( &lt;Form
+          method="post" onSubmit={handleSubmit}&gt; {honeypot.component}
+          &lt;input type="hidden" name="honeypot_field_name"
+          value={honeypot.fieldName} /&gt; &lt;input type="hidden"
+          name="csrf_token" value={csrfToken} /&gt; &lt;Input name="name"
+          placeholder="Your name" required /&gt; &lt;Input name="email"
+          type="email" placeholder="your@email.com" required /&gt; &lt;button
+          type="submit"&gt;Submit&lt;/button&gt; &lt;/Form&gt; ); }
+        </div>
+
+        <h4>Success Criteria</h4>
+        <ul>
+          <li>Honeypot field catches automated bot submissions</li>
+          <li>CSRF tokens validated on all form submissions</li>
+          <li>
+            Rate limiting prevents abuse without impacting legitimate users
+          </li>
+          <li>No dependencies on Remix-specific server utilities</li>
+          <li>Security measures work seamlessly with React Router v7</li>
+        </ul>
+      </div>
+
+      <div class="initiative-card">
+        <h3>1.3 Secure Data Transfer Service</h3>
+        <div class="priority-high">
+          <strong>Priority:</strong> High | <strong>Estimated Effort:</strong> 2
+          days
+        </div>
+
+        <h4>Architecture Overview</h4>
+        <p>
+          Create a decoupled service layer that abstracts data submission from
+          processing implementation.
+        </p>
+
+        <div class="code-block">
+          // filepath: app/services/form-processing/types.ts export interface
+          FormSubmissionData { formType: "contact" | "newsletter" | "feedback";
+          data: Record&lt;string, unknown&gt;; metadata: { timestamp: number;
+          userAgent: string; ipAddress?: string; referrer?: string; }; } export
+          interface FormProcessingResult { success: boolean; submissionId?:
+          string; errors?: string[]; } export interface IFormProcessingService {
+          submit(data: FormSubmissionData): Promise&lt;FormProcessingResult&gt;;
+          validate(data: FormSubmissionData): Promise&lt;boolean&gt;; }
+        </div>
+
+        <div class="code-block">
+          // filepath: app/services/form-processing/form-processing.service.ts
+          import { ApplicationInsightsService } from "~/services/telemetry";
+          import type { FormSubmissionData, FormProcessingResult,
+          IFormProcessingService } from "./types"; export class
+          FormProcessingService implements IFormProcessingService { private
+          telemetry: ApplicationInsightsService; private apiEndpoint: string;
+          constructor() { this.telemetry = new ApplicationInsightsService();
+          this.apiEndpoint = import.meta.env.VITE_FORM_PROCESSING_API; } async
+          submit(data: FormSubmissionData): Promise&lt;FormProcessingResult&gt;
+          { try { // Log submission event
+          this.telemetry.trackEvent("FormSubmission", { formType: data.formType,
+          timestamp: data.metadata.timestamp, }); // Send to external processing
+          API const response = await fetch(`${this.apiEndpoint}/submit`, {
+          method: "POST", headers: { "Content-Type": "application/json",
+          ...getCSRFHeaders(), }, body: JSON.stringify(data), }); if
+          (!response.ok) { throw new Error(`HTTP error! status:
+          ${response.status}`); } const result = await response.json(); // Track
+          success this.telemetry.trackEvent("FormSubmissionSuccess", { formType:
+          data.formType, submissionId: result.submissionId, }); return {
+          success: true, submissionId: result.submissionId, }; } catch (error) {
+          // Track failure this.telemetry.trackException({ exception: error as
+          Error, properties: { formType: data.formType, operation:
+          "FormSubmission", }, }); return { success: false, errors: [(error as
+          Error).message], }; } } async validate(data: FormSubmissionData):
+          Promise&lt;boolean&gt; { // Implement validation logic return true; }
+          } // Singleton instance export const formProcessingService = new
+          FormProcessingService();
+        </div>
+
+        <h4>Environment Configuration</h4>
+        <div class="code-block">
+          # .env.example
+          VITE_FORM_PROCESSING_API=https://your-function-app.azurewebsites.net/api
+          VITE_APP_INSIGHTS_CONNECTION_STRING=InstrumentationKey=xxx;IngestionEndpoint=https://...
+        </div>
+
+        <h4>Success Criteria</h4>
+        <ul>
+          <li>
+            Service abstraction allows swapping implementations without changing
+            form code
+          </li>
+          <li>All form submissions tracked in Application Insights</li>
+          <li>Service handles errors gracefully with proper logging</li>
+          <li>Configuration driven by environment variables</li>
+          <li>TypeScript interfaces enforce type safety</li>
+        </ul>
+      </div>
+
+      <h2>Phase 2: Backend Processing Architecture</h2>
+
+      <div class="initiative-card">
+        <h3>2.1 Azure Application Insights Integration</h3>
+        <div class="priority-medium">
+          <strong>Priority:</strong> Medium |
+          <strong>Estimated Effort:</strong> 1-2 days
+        </div>
+
+        <h4>Implementation Plan</h4>
+
+        <div class="code-block">
+          // filepath: app/services/telemetry/application-insights.service.ts
+          import { ApplicationInsights } from
+          "@microsoft/applicationinsights-web"; export class
+          ApplicationInsightsService { private appInsights: ApplicationInsights;
+          constructor() { const connectionString =
+          import.meta.env.VITE_APP_INSIGHTS_CONNECTION_STRING; this.appInsights
+          = new ApplicationInsights({ config: { connectionString,
+          enableAutoRouteTracking: true, enableRequestHeaderTracking: true,
+          enableResponseHeaderTracking: true, }, });
+          this.appInsights.loadAppInsights(); this.appInsights.trackPageView();
+          } trackEvent(name: string, properties?: Record&lt;string, any&gt;) {
+          this.appInsights.trackEvent({ name }, properties); }
+          trackException(error: { exception: Error; properties?:
+          Record&lt;string, any&gt; }) { this.appInsights.trackException(error);
+          } trackFormSubmission(formType: string, data: Record&lt;string,
+          unknown&gt;) { this.trackEvent("FormSubmission", { formType,
+          fieldCount: Object.keys(data).length, timestamp: new
+          Date().toISOString(), }); } }
+        </div>
+
+        <h4>Custom Events for Form Tracking</h4>
+        <ul>
+          <li><strong>FormView:</strong> User loads a form page</li>
+          <li>
+            <strong>FormInteraction:</strong> User interacts with form fields
+          </li>
+          <li><strong>FormValidationError:</strong> Validation errors occur</li>
+          <li>
+            <strong>FormSubmissionAttempt:</strong> User attempts submission
+          </li>
+          <li><strong>FormSubmissionSuccess:</strong> Successful submission</li>
+          <li>
+            <strong>FormSubmissionFailure:</strong> Failed submission with error
+            details
+          </li>
+        </ul>
+
+        <h4>Success Criteria</h4>
+        <ul>
+          <li>All form events tracked in Application Insights</li>
+          <li>Custom properties provide context for debugging</li>
+          <li>Telemetry data queryable in Azure Portal</li>
+          <li>Performance metrics collected automatically</li>
+        </ul>
+      </div>
+
+      <div class="initiative-card">
+        <h3>2.2 Azure Queue Storage Message Queue</h3>
+        <div class="priority-medium">
+          <strong>Priority:</strong> Medium |
+          <strong>Estimated Effort:</strong> 2 days
+        </div>
+
+        <h4>Queue Architecture</h4>
+        <p>
+          Form submissions will be queued for asynchronous processing, ensuring
+          reliability and scalability.
+        </p>
+
+        <div class="code-block">
+          // filepath: functions/src/services/queue.service.ts import {
+          QueueServiceClient, QueueClient } from "@azure/storage-queue"; export
+          interface QueueMessage { formType: string; submissionId: string; data:
+          Record&lt;string, unknown&gt;; metadata: { timestamp: number; userId?:
+          string; }; } export class QueueService { private queueClient:
+          QueueClient; constructor() { const connectionString =
+          process.env.AZURE_STORAGE_CONNECTION_STRING!; const queueName =
+          "form-submissions"; const queueServiceClient =
+          QueueServiceClient.fromConnectionString(connectionString);
+          this.queueClient = queueServiceClient.getQueueClient(queueName); }
+          async enqueue(message: QueueMessage): Promise&lt;void&gt; { // Encode
+          message as base64 const messageText =
+          Buffer.from(JSON.stringify(message)).toString("base64"); await
+          this.queueClient.sendMessage(messageText); } async
+          processMessage(messageId: string, popReceipt: string):
+          Promise&lt;void&gt; { await this.queueClient.deleteMessage(messageId,
+          popReceipt); } }
+        </div>
+
+        <h4>API Endpoint for Queue Submission</h4>
+        <div class="code-block">
+          // filepath: functions/src/http/submit-form.ts import { app,
+          HttpRequest, HttpResponseInit, InvocationContext } from
+          "@azure/functions"; import { QueueService, QueueMessage } from
+          "../services/queue.service"; export async function submitForm(
+          request: HttpRequest, context: InvocationContext ):
+          Promise&lt;HttpResponseInit&gt; { try { const body = await
+          request.json() as any; // Create queue message const queueMessage:
+          QueueMessage = { formType: body.formType, submissionId:
+          crypto.randomUUID(), data: body.data, metadata: { timestamp:
+          Date.now(), userId: body.metadata.userId, }, }; // Enqueue message
+          const queueService = new QueueService(); await
+          queueService.enqueue(queueMessage); context.log("Form submission
+          queued", queueMessage.submissionId); return { status: 200, jsonBody: {
+          success: true, submissionId: queueMessage.submissionId, }, }; } catch
+          (error) { context.error("Error processing form submission", error);
+          return { status: 500, jsonBody: { success: false, error: "Internal
+          server error", }, }; } } app.http("submitForm", { methods: ["POST"],
+          authLevel: "function", handler: submitForm, });
+        </div>
+
+        <h4>Success Criteria</h4>
+        <ul>
+          <li>Form submissions reliably queued to Azure Storage</li>
+          <li>Queue handles bursts of traffic without data loss</li>
+          <li>Messages encoded and decoded correctly</li>
+          <li>Dead letter queue configured for failed processing</li>
+        </ul>
+      </div>
+
+      <div class="initiative-card">
+        <h3>2.3 Azure Function App for Email Processing</h3>
+        <div class="priority-medium">
+          <strong>Priority:</strong> Medium |
+          <strong>Estimated Effort:</strong> 2-3 days
+        </div>
+
+        <h4>Queue Trigger Function</h4>
+        <div class="code-block">
+          // filepath: functions/src/queue/process-form-submission.ts import {
+          app, InvocationContext } from "@azure/functions"; import {
+          EmailService } from "../services/email.service"; import { QueueMessage
+          } from "../services/queue.service"; export async function
+          processFormSubmission( queueItem: unknown, context: InvocationContext
+          ): Promise&lt;void&gt; { try { const message = JSON.parse(queueItem as
+          string) as QueueMessage; context.log("Processing form submission",
+          message.submissionId); // Send email notification const emailService =
+          new EmailService(); await emailService.sendFormNotification(message);
+          context.log("Email sent successfully", message.submissionId); } catch
+          (error) { context.error("Error processing form submission", error);
+          throw error; // Re-throw to trigger retry logic } }
+          app.storageQueue("processFormSubmission", { queueName:
+          "form-submissions", connection: "AZURE_STORAGE_CONNECTION_STRING",
+          handler: processFormSubmission, });
+        </div>
+
+        <h4>Email Service Implementation</h4>
+        <div class="code-block">
+          // filepath: functions/src/services/email.service.ts import {
+          EmailClient } from "@azure/communication-email"; import { QueueMessage
+          } from "./queue.service"; export class EmailService { private
+          emailClient: EmailClient; private senderAddress: string; private
+          adminEmails: string[]; constructor() { const connectionString =
+          process.env.AZURE_COMMUNICATION_CONNECTION_STRING!; this.emailClient =
+          new EmailClient(connectionString); this.senderAddress =
+          process.env.SENDER_EMAIL_ADDRESS!; this.adminEmails =
+          process.env.ADMIN_EMAILS!.split(","); } async
+          sendFormNotification(message: QueueMessage): Promise&lt;void&gt; {
+          const emailContent = this.buildEmailContent(message); const
+          emailMessage = { senderAddress: this.senderAddress, recipients: { to:
+          this.adminEmails.map((email) => ({ address: email })), }, content: {
+          subject: `New ${message.formType} submission`, html: emailContent, },
+          }; const poller = await this.emailClient.beginSend(emailMessage);
+          await poller.pollUntilDone(); } private buildEmailContent(message:
+          QueueMessage): string { // Build HTML email template return `
+          &lt;h2&gt;New Form Submission&lt;/h2&gt;
+          &lt;p&gt;&lt;strong&gt;Type:&lt;/strong&gt;
+          ${message.formType}&lt;/p&gt; &lt;p&gt;&lt;strong&gt;Submission
+          ID:&lt;/strong&gt; ${message.submissionId}&lt;/p&gt;
+          &lt;p&gt;&lt;strong&gt;Timestamp:&lt;/strong&gt; ${new
+          Date(message.metadata.timestamp).toISOString()}&lt;/p&gt;
+          &lt;h3&gt;Submitted Data:&lt;/h3&gt;
+          &lt;pre&gt;${JSON.stringify(message.data, null, 2)}&lt;/pre&gt; `; } }
+        </div>
+
+        <h4>Azure Function Configuration</h4>
+        <div class="code-block">
+          // filepath: functions/host.json { "version": "2.0", "logging": {
+          "applicationInsights": { "samplingSettings": { "isEnabled": true,
+          "maxTelemetryItemsPerSecond": 20 } } }, "extensions": { "queues": {
+          "maxPollingInterval": "00:00:02", "visibilityTimeout": "00:00:30",
+          "batchSize": 16, "maxDequeueCount": 5 } } }
+        </div>
+
+        <h4>Success Criteria</h4>
+        <ul>
+          <li>Function app processes queue messages reliably</li>
+          <li>Emails sent to admin accounts on form submission</li>
+          <li>Retry logic handles transient failures</li>
+          <li>Dead letter queue captures unprocessable messages</li>
+          <li>Function logs available in Application Insights</li>
+        </ul>
+      </div>
+
+      <h2>Alternative Approaches & Recommendations</h2>
+
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <h4>💡 Recommendation: Azure Communication Services</h4>
+          <p>
+            Use Azure Communication Services Email instead of third-party email
+            providers (SendGrid, Mailgun) for better integration, cost control,
+            and compliance with Azure ecosystem.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <h4>💡 Recommendation: Cosmos DB for Audit Trail</h4>
+          <p>
+            Store form submissions in Cosmos DB in addition to queue processing
+            for audit trail, analytics, and compliance. Enables reporting on
+            submission trends and user behavior.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <h4>💡 Recommendation: Azure API Management</h4>
+          <p>
+            Place Azure API Management in front of Function Apps for rate
+            limiting, API key management, and standardized error responses.
+            Provides additional security layer.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <h4>💡 Recommendation: Webhook Notifications</h4>
+          <p>
+            Add webhook support to notify external systems (Slack, Teams, CRM)
+            on form submissions. Makes the system extensible without modifying
+            core logic.
+          </p>
+        </div>
+      </div>
+
+      <h2>Enhanced Architecture Diagram</h2>
+      <div class="code-block">
+        ┌─────────────────────────────────────────────────────────────────────┐
+        │ Frontend (React) │ │ ┌──────────────┐ ┌──────────────┐
+        ┌──────────────────────────┐ │ │ │ Radix Forms │→ │ Security │→ │ Form
+        Processing Service │ │ │ │ │ │ - Honeypot │ │ │ │ │ │ - Conform │ │ -
+        CSRF │ │ - Validation │ │ │ │ - Zod │ │ - Rate Limit │ │ - Telemetry │ │
+        │ └──────────────┘ └──────────────┘ └──────────────────────────┘ │
+        └────────────────────────────────┬────────────────────────────────────┘
+        │ │ HTTPS POST ▼
+        ┌─────────────────────────────────────────────────────────────────────┐
+        │ Azure Function App (HTTP Trigger) │ │
+        ┌──────────────────────────────────────────────────────────────┐ │ │ │ -
+        Authenticate request │ │ │ │ - Validate payload │ │ │ │ - Generate
+        submission ID │ │ │ │ - Enqueue message │ │ │
+        └──────────────────────────────────────────────────────────────┘ │
+        └────────────────────────────────┬────────────────────────────────────┘
+        │ │ Enqueue ▼
+        ┌─────────────────────────────────────────────────────────────────────┐
+        │ Azure Queue Storage │ │
+        ┌──────────────────────────────────────────────────────────────┐ │ │ │
+        Queue: form-submissions │ │ │ │ - Reliable message delivery │ │ │ │ -
+        Automatic retry │ │ │ │ - Dead letter queue │ │ │
+        └──────────────────────────────────────────────────────────────┘ │
+        └────────────────────────────────┬────────────────────────────────────┘
+        │ │ Dequeue (Trigger) ▼
+        ┌─────────────────────────────────────────────────────────────────────┐
+        │ Azure Function App (Queue Trigger) │ │
+        ┌──────────────────────────────────────────────────────────────┐ │ │ │ -
+        Process message │ │ │ │ - Send email via Communication Services │ │ │ │
+        - Store in Cosmos DB (optional) │ │ │ │ - Trigger webhooks (optional) │
+        │ │ └──────────────────────────────────────────────────────────────┘ │
+        └────────────────────────────────┬────────────────────────────────────┘
+        │ ┌────────────┼────────────┐ │ │ │ ▼ ▼ ▼ ┌──────────────┐ ┌──────────┐
+        ┌─────────────┐ │ Email Admins │ │ Cosmos DB│ │ Webhooks │ │ (Azure
+        Comm) │ │ (Audit) │ │ (Slack/CRM) │ └──────────────┘ └──────────┘
+        └─────────────┘ │ └───────────────────────────┐ ▼
+        ┌──────────────────────────┐ │ Application Insights │ │ - Event tracking
+        │ │ - Error monitoring │ │ - Performance metrics │
+        └──────────────────────────┘
+      </div>
+
+      <h2>Implementation Timeline</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Phase</th>
+            <th>Task</th>
+            <th>Duration</th>
+            <th>Dependencies</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="4"><strong>Phase 1</strong></td>
+            <td>Radix Component Migration</td>
+            <td>3-4 days</td>
+            <td>None</td>
+          </tr>
+          <tr>
+            <td>Security Implementation</td>
+            <td>2-3 days</td>
+            <td>Component Migration (parallel)</td>
+          </tr>
+          <tr>
+            <td>Data Transfer Service</td>
+            <td>2 days</td>
+            <td>Security Implementation</td>
+          </tr>
+          <tr>
+            <td>Testing & QA</td>
+            <td>2 days</td>
+            <td>All Phase 1 tasks</td>
+          </tr>
+          <tr>
+            <td rowspan="4"><strong>Phase 2</strong></td>
+            <td>App Insights Integration</td>
+            <td>1-2 days</td>
+            <td>Phase 1 complete</td>
+          </tr>
+          <tr>
+            <td>Queue Storage Setup</td>
+            <td>2 days</td>
+            <td>App Insights (parallel)</td>
+          </tr>
+          <tr>
+            <td>Function App Development</td>
+            <td>2-3 days</td>
+            <td>Queue Storage</td>
+          </tr>
+          <tr>
+            <td>End-to-End Testing</td>
+            <td>2 days</td>
+            <td>All Phase 2 tasks</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Testing Strategy</h2>
+
+      <div class="priority-high">
+        <h4>Accessibility Testing</h4>
+        <ul>
+          <li>Automated testing with axe-core and Lighthouse</li>
+          <li>Manual keyboard navigation testing</li>
+          <li>Screen reader testing (NVDA, JAWS, VoiceOver)</li>
+          <li>Color contrast validation</li>
+          <li>Focus indicator visibility checks</li>
+        </ul>
+      </div>
+
+      <div class="priority-high">
+        <h4>Security Testing</h4>
+        <ul>
+          <li>CSRF token validation testing</li>
+          <li>Honeypot effectiveness with automated bots</li>
+          <li>Rate limiting stress tests</li>
+          <li>Penetration testing for common vulnerabilities</li>
+          <li>XSS and injection attack prevention validation</li>
+        </ul>
+      </div>
+
+      <div class="priority-medium">
+        <h4>Integration Testing</h4>
+        <ul>
+          <li>End-to-end form submission flow</li>
+          <li>Queue message processing validation</li>
+          <li>Email delivery confirmation</li>
+          <li>Error handling and retry logic</li>
+          <li>Application Insights telemetry verification</li>
+        </ul>
+      </div>
+
+      <h2>Success Metrics</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Current</th>
+            <th>Target</th>
+            <th>Measurement Method</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Accessibility Score (Lighthouse)</td>
+            <td>TBD</td>
+            <td>&gt;95</td>
+            <td>Automated Lighthouse audits</td>
+          </tr>
+          <tr>
+            <td>Form Submission Success Rate</td>
+            <td>TBD</td>
+            <td>&gt;99%</td>
+            <td>Application Insights metrics</td>
+          </tr>
+          <tr>
+            <td>Spam Bot Prevention</td>
+            <td>0%</td>
+            <td>&gt;95%</td>
+            <td>Honeypot catch rate</td>
+          </tr>
+          <tr>
+            <td>Email Delivery Time</td>
+            <td>N/A</td>
+            <td>&lt;30 seconds</td>
+            <td>Function App logs</td>
+          </tr>
+          <tr>
+            <td>Form Load Time</td>
+            <td>TBD</td>
+            <td>&lt;2 seconds</td>
+            <td>Web Vitals (LCP)</td>
+          </tr>
+          <tr>
+            <td>Zero Security Vulnerabilities</td>
+            <td>TBD</td>
+            <td>0 critical/high</td>
+            <td>Security audit reports</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Risk Assessment & Mitigation</h2>
+
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <h4>⚠️ Risk: Radix Component Compatibility</h4>
+          <p>
+            <strong>Mitigation:</strong> Create comprehensive wrapper components
+            with backwards compatibility. Maintain legacy components temporarily
+            during migration. Extensive testing on all form pages.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <h4>⚠️ Risk: Security Implementation Gaps</h4>
+          <p>
+            <strong>Mitigation:</strong> Security code review by external
+            expert. Penetration testing before production deployment. Regular
+            security audits post-launch.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <h4>⚠️ Risk: Azure Service Costs</h4>
+          <p>
+            <strong>Mitigation:</strong> Set up cost alerts in Azure Portal. Use
+            consumption-based pricing for Function Apps. Monitor usage patterns
+            and optimize accordingly.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <h4>⚠️ Risk: Email Deliverability</h4>
+          <p>
+            <strong>Mitigation:</strong> Configure SPF/DKIM/DMARC records. Set
+            up sender reputation monitoring. Implement email fallback mechanisms
+            (SMS, webhook notifications).
+          </p>
+        </div>
+      </div>
+
+      <h2>Documentation Requirements</h2>
+
+      <ul>
+        <li>
+          <strong>Component Documentation:</strong> Usage guidelines for all new
+          Radix components
+        </li>
+        <li>
+          <strong>Security Guidelines:</strong> Best practices for implementing
+          form security
+        </li>
+        <li>
+          <strong>API Documentation:</strong> Function App endpoints and
+          request/response formats
+        </li>
+        <li>
+          <strong>Deployment Guide:</strong> Step-by-step Azure resource
+          provisioning
+        </li>
+        <li>
+          <strong>Monitoring Guide:</strong> How to use Application Insights
+          dashboards
+        </li>
+        <li>
+          <strong>Troubleshooting Guide:</strong> Common issues and resolutions
+        </li>
+      </ul>
+
+      <h2>Next Steps & Action Items</h2>
+
+      <div class="summary-box">
+        <ol>
+          <li>
+            <strong>Sprint Planning:</strong> Review and approve sprint plan
+            with stakeholders
+          </li>
+          <li>
+            <strong>Azure Resources:</strong> Provision required Azure services
+            (Storage Account, Function App, Communication Services)
+          </li>
+          <li>
+            <strong>Development Environment:</strong> Set up local development
+            environment with Azure emulators
+          </li>
+          <li>
+            <strong>Component Audit:</strong> Complete inventory of existing
+            form components to be migrated
+          </li>
+          <li>
+            <strong>Security Review:</strong> Schedule security consultation for
+            implementation approach
+          </li>
+          <li>
+            <strong>Phase 1 Kickoff:</strong> Begin Radix component migration
+            with comprehensive testing
+          </li>
+          <li>
+            <strong>CI/CD Setup:</strong> Configure deployment pipelines for
+            Function Apps
+          </li>
+          <li>
+            <strong>Monitoring Setup:</strong> Create Application Insights
+            dashboards and alerts
+          </li>
+          <li>
+            <strong>Documentation:</strong> Maintain updated technical
+            documentation throughout sprint
+          </li>
+          <li>
+            <strong>Sprint Retrospective:</strong> Review outcomes, gather
+            feedback, plan improvements
+          </li>
+        </ol>
+      </div>
+
+      <div class="summary-box">
+        <h2>Conclusion</h2>
+        <p>
+          This Form Accessibility & Security sprint establishes a robust,
+          accessible, and secure foundation for form handling throughout the
+          application. By implementing Radix UI components with proper
+          accessibility features, modern security measures, and a decoupled
+          Azure-based processing architecture, we create a scalable system that
+          protects user data while providing excellent user experience. The
+          phased approach ensures incremental delivery of value while
+          maintaining system stability and allowing for continuous feedback and
+          improvement.
+        </p>
+        <p>
+          The architecture leverages Azure's serverless capabilities to create a
+          cost-effective, reliable, and maintainable solution that can scale
+          with the application's growth. The investment in proper accessibility,
+          security, and monitoring will significantly improve user trust,
+          regulatory compliance, and operational visibility.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

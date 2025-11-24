@@ -191,14 +191,12 @@ export default function Home() {
         className="justify-center mx-auto mb-2 p-2 bg-home-hero bg-no-repeat bg-cover bg-opacity-40 xl:flex-row xl:flex-wrap xl:justify-between xl:p-5 "
       >
         <div className="p-2 xl:p-0 mt-5 xl:px-5 h-[20dvh] xl:mt-0 text-center">
-          <div className="xl:w-120">
-            <h1 className="font-brand uppercase text-secondary">
-              punchcode studios
-            </h1>
-            <h2 className="text-sm text-white font-light tracking-wide font-header">
-              design | develop | test | deploy | maintain
-            </h2>
-          </div>
+          <h1 className="font-brand uppercase text-secondary">
+            punchcode studios
+          </h1>
+          <h2 className="text-sm text-white font-light tracking-wide font-header">
+            design | develop | test | deploy | maintain
+          </h2>
         </div>
       </section>
 
