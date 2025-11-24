@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+/* @config "../../tailwind.config.ts"; */
 
 /* Add to your global CSS when debug panel is present */
 /* @media (min-width: 768px) { */
@@ -14,7 +13,116 @@
   } */
 /* } */
 
+@custom-variant dark (&:where(.dark, .dark *));
+@theme {
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  --font-size: 40px;
+  --font-brand: "ivymode", sans-serif;
+  --font-header: "zekton", mono;
+  --font-control: "zekton", mono;
+  --font-nav: "zekton", mono;
+  --font-text: "greycliff-cf", mono;
+  --font-anchor: "greycliff-cf", mono;
+
+  --color-background: oklab(98% 0.00511 0.00147);
+  --color-foreground: oklab(30% 0.00138 0.00039);
+
+  --color-black: oklab(24.776% 0 -0.00003);
+  --color-white: oklab(94.611% 0 -0.00011);
+
+  --color-foreground: oklab(24.776% 0 -0.00003);
+  --color-foreground-muted: oklab(59.987% 0 -0.00007);
+  --color-background: oklab(94.611% 0 -0.00011);
+  --color-background-muted: oklab(72.516% 0 -0.00008);
+
+  --color-primary: oklab(25% 0.07123 -0.10126);
+  --color-primary-muted: oklab(45.712% -0.0351 -0.10623);
+  --color-primary-accented: oklab(100% 0 -0.00011);
+  --color-primary-foreground: oklab(94.611% 0 -0.00011);
+
+  --color-secondary: oklab(78.152% 0.0618 0.15899);
+  --color-secondary-muted: oklab(68.219% 0.11852 0.09639);
+  --color-secondary-accented: oklab(100% 0 -0.00011);
+  --color-secondary-foreground: oklab(94.611% 0 -0.00011);
+
+  --color-accent: oklab(91.959% -0.00751 -0.01651);
+  --color-accent-foreground: oklab(94.611% 0 -0.00011);
+  --color-ring: oklab(71.068% -0.00802 -0.03427);
+  --color-border: oklab(87.545% -0.00545 -0.02036);
+
+  --color-input: oklab(91.648% -0.00344 -0.01528);
+  --color-input-invalid: oklab(63.639% 0.19019 0.09073);
+
+  --color-error: oklab(64.884% 0.21122 0.10743);
+  --color-error-muted: oklab(55% 0.12339 0.05092);
+  --color-error-accented: oklab(91.959% -0.00751 -0.01651);
+  --color-error-foreground: oklab(94.611% 0 -0.00011);
+
+  --color-warning: oklab(91.959% -0.00751 -0.01651);
+  --color-warning-muted: oklab(91.959% -0.00751 -0.01651);
+  --color-warning-accented: oklab(24.776% 0 -0.00003);
+  --color-warning-foreground: oklab(24.776% 0 -0.00003);
+
+  --color-success: oklab(110 75% 50%);
+  --color-success-muted: oklab(110 40% 50%);
+  --color-success-accented: oklab(0 0% 93%);
+  --color-success-foreground: oklab(0 0% 13%);
+
+  --color-information: oklab(225 75% 50%);
+  --color-information-muted: oklab(225 40% 50%);
+  --color-information-accented: oklab(225 100% 100%);
+  --color-information-foreground: oklab(222.2 90% 90%);
+
+  --color-silver: oklab(225 85% 85%);
+  --color-silver-muted: oklab(225 40% 52%);
+  --color-silver-accented: oklab(225 40% 100%);
+  --color-silver-foreground: oklab(0 0% 13%);
+
+  --color-disabled: oklab(0 0% 50%);
+  --color-disabled-muted: oklab(0 0% 50%);
+  --color-disabled-accented: oklab(0 0% 50%);
+  --color-disabled-foreground: oklab(0 0% 93%);
+
+  --color-radius: 0.5rem;
+
+  --background-image-home-hero: url("/images/home_hero_2.png");
+  --background-image-about-hero: url("/images/about-this-site.png");
+  --background-image-resume-accordion: url("/images/home_hero_2.png");
+  --background-image-resume-skills: url("/images/home_hero_2.png");
+}
+
 @layer base {
+  h1 {
+    font-weight: 100;
+    letter-spacing: 0.025rem;
+    @apply mb-4 text-4xl font-bold leading-none tracking-tight md:text-5xl lg:text-6xl text-foreground;
+  }
+  h2 {
+    font-weight: 100;
+    letter-spacing: 0.025rem;
+    @apply mb-4 text-2xl leading-none md:text-3xl lg:text-4xl text-foreground;
+  }
+  h3 {
+    @apply mb-4 text-xl leading-none tracking-tight md:text-2xl lg:text-3xl text-foreground;
+  }
+  h4 {
+    @apply mb-4 text-lg leading-none tracking-tight md:text-xl lg:text-2xl text-foreground;
+  }
+
+  p {
+    @apply text-foreground text-sm md:text-lg xl:text-xl;
+  }
+
+  a {
+    @apply font-anchor cursor-pointer;
+  }
+}
+/* @layer base {
   :root {
     --font-size: 16px;
     --background: #ff0000;
@@ -64,7 +172,7 @@
 
   .dark {
     --background: #ff0000; /*oklch(0.145 0 0); */
-    --foreground: oklch(0.985 0 0);
+/* --foreground: oklch(0.985 0 0);
     --card: oklch(0.145 0 0);
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.145 0 0);
@@ -96,41 +204,5 @@
     --sidebar-accent: oklch(0.269 0 0);
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(0.269 0 0);
-    --sidebar-ring: oklch(0.439 0 0);
-  }
-
-  html,
-  body {
-    @apply text-foreground bg-background font-text leading-relaxed;
-    scroll-behavior: smooth;
-    padding-top: 60px;
-    /* @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  } */
-  }
-
-  h1 {
-    font-weight: 100;
-    letter-spacing: 0.025rem;
-    @apply mb-4 text-4xl font-bold leading-none tracking-tight md:text-5xl lg:text-6xl text-blue-300;
-  }
-  h2 {
-    font-weight: 100;
-    letter-spacing: 0.025rem;
-    @apply mb-4 text-2xl leading-none md:text-3xl lg:text-4xl text-blue-300;
-  }
-  h3 {
-    @apply mb-4 text-xl leading-none tracking-tight md:text-2xl lg:text-3xl text-red-600;
-  }
-  h4 {
-    @apply mb-4 text-lg leading-none tracking-tight md:text-xl lg:text-2xl text-red-600;
-  }
-
-  p {
-    @apply text-secondary text-sm md:text-lg xl:text-xl;
-  }
-
-  a {
-    @apply font-anchor cursor-pointer;
-  }
-}
+    --sidebar-ring: oklch(0.439 0 0); */
+/* } */
