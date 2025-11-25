@@ -15,7 +15,6 @@ export * from "./ui"; // ✅ Known to exist
 // Individual Components (safe exports for existing files)
 export { CacheControl } from "./cacheControl";
 export { default as ErrorFallback } from "./errorFallback";
-export * from "./forms"; // TODO: restructure file to comply with standards; Also add to future sprint - Forms and Accessibility
 export { LoadingSpinner } from "./loading-spinner"; //TODO: There is duplicate code in the service layer that could consolidate these two
 export { default as SkillsDebugPanel } from "./skillsDebugPanel";
 export { default as SkillsSection } from "./skillsSection";

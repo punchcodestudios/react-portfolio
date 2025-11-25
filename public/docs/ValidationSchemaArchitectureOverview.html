@@ -1,0 +1,1405 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Validation Schema Architecture - React Portfolio</title>
+    <style>
+      :root {
+        --primary-color: #2563eb;
+        --secondary-color: #7c3aed;
+        --success-color: #059669;
+        --warning-color: #d97706;
+        --danger-color: #dc2626;
+        --bg-color: #ffffff;
+        --surface-color: #f8fafc;
+        --border-color: #e2e8f0;
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --text-muted: #64748b;
+        --code-bg: #1e293b;
+        --code-text: #e2e8f0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary);
+        background-color: var(--bg-color);
+        padding: 2rem;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: var(--surface-color);
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      header {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        padding: 3rem 2rem;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      header .subtitle {
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
+
+      header .version {
+        display: inline-block;
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        margin-top: 1rem;
+      }
+
+      nav {
+        background-color: var(--bg-color);
+        border-bottom: 2px solid var(--border-color);
+        padding: 1rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      nav ul {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      nav a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        transition: all 0.2s;
+        font-weight: 500;
+      }
+
+      nav a:hover {
+        background-color: var(--surface-color);
+        color: var(--primary-color);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      section {
+        margin-bottom: 3rem;
+      }
+
+      h2 {
+        color: var(--primary-color);
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 3px solid var(--primary-color);
+      }
+
+      h3 {
+        color: var(--secondary-color);
+        font-size: 1.5rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      h4 {
+        color: var(--text-primary);
+        font-size: 1.25rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      p {
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+      }
+
+      .info-box {
+        background-color: var(--bg-color);
+        border-left: 4px solid var(--primary-color);
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        border-radius: 6px;
+      }
+
+      .info-box.success {
+        border-left-color: var(--success-color);
+        background-color: #f0fdf4;
+      }
+
+      .info-box.warning {
+        border-left-color: var(--warning-color);
+        background-color: #fffbeb;
+      }
+
+      .info-box.danger {
+        border-left-color: var(--danger-color);
+        background-color: #fef2f2;
+      }
+
+      .info-box-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+      }
+
+      code {
+        background-color: var(--code-bg);
+        color: var(--code-text);
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.9rem;
+      }
+
+      pre {
+        background-color: var(--code-bg);
+        color: var(--code-text);
+        padding: 1.5rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 1rem 0;
+      }
+
+      pre code {
+        background-color: transparent;
+        padding: 0;
+      }
+
+      .architecture-diagram {
+        background-color: var(--bg-color);
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        padding: 2rem;
+        margin: 2rem 0;
+        font-family: "Courier New", Courier, monospace;
+        overflow-x: auto;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .feature-card {
+        background-color: var(--bg-color);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 1.5rem;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .feature-card h4 {
+        color: var(--primary-color);
+        margin-top: 0;
+      }
+
+      .feature-card ul {
+        margin-left: 1.5rem;
+        color: var(--text-secondary);
+      }
+
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 2rem 0;
+        background-color: var(--bg-color);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .comparison-table th {
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: 600;
+      }
+
+      .comparison-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .comparison-table tr:hover {
+        background-color: var(--surface-color);
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-right: 0.5rem;
+      }
+
+      .badge.success {
+        background-color: var(--success-color);
+        color: white;
+      }
+
+      .badge.warning {
+        background-color: var(--warning-color);
+        color: white;
+      }
+
+      .badge.info {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      ul,
+      ol {
+        margin-left: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      li {
+        color: var(--text-secondary);
+        margin-bottom: 0.5rem;
+      }
+
+      .file-tree {
+        background-color: var(--code-bg);
+        color: var(--code-text);
+        padding: 1.5rem;
+        border-radius: 8px;
+        font-family: "Courier New", Courier, monospace;
+        margin: 1rem 0;
+        line-height: 1.8;
+      }
+
+      .file-tree .folder {
+        color: #fbbf24;
+        font-weight: bold;
+      }
+
+      .file-tree .file {
+        color: #60a5fa;
+      }
+
+      .file-tree .comment {
+        color: #94a3b8;
+      }
+
+      footer {
+        background-color: var(--code-bg);
+        color: var(--code-text);
+        padding: 2rem;
+        text-align: center;
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 0;
+        }
+
+        header h1 {
+          font-size: 1.75rem;
+        }
+
+        nav ul {
+          flex-direction: column;
+        }
+
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🔐 Validation Schema Architecture</h1>
+        <p class="subtitle">Centralized, Type-Safe Form Validation System</p>
+        <span class="version"
+          >Version 1.0 | Form Accessibility & Security Sprint</span
+        >
+      </header>
+
+      <nav>
+        <ul>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#usage">Usage Guide</a></li>
+          <li><a href="#field-schemas">Field Schemas</a></li>
+          <li><a href="#form-schemas">Form Schemas</a></li>
+          <li><a href="#best-practices">Best Practices</a></li>
+          <li><a href="#testing">Testing</a></li>
+          <li><a href="#migration">Migration</a></li>
+        </ul>
+      </nav>
+
+      <main>
+        <!-- OVERVIEW SECTION -->
+        <section id="overview">
+          <h2>📋 Overview</h2>
+
+          <div class="info-box success">
+            <div class="info-box-title">✨ Key Benefits</div>
+            <ul>
+              <li>
+                <strong>Single Source of Truth:</strong> All validation rules
+                defined once and reused everywhere
+              </li>
+              <li>
+                <strong>Type Safety:</strong> Full TypeScript inference for form
+                data
+              </li>
+              <li>
+                <strong>Composability:</strong> Build complex forms from atomic
+                field schemas
+              </li>
+              <li>
+                <strong>Testability:</strong> Tests and production use identical
+                validation logic
+              </li>
+              <li>
+                <strong>Maintainability:</strong> Update validation in one
+                place, cascade changes automatically
+              </li>
+            </ul>
+          </div>
+
+          <p>
+            The Validation Schema Library provides a centralized,
+            enterprise-grade validation system for all form inputs throughout
+            the React Portfolio application. Built on <strong>Zod</strong>, it
+            ensures consistent validation rules, type safety, and prevents
+            schema drift between test and production environments.
+          </p>
+
+          <h3>Design Philosophy</h3>
+          <p>
+            Our validation architecture follows a
+            <strong>hybrid approach</strong> combining atomic field schemas with
+            form-level schema factories. This provides maximum flexibility while
+            maintaining a single source of truth for all validation logic.
+          </p>
+
+          <div class="feature-grid">
+            <div class="feature-card">
+              <h4>🧩 Atomic Schemas</h4>
+              <p>
+                Individual field validations that serve as building blocks for
+                complex forms.
+              </p>
+            </div>
+            <div class="feature-card">
+              <h4>🏭 Schema Factories</h4>
+              <p>
+                Functions that compose field schemas into complete form
+                validations with customizable options.
+              </p>
+            </div>
+            <div class="feature-card">
+              <h4>📝 Self-Documenting</h4>
+              <p>
+                Comprehensive JSDoc comments explain validation rules, usage,
+                and examples.
+              </p>
+            </div>
+            <div class="feature-card">
+              <h4>🧪 Test Integration</h4>
+              <p>
+                Test suites and production code reference identical schemas,
+                ensuring validation consistency.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ARCHITECTURE SECTION -->
+        <section id="architecture">
+          <h2>🏗️ Architecture</h2>
+
+          <h3>Directory Structure</h3>
+          <div class="file-tree">
+            <span class="folder">schemas/</span>
+            ├── <span class="folder">fields/</span>
+            <span class="comment"
+              ># Atomic field validations (building blocks)</span
+            >
+            │ ├── <span class="file">text.ts</span>
+            <span class="comment"># Text input validations</span> │ ├──
+            <span class="file">email.ts</span>
+            <span class="comment"># Email validations</span> │ ├──
+            <span class="file">phone.ts</span>
+            <span class="comment"># Phone number validations</span> │ ├──
+            <span class="file">name.ts</span>
+            <span class="comment"># Name field validations</span> │ ├──
+            <span class="file">password.ts</span>
+            <span class="comment"># Password validations</span> │ ├──
+            <span class="file">url.ts</span>
+            <span class="comment"># URL validations</span> │ ├──
+            <span class="file">number.ts</span>
+            <span class="comment"># Number validations</span> │ ├──
+            <span class="file">date.ts</span>
+            <span class="comment"># Date/time validations</span> │ ├──
+            <span class="file">color.ts</span>
+            <span class="comment"># Color validations</span> │ └──
+            <span class="file">index.ts</span>
+            <span class="comment"># Export all fields</span> ├──
+            <span class="folder">forms/</span>
+            <span class="comment"># Form-level schemas (compositions)</span> │
+            ├── <span class="file">contact.schema.ts</span>
+            <span class="comment"># Contact form</span> │ ├──
+            <span class="file">input-test.schema.ts</span>
+            <span class="comment"># Input component tests</span> │ └──
+            <span class="file">index.ts</span>
+            <span class="comment"># Export all forms</span> ├──
+            <span class="folder">__tests__/</span>
+            <span class="comment"># Schema unit tests</span> │ ├──
+            <span class="file">email.test.ts</span> │ └──
+            <span class="file">contact.test.ts</span> └──
+            <span class="file">README.md</span>
+            <span class="comment"># Usage documentation</span>
+          </div>
+
+          <h3>Component Layers</h3>
+          <div class="architecture-diagram">
+            ┌─────────────────────────────────────────────────────────┐ │
+            Application Layer │ │ (Contact Form, Login Form, Profile Form, etc.)
+            │ └────────────────────┬────────────────────────────────────┘ │
+            imports ┌────────────────────▼────────────────────────────────────┐
+            │ Form Schema Layer │ │ • createContactSchema() │ │ •
+            createAuthSchema() │ │ • inputTestSchema │
+            └────────────────────┬────────────────────────────────────┘ │
+            composes ┌────────────────────▼────────────────────────────────────┐
+            │ Field Schema Layer │ │ • emailField │ │ • phoneField │ │ •
+            passwordField │ │ • nameField │ │ • etc. │
+            └────────────────────┬────────────────────────────────────┘ │ uses
+            ┌────────────────────▼────────────────────────────────────┐ │ Zod
+            Library │ │ (Third-party validation library) │
+            └─────────────────────────────────────────────────────────┘
+          </div>
+
+          <h3>Data Flow</h3>
+          <div class="info-box">
+            <ol>
+              <li>
+                <strong>User Input:</strong> User enters data in form field
+              </li>
+              <li>
+                <strong>Conform Integration:</strong> ConformInput wraps the
+                native input with Conform metadata
+              </li>
+              <li>
+                <strong>Schema Validation:</strong> On blur/input, Zod schema
+                validates the field value
+              </li>
+              <li>
+                <strong>Error Display:</strong> Validation errors are displayed
+                via ConformInput error prop
+              </li>
+              <li>
+                <strong>Form Submission:</strong> On submit, entire form is
+                validated against form schema
+              </li>
+              <li>
+                <strong>Type-Safe Data:</strong> Successfully validated data is
+                type-safe for backend processing
+              </li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- USAGE SECTION -->
+        <section id="usage">
+          <h2>📖 Usage Guide</h2>
+
+          <h3>Using Field Schemas</h3>
+          <p>
+            Field schemas are atomic validation rules for individual input
+            fields.
+          </p>
+
+          <pre><code>import { emailField, phoneField } from "~/schemas/fields";
+import { z } from "zod";
+
+// Compose field schemas into a form schema
+const myFormSchema = z.object({
+  email: emailField,
+  phone: phoneField,
+  message: z.string().min(1, "Message is required"),
+});</code></pre>
+
+          <h3>Using Form Schema Factories</h3>
+          <p>
+            Form schemas are pre-composed validations for complete forms with
+            customizable options.
+          </p>
+
+          <pre><code>import { contactSchema, createContactSchema } from "~/schemas/forms";
+
+// Use default contact schema
+const schema = contactSchema;
+
+// Or create custom variant
+const customSchema = createContactSchema({ 
+  requirePhone: true,
+  includeOrganization: false,
+  maxMessageLength: 500 
+});</code></pre>
+
+          <h3>Type Inference</h3>
+          <p>All schemas provide TypeScript type inference for form data.</p>
+
+          <pre><code>import { contactSchema, type ContactFormData } from "~/schemas/forms";
+
+// Infer type from schema
+type FormData = z.infer&lt;typeof contactSchema&gt;;
+
+// Or use exported type
+function handleSubmit(data: ContactFormData) {
+  // data is fully typed with autocomplete
+  console.log(data.firstName, data.email);
+}</code></pre>
+
+          <h3>Integration with Conform</h3>
+          <p>Schemas work seamlessly with Conform for React Router forms.</p>
+
+          <pre><code>import { useForm } from "@conform-to/react";
+import { parseWithZod } from "@conform-to/zod";
+import { inputTestSchema } from "~/schemas/forms";
+
+export function Component() {
+  const [form, fields] = useForm({
+    onValidate({ formData }) {
+      return parseWithZod(formData, { schema: inputTestSchema });
+    },
+    shouldValidate: "onBlur",
+    shouldRevalidate: "onInput",
+  });
+
+  return (
+    &lt;Form {...form}&gt;
+      &lt;ConformInput meta={fields.email} type="email" /&gt;
+      &lt;ConformInput meta={fields.phone} type="tel" /&gt;
+    &lt;/Form&gt;
+  );
+}</code></pre>
+        </section>
+
+        <!-- FIELD SCHEMAS SECTION -->
+        <section id="field-schemas">
+          <h2>🔤 Available Field Schemas</h2>
+
+          <h3>Text Fields</h3>
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Schema</th>
+                <th>Purpose</th>
+                <th>Validation Rules</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>textField</code></td>
+                <td>Standard text input</td>
+                <td>2-100 characters, trimmed</td>
+              </tr>
+              <tr>
+                <td><code>shortTextField</code></td>
+                <td>Short text (usernames, codes)</td>
+                <td>1-50 characters, trimmed</td>
+              </tr>
+              <tr>
+                <td><code>longTextField</code></td>
+                <td>Long text (descriptions, bios)</td>
+                <td>10-500 characters, trimmed</td>
+              </tr>
+              <tr>
+                <td><code>messageField</code></td>
+                <td>Messages, comments, textarea</td>
+                <td>1-1000 characters, trimmed</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Contact Information Fields</h3>
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Schema</th>
+                <th>Purpose</th>
+                <th>Validation Rules</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>emailField</code></td>
+                <td>Email address</td>
+                <td>RFC 5322 format, max 255 chars, lowercase</td>
+              </tr>
+              <tr>
+                <td><code>optionalEmailField</code></td>
+                <td>Optional email</td>
+                <td>Same as emailField, but optional</td>
+              </tr>
+              <tr>
+                <td><code>phoneField</code></td>
+                <td>US phone number</td>
+                <td>Exactly 10 digits, no formatting</td>
+              </tr>
+              <tr>
+                <td><code>optionalPhoneField</code></td>
+                <td>Optional US phone</td>
+                <td>Same as phoneField, but optional</td>
+              </tr>
+              <tr>
+                <td><code>internationalPhoneField</code></td>
+                <td>International phone</td>
+                <td>7-20 chars, allows +, spaces, dashes</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Name Fields</h3>
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Schema</th>
+                <th>Purpose</th>
+                <th>Validation Rules</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>firstNameField</code></td>
+                <td>First name</td>
+                <td>1-50 chars, letters/spaces/hyphens/apostrophes</td>
+              </tr>
+              <tr>
+                <td><code>lastNameField</code></td>
+                <td>Last name</td>
+                <td>1-50 chars, letters/spaces/hyphens/apostrophes</td>
+              </tr>
+              <tr>
+                <td><code>fullNameField</code></td>
+                <td>Full name</td>
+                <td>2-100 chars, letters/spaces/hyphens/apostrophes</td>
+              </tr>
+              <tr>
+                <td><code>organizationField</code></td>
+                <td>Company/organization</td>
+                <td>Max 100 chars, optional</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Security Fields</h3>
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Schema</th>
+                <th>Purpose</th>
+                <th>Validation Rules</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>passwordField</code></td>
+                <td>Strong password</td>
+                <td>8-128 chars, uppercase, lowercase, number, special char</td>
+              </tr>
+              <tr>
+                <td><code>simplePasswordField</code></td>
+                <td>Basic password</td>
+                <td>8-128 characters minimum</td>
+              </tr>
+              <tr>
+                <td><code>createPasswordConfirmation()</code></td>
+                <td>Password confirmation</td>
+                <td>Factory function for matching passwords</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Other Fields</h3>
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Schema</th>
+                <th>Purpose</th>
+                <th>Validation Rules</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>urlField</code></td>
+                <td>Website URL</td>
+                <td>Valid URL with protocol, max 2048 chars</td>
+              </tr>
+              <tr>
+                <td><code>numberField</code></td>
+                <td>Numeric input</td>
+                <td>Number between 1-100</td>
+              </tr>
+              <tr>
+                <td><code>positiveNumberField</code></td>
+                <td>Positive number</td>
+                <td>Any positive number</td>
+              </tr>
+              <tr>
+                <td><code>priceField</code></td>
+                <td>Monetary value</td>
+                <td>Positive, max 2 decimal places</td>
+              </tr>
+              <tr>
+                <td><code>dateField</code></td>
+                <td>Date picker</td>
+                <td>ISO date format (YYYY-MM-DD)</td>
+              </tr>
+              <tr>
+                <td><code>timeField</code></td>
+                <td>Time picker</td>
+                <td>Time format (HH:MM)</td>
+              </tr>
+              <tr>
+                <td><code>colorField</code></td>
+                <td>Color picker</td>
+                <td>Hex color (#RRGGBB)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="info-box">
+            <div class="info-box-title">💡 Factory Functions</div>
+            <p>
+              Some schemas provide factory functions for dynamic validation:
+            </p>
+            <ul>
+              <li>
+                <code>createNumberRange(min, max)</code> - Custom number range
+              </li>
+              <li>
+                <code>createPasswordConfirmation(fieldName)</code> - Password
+                matching
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- FORM SCHEMAS SECTION -->
+        <section id="form-schemas">
+          <h2>📝 Form Schema Factories</h2>
+
+          <h3>Contact Form Schema</h3>
+          <p>
+            Comprehensive contact form validation with customizable options.
+          </p>
+
+          <pre><code>import { createContactSchema } from "~/schemas/forms";
+
+// Default configuration
+const defaultSchema = createContactSchema();
+
+// Custom configuration
+const customSchema = createContactSchema({
+  requirePhone: true,          // Make phone required
+  includeOrganization: false,  // Remove organization field
+  maxMessageLength: 500,       // Shorter message limit
+  maxSubjectLength: 50,        // Shorter subject limit
+});</code></pre>
+
+          <h4>Schema Options</h4>
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Option</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>requirePhone</code></td>
+                <td>boolean</td>
+                <td>false</td>
+                <td>Whether phone number is required</td>
+              </tr>
+              <tr>
+                <td><code>includeOrganization</code></td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>Whether to include organization field</td>
+              </tr>
+              <tr>
+                <td><code>maxMessageLength</code></td>
+                <td>number</td>
+                <td>1000</td>
+                <td>Maximum message length in characters</td>
+              </tr>
+              <tr>
+                <td><code>maxSubjectLength</code></td>
+                <td>number</td>
+                <td>100</td>
+                <td>Maximum subject length in characters</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Input Test Schema</h3>
+          <p>
+            Schema for testing all input component variants. Ensures test page
+            and production forms use identical validation.
+          </p>
+
+          <pre><code>import { inputTestSchema } from "~/schemas/forms";
+
+// Test page
+const [form, fields] = useForm({
+  onValidate({ formData }) {
+    return parseWithZod(formData, { schema: inputTestSchema });
+  },
+});</code></pre>
+
+          <h4>Included Fields</h4>
+          <ul>
+            <li><code>textInput</code> - Standard text field</li>
+            <li><code>emailInput</code> - Email with format validation</li>
+            <li><code>telInput</code> - US phone number (10 digits)</li>
+            <li><code>urlInput</code> - URL with protocol</li>
+            <li><code>passwordInput</code> - Password with min length</li>
+            <li><code>numberInput</code> - Number range 1-100</li>
+            <li><code>dateInput</code> - Date picker</li>
+            <li><code>timeInput</code> - Time picker</li>
+            <li><code>colorInput</code> - Hex color picker</li>
+          </ul>
+
+          <div class="info-box success">
+            <div class="info-box-title">✅ Testing Guarantee</div>
+            <p>
+              By using the same schema in both test pages and production forms,
+              we guarantee that:
+            </p>
+            <ul>
+              <li>Test validations match production validations exactly</li>
+              <li>Schema changes automatically cascade to all consumers</li>
+              <li>No schema drift between environments</li>
+              <li>Confidence that tested behavior matches production</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- BEST PRACTICES SECTION -->
+        <section id="best-practices">
+          <h2>✨ Best Practices</h2>
+
+          <h3>When to Create New Schemas</h3>
+
+          <div class="feature-grid">
+            <div class="feature-card">
+              <h4>Create a Field Schema When:</h4>
+              <ul>
+                <li>Validation will be reused in multiple forms</li>
+                <li>Field has specific validation rules</li>
+                <li>You want consistency across the app</li>
+                <li>Standard validation patterns are needed</li>
+              </ul>
+            </div>
+            <div class="feature-card">
+              <h4>Create a Form Schema When:</h4>
+              <ul>
+                <li>Building a new form</li>
+                <li>Need custom validation logic</li>
+                <li>Want to test the complete form</li>
+                <li>Multiple forms share similar structure</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3>Naming Conventions</h3>
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Pattern</th>
+                <th>Example</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>&lt;name&gt;Field</code></td>
+                <td><code>emailField</code></td>
+                <td>Required field schemas</td>
+              </tr>
+              <tr>
+                <td><code>optional&lt;Name&gt;Field</code></td>
+                <td><code>optionalEmailField</code></td>
+                <td>Optional field schemas</td>
+              </tr>
+              <tr>
+                <td><code>&lt;name&gt;Schema</code></td>
+                <td><code>contactSchema</code></td>
+                <td>Form schemas</td>
+              </tr>
+              <tr>
+                <td><code>create&lt;Name&gt;Schema</code></td>
+                <td><code>createContactSchema</code></td>
+                <td>Schema factory functions</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Code Organization</h3>
+
+          <div class="info-box">
+            <div class="info-box-title">Good Practice ✅</div>
+            <pre><code>// Import from centralized schemas
+import { emailField, phoneField } from "~/schemas/fields";
+
+const schema = z.object({
+  email: emailField,
+  phone: phoneField,
+});</code></pre>
+          </div>
+
+          <div class="info-box danger">
+            <div class="info-box-title">Bad Practice ❌</div>
+            <pre><code>// Inline schema definitions (duplication)
+const testSchema = z.object({
+  email: z.string().email(),
+});
+
+const prodSchema = z.object({
+  email: z.string().email(),
+});
+// These can drift apart over time!</code></pre>
+          </div>
+
+          <h3>Documentation Standards</h3>
+          <p>All schemas must include comprehensive JSDoc comments:</p>
+
+          <pre><code>/**
+ * Email validation
+ * Used for: all email input fields
+ * 
+ * Validation rules:
+ * - Valid email format (RFC 5322)
+ * - Maximum 255 characters (database standard)
+ * - Lowercase normalized
+ * - Trims whitespace
+ * 
+ * @example
+ * emailField.parse("user@example.com") // ✓ valid
+ * emailField.parse("invalid-email") // ✗ throws error
+ */
+export const emailField = z
+  .string({ required_error: "Email is required" })
+  .trim()
+  .toLowerCase()
+  .email("Invalid email address")
+  .max(255, "Email cannot exceed 255 characters");</code></pre>
+
+          <h3>Updating Schemas</h3>
+          <div class="info-box warning">
+            <div class="info-box-title">⚠️ Schema Update Checklist</div>
+            <ol>
+              <li>Update the schema definition</li>
+              <li>Update JSDoc comments</li>
+              <li>Run tests to ensure nothing breaks</li>
+              <li>Update this documentation if adding new schemas</li>
+              <li>Communicate breaking changes to team</li>
+              <li>Consider migration path for existing data</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- TESTING SECTION -->
+        <section id="testing">
+          <h2>🧪 Testing Strategy</h2>
+
+          <h3>Schema Unit Tests</h3>
+          <p>
+            Each field schema should have comprehensive unit tests validating
+            all rules.
+          </p>
+
+          <pre><code>// schemas/__tests__/email.test.ts
+import { describe, it, expect } from "vitest";
+import { emailField } from "../fields/email";
+
+describe("emailField validation", () => {
+  it("accepts valid emails", () => {
+    expect(emailField.parse("user@example.com"))
+      .toBe("user@example.com");
+  });
+  
+  it("rejects invalid emails", () => {
+    expect(() => emailField.parse("invalid"))
+      .toThrow("Invalid email address");
+  });
+  
+  it("trims whitespace", () => {
+    expect(emailField.parse("  user@example.com  "))
+      .toBe("user@example.com");
+  });
+  
+  it("converts to lowercase", () => {
+    expect(emailField.parse("USER@EXAMPLE.COM"))
+      .toBe("user@example.com");
+  });
+  
+  it("enforces max length", () => {
+    const longEmail = "a".repeat(250) + "@example.com";
+    expect(() => emailField.parse(longEmail))
+      .toThrow("Email cannot exceed 255 characters");
+  });
+});</code></pre>
+
+          <h3>Integration Tests</h3>
+          <p>Verify that production forms use correct schemas.</p>
+
+          <pre><code>// Test that contact form uses correct schema
+import { contactSchema } from "~/schemas/forms";
+import { emailField } from "~/schemas/fields";
+
+describe("Contact Form Schema Integration", () => {
+  it("uses emailField for email validation", () => {
+    expect(contactSchema.shape.email).toBe(emailField);
+  });
+  
+  it("has all required fields", () => {
+    const fields = Object.keys(contactSchema.shape);
+    expect(fields).toContain("firstName");
+    expect(fields).toContain("lastName");
+    expect(fields).toContain("email");
+  });
+});</code></pre>
+
+          <h3>Running Tests</h3>
+          <pre><code># Run all schema tests
+npm test -- schemas
+
+# Run specific schema tests
+npm test -- schemas/fields/email.test.ts
+
+# Run tests in watch mode
+npm test -- --watch schemas</code></pre>
+
+          <div class="info-box success">
+            <div class="info-box-title">✓ Test Coverage Goals</div>
+            <ul>
+              <li><strong>100%</strong> coverage for field schemas</li>
+              <li><strong>All validation rules</strong> explicitly tested</li>
+              <li>
+                <strong>Edge cases</strong> covered (empty, max length, special
+                chars)
+              </li>
+              <li><strong>Error messages</strong> validated</li>
+              <li><strong>Type inference</strong> verified</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- MIGRATION SECTION -->
+        <section id="migration">
+          <h2>🔄 Migration Guide</h2>
+
+          <h3>From Inline Schemas</h3>
+
+          <div class="info-box danger">
+            <div class="info-box-title">Before (Inline Schema)</div>
+            <pre><code>// routes/contact.tsx
+const ContactSchema = z.object({
+  email: z.string().email("Invalid email"),
+  phone: z.string().regex(/^\d{10}$/),
+  message: z.string().min(1).max(1000),
+});</code></pre>
+          </div>
+
+          <div class="info-box success">
+            <div class="info-box-title">After (Centralized Schema)</div>
+            <pre><code>// routes/contact.tsx
+import { createContactSchema } from "~/schemas/forms";
+
+const ContactSchema = createContactSchema({
+  requirePhone: true,
+});</code></pre>
+          </div>
+
+          <h3>From Duplicate Schemas</h3>
+
+          <div class="info-box danger">
+            <div class="info-box-title">Before (Duplication)</div>
+            <pre><code>// routes/_test/form.tsx
+const testSchema = z.object({ 
+  email: z.string().email() 
+});
+
+// routes/contact.tsx
+const prodSchema = z.object({ 
+  email: z.string().email() 
+});
+// Risk: These can drift apart!</code></pre>
+          </div>
+
+          <div class="info-box success">
+            <div class="info-box-title">After (Single Source)</div>
+            <pre><code>// Both files
+import { emailField } from "~/schemas/fields";
+
+const schema = z.object({ 
+  email: emailField 
+});
+// Guaranteed identical validation!</code></pre>
+          </div>
+
+          <h3>Migration Checklist</h3>
+          <div class="info-box">
+            <ol>
+              <li>
+                <span class="badge info">Step 1</span> Identify all inline
+                validation schemas
+              </li>
+              <li>
+                <span class="badge info">Step 2</span> Check if field schema
+                exists in library
+              </li>
+              <li>
+                <span class="badge info">Step 3</span> If not, create new field
+                schema with tests
+              </li>
+              <li>
+                <span class="badge info">Step 4</span> Replace inline schemas
+                with imports
+              </li>
+              <li>
+                <span class="badge info">Step 5</span> Update form component
+                imports
+              </li>
+              <li>
+                <span class="badge info">Step 6</span> Run tests to verify
+                behavior unchanged
+              </li>
+              <li>
+                <span class="badge info">Step 7</span> Remove old inline schemas
+              </li>
+              <li>
+                <span class="badge info">Step 8</span> Update documentation
+              </li>
+            </ol>
+          </div>
+
+          <h3>Breaking Changes</h3>
+          <p>When migrating, be aware of potential breaking changes:</p>
+
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Change Type</th>
+                <th>Impact</th>
+                <th>Solution</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Stricter validation</td>
+                <td>May reject previously valid data</td>
+                <td>Test with production data, adjust schema if needed</td>
+              </tr>
+              <tr>
+                <td>Different error messages</td>
+                <td>UI displays change</td>
+                <td>Review error messages for clarity</td>
+              </tr>
+              <tr>
+                <td>Type changes</td>
+                <td>TypeScript errors</td>
+                <td>Update type annotations to match schema</td>
+              </tr>
+              <tr>
+                <td>Required fields</td>
+                <td>Optional becomes required</td>
+                <td>Use optional variants or update forms</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- CONTRIBUTING SECTION -->
+        <section id="contributing">
+          <h2>🤝 Contributing</h2>
+
+          <h3>Adding New Field Schemas</h3>
+          <ol>
+            <li>Create file in <code>schemas/fields/</code> directory</li>
+            <li>Add comprehensive JSDoc comments</li>
+            <li>Export schema with appropriate naming convention</li>
+            <li>Add export to <code>fields/index.ts</code></li>
+            <li>Write unit tests in <code>__tests__/</code></li>
+            <li>Update this documentation</li>
+          </ol>
+
+          <h3>Adding New Form Schemas</h3>
+          <ol>
+            <li>Create file in <code>schemas/forms/</code> directory</li>
+            <li>Compose from existing field schemas when possible</li>
+            <li>Use factory functions for customizable validation</li>
+            <li>Export types using <code>z.infer</code></li>
+            <li>Add export to <code>forms/index.ts</code></li>
+            <li>Write integration tests</li>
+            <li>Update this documentation</li>
+          </ol>
+
+          <h3>Code Review Checklist</h3>
+          <div class="info-box">
+            <ul>
+              <li>✓ Schema has comprehensive JSDoc comments</li>
+              <li>✓ Validation rules are clearly documented</li>
+              <li>✓ Examples provided in comments</li>
+              <li>✓ Unit tests cover all validation rules</li>
+              <li>✓ Edge cases are tested</li>
+              <li>✓ Error messages are user-friendly</li>
+              <li>✓ Naming follows conventions</li>
+              <li>✓ Types are properly exported</li>
+              <li>✓ Documentation updated</li>
+              <li>✓ No breaking changes or migration path provided</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- RELATED DOCUMENTATION -->
+        <section id="related">
+          <h2>📚 Related Documentation</h2>
+
+          <div class="feature-grid">
+            <div class="feature-card">
+              <h4>Form Accessibility Sprint</h4>
+              <p>
+                Overall sprint plan and goals for form component development.
+              </p>
+              <a href="/docs/SprintPlanning/FormAccesibilitySprint.html"
+                >View Documentation →</a
+              >
+            </div>
+            <div class="feature-card">
+              <h4>ConformInput Component</h4>
+              <p>Technical documentation for the accessible input component.</p>
+              <a href="/docs/components/ConformInput.html"
+                >View Documentation →</a
+              >
+            </div>
+            <div class="feature-card">
+              <h4>Error Logging Architecture</h4>
+              <p>Learn about error handling and logging patterns.</p>
+              <a href="/docs/ErrorLoggingArchitectureOverview_v2.html"
+                >View Documentation →</a
+              >
+            </div>
+            <div class="feature-card">
+              <h4>Zod Documentation</h4>
+              <p>Official Zod documentation for advanced schema features.</p>
+              <a href="https://zod.dev" target="_blank">View External Docs →</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- CHANGELOG -->
+        <section id="changelog">
+          <h2>📝 Changelog</h2>
+
+          <h3>Version 1.0 (Current) - November 24, 2025</h3>
+          <ul>
+            <li>
+              <span class="badge success">Added</span> Complete field schema
+              library
+            </li>
+            <li>
+              <span class="badge success">Added</span> Contact form schema
+              factory
+            </li>
+            <li><span class="badge success">Added</span> Input test schema</li>
+            <li>
+              <span class="badge success">Added</span> Comprehensive JSDoc
+              documentation
+            </li>
+            <li><span class="badge success">Added</span> Type-safe exports</li>
+            <li><span class="badge success">Added</span> Migration guide</li>
+          </ul>
+
+          <h3>Future Enhancements</h3>
+          <ul>
+            <li>
+              <span class="badge info">Planned</span> Authentication form
+              schemas (login, register, reset password)
+            </li>
+            <li>
+              <span class="badge info">Planned</span> Profile update schemas
+            </li>
+            <li>
+              <span class="badge info">Planned</span> Multi-step form schemas
+            </li>
+            <li>
+              <span class="badge info">Planned</span> File upload validation
+            </li>
+            <li>
+              <span class="badge info">Planned</span> Custom validation helpers
+            </li>
+            <li>
+              <span class="badge info">Planned</span> Localized error messages
+            </li>
+          </ul>
+        </section>
+      </main>
+
+      <footer>
+        <p><strong>Validation Schema Architecture Documentation</strong></p>
+        <p>Version 1.0 | Last Updated: November 24, 2025</p>
+        <p>Part of the Form Accessibility & Security Sprint</p>
+        <p style="margin-top: 1rem; font-size: 0.875rem; opacity: 0.8">
+          For questions or contributions, see the project README or contact the
+          development team.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

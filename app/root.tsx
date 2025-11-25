@@ -1,5 +1,7 @@
-import { useForm } from "@conform-to/react";
-import { parse } from "@conform-to/zod";
+// TODO: Sprint Phase 1 - Address Conform v1 breaking changes
+// The parse utility has been replaced with parseWithZod in @conform-to/zod
+// This needs to be updated when we implement the theme switcher component
+// import { parseWithZod } from "@conform-to/zod";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -34,7 +36,7 @@ import { combineHeaders, invariantResponse } from "./utils/site";
 import { getTheme, setTheme, type Theme } from "./utils/theme.server";
 import { getToast, type Toast } from "./utils/toast.server";
 
-import { ErrorList } from "./components/forms";
+// import { ErrorList } from "./components/forms";
 import Footer from "./components/layout/footer";
 import Navbar from "./components/layout/navbar";
 import { clientErrorHandler } from "~/utils/clientErrorHandler";
@@ -45,9 +47,10 @@ import loggerService from "./service/logging";
 import DevelopmentDebugPanel from "./__tests__/components/developmentDebugPanel";
 import { ThemeProvider } from "./components/style-guide/ThemeProvider";
 
-const ThemeFormSchema = z.object({
-  theme: z.enum(["light", "dark"]),
-});
+// TODO: Sprint Phase 1 - Uncomment and update when implementing theme switcher
+// const ThemeFormSchema = z.object({
+//   theme: z.enum(["light", "dark"]),
+// });
 
 export async function loader({ request }: LoaderFunctionArgs) {
   console.log("loader function called from root");
@@ -103,43 +106,36 @@ export async function loader({ request }: LoaderFunctionArgs) {
   }
 }
 
-export async function action({ request }: ActionFunctionArgs) {
-  try {
-    const formData = await request.formData();
-    invariantResponse(
-      formData.get("intent") === "update-theme",
-      "Invalid intent",
-      { status: 400 }
-    );
+// TODO: Sprint Phase 1 - Re-implement theme switcher action with Conform v1
+// export async function action({ request }: ActionFunctionArgs) {
+//   try {
+//     const formData = await request.formData();
+//     invariantResponse(
+//       formData.get("intent") === "update-theme",
+//       "Invalid intent",
+//       { status: 400 }
+//     );
 
-    // parse comes from conform/to-zod
-    const submission = parse(formData, {
-      schema: ThemeFormSchema,
-    });
+//     // parseWithZod replaces parse in Conform v1
+//     const submission = parseWithZod(formData, {
+//       schema: ThemeFormSchema,
+//     });
 
-    if (submission.intent !== "submit") {
-      return { status: "success", submission: submission };
-    }
-    if (!submission.value) {
-      return { status: "error", submission } as const;
-    }
+//     if (submission.status !== "success") {
+//       return { lastResult: submission.reply() };
+//     }
 
-    const { theme } = submission.value;
+//     const { theme } = submission.payload;
 
-    const response = new Response(formData, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Set-Cookie": setTheme(theme),
-      },
-    });
+//     const responseHeaders = new Headers();
+//     responseHeaders.set("Set-Cookie", setTheme(theme));
 
-    return data({ submission }, response);
-  } catch (error) {
-    console.error("Error in root action:", error);
-    throw new Response("Internal Server Error", { status: 500 });
-  }
-}
+//     return data({ submission }, { headers: responseHeaders });
+//   } catch (error) {
+//     console.error("Error in root action:", error);
+//     throw new Response("Internal Server Error", { status: 500 });
+//   }
+// }
 
 function Layout({
   children,
@@ -484,7 +480,8 @@ function App() {
         {/* {loggerStatusIndicator} */}
 
         <Layout theme={theme}>
-          <ThemeSwitch userPreference={theme} />
+          {/* TODO: Sprint Phase 1 - Re-implement ThemeSwitch with Conform v1 and Tailwind v4 */}
+          {/* <ThemeSwitch userPreference={theme} /> */}
           <div id="siteContainer" className="flex grow flex-col w-full mx-auto">
             <Navbar />
             <main className="grow w-full mx-auto">
@@ -636,57 +633,9 @@ function useTheme() {
   return data.theme;
 }
 
-function ThemeSwitch({ userPreference }: { userPreference?: Theme }) {
-  const fetcher = useFetcher<typeof action>();
-
-  const [form] = useForm({
-    id: "theme-switch",
-    lastSubmission: fetcher.data?.submission,
-    onValidate({ formData }) {
-      return parse(formData, { schema: ThemeFormSchema });
-    },
-  });
-
-  const mode = userPreference ?? "light";
-  const nextMode = mode === "light" ? "dark" : "light";
-
-  const modeLabel = {
-    light: (
-      <div className="w-full flex flex-row items-center">
-        <FontAwesomeIcon
-          icon={IconService.getSolid(SolidIcon.DARK_THEME)}
-          fontSize={12}
-          className="text-siteWhite"
-        ></FontAwesomeIcon>
-        <span className="text-siteWhite ms-5">Switch to Dark Mode</span>
-      </div>
-    ),
-    dark: (
-      <div className="w-full flex flex-row items-center">
-        <FontAwesomeIcon
-          icon={IconService.getSolid(SolidIcon.LIGHT_THEME)}
-          fontSize={12}
-          className="text-siteWhite"
-        ></FontAwesomeIcon>
-        <span className="text-siteWhite ms-5">Switch to Light Mode</span>
-      </div>
-    ),
-  };
-
-  return (
-    <fetcher.Form method="POST" {...form.props}>
-      <input type="hidden" name="theme" value={nextMode}></input>
-      <div className="flex gap-2 h-[50px]">
-        <button
-          name="intent"
-          value="update-theme"
-          type="submit"
-          className="flex h-[50px] w-[300px] cursor-pointer items-center justify-center"
-        >
-          {modeLabel[mode]}
-        </button>
-      </div>
-      <ErrorList errors={form.errors} id={form.errorId}></ErrorList>
-    </fetcher.Form>
-  );
-}
+// TODO: Sprint Phase 1 - Re-implement ThemeSwitch component
+// Will be addressed later in the sprint when we build the theme switcher
+// with Conform v1 and Tailwind v4 integration
+// function ThemeSwitch({ userPreference }: { userPreference?: Theme }) {
+//   return (<></>);
+// }

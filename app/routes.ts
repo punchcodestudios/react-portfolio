@@ -17,6 +17,23 @@ export default [
   route("/ui/data-table", "routes/ui/dataTableContainer.tsx"),
   route("/ui/data-gallery", "routes/ui/dataGalleryContainer.tsx"),
   route("/ui/style-guide", "routes/ui/styleGuideContainer.tsx"),
+  route("/_test/form-components/", "routes/_test/form-components/index.tsx"),
+  route(
+    "/_test/form-components/input",
+    "routes/_test/form-components/input.tsx"
+  ),
+  route(
+    "/_test/form-components/textarea",
+    "routes/_test/form-components/textarea.tsx"
+  ),
+  route(
+    "/_test/form-components/select",
+    "routes/_test/form-components/select.tsx"
+  ),
+  route(
+    "/_test/form-components/checkbox",
+    "routes/_test/form-components/checkbox.tsx"
+  ),
 
   // ✅ Testing and health check routes
   route("/test/health", "routes/health-checks.tsx"),
