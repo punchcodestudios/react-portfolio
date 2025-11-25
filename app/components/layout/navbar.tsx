@@ -188,6 +188,9 @@ const Navbar = () => {
 
               <NavLink
                 to="/contact"
+                state={{
+                  from: location.pathname + location.search + location.hash,
+                }}
                 onClick={() => handleNavClick("/contact", "Contact")}
                 className={({ isActive, isPending }) =>
                   `flex flex-row w-full p-2 h-14 font-nav md:w-1/4 md:p-0 justify-center items-center
@@ -311,6 +314,9 @@ const Navbar = () => {
 
           <NavLink
             to="/contact"
+            state={{
+              from: location.pathname + location.search + location.hash,
+            }}
             onClick={() => handleNavClick("/contact", "Contact")}
             className={({ isActive, isPending }) =>
               `me-3 p-2

@@ -41,7 +41,8 @@
   --color-accent-foreground: oklab(94.611% 0 -0.00011);
   --color-ring: oklab(71.068% -0.00802 -0.03427);
   --color-border: oklab(87.545% -0.00545 -0.02036);
-
+  --color-anchor-primary: var(--color-secondary);
+  --color-anchor-primary-hover: var(--color-secondary-hover);
   --color-input: oklab(91.648% -0.00344 -0.01528);
   --color-input-invalid: oklab(63.639% 0.19019 0.09073);
 
@@ -54,8 +55,8 @@
 
   --color-warning: oklab(93.953% -0.06436 0.19192);
   --color-warning-muted: oklab(95.784% -0.03259 0.10203);
-  --color-warning-accented: oklab(24.776% 0 -0.00003);
-  --color-warning-foreground: oklab(24.776% 0 -0.00003);
+  --color-warning-accented: oklab(95.784% -0.03259 0.10203);
+  --color-warning-foreground: oklab(93.953% -0.06436 0.19192);
 
   --color-success: oklab(110 75% 50%);
   --color-success-muted: oklab(110 40% 50%);
@@ -89,6 +90,18 @@
   --color-checkbox-warning: oklab(93.953% -0.06436 0.19192); /* Custom blue */
   --color-checkbox-warning-foreground: oklab(63.11% -0.04371 0.12873);
 
+  --color-radio-primary: oklab(20.768% -0.00294 -0.03974);
+  --color-radio-primary-foreground: oklab(20.768% -0.00294 -0.03974);
+
+  --color-radio-success: oklab(62.41799999999999% -0.14549 0.08703);
+  --color-radio-success-foreground: oklab(62.41799999999999% -0.14549 0.08703);
+
+  --color-radio-warning: oklab(77.034% 0.05451 0.15529);
+  --color-radio-warning-foreground: oklab(77.034% 0.05451 0.15529);
+
+  --color-radio-error: oklab(63.575% 0.18863 0.08955);
+  --color-radio-error-foreground: oklab(63.575% 0.18863 0.08955);
+
   --background-image-home-hero: url("/images/home_hero_2.png");
   --background-image-about-hero: url("/images/about-this-site.png");
   --background-image-resume-accordion: url("/images/home_hero_2.png");
@@ -96,7 +109,7 @@
 }
 
 /* Dark mode overrides - system preference */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --color-background: oklab(18.791% 0.00155 0.00046);
     --color-foreground: oklab(98% 0.00511 0.00147);
@@ -112,8 +125,23 @@
     --color-input: oklab(25% -0.00344 -0.01528);
 
     --color-ring: oklab(60% -0.00802 -0.03427);
+
+        --color-anchor-primary: var(--color-secondary);
+    --color-anchor-primary-hover: var(--color-secondary-hover);
+
+    --radio-primary: oklab(20.768% -0.00294 -0.03974);
+    --radio-primary-foreground: oklab(20.768% -0.00294 -0.03974);
+
+    --radio-success: oklab(62.41799999999999% -0.14549 0.08703);
+    --radio-success-foreground: oklab(62.41799999999999% -0.14549 0.08703);
+
+    --radio-warning: oklab(77.034% 0.05451 0.15529);
+    --radio-warning-foreground: oklab(77.034% 0.05451 0.15529);
+
+    --radio-error: oklab(63.575% 0.18863 0.08955);
+    --radio-error-foreground: oklab(63.575% 0.18863 0.08955);
   }
-}
+} */
 
 /* Dark mode overrides - manual .dark class */
 .dark {
@@ -129,8 +157,22 @@
 
   --color-border: oklab(30% -0.00545 -0.02036);
   --color-input: oklab(25% -0.00344 -0.01528);
-
   --color-ring: oklab(60% -0.00802 -0.03427);
+
+  --color-anchor-primary: var(--color-secondary);
+  --color-anchor-primary-hover: var(--color-secondary-hover);
+
+  --color-radio-primary: oklab(57.416% -0.02903 -0.212); /* Custom blue */
+  --color-radio-primary-foreground: oklab(31.194% -0.08422 0.0646);
+
+  --color-radio-success: oklab(62.41799999999999% -0.14549 0.08703);
+  --color-radio-success-foreground: oklab(62.41799999999999% -0.14549 0.08703);
+
+  --color-radio-warning: oklab(77.034% 0.05451 0.15529);
+  --color-radio-warning-foreground: oklab(77.034% 0.05451 0.15529);
+
+  --color-radio-error: oklab(63.575% 0.18863 0.08955);
+  --color-radio-error-foreground: oklab(63.575% 0.18863 0.08955);
 }
 
 @layer base {
@@ -169,5 +211,21 @@
 
   a {
     @apply font-anchor cursor-pointer;
+  }
+}
+
+@layer utilities {
+  /* Anchor Primary Utility Class */
+  .text-anchor-primary {
+    color: var(--color-anchor-primary);
+  }
+
+  .text-anchor-primary:hover {
+    color: var(--color-anchor-primary-hover);
+  }
+
+  /* Add underline variant if needed */
+  .text-anchor-primary.underline:hover {
+    text-decoration-color: var(--color-anchor-primary-hover);
   }
 }

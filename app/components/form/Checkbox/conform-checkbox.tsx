@@ -1,4 +1,5 @@
-import { useInputControl, type FieldMetadata } from "@conform-to/react";
+import * as React from "react";
+import { FieldMetadata, useInputControl } from "@conform-to/react";
 import { Checkbox, type CheckboxProps } from "./checkbox";
 
 /**
@@ -33,32 +34,46 @@ import { Checkbox, type CheckboxProps } from "./checkbox";
  */
 
 export interface ConformCheckboxProps
-  extends Omit<CheckboxProps, "name" | "checked" | "onCheckedChange"> {
-  meta: FieldMetadata<boolean | string>;
+  extends Omit<
+    CheckboxProps,
+    "name" | "id" | "checked" | "onCheckedChange" | "label"
+  > {
+  meta: FieldMetadata<boolean>;
+  label: React.ReactNode;
 }
 
-export function ConformCheckbox({ meta, ...props }: ConformCheckboxProps) {
-  const control = useInputControl(meta);
-  const hasError = Boolean(meta.errors && meta.errors.length > 0);
+export const ConformCheckbox = React.forwardRef<
+  React.ComponentRef<typeof Checkbox>,
+  ConformCheckboxProps
+>(({ meta, label, ...props }, ref) => {
+  const checkboxId = meta.id || meta.name;
 
-  // Handle both boolean and string values (for Conform's checkbox handling)
-  const isChecked = control.value === "on" || !!control.value === true;
+  // Use Conform's useInputControl hook to manage the checkbox state
+  const control = useInputControl(meta);
 
   return (
     <Checkbox
+      ref={ref}
+      id={checkboxId}
       name={meta.name}
-      id={meta.id}
-      variant={hasError ? "error" : props.variant}
-      error={hasError ? meta.errors?.[0] : undefined}
-      checked={isChecked}
+      checked={control.value === "on"}
       onCheckedChange={(checked) => {
+        // Use Conform's change handler to update the value
         control.change(checked ? "on" : "");
       }}
-      onBlur={control.blur}
       onFocus={control.focus}
-      aria-invalid={hasError || undefined}
-      aria-describedby={meta.descriptionId}
+      onBlur={control.blur}
+      aria-invalid={meta.errors && meta.errors.length > 0}
+      aria-describedby={
+        meta.errors && meta.errors.length > 0
+          ? `${checkboxId}-error`
+          : undefined
+      }
+      label={label}
+      error={meta.errors?.[0]}
       {...props}
     />
   );
-}
+});
+
+ConformCheckbox.displayName = "ConformCheckbox";

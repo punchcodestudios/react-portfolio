@@ -1,0 +1,37 @@
+Contact form requirements:
+
+Overview : form should serve as the main point of contact between users of the website and the administrators at punchcodestudios.com
+Users will interact with the site in various capacities, and the form will accommodate each particular 'context'
+
+User contexts:
+Recruiter or Technical Entity Representative (professional working for a technical placement agency, corporate hiring manager or business owner)
+Freelance Manager (someone looking to hire punchcodestudios for a single, temporary project)
+Professional Developer (peer wishing to network or collaborate on a project)
+Casual User (someone simply browsing the site and wanting to communicate)
+Other (catch all for any context not listed)
+
+Field specifications:
+IAmA - (one of the context options listed above): radio button group : required - all contexts
+FirstName : textfield : required - all contexts
+LastName : textfield : required - all contexts
+message: large(bio) textarea : required - all contexts
+email: email field : required - all but casual user
+phone: phone field : optional - all contexts
+location (city, state): text field : required - recruiter context only
+preferred method of contact: radio button group - (visible only if valid email AND phone supplied) : required if visible 
+confirm policy reviews : checkbox field : required (must be true)
+
+Immediate Considerations:
+Form should provide links to privacy policy and terms of use for review.
+Form data should be delivered to a decoupled service that will implement forwarding over to Back end service TBD*
+The type of context that the user chooses (or is currently in) should be indicated in the telemetry (or metadata) in order to route communications on the back end appropriately
+Form should follow standard security and spam-bot protection strategies previously outlined
+Proper submission of the form should process asynchronously and return user back to home page or the referring url as appropriate
+Upon promise resolution (success or failure) system should update with toast notification at the top of the current page (global toast notification)
+* currently this is scheduled for Phase 2 of this sprint with the intenton of implementing a ApplicationInsights / Azure Function App processing workflow
+
+Future Considerations:
+The user context should be chosen at the time of registration (not currently scheduled, but should be in a future sprint: Registration and Authorization)
+Form should be updated at that time to auto populate relevant fields based on user context to streamline user interactions
+
+

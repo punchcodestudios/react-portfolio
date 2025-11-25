@@ -39,3 +39,5 @@ export {
   checkboxTestSchema,
   type CheckboxTestFormData,
 } from "./checkbox-test.schema";
+
+export * from "./radio-test.schema";

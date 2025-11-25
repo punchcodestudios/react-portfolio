@@ -17,23 +17,6 @@ export default [
   route("/ui/data-table", "routes/ui/dataTableContainer.tsx"),
   route("/ui/data-gallery", "routes/ui/dataGalleryContainer.tsx"),
   route("/ui/style-guide", "routes/ui/styleGuideContainer.tsx"),
-  route("/_test/form-components/", "routes/_test/form-components/index.tsx"),
-  route(
-    "/_test/form-components/input",
-    "routes/_test/form-components/input.tsx"
-  ),
-  route(
-    "/_test/form-components/textarea",
-    "routes/_test/form-components/textarea.tsx"
-  ),
-  route(
-    "/_test/form-components/select",
-    "routes/_test/form-components/select.tsx"
-  ),
-  route(
-    "/_test/form-components/checkbox",
-    "routes/_test/form-components/checkbox.tsx"
-  ),
 
   // ✅ Testing and health check routes
   route("/test/health", "routes/health-checks.tsx"),
@@ -50,9 +33,31 @@ export default [
     route("/resume/education", "routes/resume/education.tsx"),
   ]),
 
+  // Form component test routes
+  route("_test/form-components", "routes/_test/form-components/index.tsx"),
+  route(
+    "_test/form-components/input",
+    "routes/_test/form-components/input.tsx"
+  ),
+  route(
+    "_test/form-components/textarea",
+    "routes/_test/form-components/textarea.tsx"
+  ),
+  route(
+    "_test/form-components/select",
+    "routes/_test/form-components/select.tsx"
+  ),
+  route(
+    "_test/form-components/checkbox",
+    "routes/_test/form-components/checkbox.tsx"
+  ),
+  route(
+    "_test/form-components/radio",
+    "routes/_test/form-components/radio.tsx"
+  ),
+
   // ✅ Well-known routes for standards compliance
   route("/.well-known/*", "routes/well-known.tsx"),
-
   // ✅ Catch-all route for better 404 handling (optional)
   // route("*", "routes/404.tsx"),
 ] satisfies RouteConfig;

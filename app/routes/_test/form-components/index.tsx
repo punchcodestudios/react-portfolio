@@ -40,10 +40,10 @@ export default function FormComponentsTestHub() {
     {
       id: "radio",
       title: "Radio Component",
-      description: "Test radio button groups with various layouts",
+      description: "Test radio button groups with single selection and layouts",
       path: "/_test/form-components/radio",
-      status: "pending",
-      coverage: "0%",
+      status: "complete",
+      coverage: "100%",
     },
   ];
 
@@ -63,7 +63,7 @@ export default function FormComponentsTestHub() {
       {/* Test Statistics */}
       <div className="grid md:grid-cols-4 gap-4 mb-8">
         <div className="bg-card p-6 rounded-lg border border-border">
-          <div className="text-2xl font-bold text-primary">4 / 5</div>
+          <div className="text-2xl font-bold text-primary">5 / 5</div>
           <div className="text-sm text-muted-foreground">
             Components Complete
           </div>
@@ -75,11 +75,11 @@ export default function FormComponentsTestHub() {
           </div>
         </div>
         <div className="bg-card p-6 rounded-lg border border-border">
-          <div className="text-2xl font-bold text-foreground">23</div>
+          <div className="text-2xl font-bold text-foreground">30</div>
           <div className="text-sm text-muted-foreground">Field Schemas</div>
         </div>
         <div className="bg-card p-6 rounded-lg border border-border">
-          <div className="text-2xl font-bold text-foreground">5</div>
+          <div className="text-2xl font-bold text-foreground">6</div>
           <div className="text-sm text-muted-foreground">Form Schemas</div>
         </div>
       </div>
@@ -94,11 +94,7 @@ export default function FormComponentsTestHub() {
           <Link
             key={suite.id}
             to={suite.path}
-            className={`block p-6 bg-card rounded-lg border transition-all ${
-              suite.status === "complete"
-                ? "border-success hover:border-success hover:shadow-lg"
-                : "border-border hover:border-primary hover:shadow-lg"
-            }`}
+            className="block p-6 bg-card rounded-lg border border-success hover:border-success hover:shadow-lg transition-all"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
@@ -106,14 +102,8 @@ export default function FormComponentsTestHub() {
                   <h3 className="text-xl font-header text-foreground">
                     {suite.title}
                   </h3>
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      suite.status === "complete"
-                        ? "bg-success/10 text-success border border-success"
-                        : "bg-muted text-muted-foreground border border-border"
-                    }`}
-                  >
-                    {suite.status === "complete" ? "✓ Complete" : "Pending"}
+                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-success/10 text-success border border-success">
+                    ✓ Complete
                   </span>
                 </div>
                 <p className="text-muted-foreground mb-2">
