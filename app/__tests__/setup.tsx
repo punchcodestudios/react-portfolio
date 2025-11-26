@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-// import "@testing-library/jest-dom";
+import "@testing-library/jest-dom";
 
 console.log("✅ Vitest setup loaded successfully");
 

@@ -1,5 +1,3 @@
-PS C:\Users\19132\ReactPortfolioProjects\react-portfolio> Get-ChildItem -Recurse -Directory | Where-Object {$_.FullName -notmatch "node_modules|\.git|\.vscode|build\\|dist\\|coverage\\" -and $_.Name -ne ".react-router"} | Select-Object FullName | Sort-Object FullName
-
 FullName
 --------
 C:\Users\19132\ReactPortfolioProjects\react-portfolio\.react-router\types
@@ -20,8 +18,18 @@ C:\Users\19132\ReactPortfolioProjects\react-portfolio\__queuestorage__
 C:\Users\19132\ReactPortfolioProjects\react-portfolio\app
 C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\__tests__
 C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\__tests__\components
+C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\__tests__\components\form
+C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\__tests__\components\form\Checkbox
+C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\__tests__\components\form\Input
+C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\__tests__\components\form\Radio
+C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\__tests__\components\form\Select
+C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\__tests__\components\form\Textarea
+C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\__tests__\routes
+C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\__tests__\schemas
+C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\__tests__\schemas\forms
 C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\__tests__\services
 C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\__tests__\utils
+C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\__tests__\utils\security
 C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\api
 C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\components
 C:\Users\19132\ReactPortfolioProjects\react-portfolio\app\components\cards
