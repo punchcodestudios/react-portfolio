@@ -16,7 +16,7 @@ import {
   type UserContext,
 } from "~/schemas/forms/contact.schema";
 import { useHoneypot, validateHoneypot } from "~/utils/security/honeypot";
-import { useCSRFToken } from "~/utils/security";
+import { useCSRFToken, validateCSRFToken } from "~/utils/security";
 import { useRateLimit } from "~/utils/security";
 import type { ActionFunctionArgs } from "react-router";
 
@@ -30,13 +30,27 @@ import type { ActionFunctionArgs } from "react-router";
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
 
+  // Security: Validate CSRF token
+  const csrfToken = formData.get("csrf_token") as string;
+  const isValidCSRF = await validateCSRFToken(csrfToken);
+
+  if (!isValidCSRF) {
+    console.warn("CSRF validation failed - potential CSRF attack");
+
+    // Silent rejection - don't tell attackers they failed
+    const submission = parseWithZod(formData, { schema: contactFormSchema });
+    return {
+      lastResult: submission.reply({ resetForm: true }),
+      silent: true,
+      error: "Security validation failed",
+    };
+  }
+
   // Security: Validate honeypot
   const honeypotFieldName = formData.get("honeypot_field_name") as string;
   if (!validateHoneypot(formData, honeypotFieldName)) {
-    // Silent rejection - don't tell bots they failed
     console.warn("Honeypot triggered - potential bot submission");
 
-    // Return a proper Conform submission result for silent rejection
     const submission = parseWithZod(formData, { schema: contactFormSchema });
     return {
       lastResult: submission.reply({ resetForm: true }),
@@ -50,9 +64,6 @@ export async function action({ request }: ActionFunctionArgs) {
   if (submission.status !== "success") {
     return { lastResult: submission.reply() };
   }
-
-  // Server-side rate limit check (Phase 2)
-  // TODO: Implement server-side rate limiting based on IP address
 
   // TODO Phase 2: Submit to Azure Function
   console.log("Contact form submitted:", submission.value);
